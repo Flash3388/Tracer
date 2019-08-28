@@ -13,7 +13,9 @@ public abstract class Spline {
     public Spline(Position startPosition, Position endPosition) {
         knotDistance = calcKnotDistance(startPosition, endPosition);
         offset = calcOffset(startPosition, endPosition);
+
         function = new SimpleFunction(getFunctionConstants(startPosition, endPosition));
+
         arcLength = calcArcLength(startPosition, endPosition);
     }
 
@@ -41,7 +43,7 @@ public abstract class Spline {
     }
 
     private double getArcLengthAt(double t) {
-        return Math.sqrt(1 + Math.pow(function.derivative().at(t), 2));
+        return Math.sqrt(t + function.derivative().pow(2).integral().at(t));
     }
 
     public double getKnotDistance() {
@@ -50,6 +52,10 @@ public abstract class Spline {
 
     public Position getOffset() {
         return offset;
+    }
+
+    public double valueAt(double t) {
+        return function.at(t);
     }
 
     public double getLength() {

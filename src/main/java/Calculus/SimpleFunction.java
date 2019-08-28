@@ -11,6 +11,11 @@ import java.util.stream.IntStream;
 public class SimpleFunction {
     private final List<Variable> variables;
 
+    public SimpleFunction(List<Variable> variables, int dummy) {
+        this.variables = new ArrayList<>();
+        this.variables.addAll(variables);
+    }
+
     public SimpleFunction(List<Double> multipliers) {
         variables = generateFunction(multipliers);
     }
@@ -31,7 +36,19 @@ public class SimpleFunction {
     public SimpleFunction derivative() {
         return new SimpleFunction(variables.stream()
                 .limit(variables.size()-1)
-                .map(variable -> variable.derivative().getMultiplier())
-                .collect(Collectors.toList()));
+                .map(Variable::derivative)
+                .collect(Collectors.toList()), 0);
+    }
+
+    public SimpleFunction integral() {
+        return new SimpleFunction(variables.stream()
+                .map(Variable::integral)
+                .collect(Collectors.toList()), 0);
+    }
+
+    public SimpleFunction pow(int power) {
+        return new SimpleFunction(variables.stream()
+                .map(variable -> new Variable(variable.getMultiplier(), variable.getPower() * power))
+                .collect(Collectors.toList()), 0);
     }
 }
