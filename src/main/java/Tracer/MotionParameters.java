@@ -1,5 +1,7 @@
 package Tracer;
 
+import com.jmath.ExtendedMath;
+
 public class MotionParameters extends Parameters {
     private final double
             velocity,
@@ -35,8 +37,8 @@ public class MotionParameters extends Parameters {
     }
 
     private boolean almostEquals(MotionParameters motionParameters, double margin) {
-        return almostEquals(velocity, motionParameters.getVelocity(), margin) &&
-                almostEquals(acceleration, motionParameters.getAcceleration(), margin) &&
-                almostEquals(jerk, motionParameters.getJerk(), margin);
+        return ExtendedMath.equals(velocity, motionParameters.getVelocity(), margin) &&
+                ExtendedMath.equals(acceleration, motionParameters.getAcceleration(), margin) &&
+                ExtendedMath.equals(jerk, motionParameters.getJerk(), margin);
     }
 }

@@ -1,5 +1,7 @@
 package Tracer;
 
+import com.jmath.ExtendedMath;
+
 public class Position extends Parameters{
     private final double
             x,
@@ -24,6 +26,10 @@ public class Position extends Parameters{
         return heading;
     }
 
+    public double getHeadingDegrees() {
+        return Math.toDegrees(heading);
+    }
+
     public boolean almostEquals(Parameters parameters) {
         return almostEquals(parameters, DEF_MARGIN);
     }
@@ -34,8 +40,8 @@ public class Position extends Parameters{
     }
 
     private boolean almostEquals(Position position, double margin) {
-        return almostEquals(x, position.getX(), margin) &&
-                almostEquals(y, position.getY(), margin) &&
-                almostEquals(heading, position.getHeading(), margin);
+        return ExtendedMath.equals(x, position.getX(), margin) &&
+                ExtendedMath.equals(y, position.getY(), margin) &&
+                ExtendedMath.equals(heading, position.getHeading(), margin);
     }
 }

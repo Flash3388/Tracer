@@ -3,27 +3,18 @@ package Calculus;
 import Tracer.Position;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public abstract class Spline {
-    private final List<Variable> function;
+    private final SimpleFunction function;
+    private final Position offset;
     private final double knotDistance;
-    private final double angleOffset;
+    private final double arcLength;
 
-    protected Spline(Position startPosition, Position endPosition) {
-        function = generateFunction(startPosition, endPosition);
+    public Spline(Position startPosition, Position endPosition) {
         knotDistance = calcKnotDistance(startPosition, endPosition);
-        angleOffset = calcAngleOffset(startPosition, endPosition);
-    }
-
-    private List<Variable> generateFunction(Position startPosition, Position endPosition) {
-        List<Double> functionConstants = getFunctionConstants(startPosition, endPosition);
-
-        return IntStream.range(0, functionConstants.size())
-                .mapToObj(constantIndex -> new Variable(functionConstants.get(constantIndex), functionConstants.size() - (constantIndex+1) ))
-                .collect(Collectors.toList());
+        offset = calcOffset(startPosition, endPosition);
+        function = new SimpleFunction(getFunctionConstants(startPosition, endPosition));
+        arcLength = calcArcLength(startPosition, endPosition);
     }
 
     protected abstract List<Double> getFunctionConstants(Position startPosition, Position endPosition);
@@ -32,22 +23,36 @@ public abstract class Spline {
         return Math.sqrt( Math.pow(endPosition.getX()-startPosition.getX(), 2) + Math.pow(endPosition.getX() - startPosition.getX(), 2));
     }
 
+    private Position calcOffset(Position startPosition, Position endPosition) {
+        return new Position(startPosition.getX(),
+                startPosition.getY(),
+                calcAngleOffset(startPosition, endPosition));
+    }
+
     private double calcAngleOffset(Position startPosition, Position endPosition) {
         return Math.atan2(endPosition.getY() - startPosition.getY(), endPosition.getX() - startPosition.getX());
     }
 
-    public double getValue(double s) {
-        AtomicReference<Double> sum = new AtomicReference<>(0.0);
+    private double calcArcLength(Position startPosition, Position endPosition) {
+        double startLength = getArcLengthAt(startPosition.getX());
+        double endLength = getArcLengthAt(endPosition.getX());
 
-        function.forEach(variable -> sum.updateAndGet(v -> v + variable.calcValue(s)));
-        return sum.get();
+        return endLength - startLength;
+    }
+
+    private double getArcLengthAt(double t) {
+        return Math.sqrt(1 + Math.pow(function.derivative().at(t), 2));
     }
 
     public double getKnotDistance() {
         return knotDistance;
     }
 
-    public double getAngleOffset() {
-        return angleOffset;
+    public Position getOffset() {
+        return offset;
+    }
+
+    public double getLength() {
+        return arcLength;
     }
 }
