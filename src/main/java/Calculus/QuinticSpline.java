@@ -6,13 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuinticSpline extends Spline {
-    private final static double TWO = 2;
-    private final static double THREE = 3;
-    private final static double FOUR = 4;
-    private final static double SIX = 6;
-    private final static double SEVEN = 7;
-    private final static double EIGHT = 8;
-
     public QuinticSpline(Position startPosition, Position endPosition) {
         super(startPosition, endPosition);
     }
@@ -43,15 +36,15 @@ public class QuinticSpline extends Spline {
     }
 
     private double calcA(double startDelta, double endDelta) {
-        return -(THREE * (startDelta + endDelta)) / Math.pow(getKnotDistance(), FOUR);
+        return -(3 * (startDelta + endDelta)) / Math.pow(getKnotDistance(), 4);
     }
 
     private double calcB(double startDelta, double endDelta) {
-        return (EIGHT * startDelta + SEVEN * endDelta) / Math.pow(getKnotDistance(), THREE);
+        return (8 * startDelta + 7 * endDelta) / Math.pow(getKnotDistance(), 3);
     }
 
     private double calcC(double startDelta, double endDelta) {
-        return -(SIX * startDelta + FOUR * endDelta) / Math.pow(getKnotDistance(), TWO);
+        return -(6 * startDelta + 4 * endDelta) / Math.pow(getKnotDistance(), 2);
     }
 
     private double calcD() {

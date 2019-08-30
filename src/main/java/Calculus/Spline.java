@@ -5,7 +5,7 @@ import Tracer.Position;
 import java.util.List;
 
 public abstract class Spline {
-    private final SimpleFunction function;
+    private final PolynomialFunction function;
     private final Position offset;
     private final double knotDistance;
     private final double arcLength;
@@ -14,7 +14,7 @@ public abstract class Spline {
         knotDistance = calcKnotDistance(startPosition, endPosition);
         offset = calcOffset(startPosition, endPosition);
 
-        function = new SimpleFunction(getFunctionConstants(startPosition, endPosition));
+        function = PolynomialFunction.fromConstants(getFunctionConstants(startPosition, endPosition));
 
         arcLength = calcArcLength(startPosition, endPosition);
     }
@@ -35,15 +35,8 @@ public abstract class Spline {
         return Math.atan2(endPosition.getY() - startPosition.getY(), endPosition.getX() - startPosition.getX());
     }
 
-    private double calcArcLength(Position startPosition, Position endPosition) {
-        double startLength = getArcLengthAt(startPosition.getX());
-        double endLength = getArcLengthAt(endPosition.getX());
-
-        return endLength - startLength;
-    }
-
-    private double getArcLengthAt(double t) {
-        return Math.sqrt(t + function.derivative().pow(2).integral().at(t));
+    public double calcArcLength(Position startPosition, Position endPosition) {
+        return function.calcArcLength(startPosition.getX(), endPosition.getX());
     }
 
     public double getKnotDistance() {

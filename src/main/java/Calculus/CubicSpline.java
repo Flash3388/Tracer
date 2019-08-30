@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CubicSpline extends Spline {
-    private final static double TWO = 2;
-
     public CubicSpline(Position startPosition, Position endPosition) {
         super(startPosition, endPosition);
     }
@@ -34,11 +32,11 @@ public class CubicSpline extends Spline {
     }
 
     private double calcA(double startDelta, double endDelta) {
-        return (startDelta + endDelta) / Math.pow(getKnotDistance(), TWO);
+        return (startDelta + endDelta) / Math.pow(getKnotDistance(), 2);
     }
 
     private double calcB(double startDelta, double endDelta) {
-        return -(TWO * startDelta + endDelta) / getKnotDistance();
+        return -(2 * startDelta + endDelta) / getKnotDistance();
     }
 
     private double calcC(double startDelta) {

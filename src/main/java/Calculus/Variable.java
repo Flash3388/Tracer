@@ -64,4 +64,6 @@ public class Variable {
     public Variable multiply(Variable variable) {
         return new Variable(multiplier * variable.getMultiplier(), power + variable.getPower());
     }
+
+    
 }
