@@ -1,6 +1,4 @@
-package Calculus;
-
-import Tracer.Position;
+package calculus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,8 +37,8 @@ public class PolynomialFunction {
     }
 
     public PolynomialFunction derivative() {
-        return new PolynomialFunction(variables.stream()
-                .limit(variables.size()-1)
+        return new PolynomialFunction(
+                variables.stream()
                 .map(Variable::derivative)
                 .collect(Collectors.toList()));
     }
@@ -51,10 +49,8 @@ public class PolynomialFunction {
                 .collect(Collectors.toList()));
     }
 
-    public PolynomialFunction pow(int power) {
-        return new PolynomialFunction(variables.stream()
-                .map(variable -> new Variable(variable.getMultiplier(), variable.getPower() * power))
-                .collect(Collectors.toList()));
+    public PolynomialFunction square() {
+        return new PolynomialFunction(Operations.square(variables));
     }
 
     public double calcArcLength(double start, double end) {
@@ -65,6 +61,11 @@ public class PolynomialFunction {
     }
 
     private double getArcLengthAt(double t) {
-        return Math.sqrt(t + derivative().pow(2).integral().at(t));
+        return Math.sqrt(t + derivative().square().integral().at(t));
+    }
+
+    @Override
+    public String toString() {
+        return variables.toString();
     }
 }

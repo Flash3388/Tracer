@@ -1,4 +1,4 @@
-package Calculus;
+package calculus;
 
 import Tracer.Position;
 
@@ -12,8 +12,8 @@ public class CubicSpline extends Spline {
 
     @Override
     protected List<Double> getFunctionConstants(Position startPosition, Position endPosition) {
-        double startDelta = Math.tan(AngleOperations.boundRadians(startPosition.getHeading()) - AngleOperations.boundRadians(getOffset().getHeading()));
-        double endDelta = Math.tan(AngleOperations.boundRadians(endPosition.getHeading()) - AngleOperations.boundRadians(getOffset().getHeading()));
+        double startDelta = Math.tan(Operations.boundRadians(startPosition.getHeading()) - Operations.boundRadians(getOffset().getHeading()));
+        double endDelta = Math.tan(Operations.boundRadians(endPosition.getHeading()) - Operations.boundRadians(getOffset().getHeading()));
 
         return calcFunctionConstants(startDelta, endDelta);
     }

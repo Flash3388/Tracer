@@ -1,4 +1,4 @@
-package Calculus;
+package calculus;
 
 import Tracer.Position;
 

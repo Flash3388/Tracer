@@ -1,4 +1,4 @@
-package Calculus;
+package calculus;
 
 public class Variable {
     private final double multiplier;
@@ -65,5 +65,16 @@ public class Variable {
         return new Variable(multiplier * variable.getMultiplier(), power + variable.getPower());
     }
 
-    
+    public Variable multiply(double val) {
+        return multiply(new Variable(val, 1));
+    }
+
+    public Variable square() {
+        return multiply(this);
+    }
+
+    @Override
+    public String toString() {
+        return multiplier + "X^" + power;
+    }
 }
