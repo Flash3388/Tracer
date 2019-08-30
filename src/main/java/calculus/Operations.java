@@ -1,17 +1,16 @@
 package calculus;
 
+import com.flash3388.flashlib.math.Mathf;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Operations {
     private final static double FULL_CIRCLE_RADIANS = 2*Math.PI;
-    private final static Variable ZERO = new Variable(0,1);
 
     public static double boundRadians(double angle) {
-        double roundedAngle = angle%FULL_CIRCLE_RADIANS;
-
-        return roundedAngle < 0 ? FULL_CIRCLE_RADIANS + roundedAngle : roundedAngle;
+        return Mathf.translateInRange(angle, FULL_CIRCLE_RADIANS, true);
     }
 
     public static List<Variable> square(Variable... variables) {

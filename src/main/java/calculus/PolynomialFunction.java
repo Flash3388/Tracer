@@ -29,11 +29,10 @@ public class PolynomialFunction {
                 .collect(Collectors.toList());
     }
 
-    public double at(double t) {
-        AtomicReference<Double> sum = new AtomicReference<>(0.0);
-
-        variables.forEach(variable -> sum.updateAndGet(v -> v + variable.calcValue(t)));
-        return sum.get();
+    public double at(double x) {
+        return variables.stream()
+                .mapToDouble(variable -> variable.calcValue(x))
+                .sum();
     }
 
     public PolynomialFunction derivative() {
@@ -53,15 +52,15 @@ public class PolynomialFunction {
         return new PolynomialFunction(Operations.square(variables));
     }
 
-    public double calcArcLength(double start, double end) {
-        double startLength = getArcLengthAt(start);
-        double endLength = getArcLengthAt(end);
+    public PolynomialFunction add(Variable variable) {
+        List<Variable> sum = new ArrayList<>(variables);
+        sum.add(variable);
 
-        return endLength - startLength;
+        return new PolynomialFunction(sum);
     }
 
-    private double getArcLengthAt(double t) {
-        return Math.sqrt(t + derivative().square().integral().at(t));
+    public PolynomialFunction add(double num) {
+        return add(new Variable(num, 0));
     }
 
     @Override

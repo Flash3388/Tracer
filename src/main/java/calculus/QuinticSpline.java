@@ -25,12 +25,14 @@ public class QuinticSpline extends Spline {
         double c = calcC(startDelta, endDelta);
         double d = calcD();
         double e = calcE(startDelta);
+        double f = calcF();
 
         constants.add(a);
         constants.add(b);
         constants.add(c);
         constants.add(d);
         constants.add(e);
+        constants.add(f);
 
         return constants;
     }
@@ -48,10 +50,14 @@ public class QuinticSpline extends Spline {
     }
 
     private double calcD() {
-        return 0;
+        return 0.0;
     }
 
     private double calcE(double startDelta) {
         return startDelta;
+    }
+
+    private double calcF() {
+        return 0.0;
     }
 }

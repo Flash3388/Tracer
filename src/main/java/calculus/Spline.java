@@ -3,8 +3,13 @@ package calculus;
 import Tracer.Position;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public abstract class Spline {
+    public static final int SAMPLES_FAST = 1000;
+    public static final int SAMPLES_LOW = SAMPLES_FAST * 10;
+    public static final int SAMPLES_HIGH = SAMPLES_LOW * 10;
+
     private final PolynomialFunction function;
     private final Position offset;
     private final double knotDistance;
@@ -16,7 +21,7 @@ public abstract class Spline {
 
         function = PolynomialFunction.fromConstants(getFunctionConstants(startPosition, endPosition));
 
-        arcLength = calcArcLength(startPosition, endPosition);
+        arcLength = calcArcLength(SAMPLES_HIGH);
     }
 
     protected abstract List<Double> getFunctionConstants(Position startPosition, Position endPosition);
@@ -35,8 +40,22 @@ public abstract class Spline {
         return Math.atan2(endPosition.getY() - startPosition.getY(), endPosition.getX() - startPosition.getX());
     }
 
-    public double calcArcLength(Position startPosition, Position endPosition) {
-        return function.calcArcLength(startPosition.getX(), endPosition.getX());
+    private double calcArcLength(int sampleCount) {
+        return IntStream.range(0, sampleCount)
+                .mapToDouble(index -> calcCurrentArcLength(index/(double)sampleCount, sampleCount))
+                .sum() * knotDistance;
+    }
+
+    private double calcCurrentArcLength(double percentage, int sampleCount) {
+        return getArcLengthPercentage(percentage)/sampleCount;
+    }
+
+    private double getArcLengthPercentage(double percentage) {
+        return getArcLengthAt(knotDistance * percentage);
+    }
+
+    private double getArcLengthAt(double x) {
+        return Math.sqrt(function.derivative().square().at(x)+1.0);
     }
 
     public double getKnotDistance() {
@@ -47,8 +66,8 @@ public abstract class Spline {
         return offset;
     }
 
-    public double valueAt(double t) {
-        return function.at(t);
+    public double valueAt(double x) {
+        return function.at(x);
     }
 
     public double getLength() {

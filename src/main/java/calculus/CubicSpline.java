@@ -23,10 +23,12 @@ public class CubicSpline extends Spline {
         double a = calcA(startDelta, endDelta);
         double b = calcB(startDelta, endDelta);
         double c = calcC(startDelta);
+        double d = calcD();
 
         constants.add(a);
         constants.add(b);
         constants.add(c);
+        constants.add(d);
 
         return constants;
     }
@@ -41,5 +43,9 @@ public class CubicSpline extends Spline {
 
     private double calcC(double startDelta) {
         return startDelta;
+    }
+
+    private double calcD() {
+        return 0.0;
     }
 }

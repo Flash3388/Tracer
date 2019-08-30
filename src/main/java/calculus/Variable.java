@@ -2,9 +2,9 @@ package calculus;
 
 public class Variable {
     private final double multiplier;
-    private final int power;
+    private final double power;
 
-    public Variable(double multiplier, int power) {
+    public Variable(double multiplier, double power) {
         this.multiplier = multiplier;
         this.power = power;
     }
@@ -13,7 +13,7 @@ public class Variable {
         return multiplier;
     }
 
-    public int getPower() {
+    public double getPower() {
         return power;
     }
 
