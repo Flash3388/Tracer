@@ -7,7 +7,7 @@ public class SplineTest {
 
         System.out.println(func);
         System.out.println(func.derivative());
-        System.out.println(func.derivative().pow(2));
+        System.out.println(func.derivative().square());
 
         double result = func.calcArcLength(1, 2);
         System.out.println(result);

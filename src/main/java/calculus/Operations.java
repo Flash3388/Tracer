@@ -1,8 +1,6 @@
 package calculus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -35,16 +33,29 @@ public class Operations {
 
     private static List<Variable> allPossiblePairsSum(List<Variable> variables) {
         List<Variable> result = new ArrayList<>();
+        Map<Variable,List<Variable>> combinations = new HashMap<>();
 
         IntStream.range(0, variables.size())
-                .forEach(outerIndex -> result.addAll(
-                        IntStream.range(0, variables.size())
-                        .mapToObj(innerIndex -> outerIndex == innerIndex ?  ZERO:
-                                variables.get(innerIndex)
-                                        .multiply(variables.get(outerIndex))
-                                        .multiply(2.0))
-                        .collect(Collectors.toList())));
+                .forEach(outerIndex -> {
+                    combinations.put(variables.get(outerIndex), new ArrayList<>());
+                    result.addAll(
+                            IntStream.range(0, variables.size())
+                                    .filter(innerIndex -> innerIndex!=outerIndex && !hasOccurred(combinations, variables.get(innerIndex), variables.get(outerIndex)))
+                                    .mapToObj(innerIndex -> {
+                                        combinations.get(variables.get(outerIndex)).add(variables.get(innerIndex));
+
+                                        return variables.get(innerIndex)
+                                                .multiply(variables.get(outerIndex))
+                                                .multiply(2.0);
+                                    })
+                                    .collect(Collectors.toList()));
+                });
 
         return result;
+    }
+
+    private static boolean hasOccurred(Map<Variable,List<Variable>> combinations, Variable variable1 , Variable variable2) {
+        return (combinations.containsKey(variable1) && combinations.get(variable1).contains(variable2)) ||
+                (combinations.containsKey(variable2) && combinations.get(variable2).contains(variable1));
     }
 }
