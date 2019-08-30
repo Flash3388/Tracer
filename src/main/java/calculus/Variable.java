@@ -66,7 +66,7 @@ public class Variable {
     }
 
     public Variable multiply(double val) {
-        return multiply(new Variable(val, 1));
+        return multiply(new Variable(val, 0));
     }
 
     public Variable square() {

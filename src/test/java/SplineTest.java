@@ -8,10 +8,9 @@ public class SplineTest {
         System.out.println(func);
         System.out.println(func.derivative());
         System.out.println(func.derivative().square());
+        System.out.println(func.derivative().square().integral());
 
         double result = func.calcArcLength(1, 2);
         System.out.println(result);
-
-        Variable var = new Variable(1/2.0, -1);
     }
 }
