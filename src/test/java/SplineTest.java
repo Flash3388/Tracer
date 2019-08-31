@@ -6,7 +6,8 @@ import calculus.Variable;
 
 public class SplineTest {
     public static void main(String[] args) {
-        Spline spline = new CubicSpline(new Position(0,0,0), new Position(1, 2, Math.PI));
-        System.out.println(spline.getLength());
+        double DEF_MARGIN = 1E-4;
+
+        System.out.println(DEF_MARGIN - 0.0001);
     }
 }

@@ -2,7 +2,9 @@ package Tracer;
 
 import com.jmath.ExtendedMath;
 
-public class Position extends Parameters{
+public class Position {
+    private final static double DEF_MARGIN = 1E-4;
+
     private final double
             x,
             y,
@@ -30,13 +32,8 @@ public class Position extends Parameters{
         return Math.toDegrees(heading);
     }
 
-    public boolean almostEquals(Parameters parameters) {
-        return almostEquals(parameters, DEF_MARGIN);
-    }
-
-    @Override
-    public boolean almostEquals(Parameters parameters, double margin) {
-        return almostEquals((Position) parameters, margin);
+    public boolean almostEquals(Position position) {
+        return almostEquals(position, DEF_MARGIN);
     }
 
     private boolean almostEquals(Position position, double margin) {

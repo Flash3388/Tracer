@@ -2,7 +2,9 @@ package Tracer;
 
 import com.jmath.ExtendedMath;
 
-public class MotionParameters extends Parameters {
+public class MotionParameters {
+    private final static double DEF_MARGIN = 1E-4;
+
     private final double
             velocity,
             acceleration,
@@ -27,13 +29,8 @@ public class MotionParameters extends Parameters {
         return jerk;
     }
 
-    public boolean almostEquals(Parameters parameters) {
-        return almostEquals(parameters, DEF_MARGIN);
-    }
-
-    @Override
-    public boolean almostEquals(Parameters parameters, double margin) {
-        return almostEquals((MotionParameters) parameters, margin);
+    public boolean almostEquals(MotionParameters motionParameters) {
+        return almostEquals(motionParameters, DEF_MARGIN);
     }
 
     private boolean almostEquals(MotionParameters motionParameters, double margin) {

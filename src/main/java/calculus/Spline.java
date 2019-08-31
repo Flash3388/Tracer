@@ -16,12 +16,16 @@ public abstract class Spline {
     private final double arcLength;
 
     public Spline(Position startPosition, Position endPosition) {
+        this(startPosition, endPosition, SAMPLES_HIGH);
+    }
+
+    public Spline(Position startPosition, Position endPosition, int sampleCount) {
         knotDistance = calcKnotDistance(startPosition, endPosition);
         offset = calcOffset(startPosition, endPosition);
 
         function = PolynomialFunction.fromConstants(getFunctionConstants(startPosition, endPosition));
 
-        arcLength = calcArcLength(SAMPLES_HIGH);
+        arcLength = calcArcLength(sampleCount);
     }
 
     protected abstract List<Double> getFunctionConstants(Position startPosition, Position endPosition);
