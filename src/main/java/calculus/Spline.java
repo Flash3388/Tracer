@@ -1,6 +1,6 @@
 package calculus;
 
-import Tracer.Position;
+import tracer.Position;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;

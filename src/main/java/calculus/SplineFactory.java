@@ -1,7 +1,7 @@
 package calculus;
 
-import Tracer.Position;
-import Tracer.PositionPair;
+import tracer.Position;
+import tracer.PositionPair;
 
 import java.util.HashMap;
 import java.util.Map;

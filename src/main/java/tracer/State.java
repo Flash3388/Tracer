@@ -1,4 +1,4 @@
-package Tracer;
+package tracer;
 
 public class State {
     private final MotionParameters motionParameters;

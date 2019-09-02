@@ -1,4 +1,4 @@
-package Tracer;
+package tracer;
 
 import com.jmath.ExtendedMath;
 

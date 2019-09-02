@@ -1,6 +1,6 @@
 package calculus;
 
-import Tracer.Position;
+import tracer.Position;
 
 import java.util.ArrayList;
 import java.util.List;
