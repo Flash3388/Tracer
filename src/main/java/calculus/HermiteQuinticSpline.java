@@ -5,8 +5,8 @@ import Tracer.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuinticSpline extends Spline {
-    public QuinticSpline(Position startPosition, Position endPosition) {
+public class HermiteQuinticSpline extends Spline {
+    public HermiteQuinticSpline(Position startPosition, Position endPosition) {
         super(startPosition, endPosition);
     }
 

@@ -5,8 +5,8 @@ import Tracer.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CubicSpline extends Spline {
-    public CubicSpline(Position startPosition, Position endPosition) {
+public class HermiteCubicSpline extends Spline {
+    public HermiteCubicSpline(Position startPosition, Position endPosition) {
         super(startPosition, endPosition);
     }
 
