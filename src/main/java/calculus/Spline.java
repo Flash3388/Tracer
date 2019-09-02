@@ -84,7 +84,9 @@ public abstract class Spline {
     }
 
     public double getAngleAt(double length) {
-        return Math.atan(function.derivative().at(getPercentageAtLength(length)));
+        double percentage = getPercentageAtLength(length);
+
+        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
     }
 
     private double getPercentageAtLength(double length) {//need to check it
