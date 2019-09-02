@@ -4,17 +4,26 @@ import com.flash3388.flashlib.time.Time;
 
 public class PlaceHolder {
     private final Trajectory trajectory;
-    private final MotionParameters maxMotionParameters;
+    private final MotionParameters startMaxMotionParameters;
+    private final MotionParameters endMaxMotionParameters;
+
+    private final double stop;
+    private final double afterLinearVelocity;
+
     private final Time startOfStartSCurve;
-    private final Time startOfEndSCurve;
     private final Time startOfConstantVelocity;
+    private final Time startOfEndSCurve;
+
     private final Time startOfConcave;
     private final Time startOfLinear;
     private final Time startOfConvex;
 
     public PlaceHolder(Trajectory trajectory, MotionParameters maxMotionParameters) {
         this.trajectory = trajectory;
-        this.maxMotionParameters = maxMotionParameters;
+        this.startMaxMotionParameters = maxMotionParameters;
+        endMaxMotionParameters = new MotionParameters(maxMotionParameters.getVelocity(), -maxMotionParameters.getAcceleration(), -maxMotionParameters.getJerk());
+        stop = 0.0;
+        afterLinearVelocity = maxMotionParameters.getVelocity();
 
         startOfConcave = Time.seconds(0.0);
         startOfLinear = calcLinearStart(maxMotionParameters);
@@ -37,7 +46,7 @@ public class PlaceHolder {
         return null;
     }
 
-    public double VelocityAt(Time time) {
+    public double velocityAt(Time time) {
         return 0.0;
     }
 
@@ -46,34 +55,30 @@ public class PlaceHolder {
     }
 
     public double angleAt(Time time) {
-        return 0.0;
+        return trajectory.getAngleAt(distanceAt(time));
     }
 
     private double velocityAtStartSCurve(Time currentTime) {
-        return 0.0;
+        return velocityAtSCurve(currentTime, stop, startMaxMotionParameters);
     }
 
     private double velocityAtEndSCurve(Time currentTime) {
+        return velocityAtSCurve(currentTime, afterLinearVelocity, endMaxMotionParameters);
+    }
+
+    private double velocityAtSCurve(Time time, double startVelocity, MotionParameters endState) {
         return 0.0;
     }
 
-    private double velocityAtSCurve(Time currentTime) {
+    private double velocityAtConcave(Time time, double startVelocity, MotionParameters endState) {
         return 0.0;
     }
 
-    private double velocityAtSCurve(Time time, State startState, State endState) {
+    private double velocityAtLinear(Time time, double startVelocity, MotionParameters endState) {
         return 0.0;
     }
 
-    private double velocityAtConvex(Time time, State startState, State endState) {
-        return 0.0;
-    }
-
-    private double velocityAtLinear(Time time, State startState, State endState) {
-        return 0.0;
-    }
-
-    private double velocityAtConcave(Time time, State startState, State endState) {
+    private double velocityAtConvex(Time time, double startVelocity, MotionParameters endState) {
         return 0.0;
     }
 
@@ -85,23 +90,19 @@ public class PlaceHolder {
         return 0.0;
     }
 
-    private double distanceAtSCurve(Time currentTime) {
+    private double distanceAtSCurve(Time time, double startVelocity, State endState) {
         return 0.0;
     }
 
-    private double distanceAtSCurve(Time time, State startState, State endState) {
+    private double distanceAtConcave(Time time, double startVelocity, State endState) {
         return 0.0;
     }
 
-    private double distanceAtConvex(Time time, State startState, State endState) {
+    private double distanceAtLinear(Time time, double startVelocity, State endState) {
         return 0.0;
     }
 
-    private double distanceAtLinear(Time time, State startState, State endState) {
-        return 0.0;
-    }
-
-    private double distanceAtConcave(Time time, State startState, State endState) {
+    private double distanceAtConvex(Time time, double startVelocity, State endState) {
         return 0.0;
     }
 

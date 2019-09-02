@@ -40,4 +40,22 @@ public class Trajectory {
     public double getLength() {
         return trajectoryLength;
     }
+
+    public double getAngleAt(double length) {
+        return getCorrespondingSpline(length).getAngleAt(length);
+    }
+
+    private Spline getCorrespondingSpline(double length) {//need to check
+        return splines.stream()
+                .filter(spline -> length <= getDistanceUntil(spline))
+                .findFirst()
+                .get();
+    }
+
+    private double getDistanceUntil(Spline targetSpline) {
+        return splines.stream()
+                .limit(splines.indexOf(targetSpline) + 1)
+                .mapToDouble(Spline::getLength)
+                .sum();
+    }
 }

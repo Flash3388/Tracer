@@ -3,6 +3,7 @@ package calculus;
 import Tracer.Position;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 public abstract class Spline {
@@ -15,11 +16,15 @@ public abstract class Spline {
     private final double knotDistance;
     private final double arcLength;
 
+    private final int sampleCount;
+
     public Spline(Position startPosition, Position endPosition) {
         this(startPosition, endPosition, SAMPLES_HIGH);
     }
 
     public Spline(Position startPosition, Position endPosition, int sampleCount) {
+        this.sampleCount = sampleCount;
+
         knotDistance = calcKnotDistance(startPosition, endPosition);
         offset = calcOffset(startPosition, endPosition);
 
@@ -76,5 +81,22 @@ public abstract class Spline {
 
     public double getLength() {
         return arcLength;
+    }
+
+    public double getAngleAt(double length) {
+        return Math.atan(function.derivative().at(getPercentageAtLength(length)));
+    }
+
+    private double getPercentageAtLength(double length) {//need to check it
+        AtomicReference<Double> sum = new AtomicReference<>((double) 0);
+
+        return IntStream.range(0, sampleCount)
+                .filter(index -> {
+                    sum.set(sum.get() + calcCurrentArcLength(index/(double)sampleCount, sampleCount) * knotDistance);
+                    return sum.get() >= length;
+                })
+                .limit(1)
+                .mapToDouble(index -> index/(double)sampleCount)
+                .sum();
     }
 }
