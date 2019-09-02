@@ -11,43 +11,71 @@ public class PlaceHolder {
     private final MotionParameters startMaxMotionParameters;
     private final MotionParameters endMaxMotionParameters;
 
-    private final double stop;
-    private final double afterLinearVelocity;
+    private final double linearStartVelocity;
+    private final double linearStartDistance;
+    private final double endSCurveStartVelocity;
+    private final double endSCurveStartDistance;
 
-    private final Time startOfStartSCurve;
     private final Time startOfConstantVelocity;
     private final Time startOfEndSCurve;
 
-    private final Time startOfConcave;
     private final Time startOfLinear;
     private final Time startOfConvex;
+
+    private final double trajectoryLength;
 
     public PlaceHolder(Trajectory trajectory, MotionParameters maxMotionParameters) {
         this.trajectory = trajectory;
         this.startMaxMotionParameters = maxMotionParameters;
         endMaxMotionParameters = new MotionParameters(maxMotionParameters.getVelocity(), -maxMotionParameters.getAcceleration(), -maxMotionParameters.getJerk());
-        stop = 0.0;
-        afterLinearVelocity = maxMotionParameters.getVelocity();
 
-        startOfConcave = Time.seconds(0.0);
         startOfLinear = calcLinearStart(maxMotionParameters);
         startOfConvex = calcConvexStart(maxMotionParameters);
 
-        startOfStartSCurve = Time.seconds(0.0);
-        startOfConstantVelocity = startOfLinear.add(Objects.requireNonNull(startOfConvex));
-        startOfEndSCurve = startOfStartSCurve.add(Objects.requireNonNull(calcEndSCurveLength(maxMotionParameters)));
+        startOfConstantVelocity = startOfConvex.add(Objects.requireNonNull(startOfLinear));
+        startOfEndSCurve = calcEndSCurveLength(maxMotionParameters);
+
+        trajectoryLength = trajectory.getLength();
+
+        linearStartVelocity = calcLinearStartVelocity();
+        linearStartDistance = calcLinearStartDistance();
+        endSCurveStartVelocity = calcEndSCurveStartVelocity();
+        endSCurveStartDistance = calcEndSCurveStartDistance();
     }
 
     private Time calcLinearStart(MotionParameters maxMotionParameters) {
-        return null;
+        return Time.seconds(maxMotionParameters.getAcceleration()/maxMotionParameters.getJerk());
     }
 
     private Time calcConvexStart(MotionParameters maxMotionParameters) {
-        return null;
+        double maxAcceleration = maxMotionParameters.getAcceleration();
+        double maxJerk =  maxMotionParameters.getJerk();
+        double maxVelocity = maxMotionParameters.getVelocity();
+        double velocityAtLinearStart = Math.pow(maxAcceleration, 2) / (2 * maxJerk);
+
+        return Time.seconds((maxVelocity - velocityAtLinearStart)/maxAcceleration);
     }
 
     private Time calcEndSCurveLength(MotionParameters maxMotionParameters) {
-        return null;
+        double distancePassedInSCurves = distanceAtStartSCurve(startOfConstantVelocity) * 2;
+
+        return startOfConstantVelocity.add(Time.seconds((trajectoryLength - distancePassedInSCurves) / maxMotionParameters.getVelocity()));
+    }
+
+    private double calcLinearStartVelocity() {
+        return startMaxMotionParameters.getVelocity();
+    }
+
+    private double calcEndSCurveStartVelocity() {
+        return startMaxMotionParameters.getVelocity();
+    }
+
+    private double calcLinearStartDistance() {
+        return distanceAtStartSCurve(startOfLinear);
+    }
+
+    private double calcEndSCurveStartDistance() {
+        return distanceAtConstantVelocity(startOfEndSCurve) + calcLinearStartDistance();
     }
 
     public double velocityAt(Time time) {
@@ -65,7 +93,7 @@ public class PlaceHolder {
         else if(time.before(startOfEndSCurve))
             return distanceAtConstantVelocity(time.sub(startOfLinear));
         else
-            return distanceAtEndSCurve(time);
+            return distanceAtEndSCurve(time.sub(startOfConstantVelocity));
     }
 
     public double angleAt(Time time) {
@@ -73,50 +101,60 @@ public class PlaceHolder {
     }
 
     private double velocityAtStartSCurve(Time currentTime) {
-        return velocityAtSCurve(currentTime, stop, startMaxMotionParameters);
+        return velocityAtSCurve(currentTime, startMaxMotionParameters);
     }
 
     private double velocityAtEndSCurve(Time currentTime) {
-        return velocityAtSCurve(currentTime.sub(startOfEndSCurve), afterLinearVelocity, endMaxMotionParameters);
+        return velocityAtSCurve(currentTime.sub(startOfEndSCurve), endMaxMotionParameters);
     }
 
-    private double velocityAtSCurve(Time time, double startVelocity, MotionParameters endParameters) {
+    private double velocityAtSCurve(Time time, MotionParameters maxMotionParameters) {
+        if(time.before(startOfLinear))
+            return velocityAtConcave(time, maxMotionParameters);
+        else if(time.before(startOfConvex))
+            return velocityAtLinear(time.sub(startOfLinear), maxMotionParameters);
+        else
+            return velocityAtConvex(time.sub(startOfConvex), maxMotionParameters);
+    }
+
+    private double velocityAtConcave(Time time, MotionParameters maxMotionParameters) {
         return 0.0;
     }
 
-    private double velocityAtConcave(Time time, double startVelocity,MotionParameters endParameters) {
+    private double velocityAtLinear(Time time, MotionParameters maxMotionParameters) {
         return 0.0;
     }
 
-    private double velocityAtLinear(Time time, double startVelocity, MotionParameters endParameters) {
-        return 0.0;
-    }
-
-    private double velocityAtConvex(Time time, double startVelocity, MotionParameters endParameters) {
+    private double velocityAtConvex(Time time, MotionParameters maxMotionParameters) {
         return 0.0;
     }
 
     private double distanceAtStartSCurve(Time currentTime) {
-        return distanceAtSCurve(currentTime, afterLinearVelocity, endMaxMotionParameters);
+        return distanceAtSCurve(currentTime, endMaxMotionParameters);
     }
 
     private double distanceAtEndSCurve(Time currentTime) {
-        return distanceAtSCurve(currentTime.sub(startOfEndSCurve), afterLinearVelocity, endMaxMotionParameters);
+        return distanceAtSCurve(currentTime.sub(startOfEndSCurve), endMaxMotionParameters);
     }
 
-    private double distanceAtSCurve(Time time, double startVelocity, MotionParameters endParameters) {
+    private double distanceAtSCurve(Time time, MotionParameters maxMotionParameters) {
+        if(time.before(startOfLinear))
+            return distanceAtConcave(time, maxMotionParameters);
+        else if(time.before(startOfConvex))
+            return distanceAtLinear(time.sub(startOfLinear), maxMotionParameters);
+        else
+            return distanceAtConvex(time.sub(startOfConvex), maxMotionParameters);
+    }
+
+    private double distanceAtConcave(Time time, MotionParameters maxMotionParameters) {
         return 0.0;
     }
 
-    private double distanceAtConcave(Time time, double startVelocity, MotionParameters endParameters) {
+    private double distanceAtLinear(Time time, MotionParameters maxMotionParameters) {
         return 0.0;
     }
 
-    private double distanceAtLinear(Time time, double startVelocity, MotionParameters endParameters) {
-        return 0.0;
-    }
-
-    private double distanceAtConvex(Time time, double startVelocity, MotionParameters endParameters) {
+    private double distanceAtConvex(Time time, MotionParameters maxMotionParameters) {
         return 0.0;
     }
 
