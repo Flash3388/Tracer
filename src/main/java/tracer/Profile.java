@@ -22,8 +22,12 @@ public abstract class Profile {
         return currentTime.after(startTime) && currentTime.before(startTime.add(duration));
     }
 
-    public Time getFinalTime() {
+    public Time getAbsoluteFinalTime() {
         return startTime.add(duration);
+    }
+
+    public MotionParameters getMax() {
+        return max;
     }
 
     public double getMaxVelocity() {
@@ -51,18 +55,30 @@ public abstract class Profile {
     }
 
     public double getLength() {
-        return distanceAt(duration);
+        try {
+            return distanceAt(duration);
+        } catch (OutsideOfTimeBoundsException e) {
+            System.out.println(e.getCause().getMessage());
+            return 0;
+        }
     }
 
     public double getFinalVelocity() {
-        return velocityAt(duration);
+        try {
+            return velocityAt(duration);
+        } catch (OutsideOfTimeBoundsException e) {
+            System.out.println(e.getCause().getMessage());
+            return 0;
+        }
     }
 
-    public double velocityAt(Time currentTime) {
+    public double velocityAt(Time currentTime) throws OutsideOfTimeBoundsException {
+        checkTime(currentTime);
         return relativeVelocityAt(currentTime) + initialVelocity;
     }
 
-    public double distanceAt(Time currentTime) {
+    public double distanceAt(Time currentTime) throws OutsideOfTimeBoundsException {
+        checkTime(currentTime);
         return relativeDistanceAt(currentTime) + initialDistance;
     }
 
@@ -73,6 +89,11 @@ public abstract class Profile {
         return relativeDistanceAt(getRelativeTimeSeconds(currentTime));
     }
 
-    public abstract double relativeVelocityAt(double t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException;
-    public abstract double relativeDistanceAt(double t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException;
+    public abstract double relativeVelocityAt(double t);
+    public abstract double relativeDistanceAt(double t);
+
+    private void checkTime(Time t) throws OutsideOfTimeBoundsException {
+        if(!isCorresponding(t))
+            throw new OutsideOfTimeBoundsException(t);
+    }
 }
