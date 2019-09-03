@@ -48,10 +48,6 @@ public class PolynomialFunction {
                 .collect(Collectors.toList()));
     }
 
-    public PolynomialFunction square() {
-        return new PolynomialFunction(Operations.square(variables));
-    }
-
     public PolynomialFunction add(Variable variable) {
         List<Variable> sum = new ArrayList<>(variables);
         sum.add(variable);

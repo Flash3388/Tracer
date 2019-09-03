@@ -1,8 +1,9 @@
-package tracer;
+package tracer.trajectory;
 
 import calculus.Spline;
 import calculus.SplineFactory;
 import calculus.SplineType;
+import tracer.Position;
 
 import java.util.Arrays;
 import java.util.List;

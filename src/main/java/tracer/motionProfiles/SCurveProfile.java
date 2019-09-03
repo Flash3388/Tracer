@@ -18,7 +18,7 @@ public class SCurveProfile extends Profile {
     }
 
     public SCurveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
-        super(initialDistance, initialVelocity, max, startTime, calcDuration(max));
+        super(initialDistance, initialVelocity, 0, max, startTime, calcDuration(max));
         
         this.initialDistance = initialDistance;
         this.initialVelocity = getInitialVelocity();
@@ -61,6 +61,11 @@ public class SCurveProfile extends Profile {
     @Override
     public double relativeDistanceAt(double t)  {
         return correspondingProfile(Time.seconds(t)).relativeDistanceAt(t);
+    }
+
+    @Override
+    public double relativeAccelerationAt(double t) {
+        return correspondingProfile(Time.seconds(t)).relativeAccelerationAt(t);
     }
 
     private Profile correspondingProfile(Time t) {

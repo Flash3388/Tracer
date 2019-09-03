@@ -2,8 +2,7 @@ package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.MotionParameters;
-import tracer.OutsideOfTimeBoundsException;
-import tracer.Trajectory;
+import tracer.trajectory.Trajectory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,8 @@ public class TrajectoryProfile extends Profile {
     private final double initialDistance;
     private final double initialVelocity;
 
-    public TrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
-        super(initialDistance, initialVelocity, max, startTime, calcDuration(max, trajectory.getLength()));
+    public TrajectoryProfile(double initialDistance, MotionParameters max, Time startTime, Trajectory trajectory) {
+        super(initialDistance, 0, 0, max, startTime, calcDuration(max, trajectory.getLength()));
 
         this.initialDistance = initialDistance;
         this.initialVelocity = getInitialVelocity();
@@ -66,6 +65,11 @@ public class TrajectoryProfile extends Profile {
     @Override
     public double relativeDistanceAt(double t)  {
         return correspondingProfile(Time.seconds(t)).relativeDistanceAt(t);
+    }
+
+    @Override
+    public double relativeAccelerationAt(double t) {
+        return correspondingProfile(Time.seconds(t)).relativeAccelerationAt(t);
     }
 
     private Profile correspondingProfile(Time t) {

@@ -11,7 +11,7 @@ public class ConstantVelocityProfile extends Profile {
     }
 
     public ConstantVelocityProfile(double initialDistance, MotionParameters max, Time startTime, Time duration) {
-        super(initialDistance, max.getVelocity(), max, startTime, duration);
+        super(initialDistance, max.getVelocity(), 0, max, startTime, duration);
 
         maxVelocity = getMaxVelocity();
     }
@@ -24,6 +24,11 @@ public class ConstantVelocityProfile extends Profile {
     @Override
     public double relativeDistanceAt(double t) {
         return maxVelocity * t;
+    }
+
+    @Override
+    public double relativeAccelerationAt(double t) {
+        return 0;
     }
 
 }

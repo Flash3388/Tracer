@@ -2,22 +2,25 @@ package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.MotionParameters;
-import tracer.OutsideOfTimeBoundsException;
 
 public abstract class Profile {
     private final double initialDistance;
     private final double initialVelocity;
+    private final double initialAcceleration;
+    
     private final MotionParameters max;
     private final Time duration;
     private final Time startTime;
 
     public Profile(Profile prevProfile, MotionParameters max, Time duration) {
-        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), max, prevProfile.getAbsoluteFinalTime(), duration);
+        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), prevProfile.getFinalAcceleration(), max, prevProfile.getAbsoluteFinalTime(), duration);
     }
 
-    public Profile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {
+    public Profile(double initialDistance, double initialVelocity, double initAcceleration, MotionParameters max, Time startTime, Time duration) {
         this.initialDistance = initialDistance;
         this.initialVelocity = initialVelocity;
+        this.initialAcceleration = initAcceleration;
+
         this.max = max;
 
         this.duration = duration;
@@ -78,6 +81,15 @@ public abstract class Profile {
         }
     }
 
+    public double getFinalAcceleration() {
+        try {
+            return accelerationAt(duration);
+        } catch (OutsideOfTimeBoundsException e) {
+            System.out.println(e.getCause().getMessage());
+            return 0;
+        }
+    }
+
     public double velocityAt(Time currentTime) throws OutsideOfTimeBoundsException {
         checkTime(currentTime);
         return relativeVelocityAt(currentTime) + initialVelocity;
@@ -87,6 +99,11 @@ public abstract class Profile {
         checkTime(currentTime);
         return relativeDistanceAt(currentTime) + initialDistance;
     }
+    
+    public double accelerationAt(Time currentTime) throws OutsideOfTimeBoundsException {
+        checkTime(currentTime);
+        return relativeAccelerationAt(currentTime) + initialAcceleration;
+    }
 
     private double relativeVelocityAt(Time currentTime) {
         return relativeVelocityAt(getRelativeTimeSeconds(currentTime));
@@ -94,9 +111,14 @@ public abstract class Profile {
     private double relativeDistanceAt(Time currentTime) {
         return relativeDistanceAt(getRelativeTimeSeconds(currentTime));
     }
+    
+    private double relativeAccelerationAt(Time currentTime) {
+        return relativeAccelerationAt(getRelativeTimeSeconds(currentTime));
+    }
 
     public abstract double relativeVelocityAt(double t);
     public abstract double relativeDistanceAt(double t);
+    public abstract double relativeAccelerationAt(double t);
 
     private void checkTime(Time t) throws OutsideOfTimeBoundsException {
         if(!isCorresponding(t))

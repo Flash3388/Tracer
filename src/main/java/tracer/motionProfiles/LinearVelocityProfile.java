@@ -12,7 +12,7 @@ public class LinearVelocityProfile extends Profile {
     }
 
     public LinearVelocityProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {
-        super(initialDistance, initialVelocity, max, startTime, duration);
+        super(initialDistance, initialVelocity, max.getAcceleration(), max, startTime, duration);
 
         maxAcceleration = getMaxAcceleration();
         this.initialVelocity = getInitialVelocity();
@@ -26,5 +26,10 @@ public class LinearVelocityProfile extends Profile {
     @Override
     public double relativeDistanceAt(double t) {
         return initialVelocity * t + maxAcceleration * Math.pow(t, 2)/2;
+    }
+
+    @Override
+    public double relativeAccelerationAt(double t) {
+        return 0;
     }
 }

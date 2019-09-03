@@ -64,7 +64,7 @@ public abstract class Spline {
     }
 
     private double getArcLengthAt(double x) {
-        return Math.sqrt(function.derivative().square().at(x)+1.0);
+        return Math.sqrt(Math.pow(function.derivative().at(x), 2) + 1.0);
     }
 
     public double getKnotDistance() {
