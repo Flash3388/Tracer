@@ -19,17 +19,17 @@ public class LinearVelocityProfile extends Profile {
     }
 
     @Override
-    public double relativeVelocityAt(double t) {
+    protected double relativeVelocityAt(double t) {
         return maxAcceleration * t;
     }
 
     @Override
-    public double relativeDistanceAt(double t) {
+    protected double relativeDistanceAt(double t) {
         return initialVelocity * t + maxAcceleration * Math.pow(t, 2)/2;
     }
 
     @Override
-    public double relativeAccelerationAt(double t) {
+    protected double relativeAccelerationAt(double t) {
         return 0;
     }
 }

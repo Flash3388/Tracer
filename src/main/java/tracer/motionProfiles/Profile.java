@@ -67,7 +67,7 @@ public abstract class Profile {
         try {
             return distanceAt(duration);
         } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getCause().getMessage());
+            System.out.println(e.getMessage());
             return 0;
         }
     }
@@ -76,7 +76,7 @@ public abstract class Profile {
         try {
             return velocityAt(duration);
         } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getCause().getMessage());
+            System.out.println(e.getMessage());
             return 0;
         }
     }
@@ -85,7 +85,7 @@ public abstract class Profile {
         try {
             return accelerationAt(duration);
         } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getCause().getMessage());
+            System.out.println(e.getMessage());
             return 0;
         }
     }
@@ -116,9 +116,9 @@ public abstract class Profile {
         return relativeAccelerationAt(getRelativeTimeSeconds(currentTime));
     }
 
-    public abstract double relativeVelocityAt(double t);
-    public abstract double relativeDistanceAt(double t);
-    public abstract double relativeAccelerationAt(double t);
+    protected abstract double relativeVelocityAt(double t);
+    protected abstract double relativeDistanceAt(double t);
+    protected abstract double relativeAccelerationAt(double t);
 
     private void checkTime(Time t) throws OutsideOfTimeBoundsException {
         if(!isCorresponding(t))

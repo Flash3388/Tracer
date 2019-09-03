@@ -54,7 +54,7 @@ public class TrajectoryProfile extends Profile {
     }
 
     @Override
-    public double relativeVelocityAt(double t) {
+    protected double relativeVelocityAt(double t) {
         return correspondingProfile(Time.seconds(t)).relativeVelocityAt(t);
     }
 
@@ -63,7 +63,7 @@ public class TrajectoryProfile extends Profile {
     }
 
     @Override
-    public double relativeDistanceAt(double t)  {
+    protected double relativeDistanceAt(double t)  {
         return correspondingProfile(Time.seconds(t)).relativeDistanceAt(t);
     }
 

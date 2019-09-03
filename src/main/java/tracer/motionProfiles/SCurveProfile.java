@@ -54,17 +54,17 @@ public class SCurveProfile extends Profile {
     }
 
     @Override
-    public double relativeVelocityAt(double t) {
+    protected double relativeVelocityAt(double t) {
         return correspondingProfile(Time.seconds(t)).relativeVelocityAt(t);
     }
 
     @Override
-    public double relativeDistanceAt(double t)  {
+    protected double relativeDistanceAt(double t)  {
         return correspondingProfile(Time.seconds(t)).relativeDistanceAt(t);
     }
 
     @Override
-    public double relativeAccelerationAt(double t) {
+    protected double relativeAccelerationAt(double t) {
         return correspondingProfile(Time.seconds(t)).relativeAccelerationAt(t);
     }
 

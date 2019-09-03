@@ -24,17 +24,17 @@ public class ConcaveProfile extends Profile {
     }
 
     @Override
-    public double relativeVelocityAt(double t) {
+    protected double relativeVelocityAt(double t) {
         return maxJerk * Math.pow(t, 2)/2;
     }
 
     @Override
-    public double relativeDistanceAt(double t) {
+    protected double relativeDistanceAt(double t) {
         return initialVelocity * t + maxJerk * Math.pow(t, 3)/6;
     }
 
     @Override
-    public double relativeAccelerationAt(double t) {
+    protected double relativeAccelerationAt(double t) {
         return t * maxJerk;
     }
 }

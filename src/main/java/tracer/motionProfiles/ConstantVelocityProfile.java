@@ -17,17 +17,17 @@ public class ConstantVelocityProfile extends Profile {
     }
 
     @Override
-    public double relativeVelocityAt(double t) {
+    protected double relativeVelocityAt(double t) {
         return 0;
     }
 
     @Override
-    public double relativeDistanceAt(double t) {
+    protected double relativeDistanceAt(double t) {
         return maxVelocity * t;
     }
 
     @Override
-    public double relativeAccelerationAt(double t) {
+    protected double relativeAccelerationAt(double t) {
         return 0;
     }
 
