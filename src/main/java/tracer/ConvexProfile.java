@@ -8,6 +8,10 @@ public class ConvexProfile extends Profile {
 
     private final double initialVelocity;
 
+    public ConvexProfile(Profile prevProfile, MotionParameters max) {
+        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), max, prevProfile.getAbsoluteFinalTime());
+    }
+
     public ConvexProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
         super(initialDistance, initialVelocity, max, startTime, calcDuration(max));
 

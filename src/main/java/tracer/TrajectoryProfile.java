@@ -37,8 +37,7 @@ public class TrajectoryProfile extends Profile {
     }
 
     private ConstantVelocityProfile createConstantVelocityProfile(Profile prevProfile, Trajectory trajectory) {
-        return new ConstantVelocityProfile(prevProfile.getLength(), getMax(),
-                prevProfile.getAbsoluteFinalTime(), calcConstantVelocityDuration(prevProfile, getMax(), trajectory.getLength()));
+        return new ConstantVelocityProfile(prevProfile, calcConstantVelocityDuration(prevProfile, getMax(), trajectory.getLength()));
     }
 
     private static Time calcConstantVelocityDuration(Profile sCurve, MotionParameters max, double trajectoryLength) {
@@ -49,7 +48,7 @@ public class TrajectoryProfile extends Profile {
         MotionParameters max = getMax();
         MotionParameters reversedMotionParameters = new MotionParameters(-max.getVelocity(), -max.getAcceleration(), max.getJerk());
 
-        return new SCurveProfile(prevProfile.getLength(), prevProfile.getFinalVelocity(), reversedMotionParameters, prevProfile.getAbsoluteFinalTime());
+        return new SCurveProfile(prevProfile, reversedMotionParameters);
     }
 
     @Override

@@ -9,6 +9,10 @@ public abstract class Profile {
     private final Time duration;
     private final Time startTime;
 
+    public Profile(Profile prevProfile, MotionParameters max, Time duration) {
+        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), max, prevProfile.getAbsoluteFinalTime(), duration);
+    }
+
     public Profile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {
         this.initialDistance = initialDistance;
         this.initialVelocity = initialVelocity;

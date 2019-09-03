@@ -12,6 +12,10 @@ public class SCurveProfile extends Profile {
     private final double initialDistance;
     private final double initialVelocity;
 
+    public SCurveProfile(Profile prevProfile, MotionParameters max) {
+        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), max, prevProfile.getAbsoluteFinalTime());
+    }
+
     public SCurveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
         super(initialDistance, initialVelocity, max, startTime, calcDuration(max));
         
@@ -35,8 +39,7 @@ public class SCurveProfile extends Profile {
     }
 
     private LinearVelocityProfile createLinearProfile(Profile concave) {
-        return new LinearVelocityProfile(concave.getLength(), concave.getFinalVelocity(),
-                concave.getMax(), concave.getAbsoluteFinalTime(), calcLinearProfileDuration(concave, concave.getMax()));
+        return new LinearVelocityProfile(concave, concave.getMax(), calcLinearProfileDuration(concave, concave.getMax()));
     }
 
     private static Time calcLinearProfileDuration(Profile concave, MotionParameters max) {
@@ -46,7 +49,7 @@ public class SCurveProfile extends Profile {
     }
 
     private ConvexProfile createConvexProfile(MotionParameters max, Profile linear) {
-        return new ConvexProfile(linear.getLength(), linear.getFinalVelocity(), max, linear.getAbsoluteFinalTime());
+        return new ConvexProfile(linear, max);
     }
 
     @Override
