@@ -9,19 +9,21 @@ public abstract class Profile {
     private final Time duration;
     private final Time startTime;
 
-    public Profile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
+    public Profile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {
         this.initialDistance = initialDistance;
         this.initialVelocity = initialVelocity;
         this.max = max;
 
-        duration = calcDuration(max);
+        this.duration = duration;
         this.startTime = startTime;
     }
 
-    protected abstract Time calcDuration(MotionParameters max);
-
     public boolean isCorresponding(Time currentTime) {
         return currentTime.after(startTime) && currentTime.before(startTime.add(duration));
+    }
+
+    public Time getFinalTime() {
+        return startTime.add(duration);
     }
 
     public double getMaxVelocity() {
@@ -38,10 +40,6 @@ public abstract class Profile {
 
     public double getInitialVelocity() {
         return initialVelocity;
-    }
-
-    public double getInitialDistance() {
-        return initialDistance;
     }
 
     public Time getDuration() {
@@ -68,10 +66,10 @@ public abstract class Profile {
         return relativeDistanceAt(currentTime) + initialDistance;
     }
 
-    public double relativeVelocityAt(Time currentTime) {
+    private double relativeVelocityAt(Time currentTime) {
         return relativeVelocityAt(getRelativeTimeSeconds(currentTime));
     }
-    public double relativeDistanceAt(Time currentTime) {
+    private double relativeDistanceAt(Time currentTime) {
         return relativeDistanceAt(getRelativeTimeSeconds(currentTime));
     }
 
