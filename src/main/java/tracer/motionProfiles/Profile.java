@@ -1,6 +1,8 @@
-package tracer;
+package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.MotionParameters;
+import tracer.OutsideOfTimeBoundsException;
 
 public abstract class Profile {
     private final double initialDistance;

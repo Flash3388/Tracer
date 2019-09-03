@@ -1,6 +1,9 @@
-package tracer;
+package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.MotionParameters;
+import tracer.OutsideOfTimeBoundsException;
+import tracer.Trajectory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,10 @@ public class TrajectoryProfile extends Profile {
     @Override
     public double relativeVelocityAt(double t) {
         return correspondingProfile(Time.seconds(t)).relativeVelocityAt(t);
+    }
+
+    public double angleAt(Time t) throws OutsideOfTimeBoundsException {
+        return trajectory.getAngleAt(distanceAt(t));
     }
 
     @Override

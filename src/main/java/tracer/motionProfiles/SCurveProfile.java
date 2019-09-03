@@ -1,6 +1,7 @@
-package tracer;
+package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.MotionParameters;
 
 import java.util.ArrayList;
 import java.util.List;
