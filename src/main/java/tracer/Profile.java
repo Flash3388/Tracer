@@ -73,6 +73,6 @@ public abstract class Profile {
         return relativeDistanceAt(getRelativeTimeSeconds(currentTime));
     }
 
-    public abstract double relativeVelocityAt(double t);
-    public abstract double relativeDistanceAt(double t);
+    public abstract double relativeVelocityAt(double t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException;
+    public abstract double relativeDistanceAt(double t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException;
 }

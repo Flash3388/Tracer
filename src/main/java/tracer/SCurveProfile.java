@@ -9,20 +9,12 @@ import java.util.stream.Collectors;
 public class SCurveProfile extends Profile {
     private List<Profile> profiles;
 
-    private final double maxVelocity;
-    private final double maxAcceleration;
-    private final double maxJerk;
-
     private final double initialDistance;
     private final double initialVelocity;
 
     public SCurveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {
         super(initialDistance, initialVelocity, max, startTime, duration);
-
-        maxVelocity = getMaxVelocity();
-        maxAcceleration = getMaxAcceleration();
-        maxJerk = getMaxJerk();
-
+        
         this.initialDistance = initialDistance;
         this.initialVelocity = getInitialVelocity();
 
@@ -50,18 +42,28 @@ public class SCurveProfile extends Profile {
     }
 
     @Override
-    public double relativeVelocityAt(double t) {
-        return profiles.stream()
-                .filter(profile -> profile.isCorresponding(Time.seconds(t)))
-                .collect(Collectors.toList())
-                .get(0).relativeVelocityAt(t);
+    public double relativeVelocityAt(double t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException {
+        return correspondingProfile(Time.seconds(t)).relativeVelocityAt(t);
     }
 
     @Override
-    public double relativeDistanceAt(double t) {
-        return profiles.stream()
-                .filter(profile -> profile.isCorresponding(Time.seconds(t)))
-                .collect(Collectors.toList())
-                .get(0).relativeDistanceAt(t);
+    public double relativeDistanceAt(double t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException {
+        return correspondingProfile(Time.seconds(t)).relativeDistanceAt(t);
+    }
+
+    private Profile correspondingProfile(Time t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException {
+        List<Profile> correspondingProfiles = profiles.stream()
+                .filter(profile -> profile.isCorresponding(t))
+                .collect(Collectors.toList());
+        checkIfHasCorrespondingProfile(correspondingProfiles, t);
+
+        return correspondingProfiles.get(0);
+    }
+
+    private void checkIfHasCorrespondingProfile(List<Profile> correspondingProfiles, Time t) throws OutsideOfTimeBoundsException, MoreThanOneCorrespondingProfileException {
+        if(correspondingProfiles.isEmpty())
+            throw new OutsideOfTimeBoundsException(t);
+        else if(correspondingProfiles.size() > 1)
+            throw new MoreThanOneCorrespondingProfileException(t);
     }
 }
