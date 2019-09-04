@@ -28,7 +28,7 @@ public abstract class Profile {
     }
 
     public boolean isCorresponding(Time currentTime) {
-        return currentTime.after(startTime) && currentTime.before(startTime.add(duration));
+        return currentTime.largerThanOrEquals(startTime) && currentTime.lessThanOrEquals(startTime.add(duration));
     }
 
     public Time getAbsoluteFinalTime() {
@@ -65,7 +65,7 @@ public abstract class Profile {
 
     public double getLength() {
         try {
-            return distanceAt(duration);
+            return distanceAt(getAbsoluteFinalTime());
         } catch (OutsideOfTimeBoundsException e) {
             System.out.println(e.getMessage());
             return 0;
@@ -74,7 +74,7 @@ public abstract class Profile {
 
     public double getFinalVelocity() {
         try {
-            return velocityAt(duration);
+            return velocityAt(getAbsoluteFinalTime());
         } catch (OutsideOfTimeBoundsException e) {
             System.out.println(e.getMessage());
             return 0;
@@ -83,7 +83,7 @@ public abstract class Profile {
 
     public double getFinalAcceleration() {
         try {
-            return accelerationAt(duration);
+            return accelerationAt(getAbsoluteFinalTime());
         } catch (OutsideOfTimeBoundsException e) {
             System.out.println(e.getMessage());
             return 0;
