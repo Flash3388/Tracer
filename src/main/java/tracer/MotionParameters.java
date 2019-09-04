@@ -26,4 +26,9 @@ public class MotionParameters {
     public double getJerk() {
         return jerk;
     }
+
+    @Override
+    public String toString() {
+        return "velocity: "+velocity+" acceleration: " + acceleration + " jerk: " + jerk;
+    }
 }

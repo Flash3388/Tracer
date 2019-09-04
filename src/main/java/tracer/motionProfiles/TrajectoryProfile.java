@@ -48,7 +48,7 @@ public class TrajectoryProfile extends Profile {
 
     private SCurveProfile createEndSCurve(Profile prevProfile) {
         MotionParameters max = getMax();
-        MotionParameters reversedMotionParameters = new MotionParameters(-max.getVelocity(), -max.getAcceleration(), max.getJerk());
+        MotionParameters reversedMotionParameters = new MotionParameters(-max.getVelocity(), -max.getAcceleration(), -max.getJerk());
 
         return new SCurveProfile(prevProfile, reversedMotionParameters);
     }
