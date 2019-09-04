@@ -6,7 +6,7 @@ import tracer.MotionParameters;
 import tracer.motionProfiles.OutsideOfTimeBoundsException;
 import tracer.motionProfiles.TrajectoryProfile;
 
-public class Tracer {
+public class MotionController {
     private final TrajectoryProfile trajectoryProfile;
 
     private boolean isFirstRun;
@@ -23,7 +23,7 @@ public class Tracer {
 
     private final double gP;
 
-    public Tracer(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
+    public MotionController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
         trajectoryProfile = new TrajectoryProfile(0, max, Time.seconds(0), trajectory);
 
         isFirstRun = false;

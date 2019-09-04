@@ -29,4 +29,9 @@ public class Position {
     public double getHeadingDegrees() {
         return Math.toDegrees(heading);
     }
+
+    @Override
+    public String toString() {
+        return "X: " + x + " Y: " + y + " Heading: " + heading;
+    }
 }

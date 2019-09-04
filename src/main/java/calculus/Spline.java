@@ -36,7 +36,7 @@ public abstract class Spline {
     protected abstract List<Double> getFunctionConstants(Position startPosition, Position endPosition);
 
     private double calcKnotDistance(Position startPosition, Position endPosition) {
-        return Math.sqrt( Math.pow(endPosition.getX()-startPosition.getX(), 2) + Math.pow(endPosition.getX() - startPosition.getX(), 2));
+        return Math.sqrt( Math.pow(endPosition.getX()-startPosition.getX(), 2) + Math.pow(endPosition.getY() - startPosition.getY(), 2));
     }
 
     private Position calcOffset(Position startPosition, Position endPosition) {
@@ -73,10 +73,6 @@ public abstract class Spline {
 
     public Position getOffset() {
         return offset;
-    }
-
-    public double valueAt(double x) {
-        return function.at(x);
     }
 
     public double getLength() {
