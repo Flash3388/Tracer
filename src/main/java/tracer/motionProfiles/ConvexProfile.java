@@ -1,7 +1,7 @@
 package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
-import tracer.MotionParameters;
+import tracer.motion.MotionParameters;
 
 public class ConvexProfile extends Profile {
     private final double maxAcceleration;
@@ -10,16 +10,16 @@ public class ConvexProfile extends Profile {
     private final double initialVelocity;
 
     public ConvexProfile(Profile prevProfile, MotionParameters max) {
-        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), max, prevProfile.getAbsoluteFinalTime());
+        this(prevProfile.length(), prevProfile.finalVelocity(), max, prevProfile.getAbsoluteFinalTime());
     }
 
     public ConvexProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
         super(initialDistance, initialVelocity, max.getAcceleration(), max, startTime, calcDuration(max));
 
-        maxAcceleration = getMaxAcceleration();
-        maxJerk = getMaxJerk();
+        maxAcceleration = maxAcceleration();
+        maxJerk = maxJerk();
 
-        this.initialVelocity = getInitialVelocity();
+        this.initialVelocity = initialVelocity();
     }
 
     private static Time calcDuration(MotionParameters max) {

@@ -1,7 +1,7 @@
 package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
-import tracer.MotionParameters;
+import tracer.motion.MotionParameters;
 
 public class ConcaveProfile extends Profile {
     private final double maxJerk;
@@ -9,14 +9,14 @@ public class ConcaveProfile extends Profile {
     private final double initialVelocity;
 
     public ConcaveProfile(Profile prevProfile, MotionParameters max) {
-        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), max, prevProfile.getAbsoluteFinalTime());
+        this(prevProfile.length(), prevProfile.finalVelocity(), max, prevProfile.getAbsoluteFinalTime());
     }
 
     public ConcaveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
         super(initialDistance, initialVelocity, 0, max, startTime, calcDuration(max));
 
-        maxJerk = getMaxJerk();
-        this.initialVelocity = getInitialVelocity();
+        maxJerk = maxJerk();
+        this.initialVelocity = initialVelocity();
     }
 
     private static Time calcDuration(MotionParameters max) {

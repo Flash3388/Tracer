@@ -3,7 +3,7 @@ package tracer.trajectory;
 import calculus.Spline;
 import calculus.SplineFactory;
 import calculus.SplineType;
-import tracer.Position;
+import tracer.motion.Position;
 
 import java.util.Arrays;
 import java.util.List;

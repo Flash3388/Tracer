@@ -1,4 +1,4 @@
-package tracer;
+package tracer.motion;
 
 public class PositionPair {
     private final Position first;

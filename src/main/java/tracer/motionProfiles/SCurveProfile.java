@@ -1,7 +1,7 @@
 package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
-import tracer.MotionParameters;
+import tracer.motion.MotionParameters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,14 @@ public class SCurveProfile extends Profile {
     private final double initialVelocity;
 
     public SCurveProfile(Profile prevProfile, MotionParameters max) {
-        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), max, prevProfile.getAbsoluteFinalTime());
+        this(prevProfile.length(), prevProfile.finalVelocity(), max, prevProfile.getAbsoluteFinalTime());
     }
 
     public SCurveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
         super(initialDistance, initialVelocity, 0, max, startTime, calcDuration(max));
-        
+
         this.initialDistance = initialDistance;
-        this.initialVelocity = getInitialVelocity();
+        this.initialVelocity = initialVelocity();
 
         profiles = new ArrayList<>();
         profiles.add(createConcaveProfile(startTime));
@@ -46,7 +46,7 @@ public class SCurveProfile extends Profile {
     private static Time calcLinearProfileDuration(Profile concave, MotionParameters max) {
         double linearEndVelocity = max.getVelocity() - Math.pow(max.getAcceleration(), 2)/(2 * max.getJerk());
 
-        return Time.seconds((linearEndVelocity - concave.getFinalVelocity())/max.getAcceleration());
+        return Time.seconds((linearEndVelocity - concave.finalVelocity())/max.getAcceleration());
     }
 
     private ConvexProfile createConvexProfile(MotionParameters max, Profile linear) {

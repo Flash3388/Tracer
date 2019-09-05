@@ -1,7 +1,7 @@
 package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
-import tracer.MotionParameters;
+import tracer.motion.MotionParameters;
 import tracer.trajectory.Trajectory;
 
 import java.util.ArrayList;
@@ -19,19 +19,21 @@ public class TrajectoryProfile extends Profile {
         super(initialDistance, 0, 0, max, startTime, calcDuration(max, trajectory.getLength()));
 
         this.initialDistance = initialDistance;
-        this.initialVelocity = getInitialVelocity();
+        this.initialVelocity = initialVelocity();
         this.trajectory = trajectory;
 
         profiles = new ArrayList<>();
         profiles.add(createStartSCurve(startTime));
         profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
         profiles.add(createEndSCurve(profiles.get(1)));
+
+        System.out.println(profiles.get(1).getAbsoluteFinalTime());
     }
 
     private static Time calcDuration(MotionParameters max, double trajectoryLength) {
         SCurveProfile sCurve = new SCurveProfile(0, 0, max, Time.seconds(0));
 
-        return sCurve.getDuration().add(calcConstantVelocityDuration(sCurve, max, trajectoryLength)).add(sCurve.getDuration());
+        return sCurve.duration().add(calcConstantVelocityDuration(sCurve, max, trajectoryLength)).add(sCurve.duration());
     }
 
     private SCurveProfile createStartSCurve(Time startTime) {
@@ -43,7 +45,7 @@ public class TrajectoryProfile extends Profile {
     }
 
     private static Time calcConstantVelocityDuration(Profile sCurve, MotionParameters max, double trajectoryLength) {
-        return Time.seconds((trajectoryLength - 2 * sCurve.getLength()) / max.getVelocity());
+        return Time.seconds((trajectoryLength - 2 * sCurve.length()) / max.getVelocity());
     }
 
     private SCurveProfile createEndSCurve(Profile prevProfile) {

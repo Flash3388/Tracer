@@ -1,4 +1,4 @@
-package tracer;
+package tracer.motion;
 
 public class Position {
     private final static double DEF_MARGIN = 1E-4;

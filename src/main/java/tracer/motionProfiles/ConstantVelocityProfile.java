@@ -1,19 +1,19 @@
 package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
-import tracer.MotionParameters;
+import tracer.motion.MotionParameters;
 
 public class ConstantVelocityProfile extends Profile {
     private final double maxVelocity;
 
     public ConstantVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.getLength(), prevProfile.getMax(), prevProfile.getAbsoluteFinalTime(), duration);
+        this(prevProfile.length(), prevProfile.getMax(), prevProfile.getAbsoluteFinalTime(), duration);
     }
 
     public ConstantVelocityProfile(double initialDistance, MotionParameters max, Time startTime, Time duration) {
         super(initialDistance, max.getVelocity(), 0, max, startTime, duration);
 
-        maxVelocity = getMaxVelocity();
+        maxVelocity = maxVelocity();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
-import tracer.MotionParameters;
+import tracer.motion.MotionParameters;
 
 public abstract class Profile {
     private final double initialDistance;
@@ -13,7 +13,7 @@ public abstract class Profile {
     private final Time startTime;
 
     public Profile(Profile prevProfile, MotionParameters max, Time duration) {
-        this(prevProfile.getLength(), prevProfile.getFinalVelocity(), prevProfile.getFinalAcceleration(), max, prevProfile.getAbsoluteFinalTime(), duration);
+        this(prevProfile.length(), prevProfile.finalVelocity(), prevProfile.finalAcceleration(), max, prevProfile.getAbsoluteFinalTime(), duration);
     }
 
     public Profile(double initialDistance, double initialVelocity, double initAcceleration, MotionParameters max, Time startTime, Time duration) {
@@ -39,31 +39,31 @@ public abstract class Profile {
         return max;
     }
 
-    public double getMaxVelocity() {
+    public double maxVelocity() {
         return max.getVelocity();
     }
 
-    public double getMaxAcceleration() {
+    public double maxAcceleration() {
         return max.getAcceleration();
     }
 
-    public double getMaxJerk() {
+    public double maxJerk() {
         return max.getJerk();
     }
 
-    public double getInitialVelocity() {
+    public double initialVelocity() {
         return initialVelocity;
     }
 
-    public Time getDuration() {
+    public Time duration() {
         return duration;
     }
 
-    private double getRelativeTimeSeconds(Time currentTime) {
+    private double relativeTimeSeconds(Time currentTime) {
         return currentTime.sub(startTime).valueAsMillis() / 1000.0;
     }
 
-    public double getLength() {
+    public double length() {
         try {
             return distanceAt(getAbsoluteFinalTime());
         } catch (OutsideOfTimeBoundsException e) {
@@ -72,7 +72,7 @@ public abstract class Profile {
         }
     }
 
-    public double getFinalVelocity() {
+    public double finalVelocity() {
         try {
             return velocityAt(getAbsoluteFinalTime());
         } catch (OutsideOfTimeBoundsException e) {
@@ -81,7 +81,7 @@ public abstract class Profile {
         }
     }
 
-    public double getFinalAcceleration() {
+    public double finalAcceleration() {
         try {
             return accelerationAt(getAbsoluteFinalTime());
         } catch (OutsideOfTimeBoundsException e) {
@@ -106,14 +106,14 @@ public abstract class Profile {
     }
 
     private double relativeVelocityAt(Time currentTime) {
-        return relativeVelocityAt(getRelativeTimeSeconds(currentTime));
+        return relativeVelocityAt(relativeTimeSeconds(currentTime));
     }
     private double relativeDistanceAt(Time currentTime) {
-        return relativeDistanceAt(getRelativeTimeSeconds(currentTime));
+        return relativeDistanceAt(relativeTimeSeconds(currentTime));
     }
     
     private double relativeAccelerationAt(Time currentTime) {
-        return relativeAccelerationAt(getRelativeTimeSeconds(currentTime));
+        return relativeAccelerationAt(relativeTimeSeconds(currentTime));
     }
 
     protected abstract double relativeVelocityAt(double t);

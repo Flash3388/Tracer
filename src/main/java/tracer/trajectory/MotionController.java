@@ -2,7 +2,7 @@ package tracer.trajectory;
 
 import com.flash3388.flashlib.math.Mathf;
 import com.flash3388.flashlib.time.Time;
-import tracer.MotionParameters;
+import tracer.motion.MotionParameters;
 import tracer.motionProfiles.OutsideOfTimeBoundsException;
 import tracer.motionProfiles.TrajectoryProfile;
 

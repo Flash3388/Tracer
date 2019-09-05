@@ -1,6 +1,6 @@
 import calculus.SplineType;
-import tracer.MotionParameters;
-import tracer.Position;
+import tracer.motion.MotionParameters;
+import tracer.motion.Position;
 import tracer.trajectory.MotionController;
 import tracer.trajectory.Trajectory;
 
