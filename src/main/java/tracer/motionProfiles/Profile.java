@@ -27,8 +27,16 @@ public abstract class Profile {
         this.startTime = startTime;
     }
 
+    public boolean isCorrespondingRelative(Time relative) {
+        return isCorresponding(relative.add(startTime));
+    }
+
     public boolean isCorresponding(Time currentTime) {
         return currentTime.largerThanOrEquals(startTime) && currentTime.lessThanOrEquals(startTime.add(duration));
+    }
+
+    public Time start() {
+        return startTime;
     }
 
     public Time getAbsoluteFinalTime() {
@@ -123,5 +131,10 @@ public abstract class Profile {
     private void checkTime(Time t) throws OutsideOfTimeBoundsException {
         if(!isCorresponding(t))
             throw new OutsideOfTimeBoundsException(t);
+    }
+
+    @Override
+    public String toString() {
+        return "from: " + startTime + " to: " + getAbsoluteFinalTime();
     }
 }

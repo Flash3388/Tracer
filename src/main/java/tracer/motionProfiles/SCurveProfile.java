@@ -69,8 +69,10 @@ public class SCurveProfile extends Profile {
     }
 
     private Profile correspondingProfile(Time t) {
+//        System.out.println(t);
+
         return profiles.stream()
-                .filter(profile -> profile.isCorresponding(t))
+                .filter(profile -> profile.isCorresponding(t.add(start())))
                 .collect(Collectors.toList()).get(0);
     }
 }
