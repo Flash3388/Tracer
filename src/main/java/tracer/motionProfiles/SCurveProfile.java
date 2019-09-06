@@ -14,11 +14,11 @@ public class SCurveProfile extends Profile {
     private final double initialVelocity;
 
     public SCurveProfile(Profile prevProfile, MotionParameters max) {
-        this(prevProfile.length(), prevProfile.finalVelocity(), max, prevProfile.getAbsoluteFinalTime());
+        this(prevProfile.absoluteLength(), prevProfile.finalVelocity(), max, prevProfile.end());
     }
 
     public SCurveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
-        super(initialDistance, initialVelocity, 0, max, startTime, calcDuration(max));
+        super(initialDistance, initialVelocity, 0, max, startTime, calcDuration(max, initialVelocity));
 
         this.initialDistance = initialDistance;
         this.initialVelocity = initialVelocity();
@@ -27,12 +27,14 @@ public class SCurveProfile extends Profile {
         profiles.add(createConcaveProfile(startTime));
         profiles.add(createLinearProfile(profiles.get(0)));
         profiles.add(createConvexProfile(max, profiles.get(1)));
+
+        profiles.forEach(profile -> System.out.println(profile.length()));
     }
 
-    private static Time calcDuration(MotionParameters max) {
-        Profile concave = new ConcaveProfile(0, 0, max, Time.seconds(0));
+    private static Time calcDuration(MotionParameters max, double initialVelocity) {
+        Profile concave = new ConcaveProfile(0, initialVelocity, max, Time.seconds(0));
 
-        return concave.getAbsoluteFinalTime().add(calcLinearProfileDuration(concave, max)).add(concave.getAbsoluteFinalTime());
+        return concave.end().add(calcLinearProfileDuration(concave, max)).add(concave.end());
     }
 
     private ConcaveProfile createConcaveProfile(Time startTime) {
@@ -55,22 +57,23 @@ public class SCurveProfile extends Profile {
 
     @Override
     protected double relativeVelocityAt(double t) {
-        return correspondingProfile(Time.seconds(t)).relativeVelocityAt(t);
+        Profile correspondingProfile = correspondingProfile(Time.seconds(t));
+        return correspondingProfile.relativeVelocityAt(t) + (correspondingProfile.initialVelocity() - initialVelocity);
     }
 
     @Override
     protected double relativeDistanceAt(double t)  {
-        return correspondingProfile(Time.seconds(t)).relativeDistanceAt(t);
+        Profile correspondingProfile = correspondingProfile(Time.seconds(t));
+        return correspondingProfile.relativeDistanceAt(t) + (correspondingProfile.initialDistance() - initialDistance);
     }
 
     @Override
     protected double relativeAccelerationAt(double t) {
-        return correspondingProfile(Time.seconds(t)).relativeAccelerationAt(t);
+        Profile correspondingProfile = correspondingProfile(Time.seconds(t));
+        return correspondingProfile.relativeAccelerationAt(t) + correspondingProfile.initialAcceleration();
     }
 
     private Profile correspondingProfile(Time t) {
-//        System.out.println(t);
-
         return profiles.stream()
                 .filter(profile -> profile.isCorresponding(t.add(start())))
                 .collect(Collectors.toList()).get(0);

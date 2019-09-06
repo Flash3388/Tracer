@@ -27,9 +27,7 @@ public class TrajectoryProfile extends Profile {
         profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
         profiles.add(createEndSCurve(profiles.get(1)));
 
-        System.out.println("end");
-        System.out.println(profiles.get(2).duration());
-        System.out.println(profiles.get(2).finalVelocity());
+        profiles.forEach(profile -> System.out.println(profile.length()));
     }
 
     private static Time calcDuration(MotionParameters max, double trajectoryLength) {
@@ -52,7 +50,7 @@ public class TrajectoryProfile extends Profile {
 
     private SCurveProfile createEndSCurve(Profile prevProfile) {
         MotionParameters max = getMax();
-        MotionParameters reversedMotionParameters = new MotionParameters(-max.getVelocity(), -max.getAcceleration(), -max.getJerk());
+        MotionParameters reversedMotionParameters = new MotionParameters(0, -max.getAcceleration(), -max.getJerk());
 
         return new SCurveProfile(prevProfile, reversedMotionParameters);
     }

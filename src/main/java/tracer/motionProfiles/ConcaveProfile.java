@@ -9,7 +9,7 @@ public class ConcaveProfile extends Profile {
     private final double initialVelocity;
 
     public ConcaveProfile(Profile prevProfile, MotionParameters max) {
-        this(prevProfile.length(), prevProfile.finalVelocity(), max, prevProfile.getAbsoluteFinalTime());
+        this(prevProfile.absoluteLength(), prevProfile.finalVelocity(), max, prevProfile.end());
     }
 
     public ConcaveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {

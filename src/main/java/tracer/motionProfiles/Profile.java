@@ -13,7 +13,7 @@ public abstract class Profile {
     private final Time startTime;
 
     public Profile(Profile prevProfile, MotionParameters max, Time duration) {
-        this(prevProfile.length(), prevProfile.finalVelocity(), prevProfile.finalAcceleration(), max, prevProfile.getAbsoluteFinalTime(), duration);
+        this(prevProfile.absoluteLength(), prevProfile.finalVelocity(), prevProfile.finalAcceleration(), max, prevProfile.end(), duration);
     }
 
     public Profile(double initialDistance, double initialVelocity, double initAcceleration, MotionParameters max, Time startTime, Time duration) {
@@ -39,7 +39,7 @@ public abstract class Profile {
         return startTime;
     }
 
-    public Time getAbsoluteFinalTime() {
+    public Time end() {
         return startTime.add(duration);
     }
 
@@ -59,8 +59,16 @@ public abstract class Profile {
         return max.getJerk();
     }
 
+    public double initialDistance() {
+        return initialDistance;
+    }
+
     public double initialVelocity() {
         return initialVelocity;
+    }
+
+    public double initialAcceleration() {
+        return initialAcceleration;
     }
 
     public Time duration() {
@@ -72,8 +80,12 @@ public abstract class Profile {
     }
 
     public double length() {
+        return absoluteLength() - initialDistance;
+    }
+
+    public double absoluteLength() {
         try {
-            return distanceAt(getAbsoluteFinalTime());
+            return distanceAt(end());
         } catch (OutsideOfTimeBoundsException e) {
             System.out.println(e.getMessage());
             return 0;
@@ -82,7 +94,7 @@ public abstract class Profile {
 
     public double finalVelocity() {
         try {
-            return velocityAt(getAbsoluteFinalTime());
+            return velocityAt(end());
         } catch (OutsideOfTimeBoundsException e) {
             System.out.println(e.getMessage());
             return 0;
@@ -91,7 +103,7 @@ public abstract class Profile {
 
     public double finalAcceleration() {
         try {
-            return accelerationAt(getAbsoluteFinalTime());
+            return accelerationAt(end());
         } catch (OutsideOfTimeBoundsException e) {
             System.out.println(e.getMessage());
             return 0;
@@ -135,6 +147,6 @@ public abstract class Profile {
 
     @Override
     public String toString() {
-        return "from: " + startTime + " to: " + getAbsoluteFinalTime();
+        return "from: " + startTime + " to: " + end() + "\n" + "from: " + initialDistance + " to: " + absoluteLength();
     }
 }

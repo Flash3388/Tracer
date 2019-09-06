@@ -8,7 +8,7 @@ public class LinearVelocityProfile extends Profile {
     private final double initialVelocity;
 
     public LinearVelocityProfile(Profile prevProfile, MotionParameters max, Time duration) {
-        this(prevProfile.length(), prevProfile.finalVelocity(), max, prevProfile.getAbsoluteFinalTime(), duration);
+        this(prevProfile.absoluteLength(), prevProfile.finalVelocity(), max, prevProfile.end(), duration);
     }
 
     public LinearVelocityProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {

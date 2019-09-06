@@ -52,6 +52,7 @@ public class MotionController {
             lastError = error;
             lastTime = Time.seconds(0);
             totalError = 0;
+            isFirstRun = false;
         }
 
         double pOut = kP * error;
