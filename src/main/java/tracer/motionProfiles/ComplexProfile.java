@@ -22,19 +22,19 @@ public class ComplexProfile extends Profile {
     @Override
     protected double relativeVelocityAt(Time relativeTime) {
         Profile correspondingProfile = correspondingProfile(relativeTime);
-        return correspondingProfile.relativeVelocityAt(relativeTime.sub(correspondingProfile.start())) + (correspondingProfile.initialVelocity() - initialVelocity());
+        return correspondingProfile.relativeVelocityAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + (correspondingProfile.initialVelocity() - initialVelocity());
     }
 
     @Override
     protected double relativeDistanceAt(Time relativeTime) {
         Profile correspondingProfile = correspondingProfile(relativeTime);
-        return correspondingProfile.relativeDistanceAt(relativeTime.sub(correspondingProfile.start())) + (correspondingProfile.initialDistance() - initialDistance());
+        return correspondingProfile.relativeDistanceAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + (correspondingProfile.initialDistance() - initialDistance());
     }
 
     @Override
     protected double relativeAccelerationAt(Time relativeTime) {
         Profile correspondingProfile = correspondingProfile(relativeTime);
-        return correspondingProfile.relativeAccelerationAt(relativeTime.sub(correspondingProfile.start())) + correspondingProfile.initialAcceleration();
+        return correspondingProfile.relativeAccelerationAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + correspondingProfile.initialAcceleration();
     }
 
     private Profile correspondingProfile(Time t) {

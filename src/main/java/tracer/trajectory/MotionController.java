@@ -29,6 +29,7 @@ public class MotionController {
     public MotionController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
         trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, max, Time.seconds(0), trajectory);
         this.trajectory = trajectory;
+        System.out.println(trajectoryProfile.length());
 
         isFirstRun = false;
 
