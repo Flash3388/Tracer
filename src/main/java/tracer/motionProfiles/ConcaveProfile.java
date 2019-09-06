@@ -2,6 +2,7 @@ package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
+import util.TimeConversion;
 
 public class ConcaveProfile extends Profile {
     private final double maxJerk;
@@ -24,17 +25,20 @@ public class ConcaveProfile extends Profile {
     }
 
     @Override
-    protected double relativeVelocityAt(double t) {
-        return maxJerk * Math.pow(t, 2)/2;
+    protected double relativeVelocityAt(Time t) {
+        double timeInSeconds = TimeConversion.toSeconds(t);
+        return maxJerk * Math.pow(timeInSeconds, 2)/2;
     }
 
     @Override
-    protected double relativeDistanceAt(double t) {
-        return initialVelocity * t + maxJerk * Math.pow(t, 3)/6;
+    protected double relativeDistanceAt(Time t) {
+        double timeInSeconds = TimeConversion.toSeconds(t);
+        return initialVelocity * timeInSeconds + maxJerk * Math.pow(timeInSeconds, 3)/6;
     }
 
     @Override
-    protected double relativeAccelerationAt(double t) {
-        return t * maxJerk;
+    protected double relativeAccelerationAt(Time t) {
+        double timeInSeconds = TimeConversion.toSeconds(t);
+        return timeInSeconds * maxJerk;
     }
 }

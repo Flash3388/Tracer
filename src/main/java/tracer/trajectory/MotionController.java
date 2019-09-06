@@ -4,10 +4,13 @@ import com.flash3388.flashlib.math.Mathf;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motionProfiles.OutsideOfTimeBoundsException;
-import tracer.motionProfiles.TrajectoryProfile;
+import tracer.motionProfiles.Profile;
+import tracer.motionProfiles.ProfileFactory;
+import util.Operations;
 
 public class MotionController {
-    private final TrajectoryProfile trajectoryProfile;
+    private final Profile trajectoryProfile;
+    private final Trajectory trajectory;
 
     private boolean isFirstRun;
     private double totalError;
@@ -24,7 +27,8 @@ public class MotionController {
     private final double gP;
 
     public MotionController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
-        trajectoryProfile = new TrajectoryProfile(0, max, Time.seconds(0), trajectory);
+        trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, max, Time.seconds(0), trajectory);
+        this.trajectory = trajectory;
 
         isFirstRun = false;
 
@@ -100,10 +104,14 @@ public class MotionController {
 
     private double getAngleError(Time currentTime, double currentAngle) {
         try {
-            return Mathf.translateInRange(trajectoryProfile.angleAt(currentTime), 2 * Math.PI, false) - currentAngle;
+            return Operations.boundRadians(angleAt(currentTime)) - Operations.boundRadians(currentAngle);
         } catch (OutsideOfTimeBoundsException e) {
             System.out.println(e.getMessage());
             return 0;
         }
+    }
+
+    private double angleAt(Time t) throws OutsideOfTimeBoundsException {
+        return trajectory.getAngleAt(trajectoryProfile.distanceAt(t));
     }
 }

@@ -2,6 +2,7 @@ package tracer.motionProfiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
+import util.TimeConversion;
 
 public class ConstantVelocityProfile extends Profile {
     private final double maxVelocity;
@@ -17,17 +18,18 @@ public class ConstantVelocityProfile extends Profile {
     }
 
     @Override
-    protected double relativeVelocityAt(double t) {
+    protected double relativeVelocityAt(Time t) {
         return 0;
     }
 
     @Override
-    protected double relativeDistanceAt(double t) {
-        return maxVelocity * t;
+    protected double relativeDistanceAt(Time t) {
+        double timeInSeconds = TimeConversion.toSeconds(t);
+        return maxVelocity * timeInSeconds;
     }
 
     @Override
-    protected double relativeAccelerationAt(double t) {
+    protected double relativeAccelerationAt(Time t) {
         return 0;
     }
 

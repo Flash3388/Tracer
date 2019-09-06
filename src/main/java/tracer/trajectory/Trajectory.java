@@ -38,7 +38,7 @@ public class Trajectory {
                 .sum();
     }
 
-    public double getLength() {
+    public double length() {
         return trajectoryLength;
     }
 

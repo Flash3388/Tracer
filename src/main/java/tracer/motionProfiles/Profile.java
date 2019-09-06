@@ -75,10 +75,6 @@ public abstract class Profile {
         return duration;
     }
 
-    private double relativeTimeSeconds(Time currentTime) {
-        return currentTime.sub(startTime).valueAsMillis() / 1000.0;
-    }
-
     public double length() {
         return absoluteLength() - initialDistance;
     }
@@ -112,33 +108,26 @@ public abstract class Profile {
 
     public double velocityAt(Time currentTime) throws OutsideOfTimeBoundsException {
         checkTime(currentTime);
-        return relativeVelocityAt(currentTime) + initialVelocity;
+        return relativeVelocityAt(relativeTimeSeconds(currentTime)) + initialVelocity;
     }
 
     public double distanceAt(Time currentTime) throws OutsideOfTimeBoundsException {
         checkTime(currentTime);
-        return relativeDistanceAt(currentTime) + initialDistance;
+        return relativeDistanceAt(relativeTimeSeconds(currentTime)) + initialDistance;
     }
     
     public double accelerationAt(Time currentTime) throws OutsideOfTimeBoundsException {
         checkTime(currentTime);
-        return relativeAccelerationAt(currentTime) + initialAcceleration;
+        return relativeAccelerationAt(relativeTimeSeconds(currentTime)) + initialAcceleration;
     }
 
-    private double relativeVelocityAt(Time currentTime) {
-        return relativeVelocityAt(relativeTimeSeconds(currentTime));
-    }
-    private double relativeDistanceAt(Time currentTime) {
-        return relativeDistanceAt(relativeTimeSeconds(currentTime));
-    }
-    
-    private double relativeAccelerationAt(Time currentTime) {
-        return relativeAccelerationAt(relativeTimeSeconds(currentTime));
+    private Time relativeTimeSeconds(Time currentTime) {
+        return currentTime.sub(startTime);
     }
 
-    protected abstract double relativeVelocityAt(double t);
-    protected abstract double relativeDistanceAt(double t);
-    protected abstract double relativeAccelerationAt(double t);
+    protected abstract double relativeVelocityAt(Time relativeTime);
+    protected abstract double relativeDistanceAt(Time relativeTime);
+    protected abstract double relativeAccelerationAt(Time relativeTime);
 
     private void checkTime(Time t) throws OutsideOfTimeBoundsException {
         if(!isCorresponding(t))
