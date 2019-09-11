@@ -11,20 +11,20 @@ public class ConvexProfile extends Profile {
     private final double initialVelocity;
 
     public ConvexProfile(Profile prevProfile, MotionParameters max) {
-        this(prevProfile.absoluteLength(), prevProfile.finalVelocity(), max, prevProfile.end());
+        this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.endParameters().acceleration(), max, prevProfile.end());
     }
 
-    public ConvexProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
-        super(initialDistance, initialVelocity, max.getAcceleration(), max, startTime, calcDuration(max));
+    public ConvexProfile(double initialDistance, double initialVelocity, double initialAcceleration, MotionParameters max, Time startTime) {
+        super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), max, startTime, calcDuration(max));
 
-        maxAcceleration = maxAcceleration();
-        maxJerk = maxJerk();
+        maxAcceleration = max.acceleration();
+        maxJerk = max.jerk();
 
-        this.initialVelocity = initialVelocity();
+        this.initialVelocity = initialVelocity;
     }
 
     private static Time calcDuration(MotionParameters max) {
-        return Time.seconds(max.getAcceleration()/max.getJerk());
+        return Time.seconds(max.acceleration()/max.jerk());
     }
 
     @Override
@@ -43,5 +43,10 @@ public class ConvexProfile extends Profile {
     protected double relativeAccelerationAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
         return timeInSeconds * -maxJerk;
+    }
+
+    @Override
+    protected double relativeJerkAt(Time relativeTime) {
+        return -maxJerk;
     }
 }

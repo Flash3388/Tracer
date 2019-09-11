@@ -14,15 +14,15 @@ public class ComplexProfile extends Profile {
         this.profiles = profiles;
     }
 
-    public ComplexProfile(double initialDistance, double initialVelocity, double initAcceleration, MotionParameters max, Time startTime, Time duration, List<Profile> profiles) {
-        super(initialDistance, initialVelocity, initAcceleration, max, startTime, duration);
+    public ComplexProfile(double initialDistance, MotionParameters initial, MotionParameters max, Time startTime, Time duration, List<Profile> profiles) {
+        super(initialDistance, initial, max, startTime, duration);
         this.profiles = profiles;
     }
 
     @Override
     protected double relativeVelocityAt(Time relativeTime) {
         Profile correspondingProfile = correspondingProfile(relativeTime);
-        return correspondingProfile.relativeVelocityAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + (correspondingProfile.initialVelocity() - initialVelocity());
+        return correspondingProfile.relativeVelocityAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + (correspondingProfile.initialParameters().velocity() - initialParameters().velocity());
     }
 
     @Override
@@ -34,7 +34,13 @@ public class ComplexProfile extends Profile {
     @Override
     protected double relativeAccelerationAt(Time relativeTime) {
         Profile correspondingProfile = correspondingProfile(relativeTime);
-        return correspondingProfile.relativeAccelerationAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + correspondingProfile.initialAcceleration();
+        return correspondingProfile.relativeAccelerationAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + (correspondingProfile.initialParameters().acceleration() - initialParameters().acceleration());
+    }
+
+    @Override
+    protected double relativeJerkAt(Time relativeTime) {
+        Profile correspondingProfile = correspondingProfile(relativeTime);
+        return correspondingProfile.relativeJerkAt(relativeTime.sub(correspondingProfile.start().sub(start()))) + (correspondingProfile.initialParameters().jerk() - initialParameters().jerk());
     }
 
     private Profile correspondingProfile(Time t) {

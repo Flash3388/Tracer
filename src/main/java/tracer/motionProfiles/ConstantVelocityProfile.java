@@ -5,16 +5,16 @@ import tracer.motion.MotionParameters;
 import util.TimeConversion;
 
 public class ConstantVelocityProfile extends Profile {
-    private final double maxVelocity;
+    private final double initialVelocity;
 
     public ConstantVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.getMax(), prevProfile.end(), duration);
+        this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.maxParameters(), prevProfile.end(), duration);
     }
 
-    public ConstantVelocityProfile(double initialDistance, MotionParameters max, Time startTime, Time duration) {
-        super(initialDistance, max.getVelocity(), 0, max, startTime, duration);
+    public ConstantVelocityProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {
+        super(initialDistance, MotionParameters.constantVelocity(initialVelocity), max, startTime, duration);
 
-        maxVelocity = maxVelocity();
+        this.initialVelocity = initialVelocity;
     }
 
     @Override
@@ -25,11 +25,16 @@ public class ConstantVelocityProfile extends Profile {
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return maxVelocity * timeInSeconds;
+        return initialVelocity * timeInSeconds;
     }
 
     @Override
     protected double relativeAccelerationAt(Time t) {
+        return 0;
+    }
+
+    @Override
+    protected double relativeJerkAt(Time relativeTime) {
         return 0;
     }
 

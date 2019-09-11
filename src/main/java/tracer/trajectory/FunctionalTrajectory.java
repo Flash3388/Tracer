@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Trajectory {
+public class FunctionalTrajectory {
     private final List<Spline> splines;
     private final SplineFactory hermiteFactory;
     private final double trajectoryLength;
 
-    public Trajectory(SplineType splineType, List<Position> path) {
+    public FunctionalTrajectory(SplineType splineType, List<Position> path) {
         hermiteFactory = new SplineFactory();
         splines = generateTrajectory(path, splineType);
         trajectoryLength = calcTrajectoryLength();
     }
 
-    public Trajectory(SplineType splineType, Position... path) {
+    public FunctionalTrajectory(SplineType splineType, Position... path) {
         this(splineType, Arrays.asList(path));
     }
 
@@ -42,7 +42,7 @@ public class Trajectory {
         return trajectoryLength;
     }
 
-    public double getAngleAt(double length) {
+    public double angleAt(double length) {
         return getCorrespondingSpline(length).getAngleAt(length);
     }
 

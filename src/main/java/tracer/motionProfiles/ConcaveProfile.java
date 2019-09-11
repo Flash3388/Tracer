@@ -9,19 +9,15 @@ public class ConcaveProfile extends Profile {
 
     private final double initialVelocity;
 
-    public ConcaveProfile(Profile prevProfile, MotionParameters max) {
-        this(prevProfile.absoluteLength(), prevProfile.finalVelocity(), max, prevProfile.end());
-    }
-
     public ConcaveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
-        super(initialDistance, initialVelocity, 0, max, startTime, calcDuration(max));
+        super(initialDistance, MotionParameters.constantVelocity(initialVelocity), max, startTime, calcDuration(max));
 
-        maxJerk = maxJerk();
-        this.initialVelocity = initialVelocity();
+        maxJerk = max.jerk();
+        this.initialVelocity = initialVelocity;
     }
 
     private static Time calcDuration(MotionParameters max) {
-        return Time.seconds(max.getAcceleration()/max.getJerk());
+        return Time.seconds(max.acceleration()/max.jerk());
     }
 
     @Override
@@ -40,5 +36,10 @@ public class ConcaveProfile extends Profile {
     protected double relativeAccelerationAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
         return timeInSeconds * maxJerk;
+    }
+
+    @Override
+    protected double relativeJerkAt(Time relativeTime) {
+        return maxJerk;
     }
 }
