@@ -54,4 +54,26 @@ public class VariableTest {
 
         assertEquals(DERIVATIVE, EXPECTED_RESULT);
     }
+
+    @Test
+    public void valueAt_forXWithModifierAndPower_ReturnsPowerOfTheValueMultipliedByTheModifier() {
+        final double MODIFIER = 2.0;
+        final double POWER = 2.0;
+        final double VALUE = 1.0;
+
+        final double EXPECTED_RESULT = Math.pow(VALUE, POWER) * MODIFIER;
+        final double ACTUAL = new Variable(MODIFIER, POWER).at(VALUE);
+
+        assertEquals(ACTUAL, EXPECTED_RESULT); //makes sense that it's deprecated
+    }
+
+    @Test
+    public void valueAt_forXWithZeroPower_ReturnsModifier() {//may be don't need this test, won't hurt
+        final double MODIFIER = 2.0;
+        final double VALUE = 1.0;
+
+        final double ACTUAL = Variable.modifier(MODIFIER).at(VALUE);
+
+        assertEquals(ACTUAL, MODIFIER); //makes sense that it's deprecated
+    }
 }

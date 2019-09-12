@@ -3,7 +3,6 @@ package calculus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -31,7 +30,7 @@ public class PolynomialFunction {
 
     public double at(double x) {
         return variables.stream()
-                .mapToDouble(variable -> variable.calcValue(x))
+                .mapToDouble(variable -> variable.at(x))
                 .sum();
     }
 

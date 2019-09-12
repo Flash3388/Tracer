@@ -49,7 +49,7 @@ public class Variable {
         return modifier /(power+1);
     }
 
-    public double calcValue(double value) {
+    public double at(double value) {
         return modifier * Math.pow(value, power);
     }
 
