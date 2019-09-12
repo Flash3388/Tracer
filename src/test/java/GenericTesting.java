@@ -14,7 +14,7 @@ public class GenericTesting {
                 new Position(0, 100, Math.PI/2));
         MotionParameters max = new MotionParameters(10, 5, 2.5);
 
-        MotionController tracer = new MotionController(functionalTrajectory, max, 0.1, 0 , 1, 0, 0, 0);
+        MotionController tracer = MotionController.forFunctional(functionalTrajectory, max, 0.1, 0 , 1, 0, 0, 0);
 
         long startTime = System.currentTimeMillis();
 

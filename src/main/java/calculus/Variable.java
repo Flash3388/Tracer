@@ -1,16 +1,24 @@
 package calculus;
 
 public class Variable {
-    private final double multiplier;
+    private final double modifier;
     private final double power;
 
-    public Variable(double multiplier, double power) {
-        this.multiplier = multiplier;
+    public Variable(double modifier, double power) {
+        this.modifier = modifier;
         this.power = power;
     }
 
-    public double getMultiplier() {
-        return multiplier;
+    public static Variable modifier(double modifier) {
+        return new Variable(modifier, 0);
+    }
+
+    public static Variable zero() {
+        return new Variable(0,0);
+    }
+
+    public double getModifier() {
+        return modifier;
     }
 
     public double getPower() {
@@ -30,7 +38,7 @@ public class Variable {
     }
 
     private double derivativeMultiplier() {
-        return multiplier * power;
+        return modifier * power;
     }
 
     public Variable integral() {
@@ -38,21 +46,21 @@ public class Variable {
     }
 
     private double integralMultiplier() {
-        return multiplier/(power+1);
+        return modifier /(power+1);
     }
 
     public double calcValue(double value) {
-        return multiplier * Math.pow(value, power);
+        return modifier * Math.pow(value, power);
     }
 
     public Variable add(Variable variable) {
         checkIfMatching(variable);
-        return new Variable(multiplier + variable.getMultiplier(), power);
+        return new Variable(modifier + variable.getModifier(), power);
     }
 
     public Variable subtract(Variable variable) {
         checkIfMatching(variable);
-        return new Variable(multiplier - variable.getMultiplier(), power);
+        return new Variable(modifier - variable.getModifier(), power);
     }
 
     private void checkIfMatching(Variable variable) throws NotMatchingPowersException{
@@ -62,7 +70,7 @@ public class Variable {
     }
 
     public Variable multiply(Variable variable) {
-        return new Variable(multiplier * variable.getMultiplier(), power + variable.getPower());
+        return new Variable(modifier * variable.getModifier(), power + variable.getPower());
     }
 
     public Variable multiply(double val) {
@@ -75,6 +83,6 @@ public class Variable {
 
     @Override
     public String toString() {
-        return multiplier + "X^" + power;
+        return modifier + "X^" + power;
     }
 }
