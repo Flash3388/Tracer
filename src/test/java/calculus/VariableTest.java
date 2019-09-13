@@ -150,4 +150,32 @@ public class VariableTest {
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
         FIRST_VARIABLE.add(SECOND_VARIABLE);
     }
+
+    @Test
+    public void subtraction_forVariablesWithSamePowers_ReturnsVariableWithSubtractedModifiers() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final double POWER = 2.0;
+        final double EXPECTED_MODIFIER = FIRST_MODIFIER - SECOND_MODIFIER;
+
+        final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, POWER);
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, POWER);
+        final Variable ACTUAL_VARIABLE = FIRST_VARIABLE.subtract(SECOND_VARIABLE);
+
+        assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
+    }
+
+    @Test(expected = NotMatchingPowersException.class)
+    public void subtraction_forVariablesWithDifferentPowers_ThrowsException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final double FIRST_POWER = 2.0;
+        final double SECOND_POWER = 1.0;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+        FIRST_VARIABLE.subtract(SECOND_VARIABLE);
+    }
 }
