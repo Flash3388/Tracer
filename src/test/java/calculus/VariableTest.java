@@ -114,13 +114,40 @@ public class VariableTest {
         final double EXPECTED_MODIFIER = INITIAL_MODIFIER * MULTIPLICATION_MODIFIER;
 
         final double INITIAL_POWER = 2.0;
-        final double EXPECTED_POWER = INITIAL_POWER;
 
-        final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, EXPECTED_POWER);
+        final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, INITIAL_POWER);
 
         final Variable INITIAL_VARIABLE = new Variable(INITIAL_MODIFIER, INITIAL_POWER);
         final Variable ACTUAL_VARIABLE = INITIAL_VARIABLE.multiply(MULTIPLICATION_MODIFIER);
 
         assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
+    }
+
+    @Test
+    public void addition_forVariablesWithSamePowers_ReturnsVariableWithAddedModifiers() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final double POWER = 2.0;
+        final double EXPECTED_MODIFIER = FIRST_MODIFIER + SECOND_MODIFIER;
+
+        final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, POWER);
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, POWER);
+        final Variable ACTUAL_VARIABLE = FIRST_VARIABLE.add(SECOND_VARIABLE);
+
+        assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
+    }
+
+    @Test(expected = NotMatchingPowersException.class)
+    public void addition_forVariablesWithDifferentPowers_ThrowsException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final double FIRST_POWER = 2.0;
+        final double SECOND_POWER = 1.0;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+        FIRST_VARIABLE.add(SECOND_VARIABLE);
     }
 }
