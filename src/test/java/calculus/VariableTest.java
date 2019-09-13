@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public class VariableTest {
 
     @Test
-    public void calcDerivative_forNumber_ReturnsZero() {
+    public void calcDerivative_forNumber_returnsZero() {
         final double MODIFIER = 2.0;
         final Variable EXPECTED_RESULT = Variable.zero();
         final Variable DERIVATIVE = Variable.modifier(MODIFIER).derivative();
@@ -16,7 +16,7 @@ public class VariableTest {
     }
 
     @Test
-    public void calcDerivative_forXOnlyWithModifier_ReturnsModifier() {
+    public void calcDerivative_forXOnlyWithModifier_returnsModifier() {
         final double MODIFIER = 2.0;
         final Variable EXPECTED_RESULT = Variable.modifier(MODIFIER);
         final Variable DERIVATIVE = new Variable(MODIFIER,1).derivative();
@@ -25,7 +25,7 @@ public class VariableTest {
     }
 
     @Test
-    public void calcDerivative_forXWithModifierAndPower_ReturnsXWithModifierAndReducedPower() {
+    public void calcDerivative_forXWithModifierAndPower_returnsXWithModifierAndReducedPower() {
         final double MODIFIER = 2.0;
         final double POWER = 2.0;
 
@@ -36,7 +36,7 @@ public class VariableTest {
     }
 
     @Test
-    public void calcIntegral_forNumber_ReturnsXWithModifier() {
+    public void calcIntegral_forNumber_returnsXWithModifier() {
         final double MODIFIER = 2.0;
         final Variable EXPECTED_RESULT = new Variable(MODIFIER, 1);
         final Variable DERIVATIVE = Variable.modifier(MODIFIER).integral();
@@ -45,7 +45,7 @@ public class VariableTest {
     }
 
     @Test
-    public void calcIntegral_forXWithModifierAndPower_ReturnsXWithReducedModifierAndIncreasedPower() {
+    public void calcIntegral_forXWithModifierAndPower_returnsXWithReducedModifierAndIncreasedPower() {
         final double MODIFIER = 2.0;
         final double POWER = 2.0;
 
@@ -56,24 +56,71 @@ public class VariableTest {
     }
 
     @Test
-    public void valueAt_forXWithModifierAndPower_ReturnsPowerOfTheValueMultipliedByTheModifier() {
+    public void atValue_forXWithModifierAndPower_returnsPowerOfTheValueMultipliedByTheModifier() {
         final double MODIFIER = 2.0;
         final double POWER = 2.0;
         final double VALUE = 1.0;
 
-        final double EXPECTED_RESULT = Math.pow(VALUE, POWER) * MODIFIER;
-        final double ACTUAL = new Variable(MODIFIER, POWER).at(VALUE);
+        final Double EXPECTED_RESULT = Math.pow(VALUE, POWER) * MODIFIER;
+        final Double ACTUAL = new Variable(MODIFIER, POWER).at(VALUE);
 
-        assertEquals(ACTUAL, EXPECTED_RESULT); //makes sense that it's deprecated
+        assertEquals(ACTUAL, EXPECTED_RESULT);
     }
 
     @Test
-    public void valueAt_forXWithZeroPower_ReturnsModifier() {//may be don't need this test, won't hurt
-        final double MODIFIER = 2.0;
+    public void atValue_forXWithZeroPower_returnsModifier() {
+        final Double MODIFIER = 2.0;
         final double VALUE = 1.0;
 
-        final double ACTUAL = Variable.modifier(MODIFIER).at(VALUE);
+        final Double ACTUAL = Variable.modifier(MODIFIER).at(VALUE);
 
-        assertEquals(ACTUAL, MODIFIER); //makes sense that it's deprecated
+        assertEquals(ACTUAL, MODIFIER);
+    }
+
+    @Test
+    public void atValue_forXWithNoModifier_returnsZero() {
+        final double VALUE = 1.0;
+        final double POWER = 2.0;
+
+        final Double ZERO = 0.0;
+        final Double ACTUAL = new Variable(ZERO, POWER).at(VALUE);
+
+        assertEquals(ACTUAL, ZERO);
+    }
+
+    @Test
+    public void multiplication_forTwoVariables_ReturnsAddedSquaresAndMultipliedModifiers() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 3.0;
+        final double FIRST_POWER = 1.0;
+        final double SECOND_POWER = 2.0;
+
+        final double EXPECTED_MODIFIER = FIRST_MODIFIER * SECOND_MODIFIER;
+        final double EXPECTED_POWER = FIRST_POWER * SECOND_POWER;
+
+        final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, EXPECTED_POWER);
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+        final Variable ACTUAL_VARIABLE = FIRST_VARIABLE.multiply(SECOND_VARIABLE);
+
+        assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
+    }
+
+    @Test
+    public void multiplication_forVariableByNumber_ReturnVariableWithModifierMultipliedByNumber() {
+        final double INITIAL_MODIFIER = 1.0;
+        final double MULTIPLICATION_MODIFIER = 2.0;
+        final double EXPECTED_MODIFIER = INITIAL_MODIFIER * MULTIPLICATION_MODIFIER;
+
+        final double INITIAL_POWER = 2.0;
+        final double EXPECTED_POWER = INITIAL_POWER;
+
+        final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, EXPECTED_POWER);
+
+        final Variable INITIAL_VARIABLE = new Variable(INITIAL_MODIFIER, INITIAL_POWER);
+        final Variable ACTUAL_VARIABLE = INITIAL_VARIABLE.multiply(MULTIPLICATION_MODIFIER);
+
+        assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
     }
 }
