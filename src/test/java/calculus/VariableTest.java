@@ -148,6 +148,7 @@ public class VariableTest {
 
         final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
         FIRST_VARIABLE.add(SECOND_VARIABLE);
     }
 
@@ -176,6 +177,18 @@ public class VariableTest {
 
         final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
         FIRST_VARIABLE.subtract(SECOND_VARIABLE);
+    }
+
+    @Test
+    public void square_forVariable_ReturnSquareOfVariable() {
+        final double MODIFIER = 2.0;
+        final double POWER = 2.0;
+
+        final Variable EXPECTED = new Variable(MODIFIER * MODIFIER, POWER * POWER);
+        final Variable ACTUAL = new Variable(MODIFIER, POWER).square();
+
+        assertEquals(ACTUAL, EXPECTED);
     }
 }
