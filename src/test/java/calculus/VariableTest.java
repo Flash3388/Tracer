@@ -2,9 +2,21 @@ package calculus;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 
 public class VariableTest {
+
+    @Test
+    public void constructor_forModifierAndPower_returnsVariableWithThisModifierAndPower() {
+        final double MODIFIER = 2.0;
+        final double POWER = 2.0;
+
+        final Variable ACTUAL = new Variable(MODIFIER, POWER);
+
+        assertEquals(Arrays.asList(MODIFIER, POWER), Arrays.asList(ACTUAL.modifier(), ACTUAL.power()));
+    }
 
     @Test
     public void calcDerivative_forNumber_returnsZero() {

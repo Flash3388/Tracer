@@ -22,6 +22,10 @@ public class PolynomialFunction {
         return new PolynomialFunction(generateFunction(multipliers));
     }
 
+    public static PolynomialFunction fromConstants(Double... multipliers) {
+        return new PolynomialFunction(generateFunction(Arrays.asList(multipliers)));
+    }
+
     private static List<Variable> generateFunction(List<Double> multipliers) {
         return IntStream.range(0, multipliers.size())
                 .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
@@ -56,6 +60,32 @@ public class PolynomialFunction {
 
     public PolynomialFunction add(double num) {
         return add(new Variable(num, 0));
+    }
+
+    public PolynomialFunction add(List<Variable> variables) {
+        List<Variable> sum = new ArrayList<>(variables);
+        sum.addAll(variables);
+
+        return new PolynomialFunction(sum);
+    }
+
+    public PolynomialFunction add(Variable... variables) {
+        return add(Arrays.asList(variables));
+    }
+
+    public PolynomialFunction add(PolynomialFunction function) {
+        List<Variable> sum = new ArrayList<>(variables);
+        IntStream.range(0, function.length()).forEach(index -> sum.add(function.get(index)));
+
+        return new PolynomialFunction(sum);
+    }
+
+    public int length() {
+        return variables.size();
+    }
+
+    public Variable get(int index) {
+        return variables.get(index);
     }
 
     @Override

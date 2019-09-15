@@ -17,11 +17,11 @@ public class Variable {
         return new Variable(0,0);
     }
 
-    public double getModifier() {
+    public double modifier() {
         return modifier;
     }
 
-    public double getPower() {
+    public double power() {
         return power;
     }
 
@@ -55,22 +55,22 @@ public class Variable {
 
     public Variable add(Variable variable) {
         checkIfMatching(variable);
-        return new Variable(modifier + variable.getModifier(), power);
+        return new Variable(modifier + variable.modifier(), power);
     }
 
     public Variable subtract(Variable variable) {
         checkIfMatching(variable);
-        return new Variable(modifier - variable.getModifier(), power);
+        return new Variable(modifier - variable.modifier(), power);
     }
 
     private void checkIfMatching(Variable variable) throws NotMatchingPowersException{
-        if(variable.getPower() != power) {
+        if(variable.power() != power) {
             throw new NotMatchingPowersException();
         }
     }
 
     public Variable multiply(Variable variable) {
-        return new Variable(modifier * variable.getModifier(), power + variable.getPower());
+        return new Variable(modifier * variable.modifier(), power + variable.power());
     }
 
     public Variable multiply(double val) {
