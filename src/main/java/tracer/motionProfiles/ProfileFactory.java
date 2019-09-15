@@ -17,9 +17,9 @@ public class ProfileFactory {
 
         profiles.add(createStartSCurve(initialDistance, initialVelocity, max, startTime));
         profiles.add(createConstantVelocityProfile(profiles.get(0), functionalTrajectory));
-        profiles.add(createEndSCurve(profiles.get(1)));
+        profiles.add(createEndSCurve(profiles.get(1), max));
 
-        return new ComplexProfile(initialDistance, MotionParameters.stop(), max, startTime, calcTrajectoryDuration(max, functionalTrajectory.length()), profiles);
+        return new ComplexProfile(initialDistance, MotionParameters.stop(), startTime, calcTrajectoryDuration(max, functionalTrajectory.length()), profiles);
     }
 
     public static Profile createSCurve(Profile prevProfile, MotionParameters max) {
@@ -29,16 +29,16 @@ public class ProfileFactory {
     public static Profile createSCurve(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
         List<Profile> profiles = new ArrayList<>();
         profiles.add(createConcaveProfile(initialDistance, initialVelocity, max, startTime));
-        profiles.add(createLinearProfile(profiles.get(0)));
+        profiles.add(createLinearProfile(profiles.get(0), max));
         profiles.add(createConvexProfile(max, profiles.get(1)));
 
-        return new ComplexProfile(initialDistance, MotionParameters.constantVelocity(initialVelocity), max, startTime, calcSCurveDuration(max, initialVelocity), profiles);
+        return new ComplexProfile(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, calcSCurveDuration(max, initialVelocity), profiles);
     }
 
     private static Time calcTrajectoryDuration(MotionParameters max, double trajectoryLength) {
         Profile sCurve = createSCurve(0, 0, max, Time.seconds(0));
 
-        return sCurve.duration().add(calcConstantVelocityDuration(sCurve, max, trajectoryLength)).add(sCurve.duration());
+        return sCurve.duration().add(calcConstantVelocityDuration(sCurve, trajectoryLength)).add(sCurve.duration());
     }
 
     private static Profile createStartSCurve(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
@@ -46,15 +46,14 @@ public class ProfileFactory {
     }
 
     private static ConstantVelocityProfile createConstantVelocityProfile(Profile prevProfile, FunctionalTrajectory functionalTrajectory) {
-        return new ConstantVelocityProfile(prevProfile, calcConstantVelocityDuration(prevProfile, prevProfile.maxParameters(), functionalTrajectory.length()));
+        return new ConstantVelocityProfile(prevProfile, calcConstantVelocityDuration(prevProfile, functionalTrajectory.length()));
     }
 
-    private static Time calcConstantVelocityDuration(Profile sCurve, MotionParameters max, double trajectoryLength) {
-        return Time.seconds((trajectoryLength - 2 * sCurve.length()) / max.velocity());
+    private static Time calcConstantVelocityDuration(Profile sCurve, double trajectoryLength) {
+        return Time.seconds((trajectoryLength - 2 * sCurve.length()) / sCurve.endParameters().velocity());
     }
 
-    private static Profile createEndSCurve(Profile prevProfile) {
-        MotionParameters max = prevProfile.maxParameters();
+    private static Profile createEndSCurve(Profile prevProfile, MotionParameters max) {
         MotionParameters reversedMotionParameters = new MotionParameters(0, -max.acceleration(), -max.jerk());
 
         return createSCurve(prevProfile, reversedMotionParameters);
@@ -70,8 +69,8 @@ public class ProfileFactory {
         return new ConcaveProfile(initialDistance, initialVelocity, max, startTime);
     }
 
-    private static LinearVelocityProfile createLinearProfile(Profile concave) {
-        return new LinearVelocityProfile(concave, concave.maxParameters(), calcLinearProfileDuration(concave, concave.maxParameters()));
+    private static LinearVelocityProfile createLinearProfile(Profile concave, MotionParameters max) {
+        return new LinearVelocityProfile(concave, calcLinearProfileDuration(concave, max));
     }
 
     private static Time calcLinearProfileDuration(Profile concave, MotionParameters max) {

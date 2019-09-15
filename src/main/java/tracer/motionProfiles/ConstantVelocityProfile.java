@@ -8,11 +8,11 @@ public class ConstantVelocityProfile extends Profile {
     private final double initialVelocity;
 
     public ConstantVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.maxParameters(), prevProfile.end(), duration);
+        this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.end(), duration);
     }
 
-    public ConstantVelocityProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Time duration) {
-        super(initialDistance, MotionParameters.constantVelocity(initialVelocity), max, startTime, duration);
+    public ConstantVelocityProfile(double initialDistance, double initialVelocity, Time startTime, Time duration) {
+        super(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, duration);
 
         this.initialVelocity = initialVelocity;
     }

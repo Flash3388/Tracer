@@ -7,12 +7,12 @@ import tracer.trajectory.PhysicalTrajectory;
 public class PhysicalTrajectoryProfile extends Profile {
     private final PhysicalTrajectory trajectory;
 
-    public PhysicalTrajectoryProfile(Profile prevProfile, MotionParameters max, PhysicalTrajectory trajectory) {
-        this(prevProfile.initialDistance(), prevProfile.initialParameters().velocity(), max, prevProfile.end(), trajectory);
+    public PhysicalTrajectoryProfile(Profile prevProfile, PhysicalTrajectory trajectory) {
+        this(prevProfile.initialDistance(), prevProfile.initialParameters().velocity(), prevProfile.end(), trajectory);
     }
 
-    public PhysicalTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, PhysicalTrajectory trajectory) {
-        super(initialDistance, MotionParameters.constantVelocity(initialVelocity), max, startTime, trajectory.lastStep().getTiming());
+    public PhysicalTrajectoryProfile(double initialDistance, double initialVelocity, Time startTime, PhysicalTrajectory trajectory) {
+        super(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, trajectory.lastStep().getTiming());
         this.trajectory = trajectory;
     }
 

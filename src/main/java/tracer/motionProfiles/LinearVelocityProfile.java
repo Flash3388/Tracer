@@ -8,12 +8,12 @@ public class LinearVelocityProfile extends Profile {
     private final double initialAcceleration;
     private final double initialVelocity;
 
-    public LinearVelocityProfile(Profile prevProfile, MotionParameters max, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.endParameters().acceleration(), max, prevProfile.end(), duration);
+    public LinearVelocityProfile(Profile prevProfile, Time duration) {
+        this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.endParameters().acceleration(), prevProfile.end(), duration);
     }
 
-    public LinearVelocityProfile(double initialDistance, double initialVelocity, double initialAcceleration, MotionParameters max, Time startTime, Time duration) {
-        super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), max, startTime, duration);
+    public LinearVelocityProfile(double initialDistance, double initialVelocity, double initialAcceleration, Time startTime, Time duration) {
+        super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), startTime, duration);
 
         this.initialAcceleration = initialAcceleration;
         this.initialVelocity = initialVelocity;

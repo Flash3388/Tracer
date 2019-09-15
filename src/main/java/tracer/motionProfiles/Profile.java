@@ -6,20 +6,17 @@ import tracer.motion.MotionParameters;
 public abstract class Profile {
     private final double initialDistance;
     private final MotionParameters initialParameters;
-    
-    private final MotionParameters max;
+
     private final Time duration;
     private final Time startTime;
 
-    public Profile(Profile prevProfile, MotionParameters max, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.endParameters(), max, prevProfile.end(), duration);
+    public Profile(Profile prevProfile, Time duration) {
+        this(prevProfile.absoluteLength(), prevProfile.endParameters(), prevProfile.end(), duration);
     }
 
-    public Profile(double initialDistance, MotionParameters initialParameters, MotionParameters max, Time startTime, Time duration) {
+    public Profile(double initialDistance, MotionParameters initialParameters, Time startTime, Time duration) {
         this.initialDistance = initialDistance;
         this.initialParameters = initialParameters;
-
-        this.max = max;
 
         this.duration = duration;
         this.startTime = startTime;
@@ -43,10 +40,6 @@ public abstract class Profile {
 
     public MotionParameters initialParameters() {
         return initialParameters;
-    }
-
-    public MotionParameters maxParameters() {
-        return max;
     }
 
     public double initialDistance() {
