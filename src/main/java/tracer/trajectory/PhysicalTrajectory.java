@@ -4,9 +4,9 @@ import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motion.PhysicalPosition;
 import tracer.motion.Step;
-import tracer.motionProfiles.OutsideOfTimeBoundsException;
-import tracer.motionProfiles.Profile;
-import tracer.motionProfiles.ProfileFactory;
+import tracer.profiles.OutsideOfTimeBoundsException;
+import tracer.profiles.Profile;
+import tracer.profiles.ProfileFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,12 +66,7 @@ public class PhysicalTrajectory {
     }
 
     private static double correspondingDistance(Profile functionalProfile, Time correspondingTime) {
-        try {
             return functionalProfile.distanceAt(correspondingTime);
-        } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getMessage());
-            return 0;
-        }
     }
 
     private static double correspondingAngle(double distance, FunctionalTrajectory trajectory) {
@@ -79,12 +74,7 @@ public class PhysicalTrajectory {
     }
 
     private static MotionParameters correspondingParameters(Profile functionalProfile, Time correspondingTime) {
-        try {
             return functionalProfile.parametersAt(correspondingTime);
-        } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getMessage());
-            return MotionParameters.stop();
-        }
     }
 
     private static int closestIndex(Time currentTime, Time timeStep) {

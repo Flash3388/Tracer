@@ -3,10 +3,10 @@ package tracer.trajectory;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motion.PhysicalPosition;
-import tracer.motionProfiles.OutsideOfTimeBoundsException;
-import tracer.motionProfiles.PhysicalTrajectoryProfile;
-import tracer.motionProfiles.Profile;
-import tracer.motionProfiles.ProfileFactory;
+import tracer.profiles.OutsideOfTimeBoundsException;
+import tracer.profiles.PhysicalTrajectoryProfile;
+import tracer.profiles.Profile;
+import tracer.profiles.ProfileFactory;
 
 import java.util.function.Function;
 
@@ -30,19 +30,12 @@ public class MotionController {
 
     public static MotionController forFunctional(FunctionalTrajectory functionalTrajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
         Profile functionalProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), functionalTrajectory);
-        Function<Time, Double> angleAt = time -> {
-            try {
-                return functionalTrajectory.angleAt(functionalProfile.distanceAt(time));
-            } catch (OutsideOfTimeBoundsException e) {
-                System.out.println(e.getMessage());
-                return 0.0;
-            }
-        };
+        Function<Time, Double> angleAt = time -> functionalTrajectory.angleAt(functionalProfile.distanceAt(time));;
         return new MotionController(functionalProfile, angleAt, kV, kA, kP, kI, kD, gP);
     }
 
     public static MotionController forPhysical(PhysicalTrajectory physicalTrajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
-        PhysicalTrajectoryProfile physicalProfile = new PhysicalTrajectoryProfile(0, 0, max, Time.milliseconds(0), physicalTrajectory);
+        PhysicalTrajectoryProfile physicalProfile = new PhysicalTrajectoryProfile(0, 0, Time.milliseconds(0), physicalTrajectory);
         return new MotionController(physicalProfile, physicalProfile::angleAt, kV, kA, kP, kI, kD, gP);
     }
 
@@ -100,30 +93,15 @@ public class MotionController {
     }
 
     private double getError(Time currentTime, double passedDistance) {
-        try {
-            return trajectoryProfile.distanceAt(currentTime) - passedDistance;
-        } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getMessage());
-            return 0;
-        }
+        return trajectoryProfile.distanceAt(currentTime) - passedDistance;
     }
 
     private double getVelocity(Time currentTime) {
-        try {
-            return trajectoryProfile.velocityAt(currentTime);
-        } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getMessage());
-            return 0;
-        }
+        return trajectoryProfile.velocityAt(currentTime);
     }
 
     private double getAcceleration(Time currentTime) {
-        try {
-            return trajectoryProfile.accelerationAt(currentTime);
-        } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getMessage());
-            return 0;
-        }
+        return trajectoryProfile.accelerationAt(currentTime);
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {

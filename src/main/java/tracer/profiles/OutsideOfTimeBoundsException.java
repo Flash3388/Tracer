@@ -1,4 +1,4 @@
-package tracer.motionProfiles;
+package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
 

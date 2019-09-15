@@ -1,4 +1,4 @@
-package tracer.motionProfiles;
+package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
@@ -55,43 +55,33 @@ public abstract class Profile {
     }
 
     public double absoluteLength() {
-        try {
-            return distanceAt(end());
-        } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getMessage());
-            return 0;
-        }
+        return distanceAt(end());
     }
 
     public MotionParameters endParameters() {
-        try {
-            return parametersAt(end());
-        } catch (OutsideOfTimeBoundsException e) {
-            System.out.println(e.getMessage());
-            return MotionParameters.stop();
-        }
+        return parametersAt(end());
     }
 
-    public MotionParameters parametersAt(Time currentTime) throws OutsideOfTimeBoundsException {
+    public MotionParameters parametersAt(Time currentTime) {
         return new MotionParameters(velocityAt(currentTime), accelerationAt(currentTime), jerkAt(currentTime));
     }
 
-    public double velocityAt(Time currentTime) throws OutsideOfTimeBoundsException {
+    public double velocityAt(Time currentTime) {
         checkTime(currentTime);
         return relativeVelocityAt(relativeTimeSeconds(currentTime)) + initialParameters.velocity();
     }
 
-    public double distanceAt(Time currentTime) throws OutsideOfTimeBoundsException {
+    public double distanceAt(Time currentTime) {
         checkTime(currentTime);
         return relativeDistanceAt(relativeTimeSeconds(currentTime)) + initialDistance;
     }
 
-    public double accelerationAt(Time currentTime) throws OutsideOfTimeBoundsException {
+    public double accelerationAt(Time currentTime) {
         checkTime(currentTime);
         return relativeAccelerationAt(relativeTimeSeconds(currentTime)) + initialParameters.acceleration();
     }
 
-    public double jerkAt(Time currentTime) throws OutsideOfTimeBoundsException {
+    public double jerkAt(Time currentTime) {
         checkTime(currentTime);
         return relativeJerkAt(relativeTimeSeconds(currentTime)) + initialParameters.jerk();
     }
@@ -105,9 +95,13 @@ public abstract class Profile {
     protected abstract double relativeAccelerationAt(Time relativeTime);
     protected abstract double relativeJerkAt(Time relativeTime);
 
-    private void checkTime(Time t) throws OutsideOfTimeBoundsException {
+    private void checkTime(Time t) {
         if(!isCorresponding(t))
-            throw new OutsideOfTimeBoundsException(t);
+            try {
+                throw new OutsideOfTimeBoundsException(t);
+            } catch (OutsideOfTimeBoundsException e) {
+                System.out.println(e.getMessage());
+            }
     }
 
     @Override

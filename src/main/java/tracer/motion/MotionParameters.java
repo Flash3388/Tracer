@@ -6,11 +6,11 @@ public class MotionParameters {
             acceleration,
             jerk;
 
-    public MotionParameters(double velocityCentimeters, double accelerationCentimeters, double jerkCentimeters) {
-        this.velocity = velocityCentimeters;
+    public MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {
+        this.velocity = velocityCentimetersPerSecond;
 
-        this.acceleration = accelerationCentimeters;
-        this.jerk = jerkCentimeters;
+        this.acceleration = accelerationCentimetersPerSecondPerSecond;
+        this.jerk = jerkCentimetersPerSecondPerSecondPerSecond;
     }
 
     public static MotionParameters constantVelocity(double velocity) {
