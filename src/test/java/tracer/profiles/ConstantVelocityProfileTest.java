@@ -3,6 +3,8 @@ package tracer.profiles;
 import com.flash3388.flashlib.time.Time;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class ConstantVelocityProfileTest {
 
     @Test(expected = OutsideOfTimeBoundsException.class)
@@ -107,5 +109,52 @@ public class ConstantVelocityProfileTest {
         final ConstantVelocityProfile PROFILE = new ConstantVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
 
         PROFILE.jerkAt(END_TIME.add(Time.seconds(0.1)));
+    }
+
+    @Test
+    public void velocityAt_forConstantVelocityProfileAtValidTime_returnsInitialVelocity() {
+        final double INITIAL_DISTANCE = 10;
+        final Double INITIAL_VELOCITY = 5.0;
+
+        final Time INITIAL_TIME = Time.seconds(1);
+        final Time T = INITIAL_TIME.add(Time.seconds(0.1));
+        final Time END_TIME = Time.seconds(2);
+
+        final ConstantVelocityProfile PROFILE = new ConstantVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
+        final Double ACTUAL = PROFILE.velocityAt(T);
+
+        assertEquals(ACTUAL, INITIAL_VELOCITY);
+    }
+
+    @Test
+    public void accelerationAt_forConstantVelocityProfileAtValidTime_returnsZero() {
+        final double INITIAL_DISTANCE = 10;
+        final double INITIAL_VELOCITY = 5.0;
+        final Double EXPECTED = 0.0;
+
+        final Time INITIAL_TIME = Time.seconds(1);
+        final Time T = INITIAL_TIME.add(Time.seconds(0.1));
+        final Time END_TIME = Time.seconds(2);
+
+        final ConstantVelocityProfile PROFILE = new ConstantVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
+        final Double ACTUAL = PROFILE.accelerationAt(T);
+
+        assertEquals(ACTUAL, EXPECTED);
+    }
+
+    @Test
+    public void jerkAt_forConstantVelocityProfileAtValidTime_returnsZero() {
+        final double INITIAL_DISTANCE = 10;
+        final double INITIAL_VELOCITY = 5.0;
+        final Double EXPECTED = 0.0;
+
+        final Time INITIAL_TIME = Time.seconds(1);
+        final Time T = INITIAL_TIME.add(Time.seconds(0.1));
+        final Time END_TIME = Time.seconds(2);
+
+        final ConstantVelocityProfile PROFILE = new ConstantVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
+        final Double ACTUAL = PROFILE.jerkAt(T);
+
+        assertEquals(ACTUAL, EXPECTED);
     }
 }
