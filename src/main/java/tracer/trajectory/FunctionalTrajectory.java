@@ -34,7 +34,7 @@ public class FunctionalTrajectory {
 
     private double calcTrajectoryLength() {
         return splines.stream()
-                .mapToDouble(Spline::getLength)
+                .mapToDouble(Spline::length)
                 .sum();
     }
 
@@ -43,7 +43,7 @@ public class FunctionalTrajectory {
     }
 
     public double angleAt(double length) {
-        return getCorrespondingSpline(length).getAngleAt(length);
+        return getCorrespondingSpline(length).angleAt(length);
     }
 
     private Spline getCorrespondingSpline(double length) {//need to check
@@ -56,7 +56,7 @@ public class FunctionalTrajectory {
     private double getDistanceUntil(Spline targetSpline) {
         return splines.stream()
                 .limit(splines.indexOf(targetSpline) + 1)
-                .mapToDouble(Spline::getLength)
+                .mapToDouble(Spline::length)
                 .sum();
     }
 }

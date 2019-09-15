@@ -13,8 +13,8 @@ public class HermiteQuinticSpline extends Spline {
 
     @Override
     protected List<Double> getFunctionConstants(Position startPosition, Position endPosition) {
-        double startDelta = Math.tan(Operations.boundRadiansForcePositive(startPosition.getHeading()) - Operations.boundRadiansForcePositive(getOffset().getHeading()));
-        double endDelta = Math.tan(Operations.boundRadiansForcePositive(endPosition.getHeading()) - Operations.boundRadiansForcePositive(getOffset().getHeading()));
+        double startDelta = Math.tan(Operations.boundRadiansForcePositive(startPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
+        double endDelta = Math.tan(Operations.boundRadiansForcePositive(endPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
 
         return calcFunctionConstants(startDelta, endDelta);
     }
@@ -39,15 +39,15 @@ public class HermiteQuinticSpline extends Spline {
     }
 
     private double calcA(double startDelta, double endDelta) {
-        return -(3 * (startDelta + endDelta)) / Math.pow(getKnotDistance(), 4);
+        return -(3 * (startDelta + endDelta)) / Math.pow(knotDistance(), 4);
     }
 
     private double calcB(double startDelta, double endDelta) {
-        return (8 * startDelta + 7 * endDelta) / Math.pow(getKnotDistance(), 3);
+        return (8 * startDelta + 7 * endDelta) / Math.pow(knotDistance(), 3);
     }
 
     private double calcC(double startDelta, double endDelta) {
-        return -(6 * startDelta + 4 * endDelta) / Math.pow(getKnotDistance(), 2);
+        return -(6 * startDelta + 4 * endDelta) / Math.pow(knotDistance(), 2);
     }
 
     private double calcD() {

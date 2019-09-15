@@ -13,8 +13,8 @@ public class HermiteCubicSpline extends Spline {
 
     @Override
     protected List<Double> getFunctionConstants(Position startPosition, Position endPosition) {
-        double startDelta = Math.tan(Operations.boundRadiansForcePositive(startPosition.getHeading()) - Operations.boundRadiansForcePositive(getOffset().getHeading()));
-        double endDelta = Math.tan(Operations.boundRadiansForcePositive(endPosition.getHeading()) - Operations.boundRadiansForcePositive(getOffset().getHeading()));
+        double startDelta = Math.tan(Operations.boundRadiansForcePositive(startPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
+        double endDelta = Math.tan(Operations.boundRadiansForcePositive(endPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
 
         return calcFunctionConstants(startDelta, endDelta);
     }
@@ -35,11 +35,11 @@ public class HermiteCubicSpline extends Spline {
     }
 
     private double calcA(double startDelta, double endDelta) {
-        return (startDelta + endDelta) / Math.pow(getKnotDistance(), 2);
+        return (startDelta + endDelta) / Math.pow(knotDistance(), 2);
     }
 
     private double calcB(double startDelta, double endDelta) {
-        return -(2 * startDelta + endDelta) / getKnotDistance();
+        return -(2 * startDelta + endDelta) / knotDistance();
     }
 
     private double calcC(double startDelta) {

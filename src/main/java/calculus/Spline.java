@@ -33,20 +33,38 @@ public abstract class Spline {
         arcLength = calcArcLength(sampleCount);
     }
 
+    public double knotDistance() {
+        return knotDistance;
+    }
+
+    public Position offset() {
+        return offset;
+    }
+
+    public double length() {
+        return arcLength;
+    }
+
+    public double angleAt(double length) {
+        double percentage = getPercentageAtLength(length);
+
+        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
+    }
+
     protected abstract List<Double> getFunctionConstants(Position startPosition, Position endPosition);
 
-    private double calcKnotDistance(Position startPosition, Position endPosition) {
-        return Math.sqrt( Math.pow(endPosition.getX()-startPosition.getX(), 2) + Math.pow(endPosition.getY() - startPosition.getY(), 2));
+    private double calcKnotDistance(Position start, Position end) {
+        return Math.sqrt( Math.pow(end.x()-start.x(), 2) + Math.pow(end.y() - start.y(), 2));
     }
 
-    private Position calcOffset(Position startPosition, Position endPosition) {
-        return new Position(startPosition.getX(),
-                startPosition.getY(),
-                calcAngleOffset(startPosition, endPosition));
+    private Position calcOffset(Position start, Position end) {
+        return new Position(start.x(),
+                start.y(),
+                calcAngleOffset(start, end));
     }
 
-    private double calcAngleOffset(Position startPosition, Position endPosition) {
-        return Math.atan2(endPosition.getY() - startPosition.getY(), endPosition.getX() - startPosition.getX());
+    private double calcAngleOffset(Position start, Position end) {
+        return Math.atan2(end.y() - start.y(), end.x() - start.x());
     }
 
     private double calcArcLength(int sampleCount) {
@@ -65,24 +83,6 @@ public abstract class Spline {
 
     private double getArcLengthAt(double x) {
         return Math.sqrt(Math.pow(function.derivative().at(x), 2) + 1.0);
-    }
-
-    public double getKnotDistance() {
-        return knotDistance;
-    }
-
-    public Position getOffset() {
-        return offset;
-    }
-
-    public double getLength() {
-        return arcLength;
-    }
-
-    public double getAngleAt(double length) {
-        double percentage = getPercentageAtLength(length);
-
-        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
     }
 
     private double getPercentageAtLength(double length) {//need to check it

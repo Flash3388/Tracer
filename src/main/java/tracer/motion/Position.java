@@ -12,11 +12,11 @@ public class Position {
         this.heading = headingRadians;
     }
 
-    public double getX() {
+    public double x() {
         return x;
     }
 
-    public double getY() {
+    public double y() {
         return y;
     }
 
