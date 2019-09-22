@@ -1,87 +1,27 @@
 package calculus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class PolynomialFunction {
+public abstract class PolynomialFunction {
     private final List<Variable> variables;
+    private final Function<List<Variable>, PolynomialFunction> deriveContructor;
+    private final Function<List<Variable>, PolynomialFunction> integralConstructor;
 
-    public PolynomialFunction(List<Variable> variables) {
+    public PolynomialFunction(List<Variable> variables, Function<List<Variable>, PolynomialFunction> deriveContructor, Function<List<Variable>, PolynomialFunction> integralConstructor) {
+        this.deriveContructor = deriveContructor;
+        this.integralConstructor = integralConstructor;
         this.variables = new ArrayList<>();
         this.variables.addAll(variables);
-    }
-
-    public PolynomialFunction(Variable... variables) {
-        this(Arrays.asList(variables));
-    }
-
-    public static PolynomialFunction fromConstants(List<Double> multipliers) {
-        return new PolynomialFunction(generateFunction(multipliers));
-    }
-
-    public static PolynomialFunction fromConstants(Double... multipliers) {
-        return new PolynomialFunction(generateFunction(Arrays.asList(multipliers)));
-    }
-
-    private static List<Variable> generateFunction(List<Double> multipliers) {
-        return IntStream.range(0, multipliers.size())
-                .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
-                .collect(Collectors.toList());
     }
 
     public double at(double x) {
         return variables.stream()
                 .mapToDouble(variable -> variable.at(x))
                 .sum();
-    }
-
-    public PolynomialFunction derivative() {
-        return new PolynomialFunction(
-                variables.stream()
-                .map(Variable::derivative)
-                .collect(Collectors.toList()));
-    }
-
-    public PolynomialFunction integral() {
-        return new PolynomialFunction(variables.stream()
-                .map(Variable::integral)
-                .collect(Collectors.toList()));
-    }
-
-    public PolynomialFunction add(Variable variable) {
-        List<Variable> sum = new ArrayList<>(variables);
-        sum.add(variable);
-
-        return new PolynomialFunction(sum);
-    }
-
-    public PolynomialFunction add(double num) {
-        return add(new Variable(num, 0));
-    }
-
-    public PolynomialFunction add(List<Variable> variables) {
-        List<Variable> sum = new ArrayList<>(variables);
-        sum.addAll(variables);
-
-        return new PolynomialFunction(sum);
-    }
-
-    public PolynomialFunction add(Variable... variables) {
-        return add(Arrays.asList(variables));
-    }
-
-    public PolynomialFunction add(PolynomialFunction function) {
-        List<Variable> sum = new ArrayList<>(variables);
-        IntStream.range(0, function.length()).forEach(index -> sum.add(function.get(index)));
-
-        return new PolynomialFunction(sum);
-    }
-
-    public int length() {
-        return variables.size();
     }
 
     public Variable get(int index) {
@@ -91,5 +31,31 @@ public class PolynomialFunction {
     @Override
     public String toString() {
         return variables.toString();
+    }
+
+    public PolynomialFunction derive() {
+        return deriveContructor.apply(deriveVariables());
+    }
+
+    public PolynomialFunction integral() {
+        return integralConstructor.apply(integralVariables());
+    }
+
+    protected  List<Variable> deriveVariables() {
+        return variables.stream()
+                .map(Variable::derivative)
+                .collect(Collectors.toList());
+    }
+
+    protected List<Variable> integralVariables() {
+            return variables.stream()
+                    .map(Variable::integral)
+                    .collect(Collectors.toList());
+    }
+
+    protected static List<Variable> generateFunction(List<Double> multipliers) {
+        return IntStream.range(0, multipliers.size())
+                .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
+                .collect(Collectors.toList());
     }
 }

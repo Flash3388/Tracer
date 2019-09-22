@@ -40,7 +40,7 @@ public class PolynomialFunctionTest {
         final Variable SECOND_VARIABLE_DERIVATIVE = SECOND_VARIABLE.derivative();
 
         final PolynomialFunction EXPECTED = new PolynomialFunction(FIRST_VARIABLE_DERIVATIVE, SECOND_VARIABLE_DERIVATIVE);
-        final PolynomialFunction ACTUAL = new PolynomialFunction(FIRST_VARIABLE, SECOND_VARIABLE).derivative();
+        final PolynomialFunction ACTUAL = new PolynomialFunction(FIRST_VARIABLE, SECOND_VARIABLE).derive();
 
         assertEquals(ACTUAL, EXPECTED);
     }

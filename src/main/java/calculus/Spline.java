@@ -82,7 +82,7 @@ public abstract class Spline {
     }
 
     private double getArcLengthAt(double x) {
-        return Math.sqrt(Math.pow(function.derivative().at(x), 2) + 1.0);
+        return Math.sqrt(Math.pow(function.derive().at(x), 2) + 1.0);
     }
 
     private double getPercentageAtLength(double length) {//need to check it
