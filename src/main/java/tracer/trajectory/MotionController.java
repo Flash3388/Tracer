@@ -3,15 +3,13 @@ package tracer.trajectory;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motion.PhysicalPosition;
-import tracer.profiles.OutsideOfTimeBoundsException;
 import tracer.profiles.PhysicalTrajectoryProfile;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 
 import java.util.function.Function;
 
-public class MotionController {
-    private final Profile trajectoryProfile;
+public class MotionController extends Controller{
     private final Function<Time, Double> angleAt;
 
     private boolean isFirstRun;
@@ -40,7 +38,7 @@ public class MotionController {
     }
 
     private MotionController(Profile trajectoryProfile, Function<Time, Double> angleAt, double kV, double kA, double kP, double kI, double kD, double gP) {
-        this.trajectoryProfile = trajectoryProfile;
+        super(trajectoryProfile);
         this.angleAt = angleAt;
 
         isFirstRun = false;
@@ -59,14 +57,15 @@ public class MotionController {
         isFirstRun = false;
     }
 
+    @Override
     public double calculate(PhysicalPosition position) {
         Time timing = position.getTiming();
         double distance = position.getDistance();
         double angle = position.getDistance();
 
-        double error = getError(timing, distance);
-        double velocity = getVelocity(timing);
-        double acceleration = getAcceleration(timing);
+        double error = getProfile().distanceAt(timing) - distance;
+        double velocity = getProfile().velocityAt(timing);
+        double acceleration = getProfile().accelerationAt(timing);
         double angleError = getAngleError(timing, angle);
 
         if(isFirstRun) {
@@ -90,18 +89,6 @@ public class MotionController {
 //        lastTime = currentTime;
 
         return pOut + iOut + /*dOut*/ + vOut + aOut + gOut;
-    }
-
-    private double getError(Time currentTime, double passedDistance) {
-        return trajectoryProfile.distanceAt(currentTime) - passedDistance;
-    }
-
-    private double getVelocity(Time currentTime) {
-        return trajectoryProfile.velocityAt(currentTime);
-    }
-
-    private double getAcceleration(Time currentTime) {
-        return trajectoryProfile.accelerationAt(currentTime);
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {
