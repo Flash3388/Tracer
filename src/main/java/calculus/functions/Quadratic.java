@@ -11,11 +11,16 @@ public class Quadratic extends PolynomialFunction {
     }
 
     protected Quadratic(List<Variable> variables) {
-        super(variables, Linear::new, Quadratic::new);
+        super(variables, Linear::new, Cubic::new);
     }
 
     @Override
     public List<Double> solve(double result) throws UnsupportedOperationException{
-        return null;
+        return Arrays.asList(root(get(0).modifier(), get(1).modifier(), get(2).modifier(), true),
+                root(get(0).modifier(), get(1).modifier(), get(2).modifier(), false));
+    }
+
+    private double root(double a, double b, double c, boolean addRoot) {
+        return (-b + (addRoot ? -1 : 1) * Math.sqrt(Math.pow(b, 2) + 4*a*c) ) / 2 *a;
     }
 }
