@@ -1,4 +1,6 @@
-package calculus;
+package calculus.functions;
+
+import calculus.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,4 +60,6 @@ public abstract class PolynomialFunction {
                 .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
                 .collect(Collectors.toList());
     }
+
+    public abstract double solve(double result);
 }

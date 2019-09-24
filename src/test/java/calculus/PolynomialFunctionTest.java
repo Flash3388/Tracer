@@ -1,5 +1,6 @@
 package calculus;
 
+import calculus.functions.PolynomialFunction;
 import org.junit.Test;
 
 import java.util.Arrays;

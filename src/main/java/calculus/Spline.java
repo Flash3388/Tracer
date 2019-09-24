@@ -1,5 +1,6 @@
 package calculus;
 
+import calculus.functions.PolynomialFunction;
 import tracer.motion.Position;
 
 import java.util.List;
