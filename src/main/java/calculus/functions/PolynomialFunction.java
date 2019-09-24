@@ -13,8 +13,8 @@ public abstract class PolynomialFunction {
     private final Function<List<Variable>, PolynomialFunction> deriveContructor;
     private final Function<List<Variable>, PolynomialFunction> integralConstructor;
 
-    public PolynomialFunction(List<Variable> variables, Function<List<Variable>, PolynomialFunction> deriveContructor, Function<List<Variable>, PolynomialFunction> integralConstructor) {
-        this.deriveContructor = deriveContructor;
+    public PolynomialFunction(List<Variable> variables, Function<List<Variable>, PolynomialFunction> deriveConstructor, Function<List<Variable>, PolynomialFunction> integralConstructor) {
+        this.deriveContructor = deriveConstructor;
         this.integralConstructor = integralConstructor;
         this.variables = new ArrayList<>();
         this.variables.addAll(variables);
@@ -61,5 +61,5 @@ public abstract class PolynomialFunction {
                 .collect(Collectors.toList());
     }
 
-    public abstract double solve(double result);
+    public abstract List<Double> solve(double result) throws UnsupportedOperationException;
 }
