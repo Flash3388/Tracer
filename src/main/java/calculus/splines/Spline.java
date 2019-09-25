@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
-public abstract class Spline {
+public class Spline {
     private static final int SAMPLES_FAST = 1000;
     private static final int SAMPLES_LOW = SAMPLES_FAST * 10;
     private static final int SAMPLES_HIGH = SAMPLES_LOW * 10;
