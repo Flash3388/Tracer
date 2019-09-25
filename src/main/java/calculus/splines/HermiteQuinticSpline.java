@@ -1,4 +1,4 @@
-package calculus;
+package calculus.splines;
 
 import calculus.functions.Quintic;
 import tracer.motion.Position;

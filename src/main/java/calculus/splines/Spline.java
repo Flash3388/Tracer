@@ -1,10 +1,12 @@
-package calculus;
+package calculus.splines;
 
 import calculus.functions.PolynomialFunction;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 public abstract class Spline {
@@ -22,7 +24,7 @@ public abstract class Spline {
 
         knotDistance = calcKnotDistance(startPosition, endPosition);
         offset = calcOffset(startPosition, endPosition);
-        arcLength = calcArcLength(SAMPLES_HIGH);
+        arcLength = calcArcLength();
     }
 
     public static double calcKnotDistance(Position start, Position end) {
@@ -47,18 +49,27 @@ public abstract class Spline {
         return arcLength;
     }
 
+    public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
+        checkLength(length);
+
+        double derivative = Math.sqrt(Math.pow(length, 2) - 1);
+        double percentage = filterSolutions(function.derive().solve(derivative), length);
+
+        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
+    }
+
     private static double calcAngleOffset(Position start, Position end) {
         return Math.atan2(end.y() - start.y(), end.x() - start.x());
     }
 
-    private double calcArcLength(int sampleCount) {
-        return IntStream.range(0, sampleCount)
-                .mapToDouble(index -> calcCurrentArcLength(index/(double)sampleCount, sampleCount))
+    private double calcArcLength() {
+        return IntStream.range(0, SAMPLES_HIGH)
+                .mapToDouble(index -> calcCurrentArcLength(index/(double) SAMPLES_HIGH))
                 .sum() * knotDistance;
     }
 
-    private double calcCurrentArcLength(double percentage, int sampleCount) {
-        return getArcLengthPercentage(percentage)/sampleCount;
+    private double calcCurrentArcLength(double percentage) {
+        return getArcLengthPercentage(percentage)/ SAMPLES_HIGH;
     }
 
     private double getArcLengthPercentage(double percentage) {
@@ -69,16 +80,28 @@ public abstract class Spline {
         return Math.sqrt(Math.pow(function.derive().at(x), 2) + 1.0);
     }
 
-    public double angleAt(double length) {
-        double derivative = Math.sqrt(Math.pow(length, 2) - 1);
-        double percentage = filterSolutions(function.derive().solve(derivative), length);
-
-        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
+    private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
+        if(length < 0 || length > arcLength)
+            throw new LengthOutsideOfFunctionBoundsException();
     }
 
     private double filterSolutions(List<Double> solutions, double length) {
         return solutions.stream()
                 .filter(solution -> ExtendedMath.constrained(solution, 0, 1))
-                .findFirst().orElseGet(() -> length / arcLength);//may be do the longer thing in case there is no correct result ALSO if there is more then one, find the closest one !!!
+                .min(Comparator.comparingDouble(solution -> Math.abs(length - getArcLengthAt(solution))))
+                .orElseGet(() -> getPercentageAtLength(length));
+    }
+
+    private double getPercentageAtLength(double length) {
+        AtomicReference<Double> sum = new AtomicReference<>((double) 0);
+
+        return IntStream.range(0, SAMPLES_HIGH)
+                .filter(index -> {
+                    sum.set(sum.get() + calcCurrentArcLength(index/(double)SAMPLES_HIGH) * knotDistance);
+                    return sum.get() >= length;
+                })
+                .limit(1)
+                .mapToDouble(index -> index/(double)SAMPLES_HIGH)
+                .sum();
     }
 }

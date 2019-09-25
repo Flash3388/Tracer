@@ -1,5 +1,7 @@
 package calculus;
 
+import calculus.variables.NotMatchingPowersException;
+import calculus.variables.Variable;
 import org.junit.Test;
 
 import java.util.Arrays;

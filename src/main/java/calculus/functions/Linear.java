@@ -1,6 +1,6 @@
 package calculus.functions;
 
-import calculus.Variable;
+import calculus.variables.Variable;
 
 import java.util.Arrays;
 import java.util.List;

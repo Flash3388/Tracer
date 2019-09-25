@@ -1,6 +1,6 @@
 package tracer.profiles;
 
-import calculus.SplineType;
+import calculus.splines.SplineType;
 import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package calculus;
+package calculus.splines;
 
 import tracer.motion.Position;
 import tracer.motion.PositionPair;

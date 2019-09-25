@@ -1,4 +1,4 @@
-package calculus;
+package calculus.variables;
 
 public class Variable {
     private final double modifier;

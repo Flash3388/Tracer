@@ -1,4 +1,4 @@
-package calculus;
+package calculus.splines;
 
 import calculus.functions.Cubic;
 import tracer.motion.Position;

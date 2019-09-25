@@ -1,8 +1,7 @@
 package calculus.functions;
 
-import calculus.Variable;
+import calculus.variables.Variable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Zero extends PolynomialFunction{

@@ -1,5 +1,6 @@
 package calculus;
 
+import calculus.splines.HermiteCubicSpline;
 import com.jmath.ExtendedMath;
 import org.junit.Test;
 import tracer.motion.Position;

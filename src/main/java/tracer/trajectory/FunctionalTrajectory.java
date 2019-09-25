@@ -1,8 +1,9 @@
 package tracer.trajectory;
 
-import calculus.Spline;
-import calculus.SplineFactory;
-import calculus.SplineType;
+import calculus.splines.LengthOutsideOfFunctionBoundsException;
+import calculus.splines.Spline;
+import calculus.splines.SplineFactory;
+import calculus.splines.SplineType;
 import tracer.motion.Position;
 
 import java.util.Arrays;
@@ -43,7 +44,12 @@ public class FunctionalTrajectory {
     }
 
     public double angleAt(double length) {
-        return getCorrespondingSpline(length).angleAt(length);
+        try {
+            return getCorrespondingSpline(length).angleAt(length);
+        } catch (LengthOutsideOfFunctionBoundsException e) {
+            System.out.println(e.getMessage());
+            return 0.0;
+        }
     }
 
     private Spline getCorrespondingSpline(double length) {//need to check
