@@ -1,4 +1,4 @@
-package tracer.controllers;
+package tracer.controller;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
@@ -8,6 +8,7 @@ import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 import tracer.trajectory.FunctionalTrajectory;
 import tracer.trajectory.PhysicalTrajectory;
+import util.TimeConversion;
 
 import java.util.function.Function;
 
@@ -43,7 +44,7 @@ public class MotionController extends Controller{
         super(trajectoryProfile);
         this.angleAt = angleAt;
 
-        isFirstRun = false;
+        isFirstRun = true;
 
         this.kV = kV;
         this.kA = kA;
@@ -79,18 +80,25 @@ public class MotionController extends Controller{
 
         double pOut = kP * error;
         double iOut = kI * totalError;
-//        double dOut = kD * (error - lastError)/(currentTime.sub(lastTime).valueAsMillis()/1000.0) - velocity;
+        double dOut = kD * (error - lastError)/(TimeConversion.toSeconds(timing.sub(lastTime).add(Time.milliseconds(1))));//so there won't be a division by zero
 
         double vOut = kV * velocity;
         double aOut = kA * acceleration;
 
         double gOut = gP * angleError;
 
-        totalError += error;
-//        lastError = error;
-//        lastTime = currentTime;
+        System.out.println(kP + " " + error + " " + pOut);
+        System.out.println(kD + " " + (error - lastError) + " " + dOut);
+        System.out.println(kI + " " + totalError + " " + iOut);
+        System.out.println(kV + " " + velocity + " " + vOut);
+        System.out.println(kA + " " + acceleration + " " + aOut);
+        System.out.println(gP + " " + angleError + " " + gOut);
 
-        return pOut + iOut + /*dOut*/ + vOut + aOut + gOut;
+        totalError += error;
+        lastError = error;
+        lastTime = timing;
+
+        return pOut + iOut + dOut + vOut + aOut + gOut;
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {

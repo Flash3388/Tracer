@@ -47,15 +47,4 @@ public class QuinticSplineTest {
 
         assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
     }
-
-    @Test
-    public void angleAt_ofLineSpline_returnsCorrectAngle() {
-        final Position start = new Position(0, 0, Math.PI/2);
-        final Position end = new Position(0, 1, Math.PI/2);
-
-        final Double EXPECTED = Math.PI/2;
-        final Double ACTUAL = new HermiteQuinticSpline(start, end).angleAt(0.5);
-
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
-    }
 }

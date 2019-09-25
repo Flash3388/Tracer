@@ -1,4 +1,4 @@
-package tracer.controllers;
+package tracer.controller;
 
 import tracer.motion.PhysicalPosition;
 import tracer.profiles.Profile;

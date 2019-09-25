@@ -28,11 +28,12 @@ public class Spline {
     }
 
     public static double calcKnotDistance(Position start, Position end) {
-        return Math.sqrt( Math.pow(end.x()-start.x(), 2) + Math.pow(end.y() - start.y(), 2));
+        return Math.sqrt(Math.pow(end.x()-start.x(), 2) + Math.pow(end.y() - start.y(), 2));
     }
 
     public static Position calcOffset(Position start, Position end) {
-        return new Position(start.x(),
+        return new Position(
+                start.x(),
                 start.y(),
                 calcAngleOffset(start, end));
     }
