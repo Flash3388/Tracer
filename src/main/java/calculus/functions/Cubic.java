@@ -1,6 +1,8 @@
 package calculus.functions;
 
 import calculus.Variable;
+import com.jmath.complex.Complex;
+import com.jmath.complex.ComplexMath;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +13,7 @@ public class Cubic extends PolynomialFunction{
     }
 
     protected Cubic(List<Variable> variables) {
-        super(variables, Quadratic::new, null);
+        super(variables, Quadratic::new, Quartic::new);
     }
 
     @Override

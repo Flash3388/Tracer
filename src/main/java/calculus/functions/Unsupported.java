@@ -2,12 +2,11 @@ package calculus.functions;
 
 import calculus.Variable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Zero extends PolynomialFunction{
-    protected Zero(List<Variable> variables) {
-        super(variables, Zero::new, Zero::new);
+public class Unsupported extends PolynomialFunction {
+    protected Unsupported(List<Variable> variables) {
+        super(variables, Unsupported::new, Unsupported::new);
     }
 
     @Override

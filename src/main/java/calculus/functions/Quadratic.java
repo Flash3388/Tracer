@@ -16,11 +16,11 @@ public class Quadratic extends PolynomialFunction {
 
     @Override
     public List<Double> solve(double result) throws UnsupportedOperationException{
-        return Arrays.asList(root(get(0).modifier(), get(1).modifier(), get(2).modifier(), true),
-                root(get(0).modifier(), get(1).modifier(), get(2).modifier(), false));
+        return Arrays.asList(root(get(0).modifier(), get(1).modifier(), get(2).modifier() - result, true),
+                root(get(0).modifier(), get(1).modifier(), get(2).modifier() - result, false));
     }
 
     private double root(double a, double b, double c, boolean addRoot) {
-        return (-b + (addRoot ? -1 : 1) * Math.sqrt(Math.pow(b, 2) + 4*a*c) ) / 2 *a;
+        return (-b + (addRoot ? 1 : -1) * Math.sqrt(Math.pow(b, 2) + 4*a*c)) / 2*a;
     }
 }
