@@ -1,37 +1,38 @@
 package calculus;
 
 import calculus.functions.PolynomialFunction;
+import com.jmath.ExtendedMath;
 import tracer.motion.Position;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 public abstract class Spline {
-    public static final int SAMPLES_FAST = 1000;
-    public static final int SAMPLES_LOW = SAMPLES_FAST * 10;
-    public static final int SAMPLES_HIGH = SAMPLES_LOW * 10;
+    private static final int SAMPLES_FAST = 1000;
+    private static final int SAMPLES_LOW = SAMPLES_FAST * 10;
+    private static final int SAMPLES_HIGH = SAMPLES_LOW * 10;
 
     private final PolynomialFunction function;
     private final Position offset;
     private final double knotDistance;
     private final double arcLength;
 
-    private final int sampleCount;
-
-    public Spline(Position startPosition, Position endPosition) {
-        this(startPosition, endPosition, SAMPLES_HIGH);
-    }
-
-    public Spline(Position startPosition, Position endPosition, int sampleCount) {
-        this.sampleCount = sampleCount;
+    public Spline(PolynomialFunction function, Position startPosition, Position endPosition) {
+        this.function = function;
 
         knotDistance = calcKnotDistance(startPosition, endPosition);
         offset = calcOffset(startPosition, endPosition);
+        arcLength = calcArcLength(SAMPLES_HIGH);
+    }
 
-        function = PolynomialFunction.fromConstants(getFunctionConstants(startPosition, endPosition));
+    public static double calcKnotDistance(Position start, Position end) {
+        return Math.sqrt( Math.pow(end.x()-start.x(), 2) + Math.pow(end.y() - start.y(), 2));
+    }
 
-        arcLength = calcArcLength(sampleCount);
+    public static Position calcOffset(Position start, Position end) {
+        return new Position(start.x(),
+                start.y(),
+                calcAngleOffset(start, end));
     }
 
     public double knotDistance() {
@@ -46,25 +47,7 @@ public abstract class Spline {
         return arcLength;
     }
 
-    public double angleAt(double length) {
-        double percentage = getPercentageAtLength(length);
-
-        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
-    }
-
-    protected abstract List<Double> getFunctionConstants(Position startPosition, Position endPosition);
-
-    private double calcKnotDistance(Position start, Position end) {
-        return Math.sqrt( Math.pow(end.x()-start.x(), 2) + Math.pow(end.y() - start.y(), 2));
-    }
-
-    private Position calcOffset(Position start, Position end) {
-        return new Position(start.x(),
-                start.y(),
-                calcAngleOffset(start, end));
-    }
-
-    private double calcAngleOffset(Position start, Position end) {
+    private static double calcAngleOffset(Position start, Position end) {
         return Math.atan2(end.y() - start.y(), end.x() - start.x());
     }
 
@@ -86,16 +69,16 @@ public abstract class Spline {
         return Math.sqrt(Math.pow(function.derive().at(x), 2) + 1.0);
     }
 
-    private double getPercentageAtLength(double length) {//need to check it
-        AtomicReference<Double> sum = new AtomicReference<>((double) 0);
+    public double angleAt(double length) {
+        double derivative = Math.sqrt(Math.pow(length, 2) - 1);
+        double percentage = filterSolutions(function.derive().solve(derivative), length);
 
-        return IntStream.range(0, sampleCount)
-                .filter(index -> {
-                    sum.set(sum.get() + calcCurrentArcLength(index/(double)sampleCount, sampleCount) * knotDistance);
-                    return sum.get() >= length;
-                })
-                .limit(1)
-                .mapToDouble(index -> index/(double)sampleCount)
-                .sum();
+        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
+    }
+
+    private double filterSolutions(List<Double> solutions, double length) {
+        return solutions.stream()
+                .filter(solution -> ExtendedMath.constrained(solution, 0, 1))
+                .findFirst().orElseGet(() -> length / arcLength);//may be do the longer thing in case there is no correct result ALSO if there is more then one, find the closest one !!!
     }
 }

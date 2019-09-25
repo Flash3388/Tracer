@@ -1,64 +1,50 @@
 package calculus;
 
+import calculus.functions.Quintic;
 import tracer.motion.Position;
 import util.Operations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HermiteQuinticSpline extends Spline {
     public HermiteQuinticSpline(Position startPosition, Position endPosition) {
-        super(startPosition, endPosition);
+        super(calcFunctions(startPosition, endPosition), startPosition, endPosition);
     }
 
-    @Override
-    protected List<Double> getFunctionConstants(Position startPosition, Position endPosition) {
-        double startDelta = Math.tan(Operations.boundRadiansForcePositive(startPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
-        double endDelta = Math.tan(Operations.boundRadiansForcePositive(endPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
+    private static Quintic calcFunctions(Position start, Position end) {
+        double offsetAngle = calcOffset(start, end).getHeading();
+        double startDelta = Math.tan(Operations.boundRadiansForcePositive(start.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
+        double endDelta = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
+        double knotDistance = calcKnotDistance(start, end);
 
-        return calcFunctionConstants(startDelta, endDelta);
+        return Quintic.fromConstants(
+                calcA(startDelta, endDelta, knotDistance),
+                calcB(startDelta, endDelta, knotDistance),
+                calcC(startDelta, endDelta, knotDistance),
+                calcD(),
+                calcE(startDelta),
+                calcF());
     }
 
-    private List<Double> calcFunctionConstants(double startDelta, double endDelta) {
-        List<Double> constants = new ArrayList<>();
-        double a = calcA(startDelta, endDelta);
-        double b = calcB(startDelta, endDelta);
-        double c = calcC(startDelta, endDelta);
-        double d = calcD();
-        double e = calcE(startDelta);
-        double f = calcF();
-
-        constants.add(a);
-        constants.add(b);
-        constants.add(c);
-        constants.add(d);
-        constants.add(e);
-        constants.add(f);
-
-        return constants;
+    private static double calcA(double startDelta, double endDelta, double knotDistance) {
+        return -(3 * (startDelta + endDelta)) / Math.pow(knotDistance, 4);
     }
 
-    private double calcA(double startDelta, double endDelta) {
-        return -(3 * (startDelta + endDelta)) / Math.pow(knotDistance(), 4);
+    private static double calcB(double startDelta, double endDelta, double knotDistance) {
+        return (8 * startDelta + 7 * endDelta) / Math.pow(knotDistance, 3);
     }
 
-    private double calcB(double startDelta, double endDelta) {
-        return (8 * startDelta + 7 * endDelta) / Math.pow(knotDistance(), 3);
+    private static double calcC(double startDelta, double endDelta, double knotDistance) {
+        return -(6 * startDelta + 4 * endDelta) / Math.pow(knotDistance, 2);
     }
 
-    private double calcC(double startDelta, double endDelta) {
-        return -(6 * startDelta + 4 * endDelta) / Math.pow(knotDistance(), 2);
-    }
-
-    private double calcD() {
+    private static double calcD() {
         return 0.0;
     }
 
-    private double calcE(double startDelta) {
+    private static double calcE(double startDelta) {
         return startDelta;
     }
 
-    private double calcF() {
+    private static double calcF() {
         return 0.0;
     }
 }

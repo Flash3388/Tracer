@@ -1,52 +1,40 @@
 package calculus;
 
+import calculus.functions.Cubic;
 import tracer.motion.Position;
 import util.Operations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HermiteCubicSpline extends Spline {
     public HermiteCubicSpline(Position startPosition, Position endPosition) {
-        super(startPosition, endPosition);
+        super(calcFunctions(startPosition, endPosition), startPosition, endPosition);
     }
 
-    @Override
-    protected List<Double> getFunctionConstants(Position startPosition, Position endPosition) {
-        double startDelta = Math.tan(Operations.boundRadiansForcePositive(startPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
-        double endDelta = Math.tan(Operations.boundRadiansForcePositive(endPosition.getHeading()) - Operations.boundRadiansForcePositive(offset().getHeading()));
+    private static Cubic calcFunctions(Position start, Position end) {
+        double offsetAngle = calcOffset(start, end).getHeading();
+        double startDelta = Math.tan(Operations.boundRadiansForcePositive(start.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
+        double endDelta = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
+        double knotDistance = calcKnotDistance(start, end);
 
-        return calcFunctionConstants(startDelta, endDelta);
+        return Cubic.fromConstants(
+                calcA(startDelta, endDelta, knotDistance),
+                calcB(startDelta, endDelta, knotDistance),
+                calcC(startDelta),
+                calcD());
     }
 
-    private List<Double> calcFunctionConstants(double startDelta, double endDelta) {
-        List<Double> constants = new ArrayList<>();
-        double a = calcA(startDelta, endDelta);
-        double b = calcB(startDelta, endDelta);
-        double c = calcC(startDelta);
-        double d = calcD();
-
-        constants.add(a);
-        constants.add(b);
-        constants.add(c);
-        constants.add(d);
-
-        return constants;
+    private static double calcA(double startDelta, double endDelta, double knotDistance) {
+        return (startDelta + endDelta) / Math.pow(knotDistance, 2);
     }
 
-    private double calcA(double startDelta, double endDelta) {
-        return (startDelta + endDelta) / Math.pow(knotDistance(), 2);
+    private static double calcB(double startDelta, double endDelta, double knotDistance) {
+        return -(2 * startDelta + endDelta) / knotDistance;
     }
 
-    private double calcB(double startDelta, double endDelta) {
-        return -(2 * startDelta + endDelta) / knotDistance();
-    }
-
-    private double calcC(double startDelta) {
+    private static double calcC(double startDelta) {
         return startDelta;
     }
 
-    private double calcD() {
+    private static double calcD() {
         return 0.0;
     }
 }
