@@ -95,6 +95,7 @@ public class MotionController extends Controller{
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {
-            return angleAt.apply(currentTime) - currentAngle;
+        double expected = angleAt.apply(currentTime);
+        return expected == 3388 ? 0.0 : expected - currentAngle; //an issue might come up which the user is not responsible for, also values above 360 are pretty much not possible in this context
     }
 }

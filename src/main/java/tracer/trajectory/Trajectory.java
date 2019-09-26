@@ -48,7 +48,7 @@ public class Trajectory {
             return getCorrespondingSpline(length).angleAt(length);
         } catch (LengthOutsideOfFunctionBoundsException e) {
             System.out.println(e.getMessage());
-            return 0.0;
+            return 3388.0;
         }
     }
 
