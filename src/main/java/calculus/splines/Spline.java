@@ -54,7 +54,7 @@ public class Spline {
         checkLength(length);
 
         double derivative = Math.sqrt(Math.pow(length, 2) - 1);
-        double percentage = filterSolutions(function.derive().solve(derivative), length);
+        double percentage = filterSolutions(function.derive().realSolutions(derivative), length);
 
         return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
     }

@@ -44,6 +44,15 @@ public abstract class PolynomialFunction {
         return integralConstructor.apply(integralVariables());
     }
 
+    public List<Double> realSolutions(double result) throws UnsupportedOperationException {
+        return solve(result).stream()
+                .filter(solution -> solution.imaginary() == 0)
+                .map(Complex::real)
+                .collect(Collectors.toList());
+    }
+
+    public abstract List<Complex> solve(double result) throws UnsupportedOperationException;
+
     protected  List<Variable> deriveVariables() {
         return variables.stream()
                 .map(Variable::derivative)
@@ -61,6 +70,4 @@ public abstract class PolynomialFunction {
                 .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
                 .collect(Collectors.toList());
     }
-
-    public abstract List<Complex> solve(double result) throws UnsupportedOperationException;
 }
