@@ -16,7 +16,7 @@ public class ConvexProfileTest {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
         final double INITIAL_ACCELERATION = 2.5;
-        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
+        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -35,7 +35,7 @@ public class ConvexProfileTest {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
         final double INITIAL_ACCELERATION = 2.5;
-        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
+        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -54,7 +54,7 @@ public class ConvexProfileTest {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
         final double INITIAL_ACCELERATION = 2.5;
-        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
+        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -70,7 +70,7 @@ public class ConvexProfileTest {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
         final double INITIAL_ACCELERATION = 2.5;
-        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
+        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -89,7 +89,7 @@ public class ConvexProfileTest {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
         final double INITIAL_ACCELERATION = 2.5;
-        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
+        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time EXPECTED = Time.seconds(TARGET.acceleration()/TARGET.jerk());
