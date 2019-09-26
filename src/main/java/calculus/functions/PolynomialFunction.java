@@ -51,7 +51,7 @@ public abstract class PolynomialFunction {
                 .collect(Collectors.toList());
     }
 
-    public abstract List<Complex> solve(double result) throws UnsupportedOperationException;
+    protected abstract List<Complex> solve(double result) throws UnsupportedOperationException;
 
     protected  List<Variable> deriveVariables() {
         return variables.stream()

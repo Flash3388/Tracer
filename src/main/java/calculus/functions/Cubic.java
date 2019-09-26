@@ -18,7 +18,7 @@ public class Cubic extends PolynomialFunction{
     }
 
     @Override
-    public List<Complex> solve(double result) throws UnsupportedOperationException {
+    protected List<Complex> solve(double result) throws UnsupportedOperationException {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();

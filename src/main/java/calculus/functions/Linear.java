@@ -16,7 +16,7 @@ public class Linear extends PolynomialFunction {
     }
 
     @Override
-    public List<Complex> solve(double result) {
+    protected List<Complex> solve(double result) {
         return Arrays.asList(new Complex((result - get(1).modifier())/get(0).modifier(), 0));
     }
 }
