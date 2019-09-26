@@ -3,11 +3,9 @@ package tracer.controller;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motion.PhysicalPosition;
-import tracer.profiles.PhysicalTrajectoryProfile;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
-import tracer.trajectory.FunctionalTrajectory;
-import tracer.trajectory.PhysicalTrajectory;
+import tracer.trajectory.Trajectory;
 import util.TimeConversion;
 
 import java.util.function.Function;
@@ -29,15 +27,10 @@ public class MotionController extends Controller{
 
     private final double gP;
 
-    public static MotionController forFunctional(FunctionalTrajectory functionalTrajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
-        Profile functionalProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), functionalTrajectory);
-        Function<Time, Double> angleAt = time -> functionalTrajectory.angleAt(functionalProfile.distanceAt(time));;
+    public static MotionController forTrajectory(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
+        Profile functionalProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
+        Function<Time, Double> angleAt = time -> trajectory.angleAt(functionalProfile.distanceAt(time));;
         return new MotionController(functionalProfile, angleAt, kV, kA, kP, kI, kD, gP);
-    }
-
-    public static MotionController forPhysical(PhysicalTrajectory physicalTrajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
-        PhysicalTrajectoryProfile physicalProfile = new PhysicalTrajectoryProfile(0, 0, Time.milliseconds(0), physicalTrajectory);
-        return new MotionController(physicalProfile, physicalProfile::angleAt, kV, kA, kP, kI, kD, gP);
     }
 
     private MotionController(Profile trajectoryProfile, Function<Time, Double> angleAt, double kV, double kA, double kP, double kI, double kD, double gP) {

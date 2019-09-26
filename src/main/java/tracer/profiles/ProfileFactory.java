@@ -2,24 +2,24 @@ package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
-import tracer.trajectory.FunctionalTrajectory;
+import tracer.trajectory.Trajectory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFactory {
-    public static Profile createTrajectoryProfile(Profile prevProfile, MotionParameters max, FunctionalTrajectory functionalTrajectory) {
-        return createTrajectoryProfile(prevProfile.initialDistance(), prevProfile.endParameters().velocity(), max, prevProfile.start(), functionalTrajectory);
+    public static Profile createTrajectoryProfile(Profile prevProfile, MotionParameters max, Trajectory trajectory) {
+        return createTrajectoryProfile(prevProfile.initialDistance(), prevProfile.endParameters().velocity(), max, prevProfile.start(), trajectory);
     }
 
-    public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, FunctionalTrajectory functionalTrajectory) {
+    public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
         List<Profile> profiles = new ArrayList<>();
 
         profiles.add(createStartSCurve(initialDistance, initialVelocity, max, startTime));
-        profiles.add(createConstantVelocityProfile(profiles.get(0), functionalTrajectory));
+        profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
         profiles.add(createEndSCurve(profiles.get(1), max));
 
-        return new ComplexProfile(initialDistance, MotionParameters.stop(), startTime, calcTrajectoryDuration(max, functionalTrajectory.length()), profiles);
+        return new ComplexProfile(initialDistance, MotionParameters.stop(), startTime, calcTrajectoryDuration(max, trajectory.length()), profiles);
     }
 
     public static Profile createSCurve(Profile prevProfile, MotionParameters max) {
@@ -45,8 +45,8 @@ public class ProfileFactory {
         return createSCurve(initialDistance, initialVelocity, max, startTime);
     }
 
-    private static ConstantVelocityProfile createConstantVelocityProfile(Profile prevProfile, FunctionalTrajectory functionalTrajectory) {
-        return new ConstantVelocityProfile(prevProfile, calcConstantVelocityDuration(prevProfile, functionalTrajectory.length()));
+    private static ConstantVelocityProfile createConstantVelocityProfile(Profile prevProfile, Trajectory trajectory) {
+        return new ConstantVelocityProfile(prevProfile, calcConstantVelocityDuration(prevProfile, trajectory.length()));
     }
 
     private static Time calcConstantVelocityDuration(Profile sCurve, double trajectoryLength) {

@@ -11,18 +11,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class FunctionalTrajectory {
+public class Trajectory {
     private final List<Spline> splines;
     private final SplineFactory hermiteFactory;
     private final double trajectoryLength;
 
-    public FunctionalTrajectory(SplineType splineType, List<Position> path) {
+    public Trajectory(SplineType splineType, List<Position> path) {
         hermiteFactory = new SplineFactory();
         splines = generateTrajectory(path, splineType);
         trajectoryLength = calcTrajectoryLength();
     }
 
-    public FunctionalTrajectory(SplineType splineType, Position... path) {
+    public Trajectory(SplineType splineType, Position... path) {
         this(splineType, Arrays.asList(path));
     }
 

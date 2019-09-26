@@ -6,8 +6,7 @@ import com.jmath.ExtendedMath;
 import org.junit.Test;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
-import tracer.trajectory.FunctionalTrajectory;
-import tracer.trajectory.PhysicalTrajectory;
+import tracer.trajectory.Trajectory;
 
 import java.util.Arrays;
 
@@ -25,7 +24,7 @@ public class PhysicalTrajectoryProfileTest {
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
-        final FunctionalTrajectory FUNCTIONAL = new FunctionalTrajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
+        final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
                 new Position(0, 0, 0),
                 new Position(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
@@ -47,7 +46,7 @@ public class PhysicalTrajectoryProfileTest {
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
-        final FunctionalTrajectory FUNCTIONAL = new FunctionalTrajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
+        final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
                 new Position(0, 0, 0),
                 new Position(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
@@ -69,7 +68,7 @@ public class PhysicalTrajectoryProfileTest {
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
-        final FunctionalTrajectory FUNCTIONAL = new FunctionalTrajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
+        final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
                 new Position(0, 0, 0),
                 new Position(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
@@ -91,7 +90,7 @@ public class PhysicalTrajectoryProfileTest {
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
-        final FunctionalTrajectory FUNCTIONAL = new FunctionalTrajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
+        final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
                 new Position(0, 0, 0),
                 new Position(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
