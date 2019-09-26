@@ -1,19 +1,28 @@
 package tracer.profiles;
 
+import calculus.functions.Cubic;
+import calculus.functions.Linear;
+import calculus.functions.PolynomialFunction;
+import calculus.functions.Quadratic;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import util.TimeConversion;
 
 public class ConcaveProfile extends Profile {
-    private final double maxJerk;
+    private final double targetJerk;
 
-    private final double initialVelocity;
+    private final PolynomialFunction acceleration;
+    private final PolynomialFunction velocity;
+    private final PolynomialFunction distance;
 
     public ConcaveProfile(double initialDistance, double initialVelocity, MotionParameters target, Time startTime) {
         super(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, calcDuration(target));
 
-        maxJerk = target.jerk();
-        this.initialVelocity = initialVelocity;
+        targetJerk = target.jerk();
+
+        acceleration = Linear.fromConstants(targetJerk, 0);
+        velocity = Quadratic.fromConstants(targetJerk/2, 0, 0);
+        distance = Cubic.fromConstants(targetJerk/6, 0, initialVelocity, 0);
     }
 
     private static Time calcDuration(MotionParameters max) {
@@ -23,23 +32,23 @@ public class ConcaveProfile extends Profile {
     @Override
     protected double relativeVelocityAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return maxJerk * Math.pow(timeInSeconds, 2)/2;
+        return velocity.at(timeInSeconds);
     }
 
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return initialVelocity * timeInSeconds + maxJerk * Math.pow(timeInSeconds, 3)/6;
+        return distance.at(timeInSeconds);
     }
 
     @Override
     protected double relativeAccelerationAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return timeInSeconds * maxJerk;
+        return acceleration.at(timeInSeconds);
     }
 
     @Override
     protected double relativeJerkAt(Time relativeTime) {
-        return maxJerk;
+        return targetJerk;
     }
 }

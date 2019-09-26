@@ -1,5 +1,6 @@
 package tracer.profiles;
 
+import calculus.functions.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 

@@ -1,11 +1,14 @@
 package tracer.profiles;
 
+import calculus.functions.Linear;
+import calculus.functions.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import util.TimeConversion;
 
 public class ConstantVelocityProfile extends Profile {
-    private final double initialVelocity;
+    private final PolynomialFunction distance;
+
 
     public ConstantVelocityProfile(Profile prevProfile, Time duration) {
         this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.end(), duration);
@@ -14,7 +17,7 @@ public class ConstantVelocityProfile extends Profile {
     public ConstantVelocityProfile(double initialDistance, double initialVelocity, Time startTime, Time duration) {
         super(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, duration);
 
-        this.initialVelocity = initialVelocity;
+        distance = Linear.fromConstants(initialVelocity, 0);
     }
 
     @Override
@@ -25,7 +28,7 @@ public class ConstantVelocityProfile extends Profile {
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return initialVelocity * timeInSeconds;
+        return distance.at(timeInSeconds);
     }
 
     @Override
