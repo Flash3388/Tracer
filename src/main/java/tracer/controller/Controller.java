@@ -1,6 +1,6 @@
 package tracer.controller;
 
-import tracer.motion.PhysicalPosition;
+import tracer.motion.Position;
 import tracer.profiles.Profile;
 
 public abstract class Controller {
@@ -14,5 +14,5 @@ public abstract class Controller {
         return motionProfile;
     }
 
-    public abstract double calculate(PhysicalPosition position);
+    public abstract double calculate(Position position);
 }

@@ -5,7 +5,7 @@ import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import org.junit.Test;
 import tracer.motion.MotionParameters;
-import tracer.motion.Position;
+import tracer.motion.Waypoint;
 import tracer.trajectory.Trajectory;
 
 import java.util.Arrays;
@@ -25,8 +25,8 @@ public class PhysicalTrajectoryProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
-                new Position(0, 0, 0),
-                new Position(1, 0, 0)));
+                new Waypoint(0, 0, 0),
+                new Waypoint(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
         final PhysicalTrajectory TRAJECTORY = PhysicalTrajectory.fromFunctional(FUNCTIONAL, MAX, Time.seconds(0.02));
 
@@ -47,8 +47,8 @@ public class PhysicalTrajectoryProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
-                new Position(0, 0, 0),
-                new Position(1, 0, 0)));
+                new Waypoint(0, 0, 0),
+                new Waypoint(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
         final PhysicalTrajectory TRAJECTORY = PhysicalTrajectory.fromFunctional(FUNCTIONAL, MAX, Time.seconds(0.02));
 
@@ -69,8 +69,8 @@ public class PhysicalTrajectoryProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
-                new Position(0, 0, 0),
-                new Position(1, 0, 0)));
+                new Waypoint(0, 0, 0),
+                new Waypoint(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
         final PhysicalTrajectory TRAJECTORY = PhysicalTrajectory.fromFunctional(FUNCTIONAL, MAX, Time.seconds(0.02));
 
@@ -91,8 +91,8 @@ public class PhysicalTrajectoryProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final Trajectory FUNCTIONAL = new Trajectory(SplineType.CUBIC_HERMITE, Arrays.asList(
-                new Position(0, 0, 0),
-                new Position(1, 0, 0)));
+                new Waypoint(0, 0, 0),
+                new Waypoint(1, 0, 0)));
         final MotionParameters MAX = new MotionParameters(10, 5, 1);
         final PhysicalTrajectory TRAJECTORY = PhysicalTrajectory.fromFunctional(FUNCTIONAL, MAX, Time.seconds(0.02));
 

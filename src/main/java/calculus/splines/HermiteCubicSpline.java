@@ -1,15 +1,15 @@
 package calculus.splines;
 
 import calculus.functions.Cubic;
-import tracer.motion.Position;
+import tracer.motion.Waypoint;
 import util.Operations;
 
 public class HermiteCubicSpline extends Spline {
-    public HermiteCubicSpline(Position startPosition, Position endPosition) {
-        super(calcFunctions(startPosition, endPosition), startPosition, endPosition);
+    public HermiteCubicSpline(Waypoint startWaypoint, Waypoint endWaypoint) {
+        super(calcFunctions(startWaypoint, endWaypoint), startWaypoint, endWaypoint);
     }
 
-    private static Cubic calcFunctions(Position start, Position end) {
+    private static Cubic calcFunctions(Waypoint start, Waypoint end) {
         double offsetAngle = calcOffset(start, end).getHeading();
         double startDelta = Math.tan(Operations.boundRadiansForcePositive(start.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
         double endDelta = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));

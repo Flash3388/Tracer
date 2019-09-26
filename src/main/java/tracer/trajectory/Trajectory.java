@@ -4,7 +4,7 @@ import calculus.splines.LengthOutsideOfFunctionBoundsException;
 import calculus.splines.Spline;
 import calculus.splines.SplineFactory;
 import calculus.splines.SplineType;
-import tracer.motion.Position;
+import tracer.motion.Waypoint;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,17 +16,17 @@ public class Trajectory {
     private final SplineFactory hermiteFactory;
     private final double trajectoryLength;
 
-    public Trajectory(SplineType splineType, List<Position> path) {
+    public Trajectory(SplineType splineType, List<Waypoint> path) {
         hermiteFactory = new SplineFactory();
         splines = generateTrajectory(path, splineType);
         trajectoryLength = calcTrajectoryLength();
     }
 
-    public Trajectory(SplineType splineType, Position... path) {
+    public Trajectory(SplineType splineType, Waypoint... path) {
         this(splineType, Arrays.asList(path));
     }
 
-    private List<Spline> generateTrajectory(List<Position> path, SplineType splineType) {
+    private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
         return IntStream.range(0, path.size())
                 .skip(1)
                 .mapToObj(positionIndex -> hermiteFactory.getSpline(splineType, path.get(positionIndex - 1), path.get(positionIndex)))

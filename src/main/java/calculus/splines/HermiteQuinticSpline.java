@@ -1,15 +1,15 @@
 package calculus.splines;
 
 import calculus.functions.Quintic;
-import tracer.motion.Position;
+import tracer.motion.Waypoint;
 import util.Operations;
 
 public class HermiteQuinticSpline extends Spline {
-    public HermiteQuinticSpline(Position startPosition, Position endPosition) {
-        super(calcFunctions(startPosition, endPosition), startPosition, endPosition);
+    public HermiteQuinticSpline(Waypoint startWaypoint, Waypoint endWaypoint) {
+        super(calcFunctions(startWaypoint, endWaypoint), startWaypoint, endWaypoint);
     }
 
-    private static Quintic calcFunctions(Position start, Position end) {
+    private static Quintic calcFunctions(Waypoint start, Waypoint end) {
         double offsetAngle = calcOffset(start, end).getHeading();
         double startDelta = Math.tan(Operations.boundRadiansForcePositive(start.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
         double endDelta = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));

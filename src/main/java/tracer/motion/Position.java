@@ -1,35 +1,35 @@
 package tracer.motion;
 
+import com.flash3388.flashlib.time.Time;
+
 public class Position {
-    private final double
-            x,
-            y,
-            heading;
+    private final Time timing;
+    private final double distance;
+    private final double angle;
 
-    public Position(double xCentimeters, double yCentimeters, double headingRadians) {
-        this.x = xCentimeters;
-        this.y = yCentimeters;
-        this.heading = headingRadians;
+    public static Position centimetersDegrees(Time timing, double distance, double angle) {
+        return new Position(timing, distance, angle);
     }
 
-    public double x() {
-        return x;
+    private Position(Time timing, double distanceCentimeters, double angleDegrees) {
+        this.timing = timing;
+        this.distance = distanceCentimeters;
+        this.angle = angleDegrees;
     }
 
-    public double y() {
-        return y;
+    public static Position start() {
+        return new Position(Time.milliseconds(0), 0, 0);
     }
 
-    public double getHeading() {
-        return heading;
+    public Time getTiming() {
+        return timing;
     }
 
-    public double getHeadingDegrees() {
-        return Math.toDegrees(heading);
+    public double getDistance() {
+        return distance;
     }
 
-    @Override
-    public String toString() {
-        return "X: " + x + " Y: " + y + " Heading: " + heading;
+    public double getAngle() {
+        return angle;
     }
 }

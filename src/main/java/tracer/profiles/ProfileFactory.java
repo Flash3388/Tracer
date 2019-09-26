@@ -54,7 +54,7 @@ public class ProfileFactory {
     }
 
     private static Profile createEndSCurve(Profile prevProfile, MotionParameters max) {
-        MotionParameters reversedMotionParameters = new MotionParameters(0, -max.acceleration(), -max.jerk());
+        MotionParameters reversedMotionParameters = MotionParameters.centimeterUnits(0, -max.acceleration(), -max.jerk());
 
         return createSCurve(prevProfile, reversedMotionParameters);
     }

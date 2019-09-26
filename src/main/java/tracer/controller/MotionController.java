@@ -2,7 +2,7 @@ package tracer.controller;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
-import tracer.motion.PhysicalPosition;
+import tracer.motion.Position;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 import tracer.trajectory.Trajectory;
@@ -54,7 +54,7 @@ public class MotionController extends Controller{
     }
 
     @Override
-    public double calculate(PhysicalPosition position) {
+    public double calculate(Position position) {
         Time timing = position.getTiming();
         double distance = position.getDistance();
         double angle = position.getAngle();

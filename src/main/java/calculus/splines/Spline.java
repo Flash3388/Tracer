@@ -2,7 +2,7 @@ package calculus.splines;
 
 import calculus.functions.PolynomialFunction;
 import com.jmath.ExtendedMath;
-import tracer.motion.Position;
+import tracer.motion.Waypoint;
 
 import java.util.Comparator;
 import java.util.List;
@@ -15,24 +15,24 @@ public class Spline {
     private static final int SAMPLES_HIGH = SAMPLES_LOW * 10;
 
     private final PolynomialFunction function;
-    private final Position offset;
+    private final Waypoint offset;
     private final double knotDistance;
     private final double arcLength;
 
-    public Spline(PolynomialFunction function, Position startPosition, Position endPosition) {
+    public Spline(PolynomialFunction function, Waypoint startWaypoint, Waypoint endWaypoint) {
         this.function = function;
 
-        knotDistance = calcKnotDistance(startPosition, endPosition);
-        offset = calcOffset(startPosition, endPosition);
+        knotDistance = calcKnotDistance(startWaypoint, endWaypoint);
+        offset = calcOffset(startWaypoint, endWaypoint);
         arcLength = calcArcLength();
     }
 
-    public static double calcKnotDistance(Position start, Position end) {
+    public static double calcKnotDistance(Waypoint start, Waypoint end) {
         return Math.sqrt(Math.pow(end.x()-start.x(), 2) + Math.pow(end.y() - start.y(), 2));
     }
 
-    public static Position calcOffset(Position start, Position end) {
-        return new Position(
+    public static Waypoint calcOffset(Waypoint start, Waypoint end) {
+        return Waypoint.centimetersRadians(
                 start.x(),
                 start.y(),
                 calcAngleOffset(start, end));
@@ -42,7 +42,7 @@ public class Spline {
         return knotDistance;
     }
 
-    public Position offset() {
+    public Waypoint offset() {
         return offset;
     }
 
@@ -59,7 +59,7 @@ public class Spline {
         return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
     }
 
-    private static double calcAngleOffset(Position start, Position end) {
+    private static double calcAngleOffset(Waypoint start, Waypoint end) {
         return Math.atan2(end.y() - start.y(), end.x() - start.x());
     }
 

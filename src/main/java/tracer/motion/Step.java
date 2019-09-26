@@ -3,23 +3,23 @@ package tracer.motion;
 import com.flash3388.flashlib.time.Time;
 
 public class Step {
-    private final PhysicalPosition position;
+    private final Position position;
     private final MotionParameters parameters;
 
-    public Step(PhysicalPosition position, MotionParameters parameters) {
+    public Step(Position position, MotionParameters parameters) {
         this.position = position;
         this.parameters = parameters;
     }
 
     public static Step start() {
-        return new Step(PhysicalPosition.start(), MotionParameters.stop());
+        return new Step(Position.start(), MotionParameters.stop());
     }
 
     public MotionParameters getParameters() {
         return parameters;
     }
 
-    public PhysicalPosition getPosition() {
+    public Position getPosition() {
         return position;
     }
 

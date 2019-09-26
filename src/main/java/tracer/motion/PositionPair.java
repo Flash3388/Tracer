@@ -1,19 +1,19 @@
 package tracer.motion;
 
 public class PositionPair {
-    private final Position first;
-    private final Position second;
+    private final Waypoint first;
+    private final Waypoint second;
 
-    public PositionPair(Position first, Position second) {
+    public PositionPair(Waypoint first, Waypoint second) {
         this.first = first;
         this.second = second;
     }
 
-    public Position getFirst() {
+    public Waypoint getFirst() {
         return first;
     }
 
-    public Position getSecond() {
+    public Waypoint getSecond() {
         return second;
     }
 }
