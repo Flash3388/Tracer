@@ -1,6 +1,7 @@
 package calculus.functions;
 
 import calculus.variables.Variable;
+import com.jmath.complex.Complex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,5 +62,5 @@ public abstract class PolynomialFunction {
                 .collect(Collectors.toList());
     }
 
-    public abstract List<Double> solve(double result) throws UnsupportedOperationException;
+    public abstract List<Complex> solve(double result) throws UnsupportedOperationException;
 }

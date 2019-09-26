@@ -1,6 +1,7 @@
 package calculus.functions;
 
 import calculus.variables.Variable;
+import com.jmath.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Constant extends PolynomialFunction {
     }
 
     @Override
-    public List<Double> solve(double result) throws UnsupportedOperationException {
+    public List<Complex> solve(double result) throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 }

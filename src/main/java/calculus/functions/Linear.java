@@ -1,6 +1,7 @@
 package calculus.functions;
 
 import calculus.variables.Variable;
+import com.jmath.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Linear extends PolynomialFunction {
     }
 
     @Override
-    public List<Double> solve(double result) {
-        return Arrays.asList((result - get(1).modifier())/get(0).modifier());
+    public List<Complex> solve(double result) {
+        return Arrays.asList(new Complex((result - get(1).modifier())/get(0).modifier(), 0));
     }
 }

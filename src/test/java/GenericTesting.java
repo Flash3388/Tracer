@@ -17,6 +17,6 @@ public class GenericTesting {
 //        MotionController tracer = MotionController.forTrajectory(trajectory, max, 0.1, 0 , 1, 0, 0, 0);
 //
 //        System.out.println(tracer.calculate(Position.centimetersDegrees(Time.seconds(0), 0, 90)));
-        System.out.println(ComplexMath.complexRoot(-1, 2));
+        System.out.println(ComplexMath.complexRoot(-10, 2).roots(3));
     }
 }
