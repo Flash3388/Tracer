@@ -1,4 +1,5 @@
 import calculus.functions.Cubic;
+import calculus.functions.Quartic;
 
 public class GenericTesting {
     public static void main(String[] args) {
@@ -10,7 +11,10 @@ public class GenericTesting {
 //        MotionController tracer = MotionController.forTrajectory(trajectory, max, 0.1, 0 , 1, 0, 0, 0);
 //
 //        System.out.println(tracer.calculate(Position.centimetersDegrees(Time.seconds(0), 0, 90)));
-        Cubic c = Cubic.fromConstants(1, 0, -15, -4);
-        System.out.println(c.solutions(0));
+        Quartic q = Quartic.fromConstants(1, 2, 3, 4, 5);
+        System.out.println(q.solutions(0));
+
+        Cubic c = Cubic.fromConstants(1, -21.25, -20.25,0);
+//        System.out.println(c.solutions(0));
     }
 }

@@ -3,6 +3,7 @@ package calculus.functions;
 import calculus.variables.Variable;
 import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
+import com.jmath.complex.ComplexMath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class Cubic extends PolynomialFunction{
 
     private List<Complex> roots(double a, double b, double c, double d) {
         List<Complex> results;
-        double f = (3*c/a - b*b/a*a)/3;
+        double f = (3*c/a - b*b/(a*a))/3;
         double g = (2*Math.pow(b, 3)/Math.pow(a, 3) - 9*b*c/Math.pow(a, 2) + 27*d/a)/27;
         double h = g*g/4 + f*f*f/27;
 
@@ -67,7 +68,7 @@ public class Cubic extends PolynomialFunction{
         double R = -g/2 + Math.sqrt(h);
         double S = ExtendedMath.root(R, 3);
         double T = -g/2 - Math.sqrt(h);
-        double U = ExtendedMath.root(T, 3);
+        double U = -ComplexMath.complexRoot(T, 3).imaginary();
         double P = -b/(3*a);
 
         results.add(new Complex(S + U + P, 0));

@@ -1,13 +1,18 @@
 package calculus.functions;
 
 import calculus.variables.Variable;
+import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Quartic extends PolynomialFunction {
+    private final static double DEF_DELTA = 0.01;
+
     public static Quartic fromConstants(double a, double b, double c, double d, double e) {
         if(a == 0)
             throw new IllegalArgumentException("a must not be equal to 0");
@@ -24,29 +29,51 @@ public class Quartic extends PolynomialFunction {
         double b = get(1).modifier();
         double c = get(2).modifier();
         double d = get(3).modifier();
-        double e = get(3).modifier() - result;
+        double e = get(4).modifier() - result;
 
-        return realRoots(a, b, c, d, e);
+        return roots(a, b, c, d, e);
     }
 
-    private List<Complex> realRoots(double a, double b, double c, double d, double e) {
-        List<Complex> results = new ArrayList<>();
+    private List<Complex> roots(double a, double b, double c, double d, double e) {
         b /= a;
         c /= a;
         d /= a;
         e /= a;
+        a = 1;
 
-        Cubic cubic = findCubic(b, c, d, e);
-//        p =
+        double g = d + Math.pow(b, 3)/8 - b*c/2;
+        Cubic cubic = findCubic(b, c, d, e, g);
+        List<Complex> fixedSolutions = sortByImaginary(cubic.solutions(0));
 
-        return results;
+        return finalRoots(a, b, g, fixedSolutions.get(0), fixedSolutions.get(1));
     }
 
-    private Cubic findCubic(double b, double c, double d, double e) {
+    private Cubic findCubic(double b, double c, double d, double e, double g) {
         double f = c - 3*b*b/8;
-        double g = d + Math.pow(b, 3)/8.0 - b*c/2;
         double h = e - 3*Math.pow(b, 4)/256 + b*b * c/16 - b*d/4;
 
         return Cubic.fromConstants(1, f/2, (f*f - 4*h)/16, -g*g/64);
+    }
+    
+    private List<Complex> sortByImaginary(List<Complex> solutions) {
+        return solutions.stream()
+                .sorted(Comparator.comparingDouble(Complex::real))
+                .sorted(Comparator.comparingDouble(Complex::imaginary))
+                .collect(Collectors.toList());
+    }
+
+    private List<Complex> finalRoots(double a, double b, double g, Complex firstSolution, Complex secondSolution) {
+        List<Complex> results = new ArrayList<>(4);
+        Complex p = firstSolution.roots(2).get(0);
+        Complex q = secondSolution.roots(2).get(0);
+        Complex r = new Complex(-g, 0).div(p.multiply(q).multiply(8));
+        Complex s = new Complex(b/(4*a), 0);
+
+        results.add(p.add(q).add(r).sub(s));
+        results.add(p.sub(q).sub(r).sub(s));
+        results.add(p.multiply(-1).add(q).sub(r).sub(s));
+        results.add(p.multiply(-1).sub(q).add(r).sub(s));
+
+        return results;
     }
 }
