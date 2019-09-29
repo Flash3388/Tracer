@@ -16,7 +16,7 @@ public class Constant extends PolynomialFunction {
     }
 
     @Override
-    public List<Complex> solutions(double result) throws UnsupportedOperationException {
+    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 }

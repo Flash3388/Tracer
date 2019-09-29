@@ -11,8 +11,6 @@ import java.util.List;
 
 public class Cubic extends PolynomialFunction{
     public static Cubic fromConstants(double a, double b, double c, double d) {
-        if(a == 0)
-            throw new IllegalArgumentException("a must not be equal to 0");
         return new Cubic(generateFunction(Arrays.asList(a, b, c, d)));
     }
 
@@ -21,7 +19,7 @@ public class Cubic extends PolynomialFunction{
     }
 
     @Override
-    public List<Complex> solutions(double result) throws UnsupportedOperationException {
+    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();

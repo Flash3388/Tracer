@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 public class Quartic extends PolynomialFunction {
     public static Quartic fromConstants(double a, double b, double c, double d, double e) {
-        if(a == 0)
-            throw new IllegalArgumentException("a must not be equal to 0");
         return new Quartic(generateFunction(Arrays.asList(a, b, c, d, e)));
     }
 
@@ -21,7 +19,7 @@ public class Quartic extends PolynomialFunction {
     }
 
     @Override
-    public List<Complex> solutions(double result) throws UnsupportedOperationException {
+    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();
@@ -40,7 +38,7 @@ public class Quartic extends PolynomialFunction {
 
         double g = d + Math.pow(b, 3)/8 - b*c/2;
         Cubic cubic = findCubic(b, c, d, e, g);
-        List<Complex> fixedSolutions = sortByImaginary(cubic.solutions(0));
+        List<Complex> fixedSolutions = sortByImaginary(cubic.trySolve(0));
 
         return finalRoots(a, b, g, fixedSolutions.get(0), fixedSolutions.get(1));
     }

@@ -8,8 +8,6 @@ import java.util.List;
 
 public class Quintic extends PolynomialFunction {
     public static Quintic fromConstants(double a, double b, double c, double d, double e, double f) {
-        if(a == 0)
-            throw new IllegalArgumentException("a must not be equal to 0");
         return new Quintic(generateFunction(Arrays.asList(a, b, c, d, e, f)));
     }
 
@@ -18,7 +16,7 @@ public class Quintic extends PolynomialFunction {
     }
 
     @Override
-    public List<Complex> solutions(double result) throws UnsupportedOperationException {
+    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 }

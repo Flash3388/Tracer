@@ -11,11 +11,11 @@ import java.util.stream.IntStream;
 
 public abstract class PolynomialFunction {
     private final List<Variable> variables;
-    private final Function<List<Variable>, PolynomialFunction> deriveContructor;
+    private final Function<List<Variable>, PolynomialFunction> deriveConstructor;
     private final Function<List<Variable>, PolynomialFunction> integralConstructor;
 
     public PolynomialFunction(List<Variable> variables, Function<List<Variable>, PolynomialFunction> deriveConstructor, Function<List<Variable>, PolynomialFunction> integralConstructor) {
-        this.deriveContructor = deriveConstructor;
+        this.deriveConstructor = deriveConstructor;
         this.integralConstructor = integralConstructor;
         this.variables = new ArrayList<>();
         this.variables.addAll(variables);
@@ -37,7 +37,7 @@ public abstract class PolynomialFunction {
     }
 
     public PolynomialFunction derive() {
-        return deriveContructor.apply(deriveVariables());
+        return deriveConstructor.apply(deriveVariables());
     }
 
     public PolynomialFunction integral() {
@@ -51,7 +51,22 @@ public abstract class PolynomialFunction {
                 .collect(Collectors.toList());
     }
 
-    public abstract List<Complex> solutions(double result) throws UnsupportedOperationException;
+    public List<Complex> solutions(double result) throws UnsupportedOperationException {
+        try {
+            return solve(result);
+        } catch (FirstConstantException e) {
+            List<Variable> withoutA = variables.subList(1, variables.size());
+            return deriveConstructor.apply(withoutA).solutions(result);
+        }
+    }
+
+    private List<Complex> solve(double result) throws UnsupportedOperationException, FirstConstantException {
+        if(get(0).modifier() == 0)
+            throw new FirstConstantException();
+        return trySolve(result);
+    }
+
+    protected abstract List<Complex> trySolve(double result) throws UnsupportedOperationException;
 
     protected  List<Variable> deriveVariables() {
         return variables.stream()
