@@ -1,15 +1,17 @@
 package calculus.functions;
 
 import calculus.variables.Variable;
+import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
-import com.jmath.complex.ComplexMath;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class Cubic extends PolynomialFunction{
     public static Cubic fromConstants(double a, double b, double c, double d) {
+        if(a == 0)
+            throw new IllegalArgumentException("a must not be equal to 0");
         return new Cubic(generateFunction(Arrays.asList(a, b, c, d)));
     }
 
@@ -18,48 +20,71 @@ public class Cubic extends PolynomialFunction{
     }
 
     @Override
-    protected List<Complex> solve(double result) throws UnsupportedOperationException {
+    public List<Complex> solutions(double result) throws UnsupportedOperationException {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();
         double d = get(3).modifier() - result;
 
-        return Arrays.asList(
-                root(a, b, c, d, 1),
-                root(a, b, c, d, 2),
-                root(a, b, c, d, 3));
+        return roots(a, b, c, d);
     }
 
-    private Complex root(double a, double b, double c, double d, int rootNumber) {
-        double spaghetti =  -2*Math.pow(b, 3) + 9*a*b*c - 27*a*a*d;
-        Complex secondSpaghetti = new Complex(Math.pow(spaghetti, 2) - 4*Math.pow(b*b - 3*a*c, 3), 0)
-                .roots(2).get(0);
+    private List<Complex> roots(double a, double b, double c, double d) {
+        List<Complex> results;
+        double f = (3*c/a - b*b/a*a)/3;
+        double g = (2*Math.pow(b, 3)/Math.pow(a, 3) - 9*b*c/Math.pow(a, 2) + 27*d/a)/27;
+        double h = g*g/4 + f*f*f/27;
 
-        return C(rootNumber, true)
-                .multiply(new Complex(spaghetti, 0)
-                        .add(secondSpaghetti)
-                        .multiply(4)
-                        .roots(3).get(0))//I think the first result is always the "realest" one
-                .add(-2 * b)
-                .add(C(rootNumber, false)
-                        .multiply(new Complex(spaghetti, 0)
-                                .sub(secondSpaghetti)
-                                .multiply(4)
-                                .roots(3).get(0)))
-                .div(6 * a);
+        if(f == 0 && g == 0 && h == 0)
+            results = allRealAndEqual(a, d);
+        else if(h <= 0)
+            results = threeRealRoots(a, b, g, h);
+        else
+            results = oneRealRoot(a, b, g, h);
+
+        return results;
     }
 
-    private Complex C(int rootNumber, boolean isFirst) {
-        return isFirst ?
-                new Complex(-1, 0).add(power(ComplexMath.complexRoot(-3, 2), rootNumber)).div(2):
-                new Complex(-1, 0).sub(power(ComplexMath.complexRoot(-3, 2), rootNumber)).div(2);
+    private List<Complex> threeRealRoots(double a, double b, double g, double h) {
+        List<Complex> results = new ArrayList<>(3);
+        double i = Math.sqrt(g*g/4 - h);
+        double j = ExtendedMath.root(i, 3);
+        double k = Math.acos(-g/(2*i));
+        double L = -j;
+        double M = Math.cos(k/3);
+        double N = Math.sqrt(3) * Math.sin(k/3);
+        double P = -b/(3*a);
+
+        results.add(new Complex(2*j * M + P, 0));
+        results.add(new Complex(L * (M + N) + P, 0));
+        results.add(new Complex(L * (M - N) + P, 0));
+
+        return results;
     }
 
-    private Complex power(Complex complex, int power) {
-        Complex result = new Complex(1, 0);
-        IntStream.range(0, power)
-                .forEach(i -> result.multiply(complex));
+    private List<Complex> oneRealRoot(double a, double b, double g, double h) {
+        List<Complex> results = new ArrayList<>(3);
+        double R = -g/2 + Math.sqrt(h);
+        double S = ExtendedMath.root(R, 3);
+        double T = -g/2 - Math.sqrt(h);
+        double U = ExtendedMath.root(T, 3);
+        double P = -b/(3*a);
 
-        return result;
+        results.add(new Complex(S + U + P, 0));
+        results.add(new Complex(-(S + U)/2 + P, (S - U) * Math.sqrt(3)/2));
+        results.add(new Complex(-(S + U)/2 + P, -(S - U) * Math.sqrt(3)/2));
+
+        return results;
+    }
+
+    private List<Complex> allRealAndEqual(double a, double d) {
+        List<Complex> results = new ArrayList<>(3);
+        Complex result = new Complex( -ExtendedMath.root(d/a, 3), 0);
+
+        results.add(result);
+        results.add(result);
+        results.add(result);
+
+        return results;
     }
 }

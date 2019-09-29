@@ -1,11 +1,4 @@
-import calculus.splines.SplineType;
-import com.flash3388.flashlib.time.Time;
-import com.jmath.complex.ComplexMath;
-import tracer.controller.MotionController;
-import tracer.motion.MotionParameters;
-import tracer.motion.Position;
-import tracer.motion.Waypoint;
-import tracer.trajectory.Trajectory;
+import calculus.functions.Cubic;
 
 public class GenericTesting {
     public static void main(String[] args) {
@@ -17,6 +10,7 @@ public class GenericTesting {
 //        MotionController tracer = MotionController.forTrajectory(trajectory, max, 0.1, 0 , 1, 0, 0, 0);
 //
 //        System.out.println(tracer.calculate(Position.centimetersDegrees(Time.seconds(0), 0, 90)));
-        System.out.println(ComplexMath.complexRoot(-10, 2).roots(3));
+        Cubic c = Cubic.fromConstants(1, 0, -15, -4);
+        System.out.println(c.solutions(0));
     }
 }

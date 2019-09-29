@@ -45,13 +45,13 @@ public abstract class PolynomialFunction {
     }
 
     public List<Double> realSolutions(double result) throws UnsupportedOperationException {
-        return solve(result).stream()
+        return solutions(result).stream()
                 .filter(solution -> solution.imaginary() == 0)
                 .map(Complex::real)
                 .collect(Collectors.toList());
     }
 
-    protected abstract List<Complex> solve(double result) throws UnsupportedOperationException;
+    public abstract List<Complex> solutions(double result) throws UnsupportedOperationException;
 
     protected  List<Variable> deriveVariables() {
         return variables.stream()

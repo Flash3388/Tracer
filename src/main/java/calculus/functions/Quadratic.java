@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Quadratic extends PolynomialFunction {
     public static Quadratic fromConstants(double a, double b, double c) {
+        if(a == 0)
+            throw new IllegalArgumentException("a must not be equal to 0");
         return new Quadratic(generateFunction(Arrays.asList(a, b, c)));
     }
 
@@ -16,7 +18,7 @@ public class Quadratic extends PolynomialFunction {
     }
 
     @Override
-    protected List<Complex> solve(double result) throws UnsupportedOperationException{
+    public List<Complex> solutions(double result) throws UnsupportedOperationException{
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier() - result;

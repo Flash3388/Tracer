@@ -11,7 +11,7 @@ public class Unsupported extends PolynomialFunction {
     }
 
     @Override
-    protected List<Complex> solve(double result) throws UnsupportedOperationException {
+    public List<Complex> solutions(double result) throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 }
