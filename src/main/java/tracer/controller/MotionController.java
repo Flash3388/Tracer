@@ -30,6 +30,7 @@ public class MotionController extends Controller{
     public static MotionController forTrajectory(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
         Profile functionalProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
         Function<Time, Double> angleAt = time -> trajectory.angleAt(functionalProfile.distanceAt(time));
+
         return new MotionController(functionalProfile, angleAt, kV, kA, kP, kI, kD, gP);
     }
 
@@ -73,18 +74,13 @@ public class MotionController extends Controller{
 
         double pOut = kP * error;
         double iOut = kI * totalError;
-        double dOut = kD * (error - lastError)/(TimeConversion.toSeconds(timing.sub(lastTime).add(Time.milliseconds(1))));//so there won't be a division by zero
+        double dOut = kD * (error - lastError)/(TimeConversion.toSeconds(Time.milliseconds(1).add(timing.sub(lastTime))));//so there won't be a division by zero
 
         double vOut = kV * velocity;
         double aOut = kA * acceleration;
 
         double gOut = gP * angleError;
 
-        System.out.println(kP + " " + error + " " + pOut);
-        System.out.println(kD + " " + (error - lastError) + " " + dOut);
-        System.out.println(kI + " " + totalError + " " + iOut);
-        System.out.println(kV + " " + velocity + " " + vOut);
-        System.out.println(kA + " " + acceleration + " " + aOut);
         System.out.println(gP + " " + angleError + " " + gOut);
 
         totalError += error;

@@ -8,6 +8,7 @@ import tracer.motion.Waypoint;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -52,16 +53,18 @@ public class Trajectory {
         }
     }
 
-    private Spline getCorrespondingSpline(double length) {//need to check
-        return splines.stream()
-                .filter(spline -> length <= getDistanceUntil(spline))
-                .findFirst()
-                .get();
+    private Spline getCorrespondingSpline(double length) throws LengthOutsideOfFunctionBoundsException {
+        Optional<Spline> result = splines.stream()
+                .filter(spline -> length <= distanceUntil(spline))
+                .findFirst();
+        if(!result.isPresent())
+            throw new LengthOutsideOfFunctionBoundsException();
+        return result.get();
     }
 
-    private double getDistanceUntil(Spline targetSpline) {
+    private double distanceUntil(Spline targetSpline) {
         return splines.stream()
-                .limit(splines.indexOf(targetSpline) + 1)
+                .limit(splines.indexOf(targetSpline))
                 .mapToDouble(Spline::length)
                 .sum();
     }

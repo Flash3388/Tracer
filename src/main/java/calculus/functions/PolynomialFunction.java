@@ -60,12 +60,6 @@ public abstract class PolynomialFunction {
         }
     }
 
-    private List<Complex> solve(double result) throws UnsupportedOperationException, FirstConstantException {
-        if(get(0).modifier() == 0)
-            throw new FirstConstantException();
-        return trySolve(result);
-    }
-
     protected abstract List<Complex> trySolve(double result) throws UnsupportedOperationException;
 
     protected  List<Variable> deriveVariables() {
@@ -84,5 +78,11 @@ public abstract class PolynomialFunction {
         return IntStream.range(0, multipliers.size())
                 .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
                 .collect(Collectors.toList());
+    }
+
+    private List<Complex> solve(double result) throws UnsupportedOperationException, FirstConstantException {
+        if(get(0).modifier() == 0)
+            throw new FirstConstantException();
+        return trySolve(result);
     }
 }

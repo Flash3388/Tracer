@@ -10,7 +10,7 @@ public class GenericTesting {
     public static void main(String[] args) {
         Trajectory trajectory = new Trajectory(SplineType.CUBIC_HERMITE,
                 Waypoint.centimetersRadians(0,0, Math.PI/2),
-                Waypoint.centimetersRadians(0, 100, Math.PI/2));
+                Waypoint.centimetersRadians(20, 100, Math.PI/2));
         MotionParameters max = MotionParameters.centimeterUnits(10, 5, 2.5);
 
         MotionController tracer = MotionController.forTrajectory(trajectory, max, 0.1, 0 , 1, 0, 0, 0);
