@@ -1,7 +1,6 @@
 package calculus.functions;
 
 import calculus.variables.Variable;
-import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
 
 import java.util.ArrayList;
@@ -11,8 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Quartic extends PolynomialFunction {
-    private final static double DEF_DELTA = 0.01;
-
     public static Quartic fromConstants(double a, double b, double c, double d, double e) {
         if(a == 0)
             throw new IllegalArgumentException("a must not be equal to 0");
@@ -54,7 +51,7 @@ public class Quartic extends PolynomialFunction {
 
         return Cubic.fromConstants(1, f/2, (f*f - 4*h)/16, -g*g/64);
     }
-    
+
     private List<Complex> sortByImaginary(List<Complex> solutions) {
         return solutions.stream()
                 .sorted(Comparator.comparingDouble(Complex::real))
