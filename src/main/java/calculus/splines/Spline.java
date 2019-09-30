@@ -53,10 +53,15 @@ public class Spline {
     public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
 
-        double derivative = Math.sqrt(Math.pow(length, 2) - 1);
+        System.out.println(Math.pow(length, 2) - 1);
+        double derivative = Math.sqrt(Math.abs(Math.pow(length, 2) - 1));
         double percentage = filterSolutions(function.derive().realSolutions(derivative), length);
 
-        return Math.atan(function.at(percentage)/percentage) + offset.getHeadingDegrees();
+        System.out.println(function);
+        System.out.println(function.derive());
+        System.out.println(function.derive().realSolutions(derivative));
+
+        return Math.atan2(function.at(percentage), percentage) + offset.getHeadingDegrees();
     }
 
     private static double calcAngleOffset(Waypoint start, Waypoint end) {
@@ -94,6 +99,7 @@ public class Spline {
     }
 
     private double getPercentageAtLength(double length) {
+        System.out.println("we are gay");
         AtomicReference<Double> sum = new AtomicReference<>((double) 0);
 
         return IntStream.range(0, SAMPLES_HIGH)

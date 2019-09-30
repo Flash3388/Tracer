@@ -2,6 +2,7 @@ package calculus.functions;
 
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
+import com.jmath.complex.ComplexMath;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,6 @@ public class Quadratic extends PolynomialFunction {
     }
 
     private Complex root(double a, double b, double c, boolean addRoot) {
-        return new Complex((-b + (addRoot ? 1 : -1) * Math.sqrt(Math.pow(b, 2) + 4*a*c)) / 2*a, 0);
+        return ComplexMath.complexRoot(Math.pow(b, 2) + 4*a*c, 2).multiply(addRoot ? 1 : -1).add(-b).div(2*a);
     }
 }

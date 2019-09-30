@@ -81,8 +81,6 @@ public class MotionController extends Controller{
 
         double gOut = gP * angleError;
 
-        System.out.println(gP + " " + angleError + " " + gOut);
-
         totalError += error;
         lastError = error;
         lastTime = timing;

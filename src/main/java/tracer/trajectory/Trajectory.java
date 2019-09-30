@@ -55,7 +55,7 @@ public class Trajectory {
 
     private Spline getCorrespondingSpline(double length) throws LengthOutsideOfFunctionBoundsException {
         Optional<Spline> result = splines.stream()
-                .filter(spline -> length <= distanceUntil(spline))
+                .filter(spline ->  distanceUntil(spline) >= length)
                 .findFirst();
         if(!result.isPresent())
             throw new LengthOutsideOfFunctionBoundsException();
@@ -64,7 +64,7 @@ public class Trajectory {
 
     private double distanceUntil(Spline targetSpline) {
         return splines.stream()
-                .limit(splines.indexOf(targetSpline))
+                .limit(splines.indexOf(targetSpline) + 1)
                 .mapToDouble(Spline::length)
                 .sum();
     }
