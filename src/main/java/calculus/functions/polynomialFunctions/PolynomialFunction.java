@@ -1,5 +1,6 @@
-package calculus.functions;
+package calculus.functions.polynomialFunctions;
 
+import calculus.functions.MathFunction;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
@@ -9,7 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class PolynomialFunction {
+public abstract class PolynomialFunction implements MathFunction {
     private final List<Variable> variables;
     private final Function<List<Variable>, PolynomialFunction> deriveConstructor;
     private final Function<List<Variable>, PolynomialFunction> integralConstructor;
@@ -40,7 +41,7 @@ public abstract class PolynomialFunction {
         return deriveConstructor.apply(deriveVariables());
     }
 
-    public PolynomialFunction integral() {
+    public PolynomialFunction integrate() {
         return integralConstructor.apply(integralVariables());
     }
 
@@ -59,8 +60,6 @@ public abstract class PolynomialFunction {
             return deriveConstructor.apply(withoutA).solutions(result);
         }
     }
-
-    protected abstract List<Complex> trySolve(double result) throws UnsupportedOperationException;
 
     protected  List<Variable> deriveVariables() {
         return variables.stream()

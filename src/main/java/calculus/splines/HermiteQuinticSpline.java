@@ -1,6 +1,6 @@
 package calculus.splines;
 
-import calculus.functions.Quintic;
+import calculus.functions.polynomialFunctions.Quintic;
 import tracer.motion.Waypoint;
 import util.Operations;
 

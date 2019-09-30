@@ -1,4 +1,4 @@
-package calculus.functions;
+package calculus.functions.polynomialFunctions;
 
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;

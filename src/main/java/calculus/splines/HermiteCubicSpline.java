@@ -1,6 +1,6 @@
 package calculus.splines;
 
-import calculus.functions.Cubic;
+import calculus.functions.polynomialFunctions.Cubic;
 import tracer.motion.Waypoint;
 import util.Operations;
 

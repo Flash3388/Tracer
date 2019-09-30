@@ -1,6 +1,6 @@
 package calculus.splines;
 
-import calculus.functions.PolynomialFunction;
+import calculus.functions.polynomialFunctions.PolynomialFunction;
 import com.jmath.ExtendedMath;
 import tracer.motion.Waypoint;
 
