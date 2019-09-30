@@ -24,7 +24,7 @@ public class VariableTest {
     public void calcDerivative_forNumber_returnsZero() {
         final double MODIFIER = 2.0;
         final Variable EXPECTED_RESULT = Variable.zero();
-        final Variable DERIVATIVE = Variable.modifier(MODIFIER).derivative();
+        final Variable DERIVATIVE = Variable.modifier(MODIFIER).derive();
 
         assertEquals(DERIVATIVE, EXPECTED_RESULT);
     }
@@ -33,7 +33,7 @@ public class VariableTest {
     public void calcDerivative_forXOnlyWithModifier_returnsModifier() {
         final double MODIFIER = 2.0;
         final Variable EXPECTED_RESULT = Variable.modifier(MODIFIER);
-        final Variable DERIVATIVE = new Variable(MODIFIER,1).derivative();
+        final Variable DERIVATIVE = new Variable(MODIFIER,1).derive();
 
         assertEquals(DERIVATIVE, EXPECTED_RESULT);
     }
@@ -44,7 +44,7 @@ public class VariableTest {
         final double POWER = 2.0;
 
         final Variable EXPECTED_RESULT = new Variable(MODIFIER * POWER, POWER - 1);
-        final Variable DERIVATIVE = new Variable(MODIFIER, POWER).derivative();
+        final Variable DERIVATIVE = new Variable(MODIFIER, POWER).derive();
 
         assertEquals(DERIVATIVE, EXPECTED_RESULT);
     }
@@ -53,7 +53,7 @@ public class VariableTest {
     public void calcIntegral_forNumber_returnsXWithModifier() {
         final double MODIFIER = 2.0;
         final Variable EXPECTED_RESULT = new Variable(MODIFIER, 1);
-        final Variable DERIVATIVE = Variable.modifier(MODIFIER).integral();
+        final Variable DERIVATIVE = Variable.modifier(MODIFIER).integrate();
 
         assertEquals(DERIVATIVE, EXPECTED_RESULT);
     }
@@ -64,7 +64,7 @@ public class VariableTest {
         final double POWER = 2.0;
 
         final Variable EXPECTED_RESULT = new Variable(MODIFIER / (POWER + 1), POWER + 1);
-        final Variable DERIVATIVE = new Variable(MODIFIER, POWER).integral();
+        final Variable DERIVATIVE = new Variable(MODIFIER, POWER).integrate();
 
         assertEquals(DERIVATIVE, EXPECTED_RESULT);
     }
@@ -116,7 +116,7 @@ public class VariableTest {
 
         final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
-        final Variable ACTUAL_VARIABLE = FIRST_VARIABLE.multiply(SECOND_VARIABLE);
+        final Variable ACTUAL_VARIABLE = FIRST_VARIABLE.mul(SECOND_VARIABLE);
 
         assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
     }
@@ -132,7 +132,7 @@ public class VariableTest {
         final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, INITIAL_POWER);
 
         final Variable INITIAL_VARIABLE = new Variable(INITIAL_MODIFIER, INITIAL_POWER);
-        final Variable ACTUAL_VARIABLE = INITIAL_VARIABLE.multiply(MULTIPLICATION_MODIFIER);
+        final Variable ACTUAL_VARIABLE = INITIAL_VARIABLE.mul(MULTIPLICATION_MODIFIER);
 
         assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
     }

@@ -4,18 +4,18 @@ import com.jmath.complex.Complex;
 
 import java.util.List;
 
-public class Product extends MathFunction {
-    private final MathFunction firstFunction;
-    private final MathFunction secondFunction;
+public class RationalFunction extends MathFunction {
+    private final MathFunction numerator;
+    private final MathFunction denominator;
 
-    public Product(MathFunction firstFunction, MathFunction secondFunction) {
-        this.firstFunction = firstFunction;
-        this.secondFunction = secondFunction;
+    public RationalFunction(MathFunction numerator, MathFunction denominator) {
+        this.numerator = numerator;
+        this.denominator = denominator;
     }
 
     @Override
     public double at(double x) {
-        return 0;
+        return numerator.at(x)/denominator.at(x); // check for 0
     }
 
     @Override

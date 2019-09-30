@@ -1,5 +1,10 @@
 package calculus.variables;
 
+import calculus.functions.SimpleFunction;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Variable {
     private final double modifier;
     private final double power;
@@ -25,28 +30,12 @@ public class Variable {
         return power;
     }
 
-    public Variable derivative() {
+    public Variable derive() {
         return power == 0 ? numberDerivative() : normalDerivative();
     }
 
-    private Variable numberDerivative() {
-        return new Variable(0,0);
-    }
-
-    private Variable normalDerivative() {
-        return new Variable(derivativeMultiplier(), power-1);
-    }
-
-    private double derivativeMultiplier() {
-        return modifier * power;
-    }
-
-    public Variable integral() {
+    public Variable integrate() {
         return new Variable(integralMultiplier(), power+1);
-    }
-
-    private double integralMultiplier() {
-        return modifier /(power+1);
     }
 
     public double at(double value) {
@@ -63,26 +52,52 @@ public class Variable {
         return new Variable(modifier - variable.modifier(), power);
     }
 
+    public SimpleFunction mul(SimpleFunction function) {
+        return new SimpleFunction(multipliedVariables(function));
+    }
+
+    public Variable mul(Variable variable) {
+        return new Variable(modifier * variable.modifier(), power + variable.power());
+    }
+
+    public Variable mul(double val) {
+        return mul(new Variable(val, 0));
+    }
+
+    public Variable square() {
+        return mul(this);
+    }
+
+    @Override
+    public String toString() {
+        return modifier + "X^" + power;
+    }
+
+    private Variable numberDerivative() {
+        return new Variable(0,0);
+    }
+
+    private Variable normalDerivative() {
+        return new Variable(derivativeMultiplier(), power-1);
+    }
+
+    private double derivativeMultiplier() {
+        return modifier * power;
+    }
+
+    private double integralMultiplier() {
+        return modifier /(power+1);
+    }
+
     private void checkIfMatching(Variable variable) throws NotMatchingPowersException{
         if(variable.power() != power) {
             throw new NotMatchingPowersException();
         }
     }
 
-    public Variable multiply(Variable variable) {
-        return new Variable(modifier * variable.modifier(), power + variable.power());
-    }
-
-    public Variable multiply(double val) {
-        return multiply(new Variable(val, 0));
-    }
-
-    public Variable square() {
-        return multiply(this);
-    }
-
-    @Override
-    public String toString() {
-        return modifier + "X^" + power;
+    private List<Variable> multipliedVariables(SimpleFunction function) {
+        return function.variables().stream()
+                .map(this::mul)
+                .collect(Collectors.toList());
     }
 }
