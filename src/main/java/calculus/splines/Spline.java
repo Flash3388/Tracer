@@ -6,14 +6,8 @@ import tracer.motion.Waypoint;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.IntStream;
 
 public class Spline {
-    private static final int SAMPLES_FAST = 1000;
-    private static final int SAMPLES_LOW = SAMPLES_FAST * 10;
-    private static final int SAMPLES_HIGH = SAMPLES_LOW * 10;
-
     private final PolynomialFunction function;
     private final Waypoint offset;
     private final double knotDistance;
@@ -22,9 +16,11 @@ public class Spline {
     public Spline(PolynomialFunction function, Waypoint startWaypoint, Waypoint endWaypoint) {
         this.function = function;
 
+        System.out.println(function);
         knotDistance = calcKnotDistance(startWaypoint, endWaypoint);
         offset = calcOffset(startWaypoint, endWaypoint);
         arcLength = calcArcLength();
+        System.out.println(arcLength);
     }
 
     public static double calcKnotDistance(Waypoint start, Waypoint end) {
@@ -52,38 +48,16 @@ public class Spline {
 
     public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
+        double squareDerive = Math.pow(length, 2) - 1;
 
-        System.out.println(Math.pow(length, 2) - 1);
-        double derivative = Math.sqrt(Math.abs(Math.pow(length, 2) - 1));
+        double derivative = Math.signum(squareDerive) * Math.sqrt(Math.abs(squareDerive));
         double percentage = filterSolutions(function.derive().realSolutions(derivative), length);
-
-        System.out.println(function);
-        System.out.println(function.derive());
-        System.out.println(function.derive().realSolutions(derivative));
 
         return Math.atan2(function.at(percentage), percentage) + offset.getHeadingDegrees();
     }
 
     private static double calcAngleOffset(Waypoint start, Waypoint end) {
         return Math.atan2(end.y() - start.y(), end.x() - start.x());
-    }
-
-    private double calcArcLength() {
-        return IntStream.range(0, SAMPLES_HIGH)
-                .mapToDouble(index -> calcCurrentArcLength(index/(double) SAMPLES_HIGH))
-                .sum() * knotDistance;
-    }
-
-    private double calcCurrentArcLength(double percentage) {
-        return getArcLengthPercentage(percentage)/ SAMPLES_HIGH;
-    }
-
-    private double getArcLengthPercentage(double percentage) {
-        return getArcLengthAt(knotDistance * percentage);
-    }
-
-    private double getArcLengthAt(double x) {
-        return Math.sqrt(Math.pow(function.derive().at(x), 2) + 1.0);
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
@@ -96,19 +70,5 @@ public class Spline {
                 .filter(solution -> ExtendedMath.constrained(solution, 0, 1))
                 .min(Comparator.comparingDouble(solution -> Math.abs(length - getArcLengthAt(solution))))
                 .orElseGet(() -> getPercentageAtLength(length));
-    }
-
-    private double getPercentageAtLength(double length) {
-        System.out.println("we are gay");
-        AtomicReference<Double> sum = new AtomicReference<>((double) 0);
-
-        return IntStream.range(0, SAMPLES_HIGH)
-                .filter(index -> {
-                    sum.set(sum.get() + calcCurrentArcLength(index/(double)SAMPLES_HIGH) * knotDistance);
-                    return sum.get() >= length;
-                })
-                .limit(1)
-                .mapToDouble(index -> index/(double)SAMPLES_HIGH)
-                .sum();
     }
 }

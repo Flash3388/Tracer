@@ -17,6 +17,9 @@ public class Linear extends PolynomialFunction {
 
     @Override
     protected List<Complex> trySolve(double result) {
-        return Arrays.asList(new Complex((result - get(1).modifier())/get(0).modifier(), 0));
+        double a = get(0).modifier();
+        double b = get(1).modifier() - result;
+
+        return Arrays.asList(new Complex(-b/a, 0));
     }
 }
