@@ -1,6 +1,5 @@
-package calculus.functions.polynomialFunctions;
+package calculus.functions;
 
-import calculus.functions.MathFunction;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
@@ -10,7 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class PolynomialFunction implements MathFunction {
+public abstract class PolynomialFunction extends MathFunction {
     private final List<Variable> variables;
     private final Function<List<Variable>, PolynomialFunction> deriveConstructor;
     private final Function<List<Variable>, PolynomialFunction> integralConstructor;
@@ -22,6 +21,7 @@ public abstract class PolynomialFunction implements MathFunction {
         this.variables.addAll(variables);
     }
 
+    @Override
     public double at(double x) {
         return variables.stream()
                 .mapToDouble(variable -> variable.at(x))

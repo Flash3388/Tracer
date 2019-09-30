@@ -1,5 +1,6 @@
 package calculus.functions.polynomialFunctions;
 
+import calculus.functions.PolynomialFunction;
 import calculus.variables.Variable;
 import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Cubic extends PolynomialFunction{
+public class Cubic extends PolynomialFunction {
     public static Cubic fromConstants(double a, double b, double c, double d) {
         return new Cubic(generateFunction(Arrays.asList(a, b, c, d)));
     }
