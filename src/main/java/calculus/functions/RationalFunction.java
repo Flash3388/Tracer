@@ -1,9 +1,5 @@
 package calculus.functions;
 
-import com.jmath.complex.Complex;
-
-import java.util.List;
-
 public class RationalFunction extends MathFunction {
     private final MathFunction numerator;
     private final MathFunction denominator;
@@ -23,15 +19,5 @@ public class RationalFunction extends MathFunction {
         return denominator.mul(numerator.derive())
                 .add(denominator.derive().mul(numerator).mul(-1))
                 .div(denominator.pow(2));
-    }
-
-    @Override
-    public MathFunction integrate() throws UnsupportedOperationException{
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
     }
 }

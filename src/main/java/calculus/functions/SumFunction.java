@@ -1,9 +1,5 @@
 package calculus.functions;
 
-import com.jmath.complex.Complex;
-
-import java.util.List;
-
 public class SumFunction extends MathFunction {
     private final MathFunction firstFunction;
     private final MathFunction secondFunction;
@@ -26,10 +22,5 @@ public class SumFunction extends MathFunction {
     @Override
     public MathFunction integrate() {
         return firstFunction.integrate().add(secondFunction.integrate());
-    }
-
-    @Override
-    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
     }
 }

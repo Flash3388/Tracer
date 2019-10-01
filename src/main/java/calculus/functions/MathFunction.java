@@ -8,7 +8,6 @@ import java.util.List;
 public abstract class MathFunction {
     public abstract double at(double x);
     public abstract MathFunction derive();
-    public abstract MathFunction integrate() throws UnsupportedOperationException;
 
     public MathFunction mul(double scalar) {
         return mul(new Constant(scalar));
@@ -42,5 +41,11 @@ public abstract class MathFunction {
         return new RootFunction(this, number);
     }
 
-    protected abstract List<Complex> trySolve(double result) throws UnsupportedOperationException;
+    public MathFunction integrate() throws UnsupportedOperationException{
+        throw new UnsupportedOperationException();
+    }
+
+    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
 }

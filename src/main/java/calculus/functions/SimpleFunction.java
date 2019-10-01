@@ -1,7 +1,6 @@
 package calculus.functions;
 
 import calculus.variables.Variable;
-import com.jmath.complex.Complex;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,10 +56,5 @@ public class SimpleFunction extends MathFunction {
         return variables.stream()
                 .map(Variable::integrate)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
     }
 }
