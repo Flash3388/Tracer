@@ -1,8 +1,5 @@
 package calculus.variables;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class Variable {
     private final double modifier;
     private final double power;
@@ -50,10 +47,6 @@ public class Variable {
         return new Variable(modifier - variable.modifier(), power);
     }
 
-    public SimpleFunction mul(SimpleFunction function) {
-        return new SimpleFunction(multipliedVariables(function));
-    }
-
     public Variable mul(Variable variable) {
         return new Variable(modifier * variable.modifier(), power + variable.power());
     }
@@ -91,11 +84,5 @@ public class Variable {
         if(variable.power() != power) {
             throw new NotMatchingPowersException();
         }
-    }
-
-    private List<Variable> multipliedVariables(SimpleFunction function) {
-        return function.variables().stream()
-                .map(this::mul)
-                .collect(Collectors.toList());
     }
 }

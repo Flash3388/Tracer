@@ -20,4 +20,9 @@ public class RationalFunction extends MathFunction {
                 .add(denominator.derive().mul(numerator).mul(-1))
                 .div(denominator.pow(2));
     }
+
+    @Override
+    public String toString() {
+        return "( " + numerator + " ) / " + "( " + denominator + " ) ";
+    }
 }

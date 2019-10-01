@@ -33,18 +33,16 @@ public abstract class MathFunction {
         return new SumFunction(this, other);
     }
 
-    public MathFunction pow(int number) {
+    public MathFunction pow(double number) {
         return new ExponentialFunction(this, number);
     }
 
     public MathFunction root(int number) {
-        return new RootFunction(this, number);
+        return pow(1.0/number);
     }
 
-    public double specificIntegral(double from, double to) {
-        MathFunction general = integrate();
-
-        return general.at(to) - general.at(from);
+    public double difference(double from, double to) {
+        return at(to) - at(from);
     }
 
     public MathFunction integrate() throws UnsupportedOperationException{

@@ -19,4 +19,9 @@ public class ProductFunction extends MathFunction{
         return firstFunction.derive().mul(secondFunction)
                 .add(firstFunction.mul(secondFunction.derive()));
     }
+
+    @Override
+    public String toString() {
+        return firstFunction + " * " + secondFunction+" ";
+    }
 }

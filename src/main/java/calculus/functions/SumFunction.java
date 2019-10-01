@@ -23,4 +23,9 @@ public class SumFunction extends MathFunction {
     public MathFunction integrate() {
         return firstFunction.integrate().add(secondFunction.integrate());
     }
+
+    @Override
+    public String toString() {
+        return firstFunction + " + " + secondFunction+" ";
+    }
 }

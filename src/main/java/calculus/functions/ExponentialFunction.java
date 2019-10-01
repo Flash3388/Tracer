@@ -1,15 +1,14 @@
 package calculus.functions;
 
-import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
 
 import java.util.List;
 
 public class ExponentialFunction extends MathFunction{
     private final MathFunction function;
-    private final int degree;
+    private final double degree;
 
-    public ExponentialFunction(MathFunction function, int degree) {
+    public ExponentialFunction(MathFunction function, double degree) {
         this.function = function;
         this.degree = degree;
     }
@@ -21,16 +20,21 @@ public class ExponentialFunction extends MathFunction{
 
     @Override
     public MathFunction derive() {
-        return function.integrate().mul(degree).pow(degree-1);
+        return function.mul(degree).pow(degree-1);
     }
 
     @Override
     public MathFunction integrate() {
-        return function.pow(degree+1).div(degree+1);
+        return function.pow(degree+1).div(function.derive().mul(degree+1));
     }
 
     @Override
     protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
-        return function.trySolve(ExtendedMath.root(result, degree));
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return "( " + function + " ) ^" + degree;
     }
 }

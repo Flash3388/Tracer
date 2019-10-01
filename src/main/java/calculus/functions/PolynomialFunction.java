@@ -34,7 +34,7 @@ public abstract class PolynomialFunction extends MathFunction{
 
     @Override
     public String toString() {
-        return variables.toString();
+        return variables.toString().replace('[',' ').replace(']',' ').replace(',','+');
     }
 
     @Override

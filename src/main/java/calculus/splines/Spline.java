@@ -1,7 +1,7 @@
 package calculus.splines;
 
+import calculus.functions.MathFunction;
 import calculus.functions.PolynomialFunction;
-import calculus.functions.RootFunction;
 import com.jmath.ExtendedMath;
 import tracer.motion.Waypoint;
 
@@ -10,14 +10,16 @@ import java.util.List;
 
 public class Spline {
     private final PolynomialFunction function;
-    private final RootFunction arcFunction;
+    private final MathFunction arcFunctionIntegral;
     private final Waypoint offset;
     private final double knotDistance;
     private final double arcLength;
 
     public Spline(PolynomialFunction function, Waypoint startWaypoint, Waypoint endWaypoint) {
         this.function = function;
-        arcFunction = new RootFunction(function.pow(2).add(1), 2);
+        arcFunctionIntegral = function.pow(2).add(1).root(2).integrate();
+        System.out.println(function);
+        System.out.println(arcFunctionIntegral);
 
         System.out.println(function);
         knotDistance = calcKnotDistance(startWaypoint, endWaypoint);
@@ -76,6 +78,6 @@ public class Spline {
     }
 
     private double arcLengthAt(double t) {
-        return arcFunction.specificIntegral(0, t*knotDistance);
+        return arcFunctionIntegral.difference(0, t*knotDistance);
     }
 }
