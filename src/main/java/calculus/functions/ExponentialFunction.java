@@ -21,22 +21,12 @@ public class ExponentialFunction extends MathFunction{
 
     @Override
     public MathFunction derive() {
-        return new ExponentialFunction(function.integrate().mul(degree), degree-1);
+        return function.integrate().mul(degree).pow(degree-1);
     }
 
     @Override
     public MathFunction integrate() {
-        return new ExponentialFunction(function, degree+1).div(degree+1);
-    }
-
-    @Override
-    public MathFunction mul(SimpleFunction function) {
-        return null;
-    }
-
-    @Override
-    public MathFunction add(SimpleFunction function) {
-        return null;
+        return function.pow(degree+1).div(degree+1);
     }
 
     @Override

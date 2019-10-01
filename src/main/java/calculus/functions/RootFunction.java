@@ -6,10 +6,10 @@ import com.jmath.complex.Complex;
 import java.util.List;
 
 public class RootFunction extends MathFunction {
-    private final SimpleFunction function;
+    private final MathFunction function;
     private final int degree;
 
-    public RootFunction(SimpleFunction function, int degree) {
+    public RootFunction(MathFunction function, int degree) {
         this.function = function;
         this.degree = degree;
     }
@@ -26,17 +26,7 @@ public class RootFunction extends MathFunction {
 
     @Override
     public MathFunction integrate() {
-        return new ExponentialFunction(function, degree+1).div(degree+1);
-    }
-
-    @Override
-    public RootFunction mul(SimpleFunction function) {
-        return ;
-    }
-
-    @Override
-    public RootFunction add(SimpleFunction function) {
-        return null;
+        return function.pow(degree+1).div(degree+1);
     }
 
     @Override

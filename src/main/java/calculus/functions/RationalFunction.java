@@ -20,16 +20,18 @@ public class RationalFunction extends MathFunction {
 
     @Override
     public MathFunction derive() {
-        return null;
+        return denominator.mul(numerator.derive())
+                .add(denominator.derive().mul(numerator).mul(-1))
+                .div(denominator.pow(2));
     }
 
     @Override
-    public MathFunction integrate() {
-        return null;
+    public MathFunction integrate() throws UnsupportedOperationException{
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

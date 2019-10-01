@@ -3,9 +3,7 @@ package calculus.functions;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class SimpleFunction extends MathFunction {
@@ -40,20 +38,6 @@ public class SimpleFunction extends MathFunction {
     }
 
     @Override
-    public SimpleFunction mul(SimpleFunction function) {
-        return sum(multipliedFunctions(function));
-    }
-
-    @Override
-    public SimpleFunction add(SimpleFunction function) {
-        List<Variable> sum = new ArrayList<>();
-        sum.addAll(variables);
-        sum.addAll(function.variables());
-
-        return new SimpleFunction(sum);
-    }
-
-    @Override
     public SimpleFunction derive() {
         return new SimpleFunction(derivedVariables());
     }
@@ -61,22 +45,6 @@ public class SimpleFunction extends MathFunction {
     @Override
     public SimpleFunction integrate() {
         return new SimpleFunction(integrateVariables());
-    }
-
-    private SimpleFunction sum(List<SimpleFunction> functions) {
-        AtomicReference<SimpleFunction> result = new AtomicReference<>(functions.get(0));
-
-        functions.stream()
-                .skip(1)
-                .forEach(function -> result.set(result.get().add(function)));
-
-        return result.get();
-    }
-
-    private List<SimpleFunction> multipliedFunctions(SimpleFunction function) {
-        return variables.stream()
-                .map(variable -> variable.mul(function))
-                .collect(Collectors.toList());
     }
 
     private List<Variable> derivedVariables() {
