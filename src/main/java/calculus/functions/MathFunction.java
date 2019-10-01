@@ -41,6 +41,12 @@ public abstract class MathFunction {
         return new RootFunction(this, number);
     }
 
+    public double specificIntegral(double from, double to) {
+        MathFunction general = integrate();
+
+        return general.at(to) - general.at(from);
+    }
+
     public MathFunction integrate() throws UnsupportedOperationException{
         throw new UnsupportedOperationException();
     }

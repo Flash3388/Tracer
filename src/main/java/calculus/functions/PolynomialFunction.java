@@ -3,19 +3,48 @@ package calculus.functions;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class PolynomialFunction extends SimpleFunction {
+public abstract class PolynomialFunction extends MathFunction{
+    private final List<Variable> variables;
     private final Function<List<Variable>, PolynomialFunction> deriveConstructor;
     private final Function<List<Variable>, PolynomialFunction> integralConstructor;
 
     public PolynomialFunction(List<Variable> variables, Function<List<Variable>, PolynomialFunction> deriveConstructor, Function<List<Variable>, PolynomialFunction> integralConstructor) {
-        super(variables);
         this.deriveConstructor = deriveConstructor;
         this.integralConstructor = integralConstructor;
+        this.variables = new ArrayList<>();
+        this.variables.addAll(variables);
+    }
+
+    @Override
+    public double at(double x) {
+        return variables.stream()
+                .mapToDouble(variable -> variable.at(x))
+                .sum();
+    }
+
+    public Variable get(int index) {
+        return variables.get(index);
+    }
+
+    @Override
+    public String toString() {
+        return variables.toString();
+    }
+
+    @Override
+    public PolynomialFunction derive() {
+        return deriveConstructor.apply(deriveVariables());
+    }
+
+    @Override
+    public PolynomialFunction integrate() {
+        return integralConstructor.apply(integralVariables());
     }
 
     public List<Double> realSolutions(double result) throws UnsupportedOperationException {
@@ -29,9 +58,21 @@ public abstract class PolynomialFunction extends SimpleFunction {
         try {
             return solve(result);
         } catch (FirstConstantException e) {
-            List<Variable> withoutA = variables().subList(1, length());
+            List<Variable> withoutA = variables.subList(1, variables.size());
             return deriveConstructor.apply(withoutA).solutions(result);
         }
+    }
+
+    private List<Variable> deriveVariables() {
+        return variables.stream()
+                .map(Variable::derive)
+                .collect(Collectors.toList());
+    }
+
+    private List<Variable> integralVariables() {
+        return variables.stream()
+                .map(Variable::integrate)
+                .collect(Collectors.toList());
     }
 
     protected static List<Variable> generateFunction(List<Double> multipliers) {

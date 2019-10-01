@@ -1,7 +1,5 @@
 package calculus.variables;
 
-import calculus.functions.SimpleFunction;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

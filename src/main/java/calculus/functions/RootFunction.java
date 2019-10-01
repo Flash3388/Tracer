@@ -26,7 +26,7 @@ public class RootFunction extends MathFunction {
 
     @Override
     public MathFunction integrate() {
-        return function.pow(degree+1).div(degree+1);
+        return function.pow(degree+1).div(function.derive().mul(degree+1));
     }
 
     @Override
