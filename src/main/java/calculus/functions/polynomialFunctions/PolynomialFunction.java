@@ -7,6 +7,7 @@ import com.jmath.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,7 +31,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     public PolynomialFunction derivativeWithoutA() {
-        return  factory.getConverted(variables.subList(1, variables.size()));
+        return factory.getConverted(variables.subList(1, variables.size()));
     }
 
     @Override
@@ -71,16 +72,32 @@ public class PolynomialFunction extends MathFunction {
             return trySolve(result);
     }
 
-    public PolynomialFunction scale(double scalar) {
-        List<Variable> scaled = variables.stream()
-                .map(variable -> variable.mul(scalar))
+    public PolynomialFunction mul(PolynomialFunction other) {
+        List<PolynomialFunction> products = other.variables().stream()
+                .map(this::mul)
                 .collect(Collectors.toList());
+        AtomicReference<PolynomialFunction> sum = new AtomicReference<>(products.get(0));
 
-        return factory.getConverted(scaled);
+        products.stream()
+                .skip(1)
+                .forEach(product -> sum.set(sum.get().add(product)));
+        
+        return sum.get();
+    }
+
+    public PolynomialFunction mul(double scalar) {
+        return mul(new Variable(scalar, 0));
+    }
+
+    public PolynomialFunction mul(Variable var) {
+        return factory.getConverted(
+                variables.stream()
+                        .map(var::mul)
+                        .collect(Collectors.toList()));
     }
 
     public PolynomialFunction sub(PolynomialFunction other) {
-        return add(other.scale(-1));
+        return add(other.mul(-1));
     }
 
     public PolynomialFunction add(PolynomialFunction other) {
