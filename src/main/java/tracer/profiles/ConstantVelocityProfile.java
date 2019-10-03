@@ -1,7 +1,7 @@
 package tracer.profiles;
 
 import calculus.functions.polynomialFunctions.Linear;
-import calculus.functions.PolynomialFunction;
+import calculus.functions.polynomialFunctions.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import util.TimeConversion;

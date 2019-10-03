@@ -30,7 +30,7 @@ public class Trajectory {
     private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
         return IntStream.range(0, path.size())
                 .skip(1)
-                .mapToObj(positionIndex -> hermiteFactory.getSpline(splineType, path.get(positionIndex - 1), path.get(positionIndex)))
+                .mapToObj(positionIndex -> hermiteFactory.get(splineType, path.get(positionIndex - 1), path.get(positionIndex)))
                 .collect(Collectors.toList());
     }
 

@@ -23,6 +23,6 @@ public class RationalFunction extends MathFunction {
 
     @Override
     public String toString() {
-        return "( " + numerator + " ) / " + "( " + denominator + " ) ";
+        return "(" + numerator + ") / " + "(" + denominator + " )";
     }
 }

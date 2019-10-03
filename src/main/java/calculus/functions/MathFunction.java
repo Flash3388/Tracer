@@ -1,9 +1,10 @@
 package calculus.functions;
 
-import calculus.functions.polynomialFunctions.Constant;
 import com.jmath.complex.Complex;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class MathFunction {
     public abstract double at(double x);
@@ -33,12 +34,16 @@ public abstract class MathFunction {
         return new SumFunction(this, other);
     }
 
-    public MathFunction pow(double number) {
-        return new ExponentialFunction(this, number);
+    public MathFunction pow(double degree) {
+        return new ExponentialFunction(this, degree);
     }
 
-    public MathFunction root(int number) {
-        return pow(1.0/number);
+    public MathFunction root(double degree) {
+        return pow(1.0/degree);
+    }
+
+    public MathFunction at(MathFunction mathFunction) {
+        return new CompositeFunctions(this, mathFunction);
     }
 
     public double difference(double from, double to) {
@@ -49,7 +54,25 @@ public abstract class MathFunction {
         throw new UnsupportedOperationException();
     }
 
-    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
+    public List<Double> realSolutionsTo(List<Double> that) throws UnsupportedOperationException {
+        List<Complex> results = new ArrayList<>();
+        that.forEach(result -> results.addAll(this.solutionsTo(result)));
+
+        return toReal(results);
+    }
+
+    public List<Double> realSolutionsTo(double that) throws UnsupportedOperationException {
+        return toReal(solutionsTo(that));
+    }
+
+    public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolveableFunctionParametersException {
         throw new UnsupportedOperationException();
+    }
+
+    private List<Double> toReal(List<Complex> complex) {
+        return complex.stream()
+                .filter(solution -> solution.imaginary() == 0)
+                .map(Complex::real)
+                .collect(Collectors.toList());
     }
 }

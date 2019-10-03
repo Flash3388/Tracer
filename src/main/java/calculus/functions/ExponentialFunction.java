@@ -20,7 +20,7 @@ public class ExponentialFunction extends MathFunction{
 
     @Override
     public MathFunction derive() {
-        return function.mul(degree).pow(degree-1);
+        return function.derive().mul(degree).mul(function.pow(degree-1));
     }
 
     @Override
@@ -29,8 +29,11 @@ public class ExponentialFunction extends MathFunction{
     }
 
     @Override
-    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+    public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolveableFunctionParametersException {
+        if(result < 0 && (int) degree == degree)
+            throw new UnsolveableFunctionParametersException();
+
+        return function.solutionsTo(Math.pow(result, 1/degree));
     }
 
     @Override

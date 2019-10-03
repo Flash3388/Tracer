@@ -1,6 +1,5 @@
 package calculus.functions.polynomialFunctions;
 
-import calculus.functions.PolynomialFunction;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
@@ -39,7 +38,7 @@ public class Quartic extends PolynomialFunction {
 
         double g = d + Math.pow(b, 3)/8 - b*c/2;
         Cubic cubic = findCubic(b, c, d, e, g);
-        List<Complex> fixedSolutions = sortByImaginary(cubic.trySolve(0));
+        List<Complex> fixedSolutions = sortByImaginary(cubic.solutionsTo(0));
 
         return finalRoots(a, b, g, fixedSolutions.get(0), fixedSolutions.get(1));
     }
