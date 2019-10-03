@@ -5,9 +5,14 @@ import com.jmath.complex.Complex;
 import com.jmath.complex.ComplexMath;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Cubic extends PolynomialFunction {
+    public Cubic(double a, double b, double c, double d) {
+        this(Arrays.asList(a, b, c, d));
+    }
+
     public Cubic(List<Double> constants) {
         super(constants, 3);
     }

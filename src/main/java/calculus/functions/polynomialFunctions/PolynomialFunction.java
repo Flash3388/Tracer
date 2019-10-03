@@ -5,26 +5,29 @@ import calculus.functions.UnsolveableFunctionParametersException;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PolynomialFunction extends MathFunction {
+    private final PolynomialFactory factory;
     private final List<Variable> variables;
 
     public PolynomialFunction(List<Double> constants) {
-        variables = generateFunction(constants);
+        this(constants, constants.size()+1);
     }
 
     public PolynomialFunction(List<Double> constants, int polynomialDegree) {
         if(constants.size() != polynomialDegree+1)
             throw new IncorrectNumberOfConstantsException(polynomialDegree);
         variables = generateFunction(constants);
+        factory = new PolynomialFactory();
     }
 
     public PolynomialFunction derivativeWithoutA() {
-        List<Variable> withoutA = variables.subList(1, variables.size());
-        return deriveConstructor.apply(withoutA);
+        List<Double> constants = toConstants();
+        return  factory.get(constants.subList(1, constants.size()));
     }
 
     @Override
@@ -45,12 +48,12 @@ public class PolynomialFunction extends MathFunction {
 
     @Override
     public PolynomialFunction derive() {
-        return deriveConstructor.apply(deriveVariables());
+        return factory.get(deriveVariables());
     }
 
     @Override
     public PolynomialFunction integrate() {
-        return integralConstructor.apply(integralVariables());
+        return factory.get(integralVariables());
     }
 
     @Override
@@ -65,21 +68,30 @@ public class PolynomialFunction extends MathFunction {
         throw new UnsupportedOperationException();
     }
 
-    private List<Variable> deriveVariables() {
+    private List<Double> deriveVariables() {
         return variables.stream()
-                .map(Variable::derive)
+                .limit(variables.size()-1)
+                .map(variable -> variable.derive().modifier())
                 .collect(Collectors.toList());
     }
 
-    private List<Variable> integralVariables() {
-        return variables.stream()
-                .map(Variable::integrate)
+    private List<Double> integralVariables() {
+        List<Double> result = variables.stream()
+                .map(variable -> variable.integrate().modifier())
                 .collect(Collectors.toList());
+        result.remove(result.size()-1);
+        return result;
     }
 
-    private static List<Variable> generateFunction(List<Double> multipliers) {
+    private List<Variable> generateFunction(List<Double> multipliers) {
         return IntStream.range(0, multipliers.size())
                 .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
                 .collect(Collectors.toList());
+    }
+
+    private List<Double> toConstants() {
+        return variables.stream()
+                .mapToDouble(Variable::modifier)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 }

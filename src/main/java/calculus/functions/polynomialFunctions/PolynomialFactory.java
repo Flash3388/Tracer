@@ -10,8 +10,10 @@ public class PolynomialFactory {
 
     public PolynomialFactory() {
         polynomials = new HashMap<>();
-
-
+        polynomials.put(1, Linear::new);
+        polynomials.put(2, Quadratic::new);
+        polynomials.put(3, Cubic::new);
+        polynomials.put(4, Quartic::new);
     }
 
     public PolynomialFunction get(List<Double> constants) {

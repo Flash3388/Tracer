@@ -1,18 +1,17 @@
 package calculus.functions.polynomialFunctions;
 
-import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Linear extends PolynomialFunction {
-    public static Linear fromConstants(double a, double b) {
-        return new Linear(generateFunction(Arrays.asList(a, b)));
+    public Linear(double a, double b) {
+        this(Arrays.asList(a, b));
     }
 
-    protected Linear(List<Variable> variables) {
-        super(variables, Constant::new, Quadratic::new);
+    public Linear(List<Double> constants) {
+        super(constants, 1);
     }
 
     @Override

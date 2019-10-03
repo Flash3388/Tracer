@@ -1,6 +1,5 @@
 package calculus.functions.polynomialFunctions;
 
-import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
 import java.util.ArrayList;
@@ -10,12 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Quartic extends PolynomialFunction {
-    public static Quartic fromConstants(double a, double b, double c, double d, double e) {
-        return new Quartic(generateFunction(Arrays.asList(a, b, c, d, e)));
+    public Quartic(double a, double b, double c, double d, double e) {
+        this(Arrays.asList(a, b, c, d, e));
     }
 
-    protected Quartic(List<Variable> variables) {
-        super(variables, Cubic::new, Quintic::new);
+    public Quartic(List<Double> constants) {
+        super(constants, 4);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class Quartic extends PolynomialFunction {
         double f = c - 3*b*b/8;
         double h = e - 3*Math.pow(b, 4)/256 + b*b * c/16 - b*d/4;
 
-        return Cubic.fromConstants(1, f/2, (f*f - 4*h)/16, -g*g/64);
+        return new Cubic(1, f/2, (f*f - 4*h)/16, -g*g/64);
     }
 
     private List<Complex> sortByImaginary(List<Complex> solutions) {

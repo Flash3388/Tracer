@@ -1,6 +1,5 @@
 package calculus.functions.polynomialFunctions;
 
-import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 import com.jmath.complex.ComplexMath;
 
@@ -8,12 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Quadratic extends PolynomialFunction {
-    public static Quadratic fromConstants(double a, double b, double c) {
-        return new Quadratic(generateFunction(Arrays.asList(a, b, c)));
+    public Quadratic(double a, double b, double c) {
+        this(Arrays.asList(a, b, c));
     }
 
-    protected Quadratic(List<Variable> variables) {
-        super(variables, Linear::new, Cubic::new);
+    public Quadratic(List<Double> constants) {
+        super(constants, 2);
     }
 
     @Override
