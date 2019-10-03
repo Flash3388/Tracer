@@ -1,5 +1,6 @@
 package calculus.splines;
 
+import calculus.functions.polynomialFunctions.PolynomialFunction;
 import tracer.motion.Waypoint;
 import util.Operations;
 
@@ -8,13 +9,13 @@ public class HermiteQuinticSpline extends Spline {
         super(calcFunctions(startWaypoint, endWaypoint), startWaypoint, endWaypoint);
     }
 
-    private static Quintic calcFunctions(Waypoint start, Waypoint end) {
+    private static PolynomialFunction calcFunctions(Waypoint start, Waypoint end) {
         double offsetAngle = calcOffset(start, end).getHeading();
         double startDelta = Math.tan(Operations.boundRadiansForcePositive(start.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
         double endDelta = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
         double knotDistance = calcKnotDistance(start, end);
 
-        return Quintic.fromConstants(
+        return new PolynomialFunction(
                 calcA(startDelta, endDelta, knotDistance),
                 calcB(startDelta, endDelta, knotDistance),
                 calcC(startDelta, endDelta, knotDistance),

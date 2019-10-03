@@ -5,7 +5,7 @@ import calculus.functions.UnsolveableFunctionParametersException;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,6 +13,10 @@ import java.util.stream.IntStream;
 public class PolynomialFunction extends MathFunction {
     private final PolynomialFactory factory;
     private final List<Variable> variables;
+
+    public PolynomialFunction(Double... constants) {
+        this(Arrays.asList(constants));
+    }
 
     public PolynomialFunction(List<Double> constants) {
         this(constants, constants.size()+1);
@@ -26,8 +30,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     public PolynomialFunction derivativeWithoutA() {
-        List<Double> constants = toConstants();
-        return  factory.get(constants.subList(1, constants.size()));
+        return  factory.getConverted(variables.subList(1, variables.size()));
     }
 
     @Override
@@ -35,6 +38,10 @@ public class PolynomialFunction extends MathFunction {
         return variables.stream()
                 .mapToDouble(variable -> variable.at(x))
                 .sum();
+    }
+
+    public List<Variable> variables() {
+        return variables;
     }
 
     public Variable get(int index) {
@@ -64,8 +71,50 @@ public class PolynomialFunction extends MathFunction {
             return trySolve(result);
     }
 
+    public PolynomialFunction scale(double scalar) {
+        List<Variable> scaled = variables.stream()
+                .map(variable -> variable.mul(scalar))
+                .collect(Collectors.toList());
+
+        return factory.getConverted(scaled);
+    }
+
+    public PolynomialFunction sub(PolynomialFunction other) {
+        return add(other.scale(-1));
+    }
+
+    public PolynomialFunction add(PolynomialFunction other) {
+        List<Variable> result = other.variables().stream()
+                .map(this::add)
+                .collect(Collectors.toList());
+
+        if(variables.size() - result.size() > 0) {
+            List<Variable> tmp = variables.subList(0, variables.size() - result.size());
+            tmp.addAll(result);
+            result = tmp;
+        }
+
+        return factory.getConverted(result);
+    }
+
+    private Variable add(Variable var) {
+        int index = variables.size() - var.power()-1;
+
+        if(index > 0 )
+            return variables.get(index).add(var);
+        else {
+            return var;
+        }
+    }
+
     protected List<Complex> trySolve(double result) throws UnsupportedOperationException{
         throw new UnsupportedOperationException();
+    }
+
+    private List<Variable> generateFunction(List<Double> multipliers) {
+        return IntStream.range(0, multipliers.size())
+                .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
+                .collect(Collectors.toList());
     }
 
     private List<Double> deriveVariables() {
@@ -83,15 +132,9 @@ public class PolynomialFunction extends MathFunction {
         return result;
     }
 
-    private List<Variable> generateFunction(List<Double> multipliers) {
-        return IntStream.range(0, multipliers.size())
-                .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
+    private List<Variable> zeroVariables(int size) {
+        return IntStream.range(0, size)
+                .mapToObj(i -> new Variable(0, 0))
                 .collect(Collectors.toList());
-    }
-
-    private List<Double> toConstants() {
-        return variables.stream()
-                .mapToDouble(Variable::modifier)
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 }

@@ -15,7 +15,7 @@ public class HermiteCubicSpline extends Spline {
         double endDelta = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
         double knotDistance = calcKnotDistance(start, end);
 
-        return Cubic.fromConstants(
+        return new Cubic(
                 calcA(startDelta, endDelta, knotDistance),
                 calcB(startDelta, endDelta, knotDistance),
                 calcC(startDelta),

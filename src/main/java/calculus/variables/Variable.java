@@ -2,9 +2,9 @@ package calculus.variables;
 
 public class Variable {
     private final double modifier;
-    private final double power;
+    private final int power;
 
-    public Variable(double modifier, double power) {
+    public Variable(double modifier, int power) {
         this.modifier = modifier;
         this.power = power;
     }
@@ -21,7 +21,7 @@ public class Variable {
         return modifier;
     }
 
-    public double power() {
+    public int power() {
         return power;
     }
 
@@ -37,12 +37,12 @@ public class Variable {
         return modifier * Math.pow(value, power);
     }
 
-    public Variable add(Variable variable) {
+    public Variable add(Variable variable) throws SmallerPowerException, BiggerPowerException{
         checkIfMatching(variable);
         return new Variable(modifier + variable.modifier(), power);
     }
 
-    public Variable subtract(Variable variable) {
+    public Variable subtract(Variable variable) throws SmallerPowerException, BiggerPowerException{
         checkIfMatching(variable);
         return new Variable(modifier - variable.modifier(), power);
     }
@@ -80,9 +80,13 @@ public class Variable {
         return modifier /(power+1);
     }
 
-    private void checkIfMatching(Variable variable) throws NotMatchingPowersException{
-        if(variable.power() != power) {
-            throw new NotMatchingPowersException();
+    private void checkIfMatching(Variable variable) throws SmallerPowerException, BiggerPowerException{
+        if(variable.power() > power) {
+            throw new BiggerPowerException();
+        }
+
+        else if(variable.power() < power) {
+            throw new SmallerPowerException();
         }
     }
 }

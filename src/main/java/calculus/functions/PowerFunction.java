@@ -4,11 +4,11 @@ import com.jmath.complex.Complex;
 
 import java.util.List;
 
-public class ExponentialFunction extends MathFunction{
+public class PowerFunction extends MathFunction{
     private final MathFunction function;
     private final double degree;
 
-    public ExponentialFunction(MathFunction function, double degree) {
+    public PowerFunction(MathFunction function, double degree) {
         this.function = function;
         this.degree = degree;
     }
