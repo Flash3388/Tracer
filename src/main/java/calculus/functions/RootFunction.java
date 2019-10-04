@@ -38,7 +38,7 @@ public class RootFunction extends MathFunction{
     }
 
     @Override
-    public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolveableFunctionParametersException {
+    public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
         return function.mul(multiplier).sub(new PolynomialFunction(result).sub(addition).pow(degree)).solutionsTo(0);
     }
 

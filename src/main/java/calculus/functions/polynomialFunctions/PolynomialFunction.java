@@ -1,7 +1,7 @@
 package calculus.functions.polynomialFunctions;
 
 import calculus.functions.MathFunction;
-import calculus.functions.UnsolveableFunctionParametersException;
+import calculus.functions.UnsolvableFunctionParametersException;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
@@ -65,7 +65,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolveableFunctionParametersException {
+    public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
         if(get(0).modifier() == 0)
             return derivativeWithoutA().solutionsTo(result);
         else
@@ -130,6 +130,10 @@ public class PolynomialFunction extends MathFunction {
         return factory.getConverted(result);
     }
 
+    protected List<Complex> trySolve(double that) throws UnsupportedOperationException {
+        throw new UnsupportedPolynomialSolveOperationException(variables.size()-1);
+    }
+
     private Variable add(Variable var) {
         int index = variables.size() - var.power()-1;
 
@@ -138,10 +142,6 @@ public class PolynomialFunction extends MathFunction {
         else {
             return var;
         }
-    }
-
-    protected List<Complex> trySolve(double result) throws UnsupportedOperationException{
-        throw new UnsupportedOperationException();
     }
 
     private List<Variable> generateFunction(List<Double> multipliers) {

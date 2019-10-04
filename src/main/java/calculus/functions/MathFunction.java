@@ -2,7 +2,6 @@ package calculus.functions;
 
 import com.jmath.complex.Complex;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,18 +17,11 @@ public abstract class MathFunction {
         throw new UnsupportedOperationException();
     }
 
-    public List<Double> realSolutionsTo(List<Double> that) throws UnsupportedOperationException {
-        List<Complex> results = new ArrayList<>();
-        that.forEach(result -> results.addAll(this.solutionsTo(result)));
-
-        return toReal(results);
-    }
-
     public List<Double> realSolutionsTo(double that) throws UnsupportedOperationException {
         return toReal(solutionsTo(that));
     }
 
-    public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolveableFunctionParametersException {
+    public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
         throw new UnsupportedOperationException();
     }
 

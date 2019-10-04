@@ -25,7 +25,7 @@ public class RootDividedByPolynomialFunction extends MathFunction {
     }
 
     @Override
-    public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolveableFunctionParametersException {
+    public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
         return numerator.normalize().sub(new PolynomialFunction(that).mul(denominator).pow(numerator.degree())).solutionsTo(0);
     }
 
