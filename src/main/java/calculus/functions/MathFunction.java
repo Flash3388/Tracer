@@ -10,14 +10,6 @@ public abstract class MathFunction {
     public abstract double at(double x);
     public abstract MathFunction derive();
 
-    public MathFunction pow(double degree) {
-        return new RootFunction(this, degree, multiplier, addition);
-    }
-
-    public MathFunction root(double degree) {
-        return pow(1.0/degree);
-    }
-
     public double difference(double from, double to) {
         return at(to) - at(from);
     }

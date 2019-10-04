@@ -20,9 +20,9 @@ public class ConcaveProfile extends Profile {
 
         targetJerk = target.jerk();
 
-        acceleration = Linear.fromConstants(targetJerk, 0);
-        velocity = Quadratic.fromConstants(targetJerk/2, 0, 0);
-        distance = Cubic.fromConstants(targetJerk/6, 0, initialVelocity, 0);
+        acceleration = new Linear(targetJerk, 0);
+        velocity = new Quadratic(targetJerk/2, 0, 0);
+        distance = new Cubic(targetJerk/6, 0, initialVelocity, 0);
     }
 
     private static Time calcDuration(MotionParameters max) {

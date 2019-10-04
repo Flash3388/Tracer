@@ -1,7 +1,7 @@
 package calculus.splines;
 
-import calculus.functions.CompositeFunctions;
 import calculus.functions.MathFunction;
+import calculus.functions.RootFunction;
 import calculus.functions.polynomialFunctions.PolynomialFunction;
 import com.jmath.ExtendedMath;
 import tracer.motion.Waypoint;
@@ -12,19 +12,20 @@ import java.util.List;
 public class Spline {
     private final PolynomialFunction function;
     private final MathFunction arcFunction;
-    private final CompositeFunctions compositeOfFunctionAndArcFunction;
     private final Waypoint offset;
     private final double knotDistance;
     private final double arcLength;
 
     public Spline(PolynomialFunction function, Waypoint startWaypoint, Waypoint endWaypoint) {
         this.function = function;
-        arcFunction = function.derive().pow(2).add(1).root(2).integrate();
-        compositeOfFunctionAndArcFunction = new CompositeFunctions(function, arcFunction);
+        arcFunction = new RootFunction(function.derive().pow(2).add(1.0), 2).integrate();
 
         knotDistance = calcKnotDistance(startWaypoint, endWaypoint);
         offset = calcOffset(startWaypoint, endWaypoint);
         arcLength = arcLengthAt(1);
+
+        System.out.println(function);
+        System.out.println(arcFunction);
     }
 
     public static double calcKnotDistance(Waypoint start, Waypoint end) {
@@ -52,7 +53,9 @@ public class Spline {
 
     public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
-        double percentage = filterSolutions(arcFunction.realSolutionsTo(length), length) / knotDistance;//but can't solve this
+        length += arcFunction.at(0);
+        double percentage = filterSolutions(arcFunction.realSolutionsTo(length), length) / knotDistance;
+        System.out.println(percentage);
 
         return Math.atan2(function.at(percentage), percentage) + offset.getHeadingDegrees();
     }

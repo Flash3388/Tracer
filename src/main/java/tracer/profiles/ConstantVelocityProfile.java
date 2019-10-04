@@ -17,7 +17,7 @@ public class ConstantVelocityProfile extends Profile {
     public ConstantVelocityProfile(double initialDistance, double initialVelocity, Time startTime, Time duration) {
         super(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, duration);
 
-        distance = Linear.fromConstants(initialVelocity, 0);
+        distance = new Linear(initialVelocity, 0);
     }
 
     @Override

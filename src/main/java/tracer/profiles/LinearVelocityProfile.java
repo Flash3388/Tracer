@@ -18,8 +18,8 @@ public class LinearVelocityProfile extends Profile {
     public LinearVelocityProfile(double initialDistance, double initialVelocity, double initialAcceleration, Time startTime, Time duration) {
         super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), startTime, duration);
 
-        velocity = Linear.fromConstants(initialAcceleration, 0);
-        distance = Quadratic.fromConstants(initialAcceleration/2, initialVelocity, 0);
+        velocity = new Linear(initialAcceleration, 0);
+        distance = new Quadratic(initialAcceleration/2, initialVelocity, 0);
     }
 
     @Override

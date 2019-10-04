@@ -15,12 +15,7 @@ public class RootFunction extends MathFunction{
         this(function, degree, new PolynomialFunction(1.0), new PolynomialFunction(0.0));
     }
 
-
-    public RootFunction(PolynomialFunction function, int degree, PolynomialFunction multiplier) {
-        this(function, degree, multiplier, new PolynomialFunction(0.0));
-    }
-
-    public RootFunction(PolynomialFunction function, int degree, PolynomialFunction multiplier, PolynomialFunction addition) {
+    private RootFunction(PolynomialFunction function, int degree, PolynomialFunction multiplier, PolynomialFunction addition) {
         this.function = function;
         this.degree = degree;
         this.multiplier = multiplier;
@@ -33,22 +28,38 @@ public class RootFunction extends MathFunction{
     }
 
     @Override
-    public MathFunction derive() {
-        return new RationalFunction(function.derive(), new RootFunction(function, degree, new PolynomialFunction(2.0)));
+    public PolynomialDividedByRootFunction derive() {
+        return new PolynomialDividedByRootFunction(function.derive(), new RootFunction(function, degree).mul(new PolynomialFunction(2.0)));
     }
 
     @Override
-    public MathFunction integrate() {
-        return new RationalFunction(new RationalFunction(function, degree, function), function.derive().mul(1.0/degree+1));
+    public RootDividedByPolynomialFunction integrate() {
+        return new RootDividedByPolynomialFunction(new RootFunction(function, degree).mul(function), function.derive().mul(1.0/degree+1));
     }
 
     @Override
     public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolveableFunctionParametersException {
-        return function.pow(degree).mul(multiplier).sub(new PolynomialFunction(result).sub(addition).pow(degree)).solutionsTo(0);
+        return function.mul(multiplier).sub(new PolynomialFunction(result).sub(addition).pow(degree)).solutionsTo(0);
     }
 
     @Override
     public String toString() {
-        return "( " + function + " ) ^" + degree;
+        return "( " + function + " ) root" + degree;
+    }
+
+    public RootFunction mul(PolynomialFunction other) {
+        return new RootFunction(function, degree, multiplier.mul(other), addition.mul(other));
+    }
+
+    public RootFunction add(PolynomialFunction other) {
+        return new RootFunction(function, degree, multiplier, addition.add(other));
+    }
+
+    public int degree() {
+        return degree;
+    }
+
+    public PolynomialFunction normalize() {
+        return function.mul(multiplier.pow(degree)).add(addition.pow(degree));
     }
 }

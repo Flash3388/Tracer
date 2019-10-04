@@ -10,7 +10,7 @@ import java.util.function.Function;
 public class SplineFactory {
     private final Map<SplineType, Function<PositionPair, Spline>> splineConstructors;
 
-    private SplineFactory() {
+    public SplineFactory() {
         splineConstructors = new HashMap<>();
 
         splineConstructors.put(SplineType.CUBIC_HERMITE, positions -> createCubicSpline(positions.getFirst(),positions.getSecond()));

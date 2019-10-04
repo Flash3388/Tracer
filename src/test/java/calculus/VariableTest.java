@@ -12,7 +12,7 @@ public class VariableTest {
     @Test
     public void constructor_forModifierAndPower_returnsVariableWithThisModifierAndPower() {
         final double MODIFIER = 2.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
 
         final Variable ACTUAL = new Variable(MODIFIER, POWER);
 
@@ -40,7 +40,7 @@ public class VariableTest {
     @Test
     public void calcDerivative_forXWithModifierAndPower_returnsXWithModifierAndReducedPower() {
         final double MODIFIER = 2.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
 
         final Variable EXPECTED_RESULT = new Variable(MODIFIER * POWER, POWER - 1);
         final Variable DERIVATIVE = new Variable(MODIFIER, POWER).derive();
@@ -60,7 +60,7 @@ public class VariableTest {
     @Test
     public void calcIntegral_forXWithModifierAndPower_returnsXWithReducedModifierAndIncreasedPower() {
         final double MODIFIER = 2.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
 
         final Variable EXPECTED_RESULT = new Variable(MODIFIER / (POWER + 1), POWER + 1);
         final Variable DERIVATIVE = new Variable(MODIFIER, POWER).integrate();
@@ -71,7 +71,7 @@ public class VariableTest {
     @Test
     public void atValue_forXWithModifierAndPower_returnsPowerOfTheValueMultipliedByTheModifier() {
         final double MODIFIER = 2.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
         final double VALUE = 1.0;
 
         final Double EXPECTED_RESULT = Math.pow(VALUE, POWER) * MODIFIER;
@@ -93,7 +93,7 @@ public class VariableTest {
     @Test
     public void atValue_forXWithNoModifier_returnsZero() {
         final double VALUE = 1.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
 
         final Double ZERO = 0.0;
         final Double ACTUAL = new Variable(ZERO, POWER).at(VALUE);
@@ -105,11 +105,11 @@ public class VariableTest {
     public void multiplication_forTwoVariables_ReturnsAddedSquaresAndMultipliedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 3.0;
-        final double FIRST_POWER = 1.0;
-        final double SECOND_POWER = 2.0;
+        final int FIRST_POWER = 1;
+        final int SECOND_POWER = 2;
 
         final double EXPECTED_MODIFIER = FIRST_MODIFIER * SECOND_MODIFIER;
-        final double EXPECTED_POWER = FIRST_POWER * SECOND_POWER;
+        final int EXPECTED_POWER = FIRST_POWER * SECOND_POWER;
 
         final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, EXPECTED_POWER);
 
@@ -126,7 +126,7 @@ public class VariableTest {
         final double MULTIPLICATION_MODIFIER = 2.0;
         final double EXPECTED_MODIFIER = INITIAL_MODIFIER * MULTIPLICATION_MODIFIER;
 
-        final double INITIAL_POWER = 2.0;
+        final int INITIAL_POWER = 2;
 
         final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, INITIAL_POWER);
 
@@ -140,7 +140,7 @@ public class VariableTest {
     public void addition_forVariablesWithSamePowers_ReturnsVariableWithAddedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
         final double EXPECTED_MODIFIER = FIRST_MODIFIER + SECOND_MODIFIER;
 
         final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, POWER);
@@ -152,12 +152,12 @@ public class VariableTest {
         assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
     }
 
-    @Test(expected = NotMatchingPowersException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void addition_forVariablesWithDifferentPowers_ThrowsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
-        final double FIRST_POWER = 2.0;
-        final double SECOND_POWER = 1.0;
+        final int FIRST_POWER = 2;
+        final int SECOND_POWER = 1;
 
         final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
@@ -169,7 +169,7 @@ public class VariableTest {
     public void subtraction_forVariablesWithSamePowers_ReturnsVariableWithSubtractedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
         final double EXPECTED_MODIFIER = FIRST_MODIFIER - SECOND_MODIFIER;
 
         final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, POWER);
@@ -181,12 +181,12 @@ public class VariableTest {
         assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
     }
 
-    @Test(expected = NotMatchingPowersException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void subtraction_forVariablesWithDifferentPowers_ThrowsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
-        final double FIRST_POWER = 2.0;
-        final double SECOND_POWER = 1.0;
+        final int FIRST_POWER = 2;
+        final int SECOND_POWER = 1;
 
         final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
@@ -197,7 +197,7 @@ public class VariableTest {
     @Test
     public void square_forVariable_ReturnSquareOfVariable() {
         final double MODIFIER = 2.0;
-        final double POWER = 2.0;
+        final int POWER = 2;
 
         final Variable EXPECTED = new Variable(MODIFIER * MODIFIER, POWER * POWER);
         final Variable ACTUAL = new Variable(MODIFIER, POWER).square();

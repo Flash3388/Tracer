@@ -20,7 +20,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     public PolynomialFunction(List<Double> constants) {
-        this(constants, constants.size()+1);
+        this(constants, constants.size()-1);
     }
 
     public PolynomialFunction(List<Double> constants, int polynomialDegree) {
@@ -108,6 +108,10 @@ public class PolynomialFunction extends MathFunction {
 
     public PolynomialFunction sub(PolynomialFunction other) {
         return add(other.mul(-1));
+    }
+
+    public PolynomialFunction add(double other) {
+        return add(new PolynomialFunction(other));
     }
 
     public PolynomialFunction add(PolynomialFunction other) {

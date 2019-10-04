@@ -28,7 +28,7 @@ public class PolynomialFactory {
 
         if(degree < 1 || degree > 4)
             return new PolynomialFunction(constants);
-        return polynomials.get(constants.size()).apply(constants);
+        return polynomials.get(degree).apply(constants);
     }
 
     private List<Double> toConstants(List<Variable> variables) {
