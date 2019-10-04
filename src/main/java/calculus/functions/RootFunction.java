@@ -24,12 +24,12 @@ public class RootFunction extends MathFunction{
 
     @Override
     public double at(double x) {
-        return Math.pow(function.at(x), 1.0/degree) * multiplier.at(x) + addition.at(x);
+        return Math.pow(function.at(x), 1.0/degree) * multiplier.at(x) + addition.at(x); //check for minus
     }
 
     @Override
     public PolynomialDividedByRootFunction derive() {
-        return new PolynomialDividedByRootFunction(function.derive(), new RootFunction(function, degree).mul(new PolynomialFunction(2.0)));
+        return new PolynomialDividedByRootFunction(function.derive(), new RootFunction(function, degree).mul(new PolynomialFunction((double) degree)));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class RootFunction extends MathFunction{
 
     @Override
     public String toString() {
-        return "( " + function + " ) root" + degree;
+        return "( " + function + " ) root" + degree + " * " + multiplier + " + " + addition;
     }
 
     public RootFunction mul(PolynomialFunction other) {
@@ -59,7 +59,11 @@ public class RootFunction extends MathFunction{
         return degree;
     }
 
+    public PolynomialFunction addition() {
+        return addition;
+    }
+
     public PolynomialFunction normalize() {
-        return function.mul(multiplier.pow(degree)).add(addition.pow(degree));
+        return function.mul(multiplier.pow(degree));
     }
 }

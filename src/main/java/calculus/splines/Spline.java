@@ -8,8 +8,12 @@ import tracer.motion.Waypoint;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 public class Spline {
+    private static final int SAMPLE_FAST = 1000;
+
     private final PolynomialFunction function;
     private final MathFunction arcFunction;
     private final Waypoint offset;
@@ -24,8 +28,9 @@ public class Spline {
         offset = calcOffset(startWaypoint, endWaypoint);
         arcLength = arcLengthAt(1);
 
-        System.out.println(function);
+        System.out.println(function.derive().pow(2).add(1.0).derive().mul(3/2.0));
         System.out.println(arcFunction);
+        System.out.println(arcLength);
     }
 
     public static double calcKnotDistance(Waypoint start, Waypoint end) {
@@ -54,8 +59,8 @@ public class Spline {
     public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
         length += arcFunction.at(0);
-        double percentage = filterSolutions(arcFunction.realSolutionsTo(length), length) / knotDistance;
-        System.out.println(percentage);
+        double percentage = percentageAt(length);
+        System.out.println(length+" "+arcLengthAt(percentage));
 
         return Math.atan2(function.at(percentage), percentage) + offset.getHeadingDegrees();
     }
@@ -78,5 +83,30 @@ public class Spline {
 
     private double arcLengthAt(double t) {
         return arcFunction.difference(0, t*knotDistance);
+    }
+
+    private double percentageAt(double length) {
+        try {
+            return filterSolutions(arcFunction.realSolutionsTo(length), length) / knotDistance;
+        } catch (UnsupportedOperationException e) {
+            return binarySolve(length);
+        }
+    }
+
+    private double binarySolve(double target) {
+        AtomicReference<Double> result = new AtomicReference<>(0.0);
+
+        IntStream.range(0, SAMPLE_FAST)
+                .parallel()
+                .forEach(i -> {
+                    double percentage = i/(double)SAMPLE_FAST;
+                    if (isCorrect(percentage, target))
+                        result.set(percentage);
+                });
+        return result.get();
+    }
+
+    private boolean isCorrect(double percentage, double target) {
+        return ExtendedMath.constrained(arcLengthAt(percentage), target - 1/200.0, target + 1/200.0);
     }
 }
