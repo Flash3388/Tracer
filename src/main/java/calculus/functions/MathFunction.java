@@ -11,15 +11,11 @@ public abstract class MathFunction {
     public abstract MathFunction derive();
 
     public MathFunction pow(double degree) {
-        return new PowerFunction(this, degree);
+        return new RootFunction(this, degree, multiplier, addition);
     }
 
     public MathFunction root(double degree) {
         return pow(1.0/degree);
-    }
-
-    public MathFunction at(MathFunction mathFunction) {
-        return new CompositeFunctions(this, mathFunction);
     }
 
     public double difference(double from, double to) {

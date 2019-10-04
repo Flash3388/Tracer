@@ -72,6 +72,16 @@ public class PolynomialFunction extends MathFunction {
             return trySolve(result);
     }
 
+    public PolynomialFunction pow(int degree) {
+        AtomicReference<PolynomialFunction> result = new AtomicReference<>(this);
+
+        IntStream.range(0, degree)
+                .skip(1)
+                .forEach(i -> result.set(result.get().mul(result.get())));
+
+        return result.get();
+    }
+
     public PolynomialFunction mul(PolynomialFunction other) {
         List<PolynomialFunction> products = other.variables().stream()
                 .map(this::mul)
@@ -81,7 +91,7 @@ public class PolynomialFunction extends MathFunction {
         products.stream()
                 .skip(1)
                 .forEach(product -> sum.set(sum.get().add(product)));
-        
+
         return sum.get();
     }
 

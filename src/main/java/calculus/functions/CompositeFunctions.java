@@ -1,14 +1,15 @@
 package calculus.functions;
 
+import calculus.functions.polynomialFunctions.PolynomialFunction;
 import com.jmath.complex.Complex;
 
 import java.util.List;
 
 public class CompositeFunctions extends MathFunction{
-    private final MathFunction outer;
-    private final MathFunction inner;
+    private final PolynomialFunction outer;
+    private final PolynomialFunction inner;
 
-    public CompositeFunctions(MathFunction outer, MathFunction inner) {
+    public CompositeFunctions(PolynomialFunction outer, PolynomialFunction inner) {
         this.outer = outer;
         this.inner = inner;
     }
