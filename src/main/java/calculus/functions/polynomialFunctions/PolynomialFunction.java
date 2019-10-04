@@ -100,10 +100,12 @@ public class PolynomialFunction extends MathFunction {
     }
 
     public PolynomialFunction mul(Variable var) {
-        return factory.getConverted(
-                variables.stream()
-                        .map(var::mul)
-                        .collect(Collectors.toList()));
+        List<Variable> result = variables.stream()
+                .map(var::mul)
+                .collect(Collectors.toList());
+        result.addAll(zeroVariables(var.power()));
+
+        return factory.getConverted(result);
     }
 
     public PolynomialFunction sub(PolynomialFunction other) {
@@ -119,7 +121,7 @@ public class PolynomialFunction extends MathFunction {
                 .map(this::add)
                 .collect(Collectors.toList());
 
-        if(variables.size() - result.size() > 0) {
+        if(variables.size() > result.size()) {
             List<Variable> tmp = variables.subList(0, variables.size() - result.size());
             tmp.addAll(result);
             result = tmp;
@@ -131,7 +133,7 @@ public class PolynomialFunction extends MathFunction {
     private Variable add(Variable var) {
         int index = variables.size() - var.power()-1;
 
-        if(index > 0 )
+        if(index >= 0 )
             return variables.get(index).add(var);
         else {
             return var;

@@ -1,3 +1,4 @@
+import calculus.functions.polynomialFunctions.PolynomialFunction;
 import calculus.functions.polynomialFunctions.Quadratic;
 import calculus.splines.SplineType;
 import tracer.motion.Waypoint;
@@ -11,7 +12,7 @@ public class GenericTesting {
 
         Quadratic q = new Quadratic(1, 1, 1);
         System.out.println(q);
-        
+        System.out.println(q.mul(new PolynomialFunction(1.0, 1.0)));
 //        MotionParameters max = MotionParameters.centimeterUnits(0.1, 0.05, 0.025);
 //
 //        MotionController tracer = MotionController.forTrajectory(trajectory, max, 1, 0.5 , 1, 0, 0, 0);
