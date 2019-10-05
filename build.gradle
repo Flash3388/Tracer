@@ -16,4 +16,5 @@ dependencies {
 
     compile 'com.flash3388.flashlib:flashutil:2.0.0-beta.1'
     compile 'com.flash3388.util:jmath:1.0'
+    compile 'org.decimal4j:decimal4j:1.0.3'
 }

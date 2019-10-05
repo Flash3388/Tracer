@@ -4,6 +4,7 @@ import calculus.functions.MathFunction;
 import calculus.functions.UnsolvableFunctionParametersException;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
+import org.decimal4j.util.DoubleRounder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PolynomialFunction extends MathFunction {
+    private final static int ROUNDING_PRECISION = 6;
+
     private final PolynomialFactory factory;
     private final List<Variable> variables;
 
@@ -146,7 +149,7 @@ public class PolynomialFunction extends MathFunction {
 
     private List<Variable> generateFunction(List<Double> multipliers) {
         return IntStream.range(0, multipliers.size())
-                .mapToObj(constantIndex -> new Variable(multipliers.get(constantIndex), multipliers.size() - (constantIndex+1) ))
+                .mapToObj(constantIndex -> new Variable(DoubleRounder.round(multipliers.get(constantIndex), ROUNDING_PRECISION), multipliers.size() - (constantIndex+1) ))
                 .collect(Collectors.toList());
     }
 
