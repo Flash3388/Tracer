@@ -11,19 +11,19 @@ import java.util.List;
 import java.util.Random;
 
 public class Spline {
-    private final PolynomialFunction function;
-    private final Linear percentageToXFunction;
+    private final PolynomialFunction yFunction;
+    private final Linear xFunction;
     private final MathFunction lengthFunction;
     private final double arcLength;
 
-    public Spline(PolynomialFunction function, Linear percentageToXFunction) {
-        this.function = function;
-        this.percentageToXFunction = percentageToXFunction;
+    public Spline(PolynomialFunction yFunction, Linear xFunction) {
+        this.yFunction = yFunction;
+        this.xFunction = xFunction;
 
-        lengthFunction = new RootFunction(function.derive().pow(2).add(1.0), 2).integrate();
+        lengthFunction = new RootFunction(yFunction.derive().pow(2).add(xFunction.derive().pow(2)), 2).integrate();
         arcLength = lengthAt(1);
 
-        System.out.println(function);
+        System.out.println(yFunction);
         System.out.println(arcLength);
     }
 
@@ -33,9 +33,9 @@ public class Spline {
 
     public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
-        double x = xAt(length);
+        double x = xAtLength(length);
 
-        return Math.atan2(function.at(x), x);
+        return Math.atan2(yFunction.at(x), x);
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
@@ -54,7 +54,7 @@ public class Spline {
         return lengthFunction.difference(0, percentage);
     }
 
-    private double xAt(double length) {
+    private double xAtLength(double length) {
         double result;
 
         try {
@@ -63,15 +63,11 @@ public class Spline {
             result = newtonMethod(length, 0.01);
         }
 
-        return percentageToX(result);
-    }
-
-    private double percentageToX(double percentage) {
-        return percentageToXFunction.at(percentage);
+        return xFunction.at(result);
     }
 
     private double newtonMethod(double target, double accuracy) {
-        MathFunction derived = new RootFunction(function.derive().pow(2).add(1.0), 2);
+        MathFunction derived = new RootFunction(yFunction.derive().pow(2).add(xFunction.derive().pow(2)), 2);
         double randomized = new Random().nextDouble();
         System.out.println("randomized " + randomized);
 
