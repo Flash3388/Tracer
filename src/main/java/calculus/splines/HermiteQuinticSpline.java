@@ -2,38 +2,27 @@ package calculus.splines;
 
 import calculus.functions.polynomialFunctions.PolynomialFunction;
 import tracer.motion.Waypoint;
-import util.Operations;
 
+@Deprecated
 public class HermiteQuinticSpline extends Spline {
     public HermiteQuinticSpline(Waypoint startWaypoint, Waypoint endWaypoint) {
-        super(calcFunctions(startWaypoint, endWaypoint), startWaypoint, endWaypoint);
+        super(null, null);
     }
 
     private static PolynomialFunction calcFunctions(Waypoint start, Waypoint end) {
-        double offsetAngle = calcOffset(start, end).getHeading();
-        double startDelta = Math.tan(Operations.boundRadiansForcePositive(start.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
-        double endDelta = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()) - Operations.boundRadiansForcePositive(offsetAngle));
-        double knotDistance = calcKnotDistance(start, end);
-
-        return new PolynomialFunction(
-                calcA(startDelta, endDelta, knotDistance),
-                calcB(startDelta, endDelta, knotDistance),
-                calcC(startDelta, endDelta, knotDistance),
-                calcD(),
-                calcE(startDelta),
-                calcF());
+        return null;
     }
 
     private static double calcA(double startDelta, double endDelta, double knotDistance) {
-        return -(3 * (startDelta + endDelta)) / Math.pow(knotDistance, 4);
+        return 0;
     }
 
     private static double calcB(double startDelta, double endDelta, double knotDistance) {
-        return (8 * startDelta + 7 * endDelta) / Math.pow(knotDistance, 3);
+        return 0;
     }
 
     private static double calcC(double startDelta, double endDelta, double knotDistance) {
-        return -(6 * startDelta + 4 * endDelta) / Math.pow(knotDistance, 2);
+        return 0;
     }
 
     private static double calcD() {
@@ -41,7 +30,7 @@ public class HermiteQuinticSpline extends Spline {
     }
 
     private static double calcE(double startDelta) {
-        return startDelta;
+        return 0;
     }
 
     private static double calcF() {
