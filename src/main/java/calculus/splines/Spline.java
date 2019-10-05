@@ -22,6 +22,9 @@ public class Spline {
 
         lengthFunction = new RootFunction(function.derive().pow(2).add(1.0), 2).integrate();
         arcLength = lengthAt(1);
+
+        System.out.println(function);
+        System.out.println(arcLength);
     }
 
     public double length() {
