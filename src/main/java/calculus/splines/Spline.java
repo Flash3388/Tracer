@@ -9,9 +9,6 @@ import com.jmath.ExtendedMath;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.IntStream;
 
 public class Spline {
     private final PolynomialFunction yFunction;
@@ -43,30 +40,15 @@ public class Spline {
         return Math.atan2(yFunction.at(x), x);
     }
 
-    private MathFunction findLengthFunction(PolynomialFunction yFunction, Linear xFunction) {//I'm tired and I hate this method fml
-        AtomicReference<MathFunction> result = new AtomicReference<>();
-        AtomicBoolean isFound = new AtomicBoolean(false);
+    private MathFunction findLengthFunction(PolynomialFunction yFunction, Linear xFunction) {//I'm tired and I hate this method
+        int actual = yFunction.actualDegree();
 
-        IntStream.range(0, yFunction.variables().size())
-                .forEach(index -> {
-                    if(!isFound.get()) {
-                        if (yFunction.variables().get(index).modifier() == 0) {
-                            if (index == yFunction.variables().size() - 3) {
-                                if (yFunction.variables().get(yFunction.variables().size() - 2).modifier() == 0) {
-                                    result.set(xFunction);
-                                }
-                                else
-                                    result.set(yFunction);
-                                isFound.set(true);
-                            }
-                        }
-                        else {
-                            result.set(new RootFunction(yFunction.derive().pow(2).add(xFunction.derive().pow(2)), 2).integrate());
-                            isFound.set(true);
-                        }
-                    }
-                });
-        return result.get();
+        if(actual == 0)
+            return xFunction;
+        else if(actual == 1)
+            return yFunction;
+        else
+            return new RootFunction(yFunction.derive().pow(2).add(xFunction.derive().pow(2)), 2).integrate();
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {

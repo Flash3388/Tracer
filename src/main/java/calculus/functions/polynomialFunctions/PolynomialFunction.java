@@ -133,6 +133,14 @@ public class PolynomialFunction extends MathFunction {
         return factory.getConverted(result);
     }
 
+    public int actualDegree() {
+        for (Variable var : variables) {
+            if(var.modifier() != 0)
+                return var.power();
+        }
+        return 0;
+    }
+
     protected List<Complex> trySolve(double that) throws UnsupportedOperationException {
         throw new UnsupportedPolynomialSolveOperationException(variables.size()-1);
     }
