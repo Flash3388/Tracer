@@ -16,11 +16,6 @@ public class HermiteCubicSpline extends Spline {
         double startY = start.y();
         double endY = end.y();
 
-        System.out.println("start t = " + startTangent);
-        System.out.println("end t = " + endTangent);
-        System.out.println("start y = " + startY);
-        System.out.println("end y = " + endY);
-
         return new Cubic(
                 calcA(startTangent, endTangent, startY, endY),
                 calcB(startTangent, endTangent, startY, endY),
