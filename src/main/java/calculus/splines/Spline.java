@@ -12,19 +12,19 @@ import java.util.Random;
 
 public class Spline {
     private final PolynomialFunction yFunction;
-    private final Linear xFunction;
+    private final PolynomialFunction xFunction;
     private final MathFunction lengthFunction;
     private final double arcLength;
 
-    public Spline(PolynomialFunction yFunction, Linear xFunction) {
+    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction) {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
 
-        lengthFunction = findLengthFunction(yFunction, xFunction);
+        lengthFunction = new RootFunction(yFunction.derive().pow(2).add(xFunction.derive().pow(2)), 2).integrate();
         arcLength = lengthAt(1);
 
-        System.out.println(xFunction);
         System.out.println(yFunction);
+        System.out.println(xFunction);
         System.out.println(lengthFunction);
         System.out.println(arcLength);
     }
@@ -38,17 +38,6 @@ public class Spline {
         double x = xAtLength(length);
 
         return Math.atan2(yFunction.at(x), x);
-    }
-
-    private MathFunction findLengthFunction(PolynomialFunction yFunction, Linear xFunction) {//I'm tired and I hate this method
-        int actual = yFunction.actualDegree();
-
-        if(actual == 0)
-            return xFunction;
-        else if(actual == 1)
-            return yFunction;
-        else
-            return new RootFunction(yFunction.derive().pow(2).add(xFunction.derive().pow(2)), 2).integrate();
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
@@ -82,7 +71,6 @@ public class Spline {
     private double newtonMethod(double target, double accuracy) {
         MathFunction derived = new RootFunction(yFunction.derive().pow(2).add(xFunction.derive().pow(2)), 2);
         double randomized = new Random().nextDouble();
-        System.out.println("randomized " + randomized);
 
         if(isCorrect(randomized, target, accuracy))
             return randomized;
@@ -95,8 +83,6 @@ public class Spline {
         double y = lengthFunction.at(current);
         Linear tangent = new Linear(m, current, y);
         double guess = tangent.realSolutionsTo(target).get(0);
-
-        System.out.println(guess);
 
         if(isCorrect(guess, target, accuracy))
             return guess;

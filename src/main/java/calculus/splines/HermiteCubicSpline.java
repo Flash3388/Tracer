@@ -1,52 +1,48 @@
 package calculus.splines;
 
 import calculus.functions.polynomialFunctions.Cubic;
-import calculus.functions.polynomialFunctions.Linear;
 import tracer.motion.Waypoint;
-import util.Operations;
 
 public class HermiteCubicSpline extends Spline {
     public HermiteCubicSpline(Waypoint startWaypoint, Waypoint endWaypoint) {
-        super(calcFunctions(startWaypoint, endWaypoint), calcToXFunction(startWaypoint, endWaypoint));
+        super(calcYFunction(startWaypoint, endWaypoint), calcXFunction(startWaypoint, endWaypoint));
     }
 
-    private static Cubic calcFunctions(Waypoint start, Waypoint end) {
-        double startTangent = Math.tan(Operations.boundRadiansForcePositive(start.getHeading()));
-        double endTangent = Math.tan(Operations.boundRadiansForcePositive(end.getHeading()));
-        double startY = start.y();
-        double endY = end.y();
+    private static Cubic calcYFunction(Waypoint start, Waypoint end) {
+        double m0y = Math.sin(start.getHeading());
+        double m1y = Math.sin(end.getHeading());
 
-        System.out.println(Math.tan(Math.PI/2));
-        System.out.println("start t = " + startTangent);
-        System.out.println("end t = " + endTangent);
-        System.out.println("start y = " + startY);
-        System.out.println("end y = " + endY);
+        return calcFunction(start.y(), m0y, m1y, end.y());
+    }
 
+    private static Cubic calcXFunction(Waypoint start, Waypoint end) {
+        double m0x = Math.cos(start.getHeading());
+        double m1x = Math.cos(end.getHeading());
+
+        return calcFunction(start.x(), m0x, m1x, end.x());
+    }
+
+    private static Cubic calcFunction(double p0, double m0, double m1, double p1) {
         return new Cubic(
-                calcA(startTangent, endTangent, startY, endY),
-                calcB(startTangent, endTangent, startY, endY),
-                calcC(startTangent),
-                calcD(startY));
+                calcA(p0, m0, m1, p1),
+                calcB(p0, m0, m1, p1),
+                calcC(m0),
+                calcD(p0));
     }
 
-    private static double calcA(double startTangent, double endTangent, double startY, double endY) {
-        return startTangent + 2*startY + endTangent -2*endY;
+    private static double calcA(double p0, double m0, double m1, double p1) {
+        return 2*p0 + m0 + m1 - 2*p1;
     }
 
-    private static double calcB(double startTangent, double endTangent, double startY, double endY) {
-        return 3*endY -endTangent -3*startY -2*startTangent;
+    private static double calcB(double p0, double m0, double m1, double p1) {
+        return -3*p0 - m1 -2*m0 + 3*p1;
     }
 
-    private static double calcC(double startTangent) {
-        return startTangent;
+    private static double calcC(double m0) {
+        return m0;
     }
 
-    private static double calcD(double startY) {
-        return startY;
-    }
-
-    private static Linear calcToXFunction(Waypoint start, Waypoint end) {
-        double delta = end.x() - start.x();
-        return new Linear(delta, start.x());
+    private static double calcD(double p0) {
+        return p0;
     }
 }
