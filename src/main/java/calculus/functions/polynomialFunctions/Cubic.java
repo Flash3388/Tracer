@@ -63,7 +63,7 @@ public class Cubic extends PolynomialFunction {
     private List<Complex> oneRealRoot(double a, double b, double g, double h) {
         List<Complex> results = new ArrayList<>(3);
         double R = -g/2 + Math.sqrt(h);
-        double S = ExtendedMath.root(R, 3);
+        double S = ComplexMath.complexRoot(R, 3).real();
         double T = -g/2 - Math.sqrt(h);
         double U = -ComplexMath.complexRoot(T, 3).imaginary();
         double P = -b/(3*a);

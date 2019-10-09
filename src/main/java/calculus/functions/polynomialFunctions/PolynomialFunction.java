@@ -44,6 +44,14 @@ public class PolynomialFunction extends MathFunction {
                 .sum();
     }
 
+    public PolynomialFunction at(PolynomialFunction inner) {
+        List<PolynomialFunction> sum = variables.stream()
+                .map(variable -> inner.pow(variable.power()).mul(variable.modifier()))
+                .collect(Collectors.toList());
+
+        return sum(sum);
+    }
+
     public List<Variable> variables() {
         return variables;
     }
@@ -76,11 +84,10 @@ public class PolynomialFunction extends MathFunction {
     }
 
     public PolynomialFunction pow(int degree) {
-        AtomicReference<PolynomialFunction> result = new AtomicReference<>(this);
+        AtomicReference<PolynomialFunction> result = new AtomicReference<>(new PolynomialFunction(1.0));
 
         IntStream.range(0, degree)
-                .skip(1)
-                .forEach(i -> result.set(result.get().mul(result.get())));
+                .forEach(i -> result.set(result.get().mul(this)));
 
         return result.get();
     }
@@ -89,13 +96,9 @@ public class PolynomialFunction extends MathFunction {
         List<PolynomialFunction> products = other.variables().stream()
                 .map(this::mul)
                 .collect(Collectors.toList());
-        AtomicReference<PolynomialFunction> sum = new AtomicReference<>(products.get(0));
 
-        products.stream()
-                .skip(1)
-                .forEach(product -> sum.set(sum.get().add(product)));
 
-        return sum.get();
+        return sum(products);
     }
 
     public PolynomialFunction mul(double scalar) {
@@ -143,6 +146,16 @@ public class PolynomialFunction extends MathFunction {
 
     protected List<Complex> trySolve(double that) throws UnsupportedOperationException {
         throw new UnsupportedPolynomialSolveOperationException(variables.size()-1);
+    }
+
+    private PolynomialFunction sum(List<PolynomialFunction> functions) {
+        AtomicReference<PolynomialFunction> sum = new AtomicReference<>(functions.get(0));
+
+        functions.stream()
+                .skip(1)
+                .forEach(product -> sum.set(sum.get().add(product)));
+
+        return sum.get();
     }
 
     private Variable add(Variable var) {
