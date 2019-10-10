@@ -5,7 +5,6 @@ import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -29,28 +28,45 @@ public abstract class MathFunction {
         throw new UnsupportedOperationException();
     }
 
+    public double lengthAt(double from, double to) {
+        return lengthAt(from, to, calcStep(shortestLength(from, to)));
+    }
+
     public double lengthAt(double from, double to, double step) {
-        return IntStream.range(0, (int) (to/step))
+        return IntStream.range(0, (int) (to/step) + 3)
                 .mapToDouble(i -> at(i * step + from + step) - at(i * step + from))
                 .sum();
     }
 
-    public double atLength(double start, double length, double accuracy) {
-        return newtonMethod(start, length, 0.01);
+    public double pointAtLength(double start, double length, double accuracy) {
+        return newtonMethod(start, length, accuracy);
     }
 
-    private double newtonMethod(double start, double target, double accuracy) {
-        double randomized = new Random().nextDouble();
+    private double shortestLength(double start, double end) {
+        double m = derive().at(start);
 
-        if(isCorrect(start, randomized, target, accuracy))
-            return randomized;
-        else
-            return nextGuess(derive(), start, randomized, target, accuracy);
+        return (end - start) * m;
+    }
+
+    private double calcStep(double length) {
+        return 1 / (length * 1000);
+    }
+
+    private double newtonMethod(double start, double length, double accuracy) {
+        double initialGuess = pointAtShortestLength(start, length);
+
+        return nextGuess(derive(), start, initialGuess, length, accuracy);
+    }
+
+    private double pointAtShortestLength(double start, double length) {
+        double m = derive().at(start);
+
+        return length/m + start;
     }
 
     private double nextGuess(MathFunction derivative, double start, double current, double target, double accuracy) {
         double m = derivative.at(current);
-        double y = lengthAt(start, current, accuracy);
+        double y = at(current);
         Linear tangent = new Linear(m, current, y);
         double guess = tangent.realSolutionsTo(target).get(0);
 

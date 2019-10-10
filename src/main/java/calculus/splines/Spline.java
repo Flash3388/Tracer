@@ -11,12 +11,11 @@ public class Spline {
     public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction) {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
-        composite = yFunction.at(xFunction);
+//        composite = yFunction.at(xFunction);
+        composite = new PolynomialFunction(50.0, 30.0, 30.0);
 
         arcLength = lengthAt(1);
 
-        System.out.println(yFunction);
-        System.out.println(xFunction);
         System.out.println(composite);
         System.out.println(arcLength);
     }
@@ -33,7 +32,7 @@ public class Spline {
     }
 
     private double xAtLength(double length) {
-        return composite.atLength(xFunction.at(0), length, 0.01);
+        return composite.pointAtLength(xFunction.at(0), length, 0.01);
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
@@ -42,6 +41,6 @@ public class Spline {
     }
 
     private double lengthAt(double percentage) {
-        return composite.lengthAt(xFunction.at(0), xFunction.at(percentage), 0.01);
+        return composite.lengthAt(0, percentage);
     }
 }
