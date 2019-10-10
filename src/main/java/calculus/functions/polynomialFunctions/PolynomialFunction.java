@@ -48,7 +48,6 @@ public class PolynomialFunction extends MathFunction {
         List<PolynomialFunction> sum = variables.stream()
                 .map(variable -> inner.pow(variable.power()).mul(variable.modifier()))
                 .collect(Collectors.toList());
-
         return sum(sum);
     }
 

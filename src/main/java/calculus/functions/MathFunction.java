@@ -4,10 +4,10 @@ import calculus.functions.polynomialFunctions.Linear;
 import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public abstract class MathFunction {
     public abstract double at(double x);
@@ -26,7 +26,11 @@ public abstract class MathFunction {
     }
 
     public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
-        throw new UnsupportedOperationException();
+        try {
+            return Arrays.asList(new Complex(newtonMethod(that, calcStep(that)), 0));
+        } catch (StackOverflowError e) {
+            throw new UnsolvableFunctionParametersException();
+        }
     }
 
     public double lengthAt(double from, double to) {
@@ -34,40 +38,42 @@ public abstract class MathFunction {
     }
 
     public double lengthAt(double from, double to, double step) {
-        return IntStream.range(0, (int) (to/step) + 3)
-                .mapToDouble(i -> at(i * step + from + step) - at(i * step + from))
-                .sum();
+        double sum = 0;
+
+        for(double x=from; x < to; x+=step) {
+            System.out.println("x "+x+" sum "+sum);
+            sum += shortestLength(x, x+step);
+        }
+        return sum;
     }
 
-    public double pointAtLength(double start, double maxLength, double length, double accuracy) {
-        return simpleMethod(start, maxLength, length, accuracy);
+    public double pointAtLength(double start, double length, double accuracy) {
+        double sum = 0;
+        double x = start;
+
+        for(; !ExtendedMath.constrained(sum, length-accuracy, length+accuracy) && sum <length; x+=accuracy) {
+            sum += shortestLength(x, x+accuracy);
+        }
+
+        return x;
     }
 
-    private double shortestLength(double start, double end) {
-        double m = derive().at(start);
+    private double shortestLength(double xStart, double xEnd) {
+        return shortestLength(xStart, at(xStart), xEnd, at(xEnd));
+    }
 
-        return (end - start) * m;
+    private double shortestLength(double xStart, double yStart, double xEnd, double yEnd) {
+        return Math.sqrt(Math.pow(xEnd - xStart, 2) + Math.pow(yEnd - yStart, 2));
     }
 
     private double calcStep(double length) {
         return 1 / (length * 1000);
     }
 
-    private double simpleMethod(double start, double maxLength, double length, double accuracy) {
-        double sum = 0;
-
-        for(double i=0; i < maxLength; i+=accuracy) {
-            if(ExtendedMath.constrained(sum, length-accuracy, length+accuracy))
-                return i;
-            sum += at(i * accuracy + start + accuracy) - at(i * accuracy + start);
-        }
-        return -1;
-    }
-
-    private double newtonMethod(double start, double length, double accuracy) {
+    private double newtonMethod(double y, double accuracy) {
         double initialGuess = new Random().nextDouble();//segments and stuff yata yata
 
-        return nextGuess(derive(), initialGuess, length, accuracy);
+        return nextGuess(derive(), initialGuess, y, accuracy);
     }
 
     private double pointAtShortestLength(double start, double length) {
@@ -76,20 +82,20 @@ public abstract class MathFunction {
         return length/m + start;
     }
 
-    private double nextGuess(MathFunction derivative, double current, double length, double accuracy) {
+    private double nextGuess(MathFunction derivative, double current, double y, double accuracy) {
         double m = derivative.at(current);
-        double y = at(current);
-        Linear tangent = new Linear(m, current, y);
-        double guess = tangent.realSolutionsTo(length).get(0);
+        double tangentPoint = at(current);
+        Linear tangent = new Linear(m, current, tangentPoint);
+        double guess = tangent.realSolutionsTo(y).get(0);
 
-        if(isCorrect(guess, length, accuracy))
+        if(isCorrect(guess, y, accuracy))
             return guess;
         else
-            return nextGuess(derivative, guess, length, accuracy);
+            return nextGuess(derivative, guess, y, accuracy);
     }
 
-    private boolean isCorrect(double result, double length, double accuracy) {
-        return ExtendedMath.constrained(result, length-accuracy, length+accuracy);
+    private boolean isCorrect(double result, double y, double accuracy) {
+        return ExtendedMath.constrained(result, y-accuracy, y+accuracy);
     }
 
     private List<Double> toReal(List<Complex> complex) {
