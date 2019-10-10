@@ -41,7 +41,6 @@ public abstract class MathFunction {
         double sum = 0;
 
         for(double x=from; x < to; x+=step) {
-            System.out.println("x "+x+" sum "+sum);
             sum += shortestLength(x, x+step);
         }
         return sum;
@@ -74,12 +73,6 @@ public abstract class MathFunction {
         double initialGuess = new Random().nextDouble();//segments and stuff yata yata
 
         return nextGuess(derive(), initialGuess, y, accuracy);
-    }
-
-    private double pointAtShortestLength(double start, double length) {
-        double m = derive().at(start);
-
-        return length/m + start;
     }
 
     private double nextGuess(MathFunction derivative, double current, double y, double accuracy) {
