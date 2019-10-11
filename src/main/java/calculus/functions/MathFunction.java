@@ -40,7 +40,7 @@ public abstract class MathFunction {
     public double lengthAt(double from, double to, double step) {
         double sum = 0;
 
-        for(double x=from; x < to; x+=step) {
+        for(double x=from; x <= to; x+=step) {
             sum += shortestLength(x, x+step);
         }
         return sum;
