@@ -24,7 +24,7 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     protected double shortestLength(double tStart, double tEnd) {
-        return shortestLength(xFunction.at(tStart), at(tStart), xFunction.at(tEnd), at(tEnd));
+        return FunctionUtil.distance(xFunction.at(tStart), at(tStart), xFunction.at(tEnd), at(tEnd));
     }
 
     @Override

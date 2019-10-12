@@ -56,10 +56,6 @@ public abstract class MathFunction {
         return x;
     }
 
-    public double shortestLength(double xStart, double yStart, double xEnd, double yEnd) {
-        return Math.sqrt(Math.pow(xEnd - xStart, 2) + Math.pow(yEnd - yStart, 2));
-    }
-
     public Linear linearOn(double x) {
         return linearOn(derive(), x);
     }
@@ -72,7 +68,7 @@ public abstract class MathFunction {
     }
 
     protected double shortestLength(double xStart, double xEnd) {
-        return shortestLength(xStart, at(xStart), xEnd, at(xEnd));
+        return FunctionUtil.distance(xStart, at(xStart), xEnd, at(xEnd));
     }
 
     private double calcStep(double length) {
