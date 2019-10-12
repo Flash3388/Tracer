@@ -40,9 +40,9 @@ public abstract class MathFunction {
     public double lengthAt(double from, double to, double step) {
         double sum = 0;
 
-        for(double x=from; x <= to; x+=step) {
+        for(double x=from; x <= to; x+=step)
             sum += shortestLength(x, x+step);
-        }
+
         return sum;
     }
 
@@ -50,19 +50,29 @@ public abstract class MathFunction {
         double sum = 0;
         double x = start;
 
-        for(; !ExtendedMath.constrained(sum, length-accuracy, length+accuracy) && sum <length; x+=accuracy) {
+        for(; !ExtendedMath.constrained(sum, length-accuracy, length+accuracy) && sum <length; x+=accuracy)
             sum += shortestLength(x, x+accuracy);
-        }
 
         return x;
     }
 
-    private double shortestLength(double xStart, double xEnd) {
-        return shortestLength(xStart, at(xStart), xEnd, at(xEnd));
+    public double shortestLength(double xStart, double yStart, double xEnd, double yEnd) {
+        return Math.sqrt(Math.pow(xEnd - xStart, 2) + Math.pow(yEnd - yStart, 2));
     }
 
-    private double shortestLength(double xStart, double yStart, double xEnd, double yEnd) {
-        return Math.sqrt(Math.pow(xEnd - xStart, 2) + Math.pow(yEnd - yStart, 2));
+    public Linear linearOn(double x) {
+        return linearOn(derive(), x);
+    }
+
+    public Linear linearOn(MathFunction derivative, double x) {
+        double m = derivative.at(x);
+        double tangentPoint = at(x);
+
+        return new Linear(m, x, tangentPoint);
+    }
+
+    protected double shortestLength(double xStart, double xEnd) {
+        return shortestLength(xStart, at(xStart), xEnd, at(xEnd));
     }
 
     private double calcStep(double length) {
@@ -76,9 +86,7 @@ public abstract class MathFunction {
     }
 
     private double nextGuess(MathFunction derivative, double current, double y, double accuracy) {
-        double m = derivative.at(current);
-        double tangentPoint = at(current);
-        Linear tangent = new Linear(m, current, tangentPoint);
+        Linear tangent = linearOn(derivative, current);
         double guess = tangent.realSolutionsTo(y).get(0);
 
         if(isCorrect(guess, y, accuracy))

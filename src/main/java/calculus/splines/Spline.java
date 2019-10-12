@@ -1,21 +1,23 @@
 package calculus.splines;
 
+import calculus.functions.MathFunction;
+import calculus.functions.ParametricFunction;
 import calculus.functions.polynomialFunctions.PolynomialFunction;
 
 public class Spline {
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
-    private final PolynomialFunction composite;
+    private final MathFunction actualFunction;
     private final double arcLength;
 
     public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction) {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
-        composite = yFunction.at(xFunction);
+        actualFunction = new ParametricFunction(yFunction, xFunction);
 
         arcLength = calcArcLength();
 
-        System.out.println(composite);
+        System.out.println(actualFunction);
         System.out.println(arcLength);
     }
 
@@ -31,7 +33,7 @@ public class Spline {
     }
 
     private double xAtLength(double length) {
-        return composite.pointAtLength(xFunction.at(0), length, 0.01);
+        return actualFunction.pointAtLength(0, length, 0.01);
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
@@ -40,6 +42,6 @@ public class Spline {
     }
 
     private double calcArcLength() {
-        return composite.lengthAt(xFunction.at(0), xFunction.at(1));
+        return actualFunction.lengthAt(0, 1);
     }
 }

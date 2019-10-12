@@ -12,12 +12,16 @@ public class HermiteCubicSpline extends Spline {
         double m0y = Math.sin(start.getHeading());
         double m1y = Math.sin(end.getHeading());
 
+        System.out.println("ay= "+start.y()+" by= "+m0y+" cy= "+m1y+" dy= "+end.y());
+
         return calcFunction(start.y(), m0y, m1y, end.y());
     }
 
     private static Cubic calcXFunction(Waypoint start, Waypoint end) {
         double m0x = Math.cos(start.getHeading());
         double m1x = Math.cos(end.getHeading());
+
+        System.out.println("ax= "+start.x()+" bx= "+m0x+" cx= "+m1x+" dx= "+end.x());
 
         return calcFunction(start.x(), m0x, m1x, end.x());
     }
