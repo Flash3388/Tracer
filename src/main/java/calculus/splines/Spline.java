@@ -27,12 +27,12 @@ public class Spline {
 
     public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
-        double x = xAtLength(length);
+        double t = percentageAtLength(length);
 
-        return Math.atan2(yFunction.at(xFunction.realSolutionsTo(x).get(0)), x);
+        return Math.atan2(yFunction.at(t), xFunction.at(t));
     }
 
-    private double xAtLength(double length) {
+    private double percentageAtLength(double length) {
         return actualFunction.pointAtLength(0, length, 0.01);
     }
 

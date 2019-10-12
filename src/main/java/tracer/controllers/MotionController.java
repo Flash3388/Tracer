@@ -1,11 +1,11 @@
-package tracer.controller;
+package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
-import tracer.trajectory.Trajectory;
+import tracer.trajectories.Trajectory;
 import util.TimeConversion;
 
 import java.util.function.Function;

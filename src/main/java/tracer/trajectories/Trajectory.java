@@ -1,4 +1,4 @@
-package tracer.trajectory;
+package tracer.trajectories;
 
 import calculus.splines.LengthOutsideOfFunctionBoundsException;
 import calculus.splines.Spline;
@@ -17,14 +17,14 @@ public class Trajectory {
     private final SplineFactory hermiteFactory;
     private final double trajectoryLength;
 
+    public Trajectory(SplineType splineType, Waypoint... path) {
+        this(splineType, Arrays.asList(path));
+    }
+
     public Trajectory(SplineType splineType, List<Waypoint> path) {
         hermiteFactory = new SplineFactory();
         splines = generateTrajectory(path, splineType);
         trajectoryLength = calcTrajectoryLength();
-    }
-
-    public Trajectory(SplineType splineType, Waypoint... path) {
-        this(splineType, Arrays.asList(path));
     }
 
     private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
