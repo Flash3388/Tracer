@@ -89,6 +89,8 @@ public class MotionController extends Controller{
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {
-        return angleAt.apply(currentTime) - currentAngle;
+        double angle = angleAt.apply(currentTime);
+        System.out.println(Math.toDegrees(angle));
+        return angle - currentAngle;
     }
 }
