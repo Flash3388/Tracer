@@ -5,8 +5,8 @@ import tracer.motion.Waypoint;
 
 @Deprecated
 public class HermiteQuinticSpline extends Spline {
-    public HermiteQuinticSpline(Waypoint startWaypoint, Waypoint endWaypoint) {
-        super(null, null);
+    public HermiteQuinticSpline(Waypoint startWaypoint, Waypoint endWaypoint, double startLength) {
+        super(null, null, startLength);
     }
 
     private static PolynomialFunction calcFunctions(Waypoint start, Waypoint end) {

@@ -4,8 +4,8 @@ import calculus.functions.polynomialFunctions.Cubic;
 import tracer.motion.Waypoint;
 
 public class HermiteCubicSpline extends Spline {
-    public HermiteCubicSpline(Waypoint startWaypoint, Waypoint endWaypoint) {
-        super(calcYFunction(startWaypoint, endWaypoint), calcXFunction(startWaypoint, endWaypoint));
+    public HermiteCubicSpline(Waypoint startWaypoint, Waypoint endWaypoint, double startLength) {
+        super(calcYFunction(startWaypoint, endWaypoint), calcXFunction(startWaypoint, endWaypoint), startLength);
     }
 
     private static Cubic calcYFunction(Waypoint start, Waypoint end) {

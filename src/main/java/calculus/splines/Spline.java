@@ -9,34 +9,46 @@ public class Spline {
     private final PolynomialFunction xFunction;
     private final MathFunction actualFunction;
     private final double arcLength;
+    private final double startLength;
 
-    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction) {
+    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength) {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
+        this.startLength = startLength;
+
         actualFunction = new ParametricFunction(yFunction, xFunction);
-
         arcLength = calcArcLength();
-
-        System.out.println(actualFunction);
-        System.out.println(arcLength);
     }
 
     public double length() {
         return arcLength;
     }
 
+    public double absoluteLength() {
+        return arcLength + startLength;
+    }
+
+    public double startLength() {
+        return startLength;
+    }
+
     public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
-        double t = percentageAtLength(length);
+        double t = percentageAtLength(length - startLength);
+
+        System.out.println("length= "+length);
+        System.out.println("t= "+t+" x= "+xFunction.at(t)+" y= "+yFunction.at(t));
+        System.out.println("angle= "+Math.atan2(yFunction.at(t), xFunction.at(t)));
 
         return Math.atan2(yFunction.at(t), xFunction.at(t));
     }
 
     private double percentageAtLength(double length) {
-        return actualFunction.pointAtLength(0, length, 0.01);
+        return actualFunction.pointAtLength(0, length, 0.001);
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
+        length -= startLength;
         if(length < 0 || length > arcLength)
             throw new LengthOutsideOfFunctionBoundsException();
     }

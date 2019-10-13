@@ -20,7 +20,7 @@ public class GenericTesting {
         MotionController tracer = MotionController.forTrajectory(trajectory, max, 1, 0.5 , 1, 0, 0, 0);
 
         long start = System.currentTimeMillis();
-        IntStream.range(0, 130)
+        IntStream.range(0, 508)
                 .forEach(i -> tracer.calculate(Position.centimetersDegrees(Time.seconds(i/10), 0, 45)));
         long end = System.currentTimeMillis();
         System.out.println();

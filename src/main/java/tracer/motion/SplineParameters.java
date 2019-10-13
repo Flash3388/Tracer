@@ -1,12 +1,14 @@
 package tracer.motion;
 
-public class PositionPair {
+public class SplineParameters {
     private final Waypoint first;
     private final Waypoint second;
+    private final double startLength;
 
-    public PositionPair(Waypoint first, Waypoint second) {
+    public SplineParameters(Waypoint first, Waypoint second, double startLength) {
         this.first = first;
         this.second = second;
+        this.startLength = startLength;
     }
 
     public Waypoint getFirst() {
@@ -15,5 +17,9 @@ public class PositionPair {
 
     public Waypoint getSecond() {
         return second;
+    }
+
+    public double getStartLength() {
+        return startLength;
     }
 }

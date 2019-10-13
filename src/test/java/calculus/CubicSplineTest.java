@@ -16,7 +16,7 @@ public class CubicSplineTest {
             final Waypoint end = Waypoint.centimetersRadians(0, 1, Math.PI/2);
 
         final Double EXPECTED = end.y() - start.y();
-        final Double ACTUAL = new HermiteCubicSpline(start, end).length();
+        final Double ACTUAL = new HermiteCubicSpline(start, end, 0).length();
 
         assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
     }
