@@ -7,6 +7,7 @@ import calculus.functions.polynomialFunctions.PolynomialFunction;
 public class Spline {
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
+
     private final MathFunction actualFunction;
     private final double arcLength;
     private final double startLength;
@@ -18,6 +19,8 @@ public class Spline {
 
         actualFunction = new ParametricFunction(yFunction, xFunction);
         arcLength = calcArcLength();
+
+        System.out.println(actualFunction);
     }
 
     public double length() {
@@ -32,15 +35,11 @@ public class Spline {
         return startLength;
     }
 
-    public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {
+    public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {//in radians
         checkLength(length);
         double t = percentageAtLength(length - startLength);
 
-        System.out.println("length= "+length);
-        System.out.println("t= "+t+" x= "+xFunction.at(t)+" y= "+yFunction.at(t));
-        System.out.println("angle= "+Math.atan2(yFunction.at(t), xFunction.at(t)));
-
-        return Math.atan2(yFunction.at(t), xFunction.at(t));
+        return Math.atan2(yFunction.derive().at(t), xFunction.derive().at(t));
     }
 
     private double percentageAtLength(double length) {

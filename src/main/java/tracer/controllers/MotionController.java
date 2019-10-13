@@ -29,7 +29,7 @@ public class MotionController extends Controller{
 
     public static MotionController forTrajectory(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
         Profile functionalProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
-        Function<Time, Double> angleAt = time -> trajectory.angleAt(functionalProfile.distanceAt(time));
+        Function<Time, Double> angleAt = time -> Math.toDegrees(trajectory.angleAt(functionalProfile.distanceAt(time)));
 
         return new MotionController(functionalProfile, angleAt, kV, kA, kP, kI, kD, gP);
     }
