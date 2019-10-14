@@ -15,9 +15,16 @@ public class ProfileFactory {
     public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
         List<Profile> profiles = new ArrayList<>();
 
-        profiles.add(createStartSCurve(initialDistance, initialVelocity, max, startTime));
-        profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
-        profiles.add(createEndSCurve(profiles.get(1), max));
+        Profile sCurve = createStartSCurve(initialDistance, initialVelocity, max, startTime);
+
+        if(sCurve.end().isValid()) {
+            profiles.add(sCurve);
+            profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
+            profiles.add(createEndSCurve(profiles.get(1), max));
+        }
+
+        else
+            profiles.add(createLimitedSCurve(max, trajectory.length()));
 
         return new ComplexProfile(initialDistance, MotionParameters.stop(), startTime, calcTrajectoryDuration(max, trajectory.length()), profiles);
     }
@@ -33,6 +40,10 @@ public class ProfileFactory {
         profiles.add(createConvexProfile(max, profiles.get(1)));
 
         return new ComplexProfile(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, calcSCurveDuration(max, initialVelocity), profiles);
+    }
+
+    private static Profile createLimitedSCurve(MotionParameters max, double trajectoryLength) {
+        return null;
     }
 
     private static Time calcTrajectoryDuration(MotionParameters max, double trajectoryLength) {
