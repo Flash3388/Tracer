@@ -15,16 +15,19 @@ public class ProfileFactory {
     public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
         List<Profile> profiles = new ArrayList<>();
 
-        Profile sCurve = createStartSCurve(initialDistance, initialVelocity, max, startTime);
+        Profile startSCurve = createStartSCurve(initialDistance, initialVelocity, max, startTime);
+        Profile endSCurve = createEndSCurve(startSCurve, max);
 
-        if(sCurve.end().isValid()) {
-            profiles.add(sCurve);
+        if(endSCurve.end().isValid()) {
+            profiles.add(startSCurve);
             profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
-            profiles.add(createEndSCurve(profiles.get(1), max));
+            profiles.add(endSCurve);
         }
 
-        else
+        else {
             profiles.add(createLimitedSCurve(max, trajectory.length()));
+            profiles.add(createLimitedSCurve(max, trajectory.length()));//end sCurve
+        }
 
         return new ComplexProfile(initialDistance, MotionParameters.stop(), startTime, calcTrajectoryDuration(max, trajectory.length()), profiles);
     }
@@ -43,6 +46,7 @@ public class ProfileFactory {
     }
 
     private static Profile createLimitedSCurve(MotionParameters max, double trajectoryLength) {
+        System.out.println("is gay");
         return null;
     }
 
