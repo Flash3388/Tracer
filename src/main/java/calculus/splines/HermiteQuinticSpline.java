@@ -12,7 +12,7 @@ public class HermiteQuinticSpline extends Spline {
         double m0y = Math.sin(start.heading());
         double m1y = Math.sin(end.heading());
 
-        return calcFunction(start.y(), m0y, start.heading(), end.y(), m1y, end.heading());
+        return calcFunction(start.y(), m0y, Math.atan(start.heading()), end.y(), m1y, Math.atan(end.heading()));
     }
 
     private static PolynomialFunction calcXFunction(Waypoint start, Waypoint end) {
@@ -33,7 +33,7 @@ public class HermiteQuinticSpline extends Spline {
     }
 
     private static double calcA(double startPosition, double startDerivative, double startSecondDerivative, double endPosition, double endDerivative, double endSecondDerivative) {
-        return 6*endPosition -3*endDerivative +0.5*endSecondDerivative +6*startPosition -3*startDerivative -0.5*startSecondDerivative;
+        return 6*endPosition -3*endDerivative +0.5*endSecondDerivative -6*startPosition -3*startDerivative -0.5*startSecondDerivative;
     }
 
     private static double calcB(double startPosition, double startDerivative, double startSecondDerivative, double endPosition, double endDerivative, double endSecondDerivative) {

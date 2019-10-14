@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 
 public class GenericTesting {
     public static void main(String[] args) {
-        Trajectory trajectory = new Trajectory(SplineType.CUBIC_HERMITE,
+        Trajectory trajectory = new Trajectory(SplineType.QUINTIC_HERMITE,
                 Waypoint.centimetersRadians(0,0, 0),
                 Waypoint.centimetersRadians(1, 1, 0),
                 Waypoint.centimetersRadians(2, -2, -Math.PI/2));

@@ -14,16 +14,16 @@ public class SplineFactory {
         splineConstructors = new HashMap<>();
 
         splineConstructors.put(SplineType.CUBIC_HERMITE, parameters -> createCubicSpline(parameters.getFirst(),parameters.getSecond(), parameters.getStartLength()));
-//        splineConstructors.put(SplineType.QUINTIC_HERMITE, positions -> createQuinticSpline(positions.getFirst(),positions.getSecond()));
+        splineConstructors.put(SplineType.QUINTIC_HERMITE, parameters -> createQuinticSpline(parameters.getFirst(), parameters.getSecond(), parameters.getStartLength()));
     }
 
     private HermiteCubicSpline createCubicSpline(Waypoint start, Waypoint end, double startLength) {
         return new HermiteCubicSpline(start, end, startLength);
     }
 
-//    private HermiteQuinticSpline createQuinticSpline(Waypoint start, Waypoint end) {
-//        return new HermiteQuinticSpline(start, end);
-//    }
+    private HermiteQuinticSpline createQuinticSpline(Waypoint start, Waypoint end, double startLength) {
+        return new HermiteQuinticSpline(start, end, startLength);
+    }
 
     public Spline get(SplineType type, Waypoint start, Waypoint end, double startLength) {
         return splineConstructors.get(type).apply(new SplineParameters(start, end, startLength));

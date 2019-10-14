@@ -21,6 +21,7 @@ public class Spline {
         arcLength = calcArcLength();
 
         System.out.println(actualFunction);
+        System.out.println(arcLength);
     }
 
     public double length() {
