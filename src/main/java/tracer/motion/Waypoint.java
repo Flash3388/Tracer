@@ -24,7 +24,7 @@ public class Waypoint {
         return y;
     }
 
-    public double getHeading() {
+    public double heading() {
         return heading;
     }
 

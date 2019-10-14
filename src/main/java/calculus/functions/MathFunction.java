@@ -50,7 +50,7 @@ public abstract class MathFunction {
         double sum = 0;
         double x = start;
 
-        for(; !ExtendedMath.constrained(sum, length-accuracy, length+accuracy) && sum <length; x+=accuracy)
+        for(; !ExtendedMath.constrained(sum, length-accuracy, length+accuracy) && sum < length; x+=accuracy)
             sum += shortestLength(x, x+accuracy);
 
         return x;

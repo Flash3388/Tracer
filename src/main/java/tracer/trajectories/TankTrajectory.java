@@ -25,7 +25,7 @@ public class TankTrajectory {
 
     private List<Waypoint> adjustPath(List<Waypoint> centerPath, double offset) {
         return centerPath.stream()
-                .map(waypoint -> Waypoint.centimetersRadians(waypoint.x()+offset, waypoint.y()+offset, waypoint.getHeading()))
+                .map(waypoint -> Waypoint.centimetersRadians(waypoint.x()+offset, waypoint.y()+offset, waypoint.heading()))
                 .collect(Collectors.toList());
     }
 }

@@ -9,40 +9,40 @@ public class HermiteCubicSpline extends Spline {
     }
 
     private static Cubic calcYFunction(Waypoint start, Waypoint end) {
-        double m0y = Math.sin(start.getHeading());
-        double m1y = Math.sin(end.getHeading());
+        double m0y = Math.sin(start.heading());
+        double m1y = Math.sin(end.heading());
 
-        return calcFunction(start.y(), m0y, m1y, end.y());
+        return calcFunction(start.y(), m0y, end.y(), m1y);
     }
 
     private static Cubic calcXFunction(Waypoint start, Waypoint end) {
-        double m0x = Math.cos(start.getHeading());
-        double m1x = Math.cos(end.getHeading());
+        double m0x = Math.cos(start.heading());
+        double m1x = Math.cos(end.heading());
 
-        return calcFunction(start.x(), m0x, m1x, end.x());
+        return calcFunction(start.x(), m0x, end.x(), m1x);
     }
 
-    private static Cubic calcFunction(double p0, double m0, double m1, double p1) {
+    private static Cubic calcFunction(double startPosition, double startDerivative, double endPosition, double endDerivative) {
         return new Cubic(
-                calcA(p0, m0, m1, p1),
-                calcB(p0, m0, m1, p1),
-                calcC(m0),
-                calcD(p0));
+                calcA(startPosition, startDerivative, endPosition, endDerivative),
+                calcB(startPosition, startDerivative, endPosition, endDerivative),
+                calcC(startDerivative),
+                calcD(startPosition));
     }
 
-    private static double calcA(double p0, double m0, double m1, double p1) {
-        return 2*p0 + m0 + m1 - 2*p1;
+    private static double calcA(double startPosition, double startDerivative, double endPosition, double endDerivative) {
+        return 2*startPosition + startDerivative + endDerivative - 2*endPosition;
     }
 
-    private static double calcB(double p0, double m0, double m1, double p1) {
-        return -3*p0 - m1 -2*m0 + 3*p1;
+    private static double calcB(double startPosition, double startDerivative, double endPosition, double endDerivative) {
+        return -3*startPosition - endDerivative -2*startDerivative + 3*endPosition;
     }
 
-    private static double calcC(double m0) {
-        return m0;
+    private static double calcC(double startDerivative) {
+        return startDerivative;
     }
 
-    private static double calcD(double p0) {
-        return p0;
+    private static double calcD(double startPosition) {
+        return startPosition;
     }
 }
