@@ -35,7 +35,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public double at(double x) {
+    public Double apply(double x) {
         return variables.stream()
                 .mapToDouble(variable -> variable.at(x))
                 .sum();

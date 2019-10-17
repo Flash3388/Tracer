@@ -7,10 +7,10 @@ import com.jmath.complex.Complex;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.function.DoubleFunction;
 import java.util.stream.Collectors;
 
-public abstract class MathFunction {
-    public abstract double at(double x);
+public abstract class MathFunction implements DoubleFunction<Double> {
     public abstract MathFunction derive();
 
     public MathFunction integrate() throws UnsupportedOperationException{
@@ -18,7 +18,7 @@ public abstract class MathFunction {
     }
 
     public double difference(double from, double to) {
-        return at(to) - at(from);
+        return apply(to) - apply(from);
     }
 
     public List<Double> realSolutionsTo(double that) throws UnsupportedOperationException {
@@ -61,14 +61,14 @@ public abstract class MathFunction {
     }
 
     public Linear linearOn(MathFunction derivative, double x) {
-        double m = derivative.at(x);
-        double tangentPoint = at(x);
+        double m = derivative.apply(x);
+        double tangentPoint = apply(x);
 
         return new Linear(m, x, tangentPoint);
     }
 
     protected double shortestLength(double xStart, double xEnd) {
-        return FunctionUtil.distance(xStart, at(xStart), xEnd, at(xEnd));
+        return FunctionUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
     }
 
     private double calcStep(double length) {

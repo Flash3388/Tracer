@@ -12,9 +12,9 @@ public class RationalFunction extends MathFunction {
     }
 
     @Override
-    public double at(double x) {
+    public Double apply(double x) {
         System.out.println(x);
-        return numerator.at(x)/denominator.at(x);
+        return numerator.apply(x)/denominator.apply(x);
     }
 
     @Override

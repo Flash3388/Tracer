@@ -32,19 +32,19 @@ public class ConcaveProfile extends Profile {
     @Override
     protected double relativeVelocityAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return velocity.at(timeInSeconds);
+        return velocity.apply(timeInSeconds);
     }
 
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.at(timeInSeconds);
+        return distance.apply(timeInSeconds);
     }
 
     @Override
     protected double relativeAccelerationAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return acceleration.at(timeInSeconds);
+        return acceleration.apply(timeInSeconds);
     }
 
     @Override

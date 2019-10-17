@@ -9,7 +9,6 @@ import util.TimeConversion;
 public class ConstantVelocityProfile extends Profile {
     private final PolynomialFunction distance;
 
-
     public ConstantVelocityProfile(Profile prevProfile, Time duration) {
         this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.end(), duration);
     }
@@ -28,7 +27,7 @@ public class ConstantVelocityProfile extends Profile {
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.at(timeInSeconds);
+        return distance.apply(timeInSeconds);
     }
 
     @Override

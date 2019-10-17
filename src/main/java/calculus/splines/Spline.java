@@ -40,7 +40,7 @@ public class Spline {
         checkLength(length);
         double t = percentageAtLength(length - startLength);
 
-        return Math.atan2(yFunction.derive().at(t), xFunction.derive().at(t));
+        return Math.atan2(yFunction.derive().apply(t), xFunction.derive().apply(t));
     }
 
     private double percentageAtLength(double length) {

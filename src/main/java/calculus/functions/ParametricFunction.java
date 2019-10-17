@@ -13,8 +13,8 @@ public class ParametricFunction extends MathFunction {
     }
 
     @Override
-    public double at(double x) {
-        return yFunction.at(x);
+    public Double apply(double x) {
+        return yFunction.apply(x);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     protected double shortestLength(double tStart, double tEnd) {
-        return FunctionUtil.distance(xFunction.at(tStart), at(tStart), xFunction.at(tEnd), at(tEnd));
+        return FunctionUtil.distance(xFunction.apply(tStart), apply(tStart), xFunction.apply(tEnd), apply(tEnd));
     }
 
     @Override
@@ -34,6 +34,6 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     public Linear linearOn(MathFunction derivative, double x) {
-        return super.linearOn(derivative, xFunction.at(x));
+        return super.linearOn(derivative, xFunction.apply(x));
     }
 }
