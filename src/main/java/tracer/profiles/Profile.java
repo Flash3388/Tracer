@@ -22,10 +22,6 @@ public abstract class Profile {
         this.startTime = startTime;
     }
 
-    public boolean isCorrespondingRelative(Time relative) {
-        return isCorresponding(relative.add(startTime));
-    }
-
     public boolean isCorresponding(Time currentTime) {
         return currentTime.largerThanOrEquals(startTime) && currentTime.lessThanOrEquals(startTime.add(duration));
     }

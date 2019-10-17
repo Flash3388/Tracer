@@ -14,22 +14,13 @@ public class ProfileFactory {
 
     public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
         List<Profile> profiles = new ArrayList<>();
+        max = adjustMaxParameters(max, trajectory.length());
 
-        Profile startSCurve = createStartSCurve(initialDistance, initialVelocity, max, startTime);
-        Profile endSCurve = createEndSCurve(startSCurve, max);
+        profiles.add(createStartSCurve(initialDistance, initialVelocity, max, startTime));
+        profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
+        profiles.add(createEndSCurve(profiles.get(1), max));
 
-        if(endSCurve.end().isValid()) {
-            profiles.add(startSCurve);
-            profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
-            profiles.add(endSCurve);
-        }
-
-        else {
-            profiles.add(createLimitedSCurve(max, trajectory.length()));
-            profiles.add(createLimitedSCurve(max, trajectory.length()));//end sCurve
-        }
-
-        return new ComplexProfile(initialDistance, MotionParameters.stop(), startTime, calcTrajectoryDuration(max, trajectory.length()), profiles);
+        return new ComplexProfile(initialDistance, MotionParameters.stop(), startTime, calcTrajectoryDuration(max, initialDistance + trajectory.length()), profiles);
     }
 
     public static Profile createSCurve(Profile prevProfile, MotionParameters max) {
@@ -45,9 +36,24 @@ public class ProfileFactory {
         return new ComplexProfile(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, calcSCurveDuration(max, initialVelocity), profiles);
     }
 
-    private static Profile createLimitedSCurve(MotionParameters max, double trajectoryLength) {
-        System.out.println("is gay");
-        return null;
+    private static MotionParameters adjustMaxParameters(MotionParameters max, double targetDistance) {
+        System.out.println(distancePassedInTwoSCurves(max) + " gay " + targetDistance);
+        if(distancePassedInTwoSCurves(max) > targetDistance)
+            return MotionParameters.centimeterUnits(calcAppropriateVelocity(max, targetDistance), max.acceleration(), max.jerk());
+        else
+            return max;
+    }
+
+    private static double distancePassedInTwoSCurves(MotionParameters max) {
+         return createStartSCurve(0.0, 0.0, max, Time.milliseconds(0)).length() * 2;
+    }
+
+    private static double calcAppropriateVelocity(MotionParameters max, double targetDistance) {
+        double result = targetDistance * max.jerk() / (2*max.acceleration()) - (1 + 2/3.0) * Math.pow(max.acceleration(), 3)/(2*max.acceleration());
+
+        if(result < 0)
+            throw new TooSmallDistanceException();
+        return result;
     }
 
     private static Time calcTrajectoryDuration(MotionParameters max, double trajectoryLength) {
