@@ -29,9 +29,9 @@ public class ProfileFactory {
 
     public static Profile createSCurve(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
         List<Profile> profiles = new ArrayList<>();
-        profiles.add(createConcaveProfile(initialDistance, initialVelocity, max, startTime));
+        profiles.add(new ConcaveProfile(initialDistance, initialVelocity, max, startTime));
         profiles.add(createLinearProfile(profiles.get(0), max));
-        profiles.add(createConvexProfile(max, profiles.get(1)));
+        profiles.add(new ConvexProfile(profiles.get(1), max));
 
         return new ComplexProfile(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, profiles);
     }
@@ -73,10 +73,6 @@ public class ProfileFactory {
         return createSCurve(prevProfile, reversedMotionParameters);
     }
 
-    private static ConcaveProfile createConcaveProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
-        return new ConcaveProfile(initialDistance, initialVelocity, max, startTime);
-    }
-
     private static LinearVelocityProfile createLinearProfile(Profile concave, MotionParameters max) {
         return new LinearVelocityProfile(concave, calcLinearProfileDuration(concave, max));
     }
@@ -85,9 +81,5 @@ public class ProfileFactory {
         double linearEndVelocity = max.velocity() - Math.pow(max.acceleration(), 2)/(2 * max.jerk());
 
         return Time.seconds((linearEndVelocity - concave.endParameters().velocity())/max.acceleration());
-    }
-
-    private static ConvexProfile createConvexProfile(MotionParameters max, Profile linear) {
-        return new ConvexProfile(linear, max);
     }
 }
