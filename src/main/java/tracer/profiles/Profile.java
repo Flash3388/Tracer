@@ -23,7 +23,7 @@ public abstract class Profile {
     }
 
     public boolean isCorresponding(Time currentTime) {
-        return currentTime.largerThanOrEquals(startTime) && currentTime.lessThanOrEquals(startTime.add(duration));
+        return currentTime.largerThanOrEquals(startTime) && currentTime.lessThanOrEquals(end());
     }
 
     public Time start() {
@@ -86,6 +86,11 @@ public abstract class Profile {
         return currentTime.sub(startTime);
     }
 
+    @Override
+    public String toString() {
+        return "from: " + startTime + " to: " + end() + "\n" + "from: " + initialDistance + " to: " + absoluteLength();
+    }
+
     protected abstract double relativeVelocityAt(Time relativeTime);
     protected abstract double relativeDistanceAt(Time relativeTime);
     protected abstract double relativeAccelerationAt(Time relativeTime);
@@ -98,10 +103,5 @@ public abstract class Profile {
             } catch (OutsideOfTimeBoundsException e) {
                 System.out.println(e.getMessage());
             }
-    }
-
-    @Override
-    public String toString() {
-        return "from: " + startTime + " to: " + end() + "\n" + "from: " + initialDistance + " to: " + absoluteLength();
     }
 }

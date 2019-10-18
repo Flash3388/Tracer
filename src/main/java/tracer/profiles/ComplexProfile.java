@@ -9,13 +9,12 @@ import java.util.stream.Collectors;
 public class ComplexProfile extends Profile {
     private final List<Profile> profiles;
 
-    public ComplexProfile(Profile prevProfile, Time duration, List<Profile> profiles) {
-        super(prevProfile, duration);
-        this.profiles = profiles;
+    public ComplexProfile(Profile prevProfile, List<Profile> profiles) {
+        this(prevProfile.absoluteLength(), prevProfile.endParameters(), prevProfile.end(), profiles);
     }
 
-    public ComplexProfile(double initialDistance, MotionParameters initial, Time startTime, Time duration, List<Profile> profiles) {
-        super(initialDistance, initial, startTime, duration);
+    public ComplexProfile(double initialDistance, MotionParameters initial, Time startTime, List<Profile> profiles) {
+        super(initialDistance, initial, startTime, profiles.get(profiles.size()-1).end());
         this.profiles = profiles;
     }
 
