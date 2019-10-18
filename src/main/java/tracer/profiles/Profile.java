@@ -63,22 +63,38 @@ public abstract class Profile {
     }
 
     public double velocityAt(Time currentTime) {
-        checkTime(currentTime);
+        try {
+            checkTime(currentTime);
+        } catch (OutsideOfTimeBoundsException e) {
+            return relativeVelocityAt(end());
+        }
         return relativeVelocityAt(relativeTimeSeconds(currentTime)) + initialParameters.velocity();
     }
 
     public double distanceAt(Time currentTime) {
-        checkTime(currentTime);
+        try {
+            checkTime(currentTime);
+        } catch (OutsideOfTimeBoundsException e) {
+            return relativeDistanceAt(end());
+        }
         return relativeDistanceAt(relativeTimeSeconds(currentTime)) + initialDistance;
     }
 
     public double accelerationAt(Time currentTime) {
-        checkTime(currentTime);
+        try {
+            checkTime(currentTime);
+        } catch (OutsideOfTimeBoundsException e) {
+            return relativeAccelerationAt(end());
+        }
         return relativeAccelerationAt(relativeTimeSeconds(currentTime)) + initialParameters.acceleration();
     }
 
     public double jerkAt(Time currentTime) {
-        checkTime(currentTime);
+        try {
+            checkTime(currentTime);
+        } catch (OutsideOfTimeBoundsException e) {
+            return relativeJerkAt(end());
+        }
         return relativeJerkAt(relativeTimeSeconds(currentTime)) + initialParameters.jerk();
     }
 
@@ -96,12 +112,8 @@ public abstract class Profile {
     protected abstract double relativeAccelerationAt(Time relativeTime);
     protected abstract double relativeJerkAt(Time relativeTime);
 
-    private void checkTime(Time t) {
+    private void checkTime(Time t) throws OutsideOfTimeBoundsException {
         if(!isCorresponding(t))
-            try {
                 throw new OutsideOfTimeBoundsException(t);
-            } catch (OutsideOfTimeBoundsException e) {
-                System.out.println(e.getMessage());
-            }
     }
 }

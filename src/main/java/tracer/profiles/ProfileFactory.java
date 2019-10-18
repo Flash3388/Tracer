@@ -37,7 +37,6 @@ public class ProfileFactory {
     }
 
     private static MotionParameters adjustMaxParameters(MotionParameters max, double targetDistance) {
-        System.out.println(distancePassedInTwoSCurves(max) + " gay " + targetDistance);
         if(distancePassedInTwoSCurves(max) > targetDistance)
             return MotionParameters.centimeterUnits(calcAppropriateVelocity(max, targetDistance), max.acceleration(), max.jerk());
         else

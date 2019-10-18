@@ -14,7 +14,7 @@ public class ComplexProfile extends Profile {
     }
 
     public ComplexProfile(double initialDistance, MotionParameters initial, Time startTime, List<Profile> profiles) {
-        super(initialDistance, initial, startTime, profiles.get(profiles.size()-1).end());
+        super(initialDistance, initial, startTime, profiles.get(profiles.size()-1).end().sub(profiles.get(0).start()));
         this.profiles = profiles;
     }
 
