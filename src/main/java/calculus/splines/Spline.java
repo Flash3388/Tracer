@@ -5,6 +5,8 @@ import calculus.functions.ParametricFunction;
 import calculus.functions.polynomialFunctions.PolynomialFunction;
 
 public class Spline {
+    private final static double ACCURACY = 0.001;
+
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
 
@@ -44,7 +46,7 @@ public class Spline {
     }
 
     private double percentageAtLength(double length) {
-        return actualFunction.pointAtLength(0, length, 0.001);
+        return actualFunction.pointAtLength(0, length, ACCURACY);
     }
 
     private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
