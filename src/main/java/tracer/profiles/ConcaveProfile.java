@@ -25,10 +25,6 @@ public class ConcaveProfile extends Profile {
         distance = new Cubic(targetJerk/6, 0, initialVelocity, 0);
     }
 
-    private static Time calcDuration(MotionParameters max) {
-        return Time.seconds(max.acceleration()/max.jerk());
-    }
-
     @Override
     protected double relativeVelocityAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
@@ -50,5 +46,9 @@ public class ConcaveProfile extends Profile {
     @Override
     protected double relativeJerkAt(Time relativeTime) {
         return targetJerk;
+    }
+
+    private static Time calcDuration(MotionParameters max) {
+        return Time.seconds(max.acceleration()/max.jerk());
     }
 }

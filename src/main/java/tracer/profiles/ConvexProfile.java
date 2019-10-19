@@ -30,10 +30,6 @@ public class ConvexProfile extends Profile {
         distance = new Cubic(targetJerk/6, targetAcceleration /2, initialVelocity, 0);
     }
 
-    private static Time calcDuration(MotionParameters target) {
-        return Time.seconds(target.acceleration()/target.jerk());
-    }
-
     @Override
     protected double relativeVelocityAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
@@ -55,5 +51,9 @@ public class ConvexProfile extends Profile {
     @Override
     protected double relativeJerkAt(Time relativeTime) {
         return targetJerk;
+    }
+
+    private static Time calcDuration(MotionParameters target) {
+        return Time.seconds(target.acceleration()/target.jerk());
     }
 }

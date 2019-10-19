@@ -34,22 +34,6 @@ public class MotionController extends Controller{
         return new MotionController(functionalProfile, angleAt, kV, kA, kP, kI, kD, gP);
     }
 
-    private MotionController(Profile trajectoryProfile, Function<Time, Double> angleAt, double kV, double kA, double kP, double kI, double kD, double gP) {
-        super(trajectoryProfile);
-        this.angleAt = angleAt;
-
-        isFirstRun = true;
-
-        this.kV = kV;
-        this.kA = kA;
-
-        this.kP = kP;
-        this.kI = kI;
-        this.kD = kD;
-
-        this.gP = gP;
-    }
-
     public void reset() {
         isFirstRun = false;
     }
@@ -86,6 +70,22 @@ public class MotionController extends Controller{
         lastTime = timing;
 
         return pOut + iOut + dOut + vOut + aOut + gOut;
+    }
+
+    private MotionController(Profile trajectoryProfile, Function<Time, Double> angleAt, double kV, double kA, double kP, double kI, double kD, double gP) {
+        super(trajectoryProfile);
+        this.angleAt = angleAt;
+
+        isFirstRun = true;
+
+        this.kV = kV;
+        this.kA = kA;
+
+        this.kP = kP;
+        this.kI = kI;
+        this.kD = kD;
+
+        this.gP = gP;
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {

@@ -11,12 +11,6 @@ public class Position {
         return new Position(timing, distance, angle);
     }
 
-    private Position(Time timing, double distanceCentimeters, double angleDegrees) {
-        this.timing = timing;
-        this.distance = distanceCentimeters;
-        this.angle = angleDegrees;
-    }
-
     public static Position start() {
         return new Position(Time.milliseconds(0), 0, 0);
     }
@@ -31,5 +25,11 @@ public class Position {
 
     public double getAngle() {
         return angle;
+    }
+
+    private Position(Time timing, double distanceCentimeters, double angleDegrees) {
+        this.timing = timing;
+        this.distance = distanceCentimeters;
+        this.angle = angleDegrees;
     }
 }

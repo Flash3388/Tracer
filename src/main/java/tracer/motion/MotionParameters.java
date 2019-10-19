@@ -10,13 +10,6 @@ public class MotionParameters {
         return new MotionParameters(velocity, acceleration, jerk);
     }
 
-    private MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {
-        this.velocity = velocityCentimetersPerSecond;
-
-        this.acceleration = accelerationCentimetersPerSecondPerSecond;
-        this.jerk = jerkCentimetersPerSecondPerSecondPerSecond;
-    }
-
     public static MotionParameters constantVelocity(double velocity) {
         return new MotionParameters(velocity, 0, 0);
     }
@@ -44,5 +37,12 @@ public class MotionParameters {
     @Override
     public String toString() {
         return "velocity: "+velocity+" acceleration: " + acceleration + " jerk: " + jerk;
+    }
+
+    private MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {
+        this.velocity = velocityCentimetersPerSecond;
+
+        this.acceleration = accelerationCentimetersPerSecondPerSecond;
+        this.jerk = jerkCentimetersPerSecondPerSecondPerSecond;
     }
 }

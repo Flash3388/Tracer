@@ -10,12 +10,6 @@ public class Waypoint {
         return new Waypoint(x, y, heading);
     }
 
-    private Waypoint(double xCentimeters, double yCentimeters, double headingRadians) {
-        this.x = xCentimeters;
-        this.y = yCentimeters;
-        this.heading = headingRadians;
-    }
-
     public double x() {
         return x;
     }
@@ -35,5 +29,11 @@ public class Waypoint {
     @Override
     public String toString() {
         return "X: " + x + " Y: " + y + " Heading: " + heading;
+    }
+
+    private Waypoint(double xCentimeters, double yCentimeters, double headingRadians) {
+        this.x = xCentimeters;
+        this.y = yCentimeters;
+        this.heading = headingRadians;
     }
 }

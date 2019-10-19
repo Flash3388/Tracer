@@ -14,7 +14,6 @@ import java.util.stream.IntStream;
 public class Trajectory {
     private final List<Spline> splines;
     private final SplineFactory hermiteFactory;
-    private final double trajectoryLength;
 
     public Trajectory(SplineType splineType, Waypoint... path) {
         this(splineType, Arrays.asList(path));
@@ -23,7 +22,19 @@ public class Trajectory {
     public Trajectory(SplineType splineType, List<Waypoint> path) {
         hermiteFactory = new SplineFactory();
         splines = generateTrajectory(path, splineType);
-        trajectoryLength = calcTrajectoryLength();
+    }
+
+    public double length() {
+        return splines.get(splines.size()-1).absoluteLength();
+    }
+
+    public double angleAt(double length) {
+        try {
+            return getCorrespondingSpline(length).angleAt(length);
+        } catch (LengthOutsideOfFunctionBoundsException e) {
+            System.out.println(e.getMessage());
+            return 0.0;
+        }
     }
 
     private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
@@ -37,28 +48,11 @@ public class Trajectory {
         return result;
     }
 
-    private double calcTrajectoryLength() {
-        return splines.get(splines.size()-1).absoluteLength();
-    }
-
-    public double length() {
-        return trajectoryLength;
-    }
-
-    public double angleAt(double length) {
-        try {
-            return getCorrespondingSpline(length).angleAt(length);
-        } catch (LengthOutsideOfFunctionBoundsException e) {
-            System.out.println(e.getMessage());
-            return 0.0;
-        }
-    }
-
     private Spline getCorrespondingSpline(double length) throws LengthOutsideOfFunctionBoundsException {
         for (Spline spline: splines)
             if(spline.absoluteLength() >= length && length >= spline.startLength())//might not need the second part since the list is sorted from start to finish
                 return spline;
 
-         throw new LengthOutsideOfFunctionBoundsException();
+        throw new LengthOutsideOfFunctionBoundsException();
     }
 }
