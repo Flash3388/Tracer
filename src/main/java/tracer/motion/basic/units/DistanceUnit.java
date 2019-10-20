@@ -23,13 +23,13 @@ public enum DistanceUnit {
     public long convert(long distance, DistanceUnit unit) {
         putConversions();
 
-        return (long) (distance * ((double) CONVERSIONS.get(this) / CONVERSIONS.get(unit)));
+        return distance * (CONVERSIONS.get(this) / CONVERSIONS.get(unit));
     }
 
     private void putConversions() {
         CONVERSIONS.put(NANOMETERS, NANO_SCALE);
         CONVERSIONS.put(MICROMETER, MICRO_SCALE);
-        CONVERSIONS.put(MILLIMETERS, MILLI_SCALE);
+        CONVERSIONS.put(MILLIMETERS, MICRO_SCALE);
         CONVERSIONS.put(CENTIMETERS, CENTI_SCALE);
         CONVERSIONS.put(METERS, METERS_SCALE);
         CONVERSIONS.put(KILOMETERS, KILO_SCALE);

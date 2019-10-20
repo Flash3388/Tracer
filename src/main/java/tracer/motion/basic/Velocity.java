@@ -83,9 +83,4 @@ public class Velocity {
 
         return new Velocity(timeUnit.convert(convertedToDistanceUnit, newTimeUnit), newDistanceUnit, newTimeUnit);
     }
-
-    @Override
-    public String toString() {
-        return value + " [" + distanceUnit + "] " + "PER " + "[" + timeUnit + "]";
-    }
 }

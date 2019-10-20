@@ -99,9 +99,4 @@ public class Jerk {
 
         return new Jerk(thirdTimeUnit.convert(convertedToSecondTimeUnit, newThirdTimeUnit), newDistanceUnit, newFirstTimeUnit, newSecondTimeUnit, newThirdTimeUnit);
     }
-
-    @Override
-    public String toString() {
-        return value + " [" + distanceUnit + "] " + "PER " + "[" + firstTimeUnit + "]" + "PER " + "[" + secondTimeUnit + "]" + "PER " + "[" + thirdTimeUnit + "]";
-    }
 }

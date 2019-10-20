@@ -89,9 +89,4 @@ public class Acceleration {
 
         return new Acceleration(secondTimeUnit.convert(convertedToFirstTimeUnit, newSecondTimeUnit), newDistanceUnit, newFirstTimeUnit, newSecondTimeUnit);
     }
-
-    @Override
-    public String toString() {
-        return value + " [" + distanceUnit + "] " + "PER " + "[" + firstTimeUnit + "]" + "PER " + "[" + secondTimeUnit + "]";
-    }
 }
