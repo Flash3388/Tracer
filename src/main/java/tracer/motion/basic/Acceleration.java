@@ -1,8 +1,5 @@
 package tracer.motion.basic;
 
-import tracer.motion.basic.units.DistanceUnit;
-import tracer.motion.basic.units.UnitConversion;
-
 import java.util.concurrent.TimeUnit;
 
 public class Acceleration {
@@ -67,8 +64,7 @@ public class Acceleration {
         TimeUnit smallestFirstTimeUnit = UnitConversion.smallestTimeUnit(firstTimeUnit, velocity.firstTimeUnit());
         TimeUnit smallestSecondTimeUnit = UnitConversion.smallestTimeUnit(secondTimeUnit, velocity.secondTimeUnit());
 
-        long sum = this.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value() +
-                velocity.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value();
+        long sum = this.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value() + velocity.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value();
 
         return new Acceleration(sum, smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit);
     }
@@ -78,9 +74,9 @@ public class Acceleration {
         TimeUnit smallestFirstTimeUnit = UnitConversion.smallestTimeUnit(firstTimeUnit, velocity.firstTimeUnit());
         TimeUnit smallestSecondTimeUnit = UnitConversion.smallestTimeUnit(secondTimeUnit, velocity.secondTimeUnit());
 
-        long result = this.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value() - velocity.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value();
+        long sum = this.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value() - velocity.to(smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit).value();
 
-        return new Acceleration(result, smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit);
+        return new Acceleration(sum, smallestDistanceUnit, smallestFirstTimeUnit, smallestSecondTimeUnit);
     }
 
     public Acceleration to(DistanceUnit newDistanceUnit, TimeUnit newFirstTimeUnit, TimeUnit newSecondTimeUnit) {

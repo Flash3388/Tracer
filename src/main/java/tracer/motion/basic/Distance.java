@@ -1,8 +1,5 @@
 package tracer.motion.basic;
 
-import tracer.motion.basic.units.DistanceUnit;
-import tracer.motion.basic.units.UnitConversion;
-
 public class Distance {
     private final long value;
     private final DistanceUnit unit;
