@@ -22,18 +22,18 @@ public class UnitConversion {
     }
 
     public static double toCentimeters(Distance d) {
-        return d.valueAsMicrometers() / 10000.0;
+        return d.valueAsMillimeters() / 1000.0;
     }
 
     public static double toCentimetersPerSecond(Velocity v) {
-        return v.valueAsMicrometersPerSecond() / 10000.0;
+        return v.valueAsMillimetersPerSecond() / 1000.0;
     }
 
     public static double toCentimetersPerSecondPerSecond(Acceleration a) {
-        return a.valueAsMicrometersPerSecondPerSecond() / 10000.0;
+        return a.valueAsMillimetersPerSecondPerSecond() / 1000.0;
     }
 
     public static double toCentimetersPerSecondPerSecondPerSecond(Jerk j) {
-        return j.valueAsMicrometersPerSecondPerSecondPerSecond() / 10000.0;
+        return j.valueAsMillimetersPerSecondPerSecondPerSecond() / 1000.0;
     }
 }

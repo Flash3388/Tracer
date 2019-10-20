@@ -2,7 +2,6 @@ package tracer.trajectories;
 
 import calculus.splines.SplineType;
 import tracer.motion.Waypoint;
-import tracer.motion.basic.Distance;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,16 +12,16 @@ public class SwerveTrajectory {
     private final Trajectory frontLeft;
     private final Trajectory frontRight;
 
-    public SwerveTrajectory(SplineType splineType, List<Waypoint> centerPath, Distance widthDistance, Distance lengthDistance) {
-        rearLeft = new Trajectory(splineType, shiftPath(centerPath, widthDistance.scaleValue(-0.5), lengthDistance.scaleValue(-0.5)));
-        rearRight = new Trajectory(splineType, shiftPath(centerPath, widthDistance.scaleValue(0.5), lengthDistance.scaleValue(-0.5)));;
-        frontLeft = new Trajectory(splineType, shiftPath(centerPath, widthDistance.scaleValue(-0.5), lengthDistance.scaleValue(0.5)));;
-        frontRight = new Trajectory(splineType, shiftPath(centerPath, widthDistance.scaleValue(0.5), lengthDistance.scaleValue(0.5)));;
+    public SwerveTrajectory(SplineType splineType, List<Waypoint> centerPath, double widthDistance, double lengthDistance) {
+        rearLeft = new Trajectory(splineType, shiftPath(centerPath, -widthDistance/2, -lengthDistance/2));
+        rearRight = new Trajectory(splineType, shiftPath(centerPath, widthDistance/2, -lengthDistance/2));;
+        frontLeft = new Trajectory(splineType, shiftPath(centerPath, -widthDistance/2, lengthDistance/2));;
+        frontRight = new Trajectory(splineType, shiftPath(centerPath, widthDistance/2, lengthDistance/2));;
     }
 
-    private List<Waypoint> shiftPath(List<Waypoint> centerPath, Distance xOffset, Distance yOffset) {
+    private List<Waypoint> shiftPath(List<Waypoint> centerPath, double xOffset, double yOffset) {
         return centerPath.stream()
-                .map(waypoint -> new Waypoint(waypoint.x().add(xOffset), waypoint.y().add(yOffset), waypoint.heading()))
+                .map(waypoint -> Waypoint.centimetersRadians(waypoint.x()+xOffset, waypoint.y()+yOffset, waypoint.heading()))
                 .collect(Collectors.toList());
     }
 

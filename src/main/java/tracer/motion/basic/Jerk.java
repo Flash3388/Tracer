@@ -100,11 +100,7 @@ public class Jerk {
         return new Jerk(thirdTimeUnit.convert(convertedToSecondTimeUnit, newThirdTimeUnit), newDistanceUnit, newFirstTimeUnit, newSecondTimeUnit, newThirdTimeUnit);
     }
 
-    public Jerk reverse() {
-        return new Jerk(-value, distanceUnit, firstTimeUnit, secondTimeUnit, thirdTimeUnit);
-    }
-
-    public long valueAsMicrometersPerSecondPerSecondPerSecond() {
+    public long valueAsMillimetersPerSecondPerSecondPerSecond() {
         return to(DistanceUnit.MILLIMETERS, TimeUnit.SECONDS, TimeUnit.SECONDS, TimeUnit.SECONDS).value();
     }
 

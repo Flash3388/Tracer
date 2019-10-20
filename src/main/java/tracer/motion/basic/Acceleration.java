@@ -90,11 +90,7 @@ public class Acceleration {
         return new Acceleration(secondTimeUnit.convert(convertedToFirstTimeUnit, newSecondTimeUnit), newDistanceUnit, newFirstTimeUnit, newSecondTimeUnit);
     }
 
-    public Acceleration reverse() {
-        return new Acceleration(-value, distanceUnit, firstTimeUnit, secondTimeUnit);
-    }
-
-    public long valueAsMicrometersPerSecondPerSecond() {
+    public long valueAsMillimetersPerSecondPerSecond() {
         return to(DistanceUnit.MILLIMETERS, TimeUnit.SECONDS, TimeUnit.SECONDS).value();
     }
 
