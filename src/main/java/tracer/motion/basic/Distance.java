@@ -7,6 +7,22 @@ public class Distance {
     private final long value;
     private final DistanceUnit unit;
 
+    public static Distance meters(double value) {
+        return centimeters(value * 100);
+    }
+
+    public static Distance centimeters(double value) {
+        return millimeters(value * 10);
+    }
+
+    public static Distance millimeters(double value) {
+        return microMeters((long) value * 1000);
+    }
+
+    public static Distance microMeters(long value) {
+        return new Distance(value, DistanceUnit.MICROMETER);
+    }
+
     public static Distance millimeters(long value) {
         return new Distance(value, DistanceUnit.MILLIMETERS);
     }
@@ -54,5 +70,10 @@ public class Distance {
         if(newUnit.equals(unit))
             return this;
         return new Distance(unit.convert(value, newUnit), newUnit);
+    }
+
+    @Override
+    public String toString() {
+        return value + " [" + unit + "]";
     }
 }

@@ -28,7 +28,5 @@ public class GenericTesting {
             tracer.calculate(Position.centimetersDegrees(Time.seconds(i/10.0), 0, 45));
         }
         end = System.currentTimeMillis();
-        System.out.println();
-        System.out.println((end-start)/500.0);
     }
 }
