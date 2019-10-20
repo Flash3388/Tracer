@@ -1,5 +1,8 @@
 package tracer.motion.basic;
 
+import tracer.motion.basic.units.DistanceUnit;
+import tracer.motion.basic.units.UnitConversion;
+
 import java.util.concurrent.TimeUnit;
 
 public class Velocity {

@@ -1,4 +1,4 @@
-package tracer.motion.basic;
+package tracer.motion.basic.units;
 
 import java.util.concurrent.TimeUnit;
 
