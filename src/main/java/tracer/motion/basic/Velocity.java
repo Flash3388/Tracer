@@ -7,38 +7,6 @@ public class Velocity {
     private final DistanceUnit distanceUnit;
     private final TimeUnit timeUnit;
 
-    public static Velocity metersPerSecond(double value) {
-        return centimetersPerSecond(value * 100);
-    }
-
-    public static Velocity centimetersPerSecond(double value) {
-        return millimetersPerSecond(value * 10);
-    }
-
-    public static Velocity millimetersPerSecond(double value) {
-        return micrometersPerSecond((long) value * 1000);
-    }
-
-    public static Velocity micrometersPerSecond(long value) {
-        return new Velocity(value, DistanceUnit.MICROMETER, TimeUnit.SECONDS);
-    }
-
-    public static Velocity millimetersPerSecond(long value) {
-        return new Velocity(value, DistanceUnit.MILLIMETERS, TimeUnit.SECONDS);
-    }
-
-    public static Velocity centimetersPerSecond(long value) {
-        return new Velocity(value, DistanceUnit.CENTIMETERS, TimeUnit.SECONDS);
-    }
-
-    public static Velocity metersPerSecond(long value) {
-        return new Velocity(value, DistanceUnit.METERS, TimeUnit.SECONDS);
-    }
-
-    public static Velocity kilometersPerHour(long value) {
-        return new Velocity(value, DistanceUnit.KILOMETERS, TimeUnit.HOURS);
-    }
-
     public Velocity(long value, DistanceUnit distanceUnit, TimeUnit timeUnit) {
         this.value = value;
         this.distanceUnit = distanceUnit;
@@ -58,8 +26,8 @@ public class Velocity {
     }
 
     public Velocity add(Velocity velocity) {
-        DistanceUnit smallestDistanceUnit = UnitConversion.smallestDistanceUnit(distanceUnit, velocity.distanceUnit());
-        TimeUnit smallestTimeUnit = UnitConversion.smallestTimeUnit(timeUnit, velocity.timeUnit());
+        DistanceUnit smallestDistanceUnit = distanceUnit.smallestUnit(velocity.distanceUnit());
+        TimeUnit smallestTimeUnit = smallestTimeUnit(velocity.timeUnit);
 
         long sum = this.to(smallestDistanceUnit, smallestTimeUnit).value() + velocity.to(smallestDistanceUnit, smallestTimeUnit).value();
 
@@ -67,8 +35,8 @@ public class Velocity {
     }
 
     public Velocity sub(Velocity velocity) {
-        DistanceUnit smallestDistanceUnit = UnitConversion.smallestDistanceUnit(distanceUnit, velocity.distanceUnit());
-        TimeUnit smallestTimeUnit = UnitConversion.smallestTimeUnit(timeUnit, velocity.timeUnit());
+        DistanceUnit smallestDistanceUnit = distanceUnit.smallestUnit(velocity.distanceUnit());
+        TimeUnit smallestTimeUnit = smallestTimeUnit(velocity.timeUnit);
 
         long sum = this.to(smallestDistanceUnit, smallestTimeUnit).value() - velocity.to(smallestDistanceUnit, smallestTimeUnit).value();
 
@@ -76,8 +44,12 @@ public class Velocity {
     }
 
     public Velocity to(DistanceUnit newDistanceUnit, TimeUnit newTimeUnit) {
-        long convertedToDistanceUnit = distanceUnit.convert(value, newDistanceUnit);
+        long convertedToDistance = distanceUnit.convert(value, newDistanceUnit);
 
-        return new Velocity(timeUnit.convert(convertedToDistanceUnit, newTimeUnit), newDistanceUnit, newTimeUnit);
+        return new Velocity(timeUnit.convert(convertedToDistance, newTimeUnit), newDistanceUnit, newTimeUnit);
+    }
+
+    private TimeUnit smallestTimeUnit(TimeUnit other) {
+        return other.compareTo(timeUnit) < 0 ? other : timeUnit;
     }
 }
