@@ -90,6 +90,10 @@ public class Acceleration {
         return new Acceleration(secondTimeUnit.convert(convertedToFirstTimeUnit, newSecondTimeUnit), newDistanceUnit, newFirstTimeUnit, newSecondTimeUnit);
     }
 
+    public long valueAsMillimetersPerSecondPerSecond() {
+        return to(DistanceUnit.MILLIMETERS, TimeUnit.SECONDS, TimeUnit.SECONDS).value();
+    }
+
     @Override
     public String toString() {
         return value + " [" + distanceUnit + "] " + "PER " + "[" + firstTimeUnit + "]" + "PER " + "[" + secondTimeUnit + "]";

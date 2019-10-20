@@ -1,20 +1,23 @@
 package tracer.motion;
 
-public class Waypoint {
-    private final double
-            x,
-            y,
-            heading;
+import tracer.motion.basic.Distance;
 
-    public static Waypoint centimetersRadians(double x, double y, double heading) {
-        return new Waypoint(x, y, heading);
+public class Waypoint {
+    private final Distance x;
+    private final Distance y;
+    private final double heading;
+
+    public Waypoint(Distance x, Distance y, double headingRadians) {
+        this.x = x;
+        this.y = y;
+        this.heading = headingRadians;
     }
 
-    public double x() {
+    public Distance x() {
         return x;
     }
 
-    public double y() {
+    public Distance y() {
         return y;
     }
 
@@ -22,18 +25,8 @@ public class Waypoint {
         return heading;
     }
 
-    public double getHeadingDegrees() {
-        return Math.toDegrees(heading);
-    }
-
     @Override
     public String toString() {
         return "X: " + x + " Y: " + y + " Heading: " + heading;
-    }
-
-    private Waypoint(double xCentimeters, double yCentimeters, double headingRadians) {
-        this.x = xCentimeters;
-        this.y = yCentimeters;
-        this.heading = headingRadians;
     }
 }

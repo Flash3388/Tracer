@@ -100,6 +100,10 @@ public class Jerk {
         return new Jerk(thirdTimeUnit.convert(convertedToSecondTimeUnit, newThirdTimeUnit), newDistanceUnit, newFirstTimeUnit, newSecondTimeUnit, newThirdTimeUnit);
     }
 
+    public long valueAsMillimetersPerSecondPerSecondPerSecond() {
+        return to(DistanceUnit.MILLIMETERS, TimeUnit.SECONDS, TimeUnit.SECONDS, TimeUnit.SECONDS).value();
+    }
+
     @Override
     public String toString() {
         return value + " [" + distanceUnit + "] " + "PER " + "[" + firstTimeUnit + "]" + "PER " + "[" + secondTimeUnit + "]" + "PER " + "[" + thirdTimeUnit + "]";
