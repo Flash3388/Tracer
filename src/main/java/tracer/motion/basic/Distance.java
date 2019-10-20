@@ -33,27 +33,23 @@ public class Distance {
         return unit;
     }
 
-    public Distance to(DistanceUnit newUnit) {
-        if(newUnit.equals(unit))
-            return this;
-        return new Distance(unit.convert(value, newUnit), newUnit);
-    }
-
     public Distance add(Distance distance) {
-        DistanceUnit smallestUnit = smallestUnit(distance);
+        DistanceUnit smallestUnit = unit.smallestUnit(distance.unit());
         long sum = this.to(smallestUnit).value() + distance.to(smallestUnit).value();
 
         return new Distance(sum, smallestUnit);
     }
 
     public Distance sub(Distance distance) {
-        DistanceUnit smallestUnit = smallestUnit(distance);
+        DistanceUnit smallestUnit = unit.smallestUnit(distance.unit());
         long result = this.to(smallestUnit).value() - distance.to(smallestUnit).value();
 
         return new Distance(result, smallestUnit);
     }
 
-    private DistanceUnit smallestUnit(Distance distance) {
-        return distance.unit().compareTo(unit) < 0 ? distance.unit() : unit;
+    public Distance to(DistanceUnit newUnit) {
+        if(newUnit.equals(unit))
+            return this;
+        return new Distance(unit.convert(value, newUnit), newUnit);
     }
 }
