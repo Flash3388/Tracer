@@ -34,14 +34,14 @@ public class Distance {
     }
 
     public Distance add(Distance distance) {
-        DistanceUnit smallestUnit = unit.smallestUnit(distance.unit());
+        DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
         long sum = this.to(smallestUnit).value() + distance.to(smallestUnit).value();
 
         return new Distance(sum, smallestUnit);
     }
 
     public Distance sub(Distance distance) {
-        DistanceUnit smallestUnit = unit.smallestUnit(distance.unit());
+        DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
         long result = this.to(smallestUnit).value() - distance.to(smallestUnit).value();
 
         return new Distance(result, smallestUnit);
