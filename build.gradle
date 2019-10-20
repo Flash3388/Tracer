@@ -14,6 +14,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    compile 'com.flash3388.flashlib:flashutil:2.0.0-beta.1'
+    compile 'com.flash3388.flashlib:flashlib:2.0.0-beta.6'
     compile 'com.flash3388.util:jmath:1.0'
 }
