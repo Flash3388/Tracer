@@ -34,8 +34,4 @@ public enum DistanceUnit {
         CONVERSIONS.put(METERS, METERS_SCALE);
         CONVERSIONS.put(KILOMETERS, KILO_SCALE);
     }
-
-    public DistanceUnit smallestUnit(DistanceUnit unit) {
-        return this.compareTo(unit) < 0 ? this : unit;
-    }
 }
