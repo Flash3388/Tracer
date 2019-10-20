@@ -72,10 +72,6 @@ public class Distance {
         return new Distance(unit.convert(value, newUnit), newUnit);
     }
 
-    public long valueAsMillimeters() {
-        return to(DistanceUnit.MILLIMETERS).value();
-    }
-
     @Override
     public String toString() {
         return value + " [" + unit + "]";

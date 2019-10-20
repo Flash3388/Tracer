@@ -1,46 +1,48 @@
 package tracer.motion;
 
-import tracer.motion.basic.Acceleration;
-import tracer.motion.basic.Jerk;
-import tracer.motion.basic.Velocity;
-
 public class MotionParameters {
-    private final Velocity velocity;
-    private final Acceleration acceleration;
-    private final Jerk jerk;
+    private final double
+            velocity,
+            acceleration,
+            jerk;
+
+    public static MotionParameters centimeterUnits(double velocity, double acceleration, double jerk) {
+        return new MotionParameters(velocity, acceleration, jerk);
+    }
+
+    public static MotionParameters constantVelocity(double velocity) {
+        return new MotionParameters(velocity, 0, 0);
+    }
+
+    public static MotionParameters linearVelocity(double velocity, double acceleration) {
+        return new MotionParameters(velocity, acceleration, 0);
+    }
 
     public static MotionParameters stop() {
-        return constantVelocity(Velocity.centimetersPerSecond(0));
+        return new MotionParameters(0, 0, 0);
     }
 
-    public static MotionParameters constantVelocity(Velocity velocity) {
-        return linearVelocity(velocity, Acceleration.centimetersPerSecondPerSecond(0));
-    }
-
-    public static MotionParameters linearVelocity(Velocity velocity, Acceleration acceleration) {
-        return new MotionParameters(velocity, acceleration, Jerk.centimetersPerSecondPerSecondPerSecond(0));
-    }
-
-    public MotionParameters(Velocity velocity, Acceleration acceleration, Jerk jerk) {
-        this.velocity = velocity;
-        this.acceleration = acceleration;
-        this.jerk = jerk;
-    }
-
-    public Velocity velocity() {
+    public double velocity() {
         return velocity;
     }
 
-    public Acceleration acceleration() {
+    public double acceleration() {
         return acceleration;
     }
 
-    public Jerk jerk() {
+    public double jerk() {
         return jerk;
     }
 
     @Override
     public String toString() {
         return "velocity: "+velocity+" acceleration: " + acceleration + " jerk: " + jerk;
+    }
+
+    private MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {
+        this.velocity = velocityCentimetersPerSecond;
+
+        this.acceleration = accelerationCentimetersPerSecondPerSecond;
+        this.jerk = jerkCentimetersPerSecondPerSecondPerSecond;
     }
 }

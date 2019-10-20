@@ -78,10 +78,6 @@ public class Velocity {
         return new Velocity(sum, smallestDistanceUnit, smallestTimeUnit);
     }
 
-    public long valueAsMillimetersPerSecond() {
-        return to(DistanceUnit.MILLIMETERS, TimeUnit.SECONDS).value();
-    }
-
     public Velocity to(DistanceUnit newDistanceUnit, TimeUnit newTimeUnit) {
         long convertedToDistanceUnit = distanceUnit.convert(value, newDistanceUnit);
 
