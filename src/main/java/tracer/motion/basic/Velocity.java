@@ -78,7 +78,7 @@ public class Velocity {
         return new Velocity(sum, smallestDistanceUnit, smallestTimeUnit);
     }
 
-    public long valueAsMillimetersPerSecond() {
+    public long valueAsMicrometersPerSecond() {
         return to(DistanceUnit.MILLIMETERS, TimeUnit.SECONDS).value();
     }
 
@@ -86,6 +86,10 @@ public class Velocity {
         long convertedToDistanceUnit = distanceUnit.convert(value, newDistanceUnit);
 
         return new Velocity(timeUnit.convert(convertedToDistanceUnit, newTimeUnit), newDistanceUnit, newTimeUnit);
+    }
+
+    public Velocity reverse() {
+        return new Velocity(-value, distanceUnit, timeUnit);
     }
 
     @Override

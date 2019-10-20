@@ -52,6 +52,10 @@ public class Distance {
         return unit;
     }
 
+    public Distance scaleValue(double scalar) {
+        return new Distance((long) (this.to(DistanceUnit.NANOMETERS).value() * scalar), DistanceUnit.NANOMETERS);
+    }
+
     public Distance add(Distance distance) {
         DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
         long sum = this.to(smallestUnit).value() + distance.to(smallestUnit).value();
@@ -72,8 +76,38 @@ public class Distance {
         return new Distance(unit.convert(value, newUnit), newUnit);
     }
 
-    public long valueAsMillimeters() {
+    public long valueAsMicrometers() {
         return to(DistanceUnit.MILLIMETERS).value();
+    }
+
+    public boolean equalsTo(Distance distance) {
+        DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
+
+        return to(smallestUnit).value() == distance.to(smallestUnit).value();
+    }
+
+    public boolean largerThen(Distance distance) {
+        DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
+
+        return to(smallestUnit).value() > distance.to(smallestUnit).value();
+    }
+
+    public boolean largerOrEqualsTo(Distance distance) {
+        DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
+
+        return to(smallestUnit).value() >= distance.to(smallestUnit).value();
+    }
+
+    public boolean smallerThen(Distance distance) {
+        DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
+
+        return to(smallestUnit).value() < distance.to(smallestUnit).value();
+    }
+
+    public boolean smallerOrEqualsTo(Distance distance) {
+        DistanceUnit smallestUnit = UnitConversion.smallestDistanceUnit(unit, distance.unit());
+
+        return to(smallestUnit).value() <= distance.to(smallestUnit).value();
     }
 
     @Override

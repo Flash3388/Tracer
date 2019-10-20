@@ -3,10 +3,12 @@ package tracer.controllers;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
+import tracer.motion.basic.Distance;
+import tracer.motion.basic.Velocity;
+import tracer.motion.basic.units.UnitConversion;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 import tracer.trajectories.Trajectory;
-import util.TimeConversion;
 
 import java.util.function.Function;
 
@@ -28,7 +30,7 @@ public class MotionController extends Controller{
     private final double gP;
 
     public static MotionController forTrajectory(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
-        Profile functionalProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
+        Profile functionalProfile = ProfileFactory.createTrajectoryProfile(Distance.centimeters(0), Velocity.centimetersPerSecond(0), max, Time.milliseconds(0), trajectory);
         Function<Time, Double> angleAt = time -> Math.toDegrees(trajectory.angleAt(functionalProfile.distanceAt(time)));
 
         return new MotionController(functionalProfile, angleAt, kV, kA, kP, kI, kD, gP);
@@ -41,12 +43,12 @@ public class MotionController extends Controller{
     @Override
     public double calculate(Position position) {
         Time timing = position.getTiming();
-        double distance = position.getDistance();
+        Distance distance = position.getDistance();
         double angle = position.getAngle();
 
-        double error = getProfile().distanceAt(timing) - distance;
-        double velocity = getProfile().velocityAt(timing);
-        double acceleration = getProfile().accelerationAt(timing);
+        double error = UnitConversion.toCentimeters(getProfile().distanceAt(timing).sub(distance));
+        double velocity = UnitConversion.toCentimetersPerSecond(getProfile().velocityAt(timing));
+        double acceleration = UnitConversion.toCentimetersPerSecondPerSecond(getProfile().accelerationAt(timing));
         double angleError = getAngleError(timing, angle);
 
         if(isFirstRun) {
@@ -58,7 +60,7 @@ public class MotionController extends Controller{
 
         double pOut = kP * error;
         double iOut = kI * totalError;
-        double dOut = kD * (error - lastError)/(TimeConversion.toSeconds(Time.milliseconds(1).add(timing.sub(lastTime))));//so there won't be a division by zero
+        double dOut = kD * (error - lastError)/(UnitConversion.toSeconds(Time.milliseconds(1).add(timing.sub(lastTime))));//so there won't be a division by zero
 
         double vOut = kV * velocity;
         double aOut = kA * acceleration;

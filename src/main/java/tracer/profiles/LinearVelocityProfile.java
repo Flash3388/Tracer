@@ -5,7 +5,11 @@ import calculus.functions.polynomialFunctions.PolynomialFunction;
 import calculus.functions.polynomialFunctions.Quadratic;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
-import util.TimeConversion;
+import tracer.motion.basic.Acceleration;
+import tracer.motion.basic.Distance;
+import tracer.motion.basic.Jerk;
+import tracer.motion.basic.Velocity;
+import tracer.motion.basic.units.UnitConversion;
 
 public class LinearVelocityProfile extends Profile {
     private final PolynomialFunction velocity;
@@ -15,32 +19,33 @@ public class LinearVelocityProfile extends Profile {
         this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.endParameters().acceleration(), prevProfile.end(), duration);
     }
 
-    public LinearVelocityProfile(double initialDistance, double initialVelocity, double initialAcceleration, Time startTime, Time duration) {
+    public LinearVelocityProfile(Distance initialDistance, Velocity initialVelocity, Acceleration initialAcceleration, Time startTime, Time duration) {
         super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), startTime, duration);
 
-        velocity = new Linear(initialAcceleration, 0);
-        distance = new Quadratic(initialAcceleration/2, initialVelocity, 0);
+        velocity = new Linear(UnitConversion.toCentimetersPerSecondPerSecond(initialAcceleration), 0);
+        distance = new Quadratic(UnitConversion.toCentimetersPerSecondPerSecond(initialAcceleration)/2,
+                UnitConversion.toCentimetersPerSecond(initialVelocity), 0);
     }
 
     @Override
-    protected double relativeVelocityAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
-        return velocity.apply(timeInSeconds);
+    protected Velocity relativeVelocityAt(Time t) {
+        double timeInSeconds = UnitConversion.toSeconds(t);
+        return Velocity.centimetersPerSecond(velocity.apply(timeInSeconds));
     }
 
     @Override
-    protected double relativeDistanceAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.apply(timeInSeconds);
+    protected Distance relativeDistanceAt(Time t) {
+        double timeInSeconds = UnitConversion.toSeconds(t);
+        return Distance.centimeters(distance.apply(timeInSeconds));
     }
 
     @Override
-    protected double relativeAccelerationAt(Time t) {
-        return 0;
+    protected Acceleration relativeAccelerationAt(Time t) {
+        return Acceleration.centimetersPerSecondPerSecond(0);
     }
 
     @Override
-    protected double relativeJerkAt(Time relativeTime) {
-        return 0;
+    protected Jerk relativeJerkAt(Time relativeTime) {
+        return Jerk.centimetersPerSecondPerSecondPerSecond(0);
     }
 }

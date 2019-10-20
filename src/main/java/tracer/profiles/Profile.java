@@ -2,9 +2,13 @@ package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
+import tracer.motion.basic.Acceleration;
+import tracer.motion.basic.Distance;
+import tracer.motion.basic.Jerk;
+import tracer.motion.basic.Velocity;
 
 public abstract class Profile {
-    private final double initialDistance;
+    private final Distance initialDistance;
     private final MotionParameters initialParameters;
 
     private final Time duration;
@@ -14,7 +18,7 @@ public abstract class Profile {
         this(prevProfile.absoluteLength(), prevProfile.endParameters(), prevProfile.end(), duration);
     }
 
-    public Profile(double initialDistance, MotionParameters initialParameters, Time startTime, Time duration) {
+    public Profile(Distance initialDistance, MotionParameters initialParameters, Time startTime, Time duration) {
         this.initialDistance = initialDistance;
         this.initialParameters = initialParameters;
 
@@ -38,7 +42,7 @@ public abstract class Profile {
         return initialParameters;
     }
 
-    public double initialDistance() {
+    public Distance initialDistance() {
         return initialDistance;
     }
 
@@ -46,11 +50,11 @@ public abstract class Profile {
         return duration;
     }
 
-    public double length() {
-        return absoluteLength() - initialDistance;
+    public Distance length() {
+        return absoluteLength().sub(initialDistance);
     }
 
-    public double absoluteLength() {
+    public Distance absoluteLength() {
         return distanceAt(end());
     }
 
@@ -59,43 +63,43 @@ public abstract class Profile {
     }
 
     public MotionParameters parametersAt(Time currentTime) {
-        return MotionParameters.centimeterUnits(velocityAt(currentTime), accelerationAt(currentTime), jerkAt(currentTime));
+        return new MotionParameters(velocityAt(currentTime), accelerationAt(currentTime), jerkAt(currentTime));
     }
 
-    public double velocityAt(Time currentTime) {
+    public Velocity velocityAt(Time currentTime) {
         try {
             checkTime(currentTime);
         } catch (OutsideOfTimeBoundsException e) {
             return relativeVelocityAt(end());
         }
-        return relativeVelocityAt(relativeTimeSeconds(currentTime)) + initialParameters.velocity();
+        return relativeVelocityAt(relativeTimeSeconds(currentTime)).add(initialParameters.velocity());
     }
 
-    public double distanceAt(Time currentTime) {
+    public Distance distanceAt(Time currentTime) {
         try {
             checkTime(currentTime);
         } catch (OutsideOfTimeBoundsException e) {
             return relativeDistanceAt(end());
         }
-        return relativeDistanceAt(relativeTimeSeconds(currentTime)) + initialDistance;
+        return relativeDistanceAt(relativeTimeSeconds(currentTime)).add(initialDistance);
     }
 
-    public double accelerationAt(Time currentTime) {
+    public Acceleration accelerationAt(Time currentTime) {
         try {
             checkTime(currentTime);
         } catch (OutsideOfTimeBoundsException e) {
             return relativeAccelerationAt(end());
         }
-        return relativeAccelerationAt(relativeTimeSeconds(currentTime)) + initialParameters.acceleration();
+        return relativeAccelerationAt(relativeTimeSeconds(currentTime)).add(initialParameters.acceleration());
     }
 
-    public double jerkAt(Time currentTime) {
+    public Jerk jerkAt(Time currentTime) {
         try {
             checkTime(currentTime);
         } catch (OutsideOfTimeBoundsException e) {
             return relativeJerkAt(end());
         }
-        return relativeJerkAt(relativeTimeSeconds(currentTime)) + initialParameters.jerk();
+        return relativeJerkAt(relativeTimeSeconds(currentTime)).add(initialParameters.jerk());
     }
 
     private Time relativeTimeSeconds(Time currentTime) {
@@ -107,10 +111,10 @@ public abstract class Profile {
         return "from: " + startTime + " to: " + end() + "\n" + "from: " + initialDistance + " to: " + absoluteLength();
     }
 
-    protected abstract double relativeVelocityAt(Time relativeTime);
-    protected abstract double relativeDistanceAt(Time relativeTime);
-    protected abstract double relativeAccelerationAt(Time relativeTime);
-    protected abstract double relativeJerkAt(Time relativeTime);
+    protected abstract Velocity relativeVelocityAt(Time relativeTime);
+    protected abstract Distance relativeDistanceAt(Time relativeTime);
+    protected abstract Acceleration relativeAccelerationAt(Time relativeTime);
+    protected abstract Jerk relativeJerkAt(Time relativeTime);
 
     private void checkTime(Time t) throws OutsideOfTimeBoundsException {
         if(!isCorresponding(t))

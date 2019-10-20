@@ -5,6 +5,7 @@ import calculus.splines.Spline;
 import calculus.splines.SplineFactory;
 import calculus.splines.SplineType;
 import tracer.motion.Waypoint;
+import tracer.motion.basic.Distance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,11 +25,11 @@ public class Trajectory {
         splines = generateTrajectory(path, splineType);
     }
 
-    public double length() {
+    public Distance length() {
         return splines.get(splines.size()-1).absoluteLength();
     }
 
-    public double angleAt(double length) {
+    public double angleAt(Distance length) {
         try {
             return getCorrespondingSpline(length).angleAt(length);
         } catch (LengthOutsideOfFunctionBoundsException e) {
@@ -39,7 +40,7 @@ public class Trajectory {
 
     private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
         List<Spline> result = new ArrayList<>();
-        result.add(hermiteFactory.get(splineType, path.get(0), path.get(1), 0));
+        result.add(hermiteFactory.get(splineType, path.get(0), path.get(1), Distance.centimeters(0)));
 
         IntStream.range(0, path.size())
                 .skip(2)
@@ -48,9 +49,9 @@ public class Trajectory {
         return result;
     }
 
-    private Spline getCorrespondingSpline(double length) throws LengthOutsideOfFunctionBoundsException {
+    private Spline getCorrespondingSpline(Distance length) throws LengthOutsideOfFunctionBoundsException {
         for (Spline spline: splines)
-            if(spline.absoluteLength() >= length && length >= spline.startLength())//might not need the second part since the list is sorted from start to finish
+            if(spline.absoluteLength().largerOrEqualsTo(length) && length.largerOrEqualsTo(spline.startLength()))//might not need the second part since the list is sorted from start to finish
                 return spline;
 
         throw new LengthOutsideOfFunctionBoundsException();

@@ -3,6 +3,8 @@ package calculus.splines;
 import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
 import calculus.functions.polynomialFunctions.PolynomialFunction;
+import tracer.motion.basic.Distance;
+import tracer.motion.basic.units.UnitConversion;
 
 public class Spline {
     private final static double ACCURACY = 0.001;
@@ -11,10 +13,10 @@ public class Spline {
     private final PolynomialFunction xFunction;
 
     private final MathFunction actualFunction;
-    private final double arcLength;
-    private final double startLength;
+    private final Distance arcLength;
+    private final Distance startLength;
 
-    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength) {
+    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, Distance startLength) {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
         this.startLength = startLength;
@@ -26,36 +28,36 @@ public class Spline {
         System.out.println(arcLength);
     }
 
-    public double length() {
+    public Distance length() {
         return arcLength;
     }
 
-    public double absoluteLength() {
-        return arcLength + startLength;
+    public Distance absoluteLength() {
+        return arcLength.add(startLength);
     }
 
-    public double startLength() {
+    public Distance startLength() {
         return startLength;
     }
 
-    public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {//in radians
+    public double angleAt(Distance length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
-        double t = percentageAtLength(length - startLength);
+        double t = percentageAtLength(length.sub(startLength));
 
         return Math.atan2(yFunction.derive().apply(t), xFunction.derive().apply(t));
     }
 
-    private double percentageAtLength(double length) {
-        return actualFunction.pointAtLength(0, length, ACCURACY);
+    private double percentageAtLength(Distance length) {
+        return actualFunction.pointAtLength(0, UnitConversion.toCentimeters(length), ACCURACY);
     }
 
-    private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
-        length -= startLength;
-        if(length < 0 || length > arcLength)
+    private void checkLength(Distance length) throws LengthOutsideOfFunctionBoundsException {
+        length = length.sub(startLength);
+        if(length.smallerThen(Distance.centimeters(0)) || length.largerThen(arcLength))
             throw new LengthOutsideOfFunctionBoundsException();
     }
 
-    private double calcArcLength() {
-        return actualFunction.lengthAt(0, 1);
+    private Distance calcArcLength() {
+        return Distance.centimeters(actualFunction.lengthBetween(0, 1));
     }
 }

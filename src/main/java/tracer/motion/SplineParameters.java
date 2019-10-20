@@ -1,11 +1,13 @@
 package tracer.motion;
 
+import tracer.motion.basic.Distance;
+
 public class SplineParameters {
     private final Waypoint first;
     private final Waypoint second;
-    private final double startLength;
+    private final Distance startLength;
 
-    public SplineParameters(Waypoint first, Waypoint second, double startLength) {
+    public SplineParameters(Waypoint first, Waypoint second, Distance startLength) {
         this.first = first;
         this.second = second;
         this.startLength = startLength;
@@ -19,7 +21,7 @@ public class SplineParameters {
         return second;
     }
 
-    public double getStartLength() {
+    public Distance getStartLength() {
         return startLength;
     }
 }

@@ -2,9 +2,11 @@ package calculus.splines;
 
 import calculus.functions.polynomialFunctions.PolynomialFunction;
 import tracer.motion.Waypoint;
+import tracer.motion.basic.Distance;
+import tracer.motion.basic.units.UnitConversion;
 
 public class HermiteQuinticSpline extends Spline {
-    public HermiteQuinticSpline(Waypoint startWaypoint, Waypoint endWaypoint, double startLength) {
+    public HermiteQuinticSpline(Waypoint startWaypoint, Waypoint endWaypoint, Distance startLength) {
         super(calcYFunction(startWaypoint, endWaypoint), calcXFunction(startWaypoint, endWaypoint), startLength);
     }
 
@@ -12,14 +14,14 @@ public class HermiteQuinticSpline extends Spline {
         double m0y = Math.sin(start.heading());
         double m1y = Math.sin(end.heading());
 
-        return calcFunction(start.y(), m0y, Math.atan(start.heading()), end.y(), m1y, Math.atan(end.heading()));
+        return calcFunction(UnitConversion.toCentimeters(start.y()), m0y, Math.atan(start.heading()), UnitConversion.toCentimeters(end.y()), m1y, Math.atan(end.heading()));
     }
 
     private static PolynomialFunction calcXFunction(Waypoint start, Waypoint end) {
         double m0x = Math.cos(start.heading());
         double m1x = Math.cos(end.heading());
 
-        return calcFunction(start.x(), m0x, m0x, end.x(), m1x, m1x);
+        return calcFunction(UnitConversion.toCentimeters(start.x()), m0x, m0x, UnitConversion.toCentimeters(end.x()), m1x, m1x);
     }
 
     private static PolynomialFunction calcFunction(double startPosition, double startDerivative, double startSecondDerivative, double endPosition, double endDerivative, double endSecondDerivative) {

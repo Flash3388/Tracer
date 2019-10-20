@@ -4,7 +4,11 @@ import calculus.functions.polynomialFunctions.Linear;
 import calculus.functions.polynomialFunctions.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
-import util.TimeConversion;
+import tracer.motion.basic.Acceleration;
+import tracer.motion.basic.Distance;
+import tracer.motion.basic.Jerk;
+import tracer.motion.basic.Velocity;
+import tracer.motion.basic.units.UnitConversion;
 
 public class ConstantVelocityProfile extends Profile {
     private final PolynomialFunction distance;
@@ -13,31 +17,31 @@ public class ConstantVelocityProfile extends Profile {
         this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.end(), duration);
     }
 
-    public ConstantVelocityProfile(double initialDistance, double initialVelocity, Time startTime, Time duration) {
+    public ConstantVelocityProfile(Distance initialDistance, Velocity initialVelocity, Time startTime, Time duration) {
         super(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, duration);
 
-        distance = new Linear(initialVelocity, 0);
+        distance = new Linear(UnitConversion.toCentimetersPerSecond(initialVelocity), 0);
     }
 
     @Override
-    protected double relativeVelocityAt(Time t) {
-        return 0;
+    protected Velocity relativeVelocityAt(Time t) {
+        return Velocity.centimetersPerSecond(0);
     }
 
     @Override
-    protected double relativeDistanceAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.apply(timeInSeconds);
+    protected Distance relativeDistanceAt(Time t) {
+        double timeInSeconds = UnitConversion.toSeconds(t);
+        return Distance.centimeters(distance.apply(timeInSeconds));
     }
 
     @Override
-    protected double relativeAccelerationAt(Time t) {
-        return 0;
+    protected Acceleration relativeAccelerationAt(Time t) {
+        return Acceleration.centimetersPerSecondPerSecond(0);
     }
 
     @Override
-    protected double relativeJerkAt(Time relativeTime) {
-        return 0;
+    protected Jerk relativeJerkAt(Time relativeTime) {
+        return Jerk.centimetersPerSecondPerSecondPerSecond(0);
     }
 
 }
