@@ -1,5 +1,7 @@
 package calculus;
 
+import calculus.variables.BiggerPowerException;
+import calculus.variables.SmallerPowerException;
 import calculus.variables.Variable;
 import org.junit.Test;
 
@@ -8,17 +10,6 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 
 public class VariableTest {
-
-    @Test
-    public void constructor_forModifierAndPower_returnsVariableWithThisModifierAndPower() {
-        final double MODIFIER = 2.0;
-        final int POWER = 2;
-
-        final Variable ACTUAL = new Variable(MODIFIER, POWER);
-
-        assertEquals(Arrays.asList(MODIFIER, POWER), Arrays.asList(ACTUAL.modifier(), ACTUAL.power()));
-    }
-
     @Test
     public void calcDerivative_forNumber_returnsZero() {
         final double MODIFIER = 2.0;
@@ -165,6 +156,32 @@ public class VariableTest {
         FIRST_VARIABLE.add(SECOND_VARIABLE);
     }
 
+    @Test(expected = BiggerPowerException.class)
+    public void addition_forVariableWithBiggerPower_ThrowsCorrectException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final int FIRST_POWER = 1;
+        final int SECOND_POWER = 2;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
+        FIRST_VARIABLE.add(SECOND_VARIABLE);
+    }
+
+    @Test(expected = SmallerPowerException.class)
+    public void addition_forVariableWithSmallerPower_ThrowsCorrectException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final int FIRST_POWER = 2;
+        final int SECOND_POWER = 1;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
+        FIRST_VARIABLE.add(SECOND_VARIABLE);
+    }
+
     @Test
     public void subtraction_forVariablesWithSamePowers_ReturnsVariableWithSubtractedModifiers() {
         final double FIRST_MODIFIER = 2.0;
@@ -183,6 +200,32 @@ public class VariableTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void subtraction_forVariablesWithDifferentPowers_ThrowsException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final int FIRST_POWER = 2;
+        final int SECOND_POWER = 1;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
+        FIRST_VARIABLE.subtract(SECOND_VARIABLE);
+    }
+
+    @Test(expected = BiggerPowerException.class)
+    public void subtraction_forVariableWithBiggerPower_ThrowsCorrectException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final int FIRST_POWER = 1;
+        final int SECOND_POWER = 2;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
+        FIRST_VARIABLE.subtract(SECOND_VARIABLE);
+    }
+
+    @Test(expected = SmallerPowerException.class)
+    public void subtraction_forVariableWithSmallerPower_ThrowsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
