@@ -33,11 +33,11 @@ public abstract class MathFunction implements DoubleFunction<Double> {
         }
     }
 
-    public double lengthAt(double from, double to) {
-        return lengthAt(from, to, calcStep(shortestLength(from, to)));
+    public double lengthBetween(double from, double to) {
+        return lengthBetween(from, to, calcStep(shortestLength(from, to)));
     }
 
-    public double lengthAt(double from, double to, double step) {
+    public double lengthBetween(double from, double to, double step) {
         double sum = 0;
 
         for(double x=from; x <= to; x+=step)

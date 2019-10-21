@@ -56,6 +56,6 @@ public class Spline {
     }
 
     private double calcArcLength() {
-        return actualFunction.lengthAt(0, 1);
+        return actualFunction.lengthBetween(0, 1);
     }
 }

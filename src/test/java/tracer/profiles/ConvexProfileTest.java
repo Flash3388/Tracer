@@ -22,10 +22,10 @@ public class ConvexProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final Double EXPECTED = INITIAL_VELOCITY + TARGET.acceleration() * RELATIVE_TIME_IN_SECONDS + -TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2;
+        final double EXPECTED = INITIAL_VELOCITY + TARGET.acceleration() * RELATIVE_TIME_IN_SECONDS + -TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2;
 
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
-        final Double ACTUAL = PROFILE.velocityAt(T);
+        final double ACTUAL = PROFILE.velocityAt(T);
 
         assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
     }
@@ -41,10 +41,10 @@ public class ConvexProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final Double EXPECTED = INITIAL_ACCELERATION + -TARGET.jerk() * RELATIVE_TIME_IN_SECONDS;
+        final double EXPECTED = INITIAL_ACCELERATION + -TARGET.jerk() * RELATIVE_TIME_IN_SECONDS;
 
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
-        final Double ACTUAL = PROFILE.accelerationAt(T);
+        final double ACTUAL = PROFILE.accelerationAt(T);
 
         assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
     }
@@ -60,7 +60,7 @@ public class ConvexProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
-        final Double ACTUAL = -PROFILE.jerkAt(T);
+        final double ACTUAL = -PROFILE.jerkAt(T);
 
         assertTrue(ExtendedMath.equals(ACTUAL, TARGET.jerk(), DEF_DELTA));
     }
@@ -76,10 +76,10 @@ public class ConvexProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final Double EXPECTED = INITIAL_DISTANCE + INITIAL_VELOCITY * RELATIVE_TIME_IN_SECONDS + TARGET.acceleration() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2 + -TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 3)/6;
+        final double EXPECTED = INITIAL_DISTANCE + INITIAL_VELOCITY * RELATIVE_TIME_IN_SECONDS + TARGET.acceleration() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2 + -TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 3)/6;
 
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
-        final Double ACTUAL = PROFILE.distanceAt(T);
+        final double ACTUAL = PROFILE.distanceAt(T);
 
         assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
     }
