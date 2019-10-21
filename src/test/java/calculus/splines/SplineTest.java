@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 public class SplineTest {
     private final static double DEF_DELTA = 0.0001;
     private final static PolynomialFunction LINEAR_FUNCTION = new Linear(1, 0);
-    private final static Spline LINEAR_SPLINE = new Spline(LINEAR_FUNCTION, new PolynomialFunction(1.0), 0);
+    private final static Spline LINEAR_SPLINE = new Spline(LINEAR_FUNCTION, LINEAR_FUNCTION, 0);
 
     @Test
     public void arcLength_ofLineSpline_returnsCorrectArcLength() {
@@ -22,7 +22,7 @@ public class SplineTest {
 
     @Test
     public void angleAt_ofLineSpline_returnsAngle() throws LengthOutsideOfFunctionBoundsException {
-        final double EXPECTED = 45;
+        final double EXPECTED = Math.PI/4;
         final double ACTUAL = LINEAR_SPLINE.angleAt(0.5);
 
         assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));

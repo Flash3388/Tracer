@@ -15,7 +15,7 @@ public class HermiteQuinticSplineTest {
         Spline LINEAR_SPLINE = new HermiteQuinticSpline(Waypoint.centimetersRadians(0, 0, Math.PI/4),
                 Waypoint.centimetersRadians(1, 1, Math.PI/4),
                 0);
-        Spline EXPECTED = new Spline(LINEAR_FUNCTION, new PolynomialFunction(1.0), 0);
+        Spline EXPECTED = new Spline(LINEAR_FUNCTION, LINEAR_FUNCTION, 0);
 
         assertEquals(LINEAR_SPLINE, EXPECTED);
     }
