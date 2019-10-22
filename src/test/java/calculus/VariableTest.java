@@ -100,7 +100,7 @@ public class VariableTest {
         final int SECOND_POWER = 2;
 
         final double EXPECTED_MODIFIER = FIRST_MODIFIER * SECOND_MODIFIER;
-        final int EXPECTED_POWER = FIRST_POWER * SECOND_POWER;
+        final int EXPECTED_POWER = FIRST_POWER + SECOND_POWER;
 
         final Variable EXPECTED_VARIABLE = new Variable(EXPECTED_MODIFIER, EXPECTED_POWER);
 

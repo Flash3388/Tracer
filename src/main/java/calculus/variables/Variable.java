@@ -64,6 +64,11 @@ public class Variable {
         return modifier + "X^" + power;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return toString().equals(obj.toString());
+    }
+
     private Variable numberDerivative() {
         return new Variable(0,0);
     }

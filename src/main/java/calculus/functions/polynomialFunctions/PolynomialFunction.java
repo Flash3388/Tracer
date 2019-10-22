@@ -30,22 +30,11 @@ public class PolynomialFunction extends MathFunction {
         factory = new PolynomialFactory();
     }
 
-    public PolynomialFunction derivativeWithoutA() {
-        return factory.getConverted(variables.subList(1, variables.size()));
-    }
-
     @Override
     public Double apply(double x) {
         return variables.stream()
                 .mapToDouble(variable -> variable.at(x))
                 .sum();
-    }
-
-    public PolynomialFunction at(PolynomialFunction inner) {
-        List<PolynomialFunction> sum = variables.stream()
-                .map(variable -> inner.pow(variable.power()).mul(variable.modifier()))
-                .collect(Collectors.toList());
-        return sum(sum);
     }
 
     public List<Variable> variables() {
@@ -132,16 +121,12 @@ public class PolynomialFunction extends MathFunction {
         return factory.getConverted(result);
     }
 
-    public int actualDegree() {
-        for (Variable var : variables) {
-            if(var.modifier() != 0)
-                return var.power();
-        }
-        return 0;
-    }
-
     protected List<Complex> trySolve(double that) throws UnsupportedOperationException {
         throw new UnsupportedPolynomialSolveOperationException(variables.size()-1);
+    }
+
+    private PolynomialFunction derivativeWithoutA() {
+        return factory.getConverted(variables.subList(1, variables.size()));
     }
 
     private PolynomialFunction sum(List<PolynomialFunction> functions) {

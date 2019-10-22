@@ -5,7 +5,7 @@ import calculus.functions.polynomialFunctions.PolynomialFunction;
 import org.junit.Test;
 import tracer.motion.Waypoint;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class HermiteCubicSplineTest {
     @Test
@@ -17,6 +17,6 @@ public class HermiteCubicSplineTest {
                 0);
         Spline EXPECTED = new Spline(LINEAR_FUNCTION, LINEAR_FUNCTION, 0);
 
-        assertTrue(LINEAR_SPLINE.equals(EXPECTED));
+        assertEquals(LINEAR_SPLINE, EXPECTED);
     }
 }
