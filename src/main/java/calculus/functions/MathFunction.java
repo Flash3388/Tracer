@@ -72,7 +72,7 @@ public abstract class MathFunction implements DoubleFunction<Double> {
     }
 
     private double calcStep(double length) {
-        return 1 / (length * 1000);
+        return 1 / (length * 10000);
     }
 
     private double newtonMethod(double y, double accuracy) {

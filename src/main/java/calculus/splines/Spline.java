@@ -3,6 +3,7 @@ package calculus.splines;
 import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
 import calculus.functions.polynomialFunctions.PolynomialFunction;
+import com.jmath.ExtendedMath;
 
 public class Spline {
     private final static double ACCURACY = 0.001;
@@ -24,6 +25,14 @@ public class Spline {
 
         System.out.println(actualFunction);
         System.out.println(arcLength);
+    }
+
+    public double yAt(double t) {
+        return yFunction.apply(t);
+    }
+
+    public double xAt(double t) {
+        return xFunction.apply(t);
     }
 
     public double length() {
@@ -57,5 +66,10 @@ public class Spline {
 
     private double calcArcLength() {
         return actualFunction.lengthBetween(0, 1);
+    }
+
+    public boolean equals(Spline other) {
+        return ExtendedMath.equals(xAt(0), other.xAt(0), ACCURACY) && ExtendedMath.equals(yAt(0), other.yAt(0), ACCURACY)
+                && ExtendedMath.equals(xAt(1), other.xAt(1), ACCURACY) && ExtendedMath.equals(yAt(1), other.yAt(1), ACCURACY);
     }
 }
