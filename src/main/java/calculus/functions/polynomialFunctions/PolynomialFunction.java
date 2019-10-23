@@ -5,6 +5,7 @@ import calculus.functions.UnsolvableFunctionParametersException;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -35,10 +36,6 @@ public class PolynomialFunction extends MathFunction {
         return variables.stream()
                 .mapToDouble(variable -> variable.at(x))
                 .sum();
-    }
-
-    public List<Variable> variables() {
-        return variables;
     }
 
     public Variable get(int index) {
@@ -113,7 +110,7 @@ public class PolynomialFunction extends MathFunction {
                 .collect(Collectors.toList());
 
         if(variables.size() > result.size()) {
-            List<Variable> tmp = variables.subList(0, variables.size() - result.size());
+            List<Variable> tmp = new ArrayList<>(variables.subList(0, variables.size() - result.size()));
             tmp.addAll(result);
             result = tmp;
         }
@@ -125,8 +122,12 @@ public class PolynomialFunction extends MathFunction {
         throw new UnsupportedPolynomialSolveOperationException(variables.size()-1);
     }
 
+    private List<Variable> variables() {
+        return variables;
+    }
+
     private PolynomialFunction derivativeWithoutA() {
-        return factory.getConverted(variables.subList(1, variables.size()));
+        return factory.getConverted(new ArrayList<>(variables.subList(1, variables.size())));
     }
 
     private PolynomialFunction sum(List<PolynomialFunction> functions) {

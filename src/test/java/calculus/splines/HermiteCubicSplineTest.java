@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class HermiteCubicSplineTest {
     @Test
     public void createInstance_ofLineSpline_returnsCorrectSpline() {
-        PolynomialFunction LINEAR_FUNCTION = new Linear(1, 0);
+        final PolynomialFunction LINEAR_FUNCTION = new Linear(1, 0);
 
         Spline LINEAR_SPLINE = new HermiteCubicSpline(Waypoint.centimetersRadians(0, 0, Math.PI/4),
                 Waypoint.centimetersRadians(1, 1, Math.PI/4),

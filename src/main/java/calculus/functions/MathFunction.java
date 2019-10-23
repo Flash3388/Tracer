@@ -67,6 +67,11 @@ public abstract class MathFunction implements DoubleFunction<Double> {
         return new Linear(m, x, tangentPoint);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return toString().equals(obj.toString());
+    }
+
     protected double shortestLength(double xStart, double xEnd) {
         return FunctionUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
     }
