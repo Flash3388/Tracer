@@ -1,11 +1,44 @@
 package calculus;
 
-import calculus.functions.polynomialFunctions.PolynomialFunction;
+import calculus.functions.polynomialFunctions.*;
+import com.jmath.complex.Complex;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
 public class PolynomialFunctionTest {
+
+    @RunWith(Parameterized.class)
+    public static class solutionTest {
+        @Parameterized.Parameter(0)
+        public PolynomialFunction implementation;
+        @Parameterized.Parameter(1)
+        public double result;
+        @Parameterized.Parameter(2)
+        public List<Complex> expectedResult;
+
+        @Parameterized.Parameters(name = "function({0}).solutionTo({1}) == {2}")
+        public static Collection<Object[]> data() {
+            return Arrays.asList(new Object[][]{
+                    {new Linear(1, 1), 2, Collections.singletonList(new Complex(1, 0))},
+                    {new Quadratic(1, 1, 1), 2, Arrays.asList(new Complex(0.6180339887498949, 0), new Complex(-1.618033988749895, 0))},
+                    {new Cubic(1, 1, 1, 1), 2, Arrays.asList(new Complex(0.5436890126920766, 0), new Complex(-0.7718445063460383, 1.1151425080399373),
+                            new Complex(-0.7718445063460383, -1.1151425080399373))},
+                    {new Quartic(1, 1, 1, 1, 1), 2, Arrays.asList(new Complex(-0.11407063116458721, -1.2167460039743507), new Complex(0.5187900636758841, 0),
+                            new Complex(-0.11407063116458738, 1.2167460039743507), new Complex(-1.2906488013467095, -0))}
+            });
+        }
+
+        @Test
+        public void solutionTo_forImplementationAndAnyResult_returnsCorrectResult() {
+            assertEquals(expectedResult, implementation.solutionsTo(result));
+        }
+    }
+
     private final static PolynomialFunction EXAMPLE_FUNCTION = new PolynomialFunction(2.0, 2.0);
     private final static PolynomialFunction EXAMPLE_FUNCTION_OF_SAME_DEGREE = new PolynomialFunction(1.0, 2.0);
     private final static PolynomialFunction EXAMPLE_FUNCTION_OF_SMALLER_DEGREE = new PolynomialFunction(2.0);

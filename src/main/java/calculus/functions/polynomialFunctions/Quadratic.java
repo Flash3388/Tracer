@@ -27,6 +27,6 @@ public class Quadratic extends PolynomialFunction {
     }
 
     private Complex root(double a, double b, double c, boolean addRoot) {
-        return ComplexMath.complexRoot(Math.pow(b, 2) + 4*a*c, 2).multiply(addRoot ? 1 : -1).add(-b).div(2*a);
+        return ComplexMath.complexRoot(b*b - 4*a*c, 2).multiply(addRoot ? 1 : -1).add(new Complex(-b, 0)).div(2*a);
     }
 }

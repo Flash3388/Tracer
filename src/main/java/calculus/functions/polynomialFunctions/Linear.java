@@ -3,6 +3,7 @@ package calculus.functions.polynomialFunctions;
 import com.jmath.complex.Complex;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Linear extends PolynomialFunction {
@@ -23,6 +24,6 @@ public class Linear extends PolynomialFunction {
         double a = get(0).modifier();
         double b = get(1).modifier() - result;
 
-        return Arrays.asList(new Complex(-b/a, 0));
+        return Collections.singletonList(new Complex(-b / a, 0));
     }
 }
