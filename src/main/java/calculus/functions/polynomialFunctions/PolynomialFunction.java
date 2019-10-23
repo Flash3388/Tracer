@@ -53,11 +53,6 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public PolynomialFunction integrate() {
-        return factory.get(integralVariables());
-    }
-
-    @Override
     public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
         if(get(0).modifier() == 0)
             return derivativeWithoutA().solutionsTo(result);

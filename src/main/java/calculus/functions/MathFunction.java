@@ -13,14 +13,6 @@ import java.util.stream.Collectors;
 public abstract class MathFunction implements DoubleFunction<Double> {
     public abstract MathFunction derive();
 
-    public MathFunction integrate() throws UnsupportedOperationException{
-        throw new UnsupportedOperationException();
-    }
-
-    public double difference(double from, double to) {
-        return apply(to) - apply(from);
-    }
-
     public List<Double> realSolutionsTo(double that) throws UnsupportedOperationException {
         return toReal(solutionsTo(that));
     }
