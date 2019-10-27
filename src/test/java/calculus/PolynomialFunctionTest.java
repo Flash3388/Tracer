@@ -14,7 +14,7 @@ public class PolynomialFunctionTest {
 
     @RunWith(Parameterized.class)
     public static class solutionTest {
-        @Parameterized.Parameter(0)
+        @Parameterized.Parameter()
         public PolynomialFunction implementation;
         @Parameterized.Parameter(1)
         public double result;

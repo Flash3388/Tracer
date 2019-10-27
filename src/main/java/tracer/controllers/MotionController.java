@@ -1,29 +1,21 @@
 package tracer.controllers;
 
+import com.flash3388.flashlib.robot.control.PidController;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 import tracer.trajectories.Trajectory;
-import util.TimeConversion;
 
 import java.util.function.Function;
 
 public class MotionController extends Controller{
     private final Function<Time, Double> angleAt;
-
-    private boolean isFirstRun;
-    private double totalError;
-    private double lastError;
-    private Time lastTime;
+    private final PidController pidController;
 
     private final double kV;
     private final double kA;
-
-    private final double kP;
-    private final double kI;
-    private final double kD;
 
     private final double gP;
 
@@ -35,7 +27,7 @@ public class MotionController extends Controller{
     }
 
     public void reset() {
-        isFirstRun = false;
+        pidController.reset();
     }
 
     @Override
@@ -44,46 +36,25 @@ public class MotionController extends Controller{
         double distance = position.getDistance();
         double angle = position.getAngle();
 
-        double error = getProfile().distanceAt(timing) - distance;
         double velocity = getProfile().velocityAt(timing);
         double acceleration = getProfile().accelerationAt(timing);
         double angleError = getAngleError(timing, angle);
-
-        if(isFirstRun) {
-            lastError = error;
-            lastTime = Time.seconds(0);
-            totalError = 0;
-            isFirstRun = false;
-        }
-
-        double pOut = kP * error;
-        double iOut = kI * totalError;
-        double dOut = kD * (error - lastError)/(TimeConversion.toSeconds(Time.milliseconds(1).add(timing.sub(lastTime))));//so there won't be a division by zero
 
         double vOut = kV * velocity;
         double aOut = kA * acceleration;
 
         double gOut = gP * angleError;
 
-        totalError += error;
-        lastError = error;
-        lastTime = timing;
-
-        return pOut + iOut + dOut + vOut + aOut + gOut;
+        return pidController.calculate(distance, getProfile().distanceAt(timing)) + vOut + aOut + gOut;
     }
 
     private MotionController(Profile trajectoryProfile, Function<Time, Double> angleAt, double kV, double kA, double kP, double kI, double kD, double gP) {
         super(trajectoryProfile);
         this.angleAt = angleAt;
-
-        isFirstRun = true;
+        pidController = new PidController(kP, kI, kD, 0);
 
         this.kV = kV;
         this.kA = kA;
-
-        this.kP = kP;
-        this.kI = kI;
-        this.kD = kD;
 
         this.gP = gP;
     }
