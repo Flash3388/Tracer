@@ -3,9 +3,10 @@ package calculus.lengthAITraining;
 import calculus.splines.HermiteCubicSpline;
 import tracer.motion.Waypoint;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CubicDataFactory implements DataFactory{
     private final static double ACCURACY = 0.0001;
@@ -21,11 +22,9 @@ public class CubicDataFactory implements DataFactory{
 
     @Override
     public List<TrainingElement> generateDataSet() {
-        List<TrainingElement> elements = new ArrayList<>();
-
-        for (double i = 0; i < 1; i+=ACCURACY)
-            elements.add(new TrainingElement(spline, i));
-
-        return elements;
+        return IntStream.range(0, (int)(1/ACCURACY))
+                .parallel()
+                .mapToObj(i -> new TrainingElement(spline, i * ACCURACY))
+                .collect(Collectors.toList());
     }
 }

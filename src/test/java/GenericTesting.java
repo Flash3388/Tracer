@@ -37,14 +37,14 @@ public class GenericTesting {
 //        }
 //        end = System.currentTimeMillis();
 //        System.out.println();
-//        System.out.println((end-start)/500.0);
+//        System.out.println((e nd-start)/500.0);
 
         System.out.println("started");
-        List<TrainingElement> dataSet = new DataSetFactory().generateDataSet(SplineType.CUBIC_HERMITE, -500, 500, 1000);
+        List<TrainingElement> dataSet = new DataSetFactory().generateDataSet(SplineType.CUBIC_HERMITE, 0, 1000, 1000);
         System.out.println("created all data sets");
         System.out.println(dataSet.size());
         try {
-            FileWriter fw = new FileWriter("C:\\Users\\Daniel\\Documents\\dataSet1.txt", false);
+            FileWriter fw = new FileWriter("C:\\Users\\Daniel\\Documents\\plusDataSet.txt", false);
             PrintWriter writer = new PrintWriter(fw);
             for (TrainingElement element : dataSet) {
                 writer.println(element.toString());

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 public class DataSetFactory {
     private final Map<SplineType, Function<Pair<Double, Double>, DataFactory>> factoryMap;
@@ -22,10 +23,12 @@ public class DataSetFactory {
     public List<TrainingElement> generateDataSet(SplineType type, double min, double max, int numberOfSplines) {
         List<TrainingElement> result = new ArrayList<>();
 
-        for (int i = 0; i < numberOfSplines; i++) {
-            result.addAll(get(type, min, max).generateDataSet());
-            System.out.println("created set #"+i);
-        }
+        IntStream.range(0, numberOfSplines)
+                .parallel()
+                .forEach(i -> {
+                    result.addAll(get(type, min, max).generateDataSet());
+                    System.out.println("created set #"+i);
+                });
 
         return result;
     }
