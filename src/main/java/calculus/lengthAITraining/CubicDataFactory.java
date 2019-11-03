@@ -12,10 +12,10 @@ public class CubicDataFactory implements DataFactory{
     private final static double ACCURACY = 0.0001;
     private final HermiteCubicSpline spline;
 
-    public CubicDataFactory(double functionRangeStart, double functionRangeEnd) {
+    public CubicDataFactory(double range) {
         Random rnd = new Random();
-        Waypoint start = Waypoint.centimetersRadians(functionRangeStart * rnd.nextDouble(), functionRangeStart * rnd.nextDouble(), 2*Math.PI * rnd.nextDouble());
-        Waypoint end = Waypoint.centimetersRadians(functionRangeEnd * rnd.nextDouble(), functionRangeEnd * rnd.nextDouble(), 2*Math.PI * rnd.nextDouble());
+        Waypoint start = Waypoint.centimetersRadians(randomVal(rnd, range), randomVal(rnd, range), 2*Math.PI * rnd.nextDouble());
+        Waypoint end = Waypoint.centimetersRadians(randomVal(rnd, range), randomVal(rnd, range), 2*Math.PI * rnd.nextDouble());
 
         spline = new HermiteCubicSpline(start, end, 0);
     }
@@ -26,5 +26,9 @@ public class CubicDataFactory implements DataFactory{
                 .parallel()
                 .mapToObj(i -> new TrainingElement(spline, i * ACCURACY))
                 .collect(Collectors.toList());
+    }
+
+    private double randomVal(Random rnd, double range) {
+        return rnd.nextDouble() * range - rnd.nextDouble()*range;
     }
 }

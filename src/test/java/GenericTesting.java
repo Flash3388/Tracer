@@ -39,20 +39,23 @@ public class GenericTesting {
 //        System.out.println();
 //        System.out.println((e nd-start)/500.0);
 
-        System.out.println("started");
-        List<TrainingElement> dataSet = new DataSetFactory().generateDataSet(SplineType.CUBIC_HERMITE, 0, 1000, 1000);
-        System.out.println("created all data sets");
-        System.out.println(dataSet.size());
-        try {
-            FileWriter fw = new FileWriter("C:\\Users\\Daniel\\Documents\\plusDataSet.txt", false);
-            PrintWriter writer = new PrintWriter(fw);
-            for (TrainingElement element : dataSet) {
-                writer.println(element.toString());
+        for (int i = 0; i < 100; i++) {
+            System.out.println("started");
+            List<TrainingElement> dataSet = new DataSetFactory().generateDataSet(SplineType.CUBIC_HERMITE, 10000, 100);
+            System.out.println("created all data sets");
+            System.out.println(dataSet.size());
+            try {
+                FileWriter fw = new FileWriter("C:\\Users\\Daniel\\Documents\\LengthAIDataSets\\data_batch" + i + ".txt", false);
+                PrintWriter writer = new PrintWriter(fw);
+                for (TrainingElement element : dataSet) {
+                    writer.println(element.toString());
+                }
+                writer.close();
+            } catch (IOException e) {
+                System.out.println("failed at writing data");
             }
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("failed at writing data");
+            System.out.println("wrote data");
+            System.out.println("completed batch " + i);
         }
-        System.out.println("wrote data");
     }
 }
