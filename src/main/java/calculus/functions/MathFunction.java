@@ -18,15 +18,7 @@ public abstract class MathFunction implements DoubleFunction<Double> {
     }
 
     public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
-        try {
-            return Arrays.asList(new Complex(newtonMethod(that, calcStep(that)), 0));
-        } catch (StackOverflowError e) {
-            throw new UnsolvableFunctionParametersException();
-        }
-    }
-
-    public double lengthBetween(double from, double to) {
-        return lengthBetween(from, to, calcStep(shortestLength(from, to)));
+        throw new UnsolvableFunctionParametersException();
     }
 
     public double lengthBetween(double from, double to, double step) {
@@ -68,9 +60,6 @@ public abstract class MathFunction implements DoubleFunction<Double> {
         return FunctionUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
     }
 
-    private double calcStep(double length) {
-        return 1 / (length * 10000);
-    }
 
     private double newtonMethod(double y, double accuracy) {
         double initialGuess = new Random().nextDouble();//segments and stuff yata yata

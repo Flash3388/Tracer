@@ -10,8 +10,8 @@ public class Spline {
 
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
-
     private final MathFunction actualFunction;
+
     private final double arcLength;
     private final double startLength;
 
@@ -22,9 +22,18 @@ public class Spline {
 
         actualFunction = new ParametricFunction(yFunction, xFunction);
         arcLength = calcArcLength();
+    }
 
-        System.out.println(actualFunction);
-        System.out.println(arcLength);
+    public MathFunction parametricFunction() {
+        return actualFunction;
+    }
+
+    public PolynomialFunction yFunction() {
+        return yFunction;
+    }
+
+    public PolynomialFunction xFunction() {
+        return xFunction;
     }
 
     public double yAt(double t) {
@@ -65,7 +74,7 @@ public class Spline {
     }
 
     private double calcArcLength() {
-        return actualFunction.lengthBetween(0, 1);
+        return actualFunction.lengthBetween(0, 1, ACCURACY/100);
     }
 
     public boolean equals(Spline other) {

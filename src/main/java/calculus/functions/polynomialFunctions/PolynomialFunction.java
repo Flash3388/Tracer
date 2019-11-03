@@ -60,6 +60,15 @@ public class PolynomialFunction extends MathFunction {
             return trySolve(result);
     }
 
+    public List<Double> modifiers() {
+        List<Double> modifiers = new ArrayList<>();
+        for (Variable var : variables) {
+            modifiers.add(var.modifier());
+        }
+
+        return modifiers;
+    }
+
     public PolynomialFunction pow(int degree) {
         AtomicReference<PolynomialFunction> result = new AtomicReference<>(new PolynomialFunction(1.0));
 
@@ -156,14 +165,6 @@ public class PolynomialFunction extends MathFunction {
                 .limit(variables.size()-1)
                 .map(variable -> variable.derive().modifier())
                 .collect(Collectors.toList());
-    }
-
-    private List<Double> integralVariables() {
-        List<Double> result = variables.stream()
-                .map(variable -> variable.integrate().modifier())
-                .collect(Collectors.toList());
-        result.remove(result.size()-1);
-        return result;
     }
 
     private List<Variable> zeroVariables(int size) {
