@@ -1,14 +1,7 @@
 import calculus.lengthAITraining.DataSetFactory;
 import calculus.lengthAITraining.TrainingElement;
 import calculus.splines.SplineType;
-import com.flash3388.flashlib.time.Time;
-import tracer.controllers.MotionController;
-import tracer.motion.MotionParameters;
-import tracer.motion.Position;
-import tracer.motion.Waypoint;
-import tracer.trajectories.Trajectory;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;

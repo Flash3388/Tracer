@@ -5,12 +5,12 @@ import tracer.motion.Position;
 import tracer.trajectories.TankTrajectory;
 
 public class TankController {
-    private final MotionController left;
-    private final MotionController right;
+    private final TrajectoryController left;
+    private final TrajectoryController right;
 
     public TankController(TankTrajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
-        left = MotionController.forTrajectory(trajectory.left(), max, kV, kA, kP, kI, kD, gP);//might need to allow different constants for different sides (probably not tho)
-        right = MotionController.forTrajectory(trajectory.right(), max, kV, kA, kP, kI, kD, gP);
+        left = new TrajectoryController(trajectory.left(), max, kV, kA, kP, kI, kD, -gP);
+        right = new TrajectoryController(trajectory.right(), max, kV, kA, kP, kI, kD, gP);
     }
 
     public double calcForLeft(Position position) {
