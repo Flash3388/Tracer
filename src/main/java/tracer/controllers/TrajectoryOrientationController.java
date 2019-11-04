@@ -7,6 +7,8 @@ import tracer.profiles.Profile;
 import tracer.trajectories.Trajectory;
 
 public class TrajectoryOrientationController {
+    private static final double KP_MODIFIER = 1/80.0;
+
     private final Trajectory trajectory;
     private final Profile trajectoryProfile;
     private final double kP;
@@ -18,7 +20,7 @@ public class TrajectoryOrientationController {
     }
 
     public double calculate(Position position) {
-        double pOut = kP * getAngleError(position.getTiming(), position.getAngle());
+        double pOut = kP * getAngleError(position.getTiming(), position.getAngle()) * KP_MODIFIER;
         return ExtendedMath.constrain(pOut, -1, 1);
     }
 

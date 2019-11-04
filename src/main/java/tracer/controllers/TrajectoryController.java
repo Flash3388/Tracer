@@ -16,6 +16,10 @@ public class TrajectoryController {
     private final ProfileMotionController motionController;
     private final TrajectoryOrientationController orientationController;
 
+    public TrajectoryController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD) {
+        this(trajectory, max, kV, kA, kP, kI, kD, 0);
+    }
+
     public TrajectoryController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
         trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
         pidController = new PidController(kP, kI, kD, 0);
