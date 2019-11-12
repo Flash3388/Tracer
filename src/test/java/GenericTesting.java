@@ -31,10 +31,14 @@ public class GenericTesting {
 //        end = System.currentTimeMillis();
 //        System.out.println();
 //        System.out.println((e nd-start)/500.0);
+        generateDataset(60, 1000);
+        generateDataset(100, 100);
+        generateDataset(100, 500);
+}
 
-        for (int i = 0; i < 100; i++) {
-            System.out.println("started");
-            List<TrainingElement> dataSet = new DataSetFactory().generateDataSet(SplineType.CUBIC_HERMITE, 10000, 100);
+    private static void generateDataset(int numberOfBatches, int range) {
+        for (int i = 0; i < numberOfBatches; i++) {
+            List<TrainingElement> dataSet = new DataSetFactory().generateDataSet(SplineType.CUBIC_HERMITE, range, 1000);
             System.out.println("created all data sets");
             System.out.println(dataSet.size());
             try {
@@ -52,3 +56,4 @@ public class GenericTesting {
         }
     }
 }
+

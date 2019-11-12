@@ -9,11 +9,11 @@ public class TrainingElement {
     private final List<Double> input;
     private final double result;
 
-    public TrainingElement(Spline spline, double percentage) {
+    public TrainingElement(Spline spline, double percentage, double length) {
         input = new ArrayList<>();
         input.addAll(spline.yFunction().modifiers());
         input.addAll(spline.xFunction().modifiers());
-        input.add(spline.parametricFunction().lengthBetween(0, percentage, 0.0001));
+        input.add(length);
         result = percentage;
     }
 

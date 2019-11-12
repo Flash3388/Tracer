@@ -56,7 +56,7 @@ public abstract class MathFunction implements DoubleFunction<Double> {
         return toString().equals(obj.toString());
     }
 
-    protected double shortestLength(double xStart, double xEnd) {
+    public double shortestLength(double xStart, double xEnd) {
         return FunctionUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
     }
 

@@ -23,11 +23,6 @@ public class ParametricFunction extends MathFunction {
     }
 
     @Override
-    protected double shortestLength(double tStart, double tEnd) {
-        return FunctionUtil.distance(xFunction.apply(tStart), apply(tStart), xFunction.apply(tEnd), apply(tEnd));
-    }
-
-    @Override
     public String toString() {
         return "y= "+yFunction.toString().replace('X', 't')+"\nx= "+xFunction.toString().replace('X', 't');
     }
