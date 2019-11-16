@@ -2,10 +2,10 @@ import torch.utils.data
 import torch.nn as nn
 import gc
 
-from CubicDataset import CubicDataset
-from FeedForwardNeuralNetModel import FeedForwardNeuralNetModel
+from src.CubicDataset import CubicDataset
+from src.FeedForwardNeuralNetModel import FeedForwardNeuralNetModel
 
-DIRECTORY = '/media/daniel/736C-2464/LengthAIDataSets/'
+DIRECTORY = 'C:\\Users\\Daniel\\Documents\\LengthAIDataset'
 
 
 def train(model, directory, train_dataset_size, num_of_epochs, batch_size):
@@ -26,6 +26,7 @@ def train(model, directory, train_dataset_size, num_of_epochs, batch_size):
 
             train_loader(model, optimizer, loader, criterion)
             clear_dataset(dataset)
+    test(model, DIRECTORY, 99)
 
     return model
 
@@ -73,9 +74,8 @@ def standard_model():
 
 
 def main():
-    model = train(standard_model(), DIRECTORY, 99, 10, 100)
-    torch.save(model, '/media/daniel/736C-2464/cubic10.model')
-    print(test(model, DIRECTORY, 99))
+    model = train(standard_model(), DIRECTORY, 10, 1, 1000)
+    # torch.save(model, '/media/daniel/736C-2464/cubic10.model')
 
 
 if __name__ == '__main__':
