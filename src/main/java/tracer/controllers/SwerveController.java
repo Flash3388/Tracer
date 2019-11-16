@@ -4,14 +4,13 @@ import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.trajectories.SwerveTrajectory;
 
-@Deprecated
 public class SwerveController {
     private final TrajectoryController rearLeft;
     private final TrajectoryController rearRight;
     private final TrajectoryController frontLeft;
     private final TrajectoryController frontRight;
 
-    public SwerveController(SwerveTrajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
+    public SwerveController(SwerveTrajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD) {
         rearLeft = new TrajectoryController(trajectory.rearLeft(), max, kV, kA, kP, kI, kD);
         rearRight = new TrajectoryController(trajectory.rearRight(), max, kV, kA, kP, kI, kD);
         frontLeft = new TrajectoryController(trajectory.frontLeft(), max, kV, kA, kP, kI, kD);

@@ -6,6 +6,8 @@ import tracer.motion.Position;
 import tracer.motion.Waypoint;
 import tracer.trajectories.Trajectory;
 
+import java.util.concurrent.TimeUnit;
+
 public class GenericTesting {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
@@ -26,10 +28,15 @@ public class GenericTesting {
 
         for (int i = 0; i < 500; i++) {
             tracer.calculate(Position.centimetersDegrees(Time.seconds(i/10.0), 0, 45));
+            try {
+                TimeUnit.MILLISECONDS.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         end = System.currentTimeMillis();
         System.out.println();
-        System.out.println((end-start)/500.0);
+        System.out.println((end - start - 10000)/500.0);
 
     }
 }
