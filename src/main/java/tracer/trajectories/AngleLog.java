@@ -3,16 +3,18 @@ package tracer.trajectories;
 import com.flash3388.flashlib.time.Time;
 import tracer.profiles.Profile;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class AngleLog {
-    private final List<Double> angleLog;
+    private final Map<Time, Double> angleLog;
     private final Thread loggerThread;
     private final long periodMillis;
 
     public AngleLog(Trajectory trajectory, Profile trajectoryProfile, Time startTime, Time period, int maxSize) {
-        angleLog = new ArrayList<>();
+        angleLog = new LinkedHashMap<>();
         loggerThread = new Thread(new AngleLogger(angleLog, trajectory, startTime, trajectoryProfile, maxSize, period));
         periodMillis = period.valueAsMillis();
     }
@@ -27,16 +29,28 @@ public class AngleLog {
     }
 
     public double at(Time time) throws IndexOutOfBoundsException{
-        int index = (int) (time.valueAsMillis()/ periodMillis);
-        double result = angleLog.get(index);
-        angleLog.subList(0, index).clear();
+        stop();
+
+        Time rounded = round(time);
+        double result = angleLog.get(rounded);
+        clearUntil(rounded);
 
         return result;
+    }
+
+    private Time round(Time time) {
+        return Time.milliseconds((int)(time.valueAsMillis()/periodMillis) * periodMillis);
+    }
+
+    private void clearUntil(Time time) {
+        angleLog.entrySet().removeIf(e -> e.getKey().lessThanOrEquals(time));
+
+        loggerThread.start();
     }
 }
 
 class AngleLogger implements Runnable {
-    private final List<Double> angleLog;
+    private final Map<Time, Double> angleLog;
     private final Trajectory trajectory;
     private final Profile trajectoryProfile;
 
@@ -44,7 +58,7 @@ class AngleLogger implements Runnable {
     private final Time period;
     private final int maxSize;
 
-    public AngleLogger(List<Double> angleLog, Trajectory trajectory, Time startTime, Profile trajectoryProfile, int maxSize, Time period) {
+    public AngleLogger(Map<Time, Double> angleLog, Trajectory trajectory, Time startTime, Profile trajectoryProfile, int maxSize, Time period) {
         this.angleLog = angleLog;
         this.trajectory = trajectory;
         this.trajectoryProfile = trajectoryProfile;
@@ -57,15 +71,10 @@ class AngleLogger implements Runnable {
     @Override
     public void run() {
         if(angleLog.size() == maxSize)
-            angleLog.remove(0);
+            angleLog.remove(angleLog.keySet().iterator().next());
 
         Time current = startTime.add(period);
         startTime = startTime.add(period);
-        angleLog.add(trajectory.angleAt(trajectoryProfile.distanceAt(current)));
-
-        try {
-            Thread.sleep(period.valueAsMillis());
-        } catch (InterruptedException ignored) {
-        }
+        angleLog.put(current, trajectory.angleAt(trajectoryProfile.distanceAt(current)));
     }
 }
