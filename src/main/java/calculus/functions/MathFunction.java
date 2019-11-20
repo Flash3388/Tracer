@@ -17,7 +17,7 @@ public abstract class MathFunction implements DoubleFunction<Double> {
     }
 
     public List<Complex> solutionsTo(double that) {
-        throw new UnsolvableFunctionParametersException();
+        throw new UnsupportedOperationException();
     }
 
     public double lengthBetween(double from, double to, double step) {

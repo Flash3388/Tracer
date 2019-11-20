@@ -1,9 +1,7 @@
 package calculus.splines;
 
-public class LengthOutsideOfFunctionBoundsException extends Exception {
-    private final static String MSG = "Length outside of according function";
-
+public class LengthOutsideOfFunctionBoundsException extends RuntimeException {
     public LengthOutsideOfFunctionBoundsException() {
-        super(MSG);
+        super("Length outside of according function");
     }
 }

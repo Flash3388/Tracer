@@ -1,7 +1,6 @@
 package calculus.functions.polynomial;
 
 import calculus.functions.MathFunction;
-import calculus.functions.UnsolvableFunctionParametersException;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
@@ -53,7 +52,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public List<Complex> solutionsTo(double result) throws UnsolvableFunctionParametersException {
+    public List<Complex> solutionsTo(double result) throws IllegalArgumentException {
         if(get(0).modifier() == 0)
             return derivativeWithoutA().solutionsTo(result);
         else

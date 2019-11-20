@@ -37,12 +37,12 @@ public class Variable {
         return modifier * Math.pow(value, power);
     }
 
-    public Variable add(Variable variable) throws BiggerPowerException{
+    public Variable add(Variable variable) {
         checkIfMatching(variable);
         return new Variable(modifier + variable.modifier(), power);
     }
 
-    public Variable subtract(Variable variable) throws BiggerPowerException{
+    public Variable subtract(Variable variable) {
         checkIfMatching(variable);
         return new Variable(modifier - variable.modifier(), power);
     }
@@ -85,7 +85,7 @@ public class Variable {
         return modifier /(power+1);
     }
 
-    private void checkIfMatching(Variable variable) throws BiggerPowerException{
+    private void checkIfMatching(Variable variable) {
         if(variable.power() > power) {
             throw new BiggerPowerException();
         }

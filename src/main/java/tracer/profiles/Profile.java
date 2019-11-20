@@ -112,7 +112,7 @@ public abstract class Profile {
     protected abstract double relativeAccelerationAt(Time relativeTime);
     protected abstract double relativeJerkAt(Time relativeTime);
 
-    private void checkTime(Time t) throws OutsideOfTimeBoundsException {
+    private void checkTime(Time t) {
         if(!isCorresponding(t))
                 throw new OutsideOfTimeBoundsException(t);
     }
