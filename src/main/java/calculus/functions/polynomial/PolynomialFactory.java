@@ -1,4 +1,4 @@
-package calculus.functions.polynomialFunctions;
+package calculus.functions.polynomial;
 
 import calculus.variables.Variable;
 

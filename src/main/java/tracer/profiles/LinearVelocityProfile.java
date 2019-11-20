@@ -1,8 +1,8 @@
 package tracer.profiles;
 
-import calculus.functions.polynomialFunctions.Linear;
-import calculus.functions.polynomialFunctions.PolynomialFunction;
-import calculus.functions.polynomialFunctions.Quadratic;
+import calculus.functions.polynomial.Linear;
+import calculus.functions.polynomial.PolynomialFunction;
+import calculus.functions.polynomial.Quadratic;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import util.TimeConversion;

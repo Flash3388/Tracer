@@ -1,4 +1,4 @@
-package calculus.functions.polynomialFunctions;
+package calculus.functions.polynomial;
 
 import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
@@ -18,7 +18,7 @@ public class Cubic extends PolynomialFunction {
     }
 
     @Override
-    protected List<Complex> trySolve(double result) throws UnsupportedOperationException {
+    protected List<Complex> trySolve(double result) {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();

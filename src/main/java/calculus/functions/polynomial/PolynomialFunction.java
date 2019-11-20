@@ -1,4 +1,4 @@
-package calculus.functions.polynomialFunctions;
+package calculus.functions.polynomial;
 
 import calculus.functions.MathFunction;
 import calculus.functions.UnsolvableFunctionParametersException;
@@ -53,7 +53,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public List<Complex> solutionsTo(double result) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
+    public List<Complex> solutionsTo(double result) throws UnsolvableFunctionParametersException {
         if(get(0).modifier() == 0)
             return derivativeWithoutA().solutionsTo(result);
         else
@@ -122,8 +122,8 @@ public class PolynomialFunction extends MathFunction {
         return factory.getConverted(result);
     }
 
-    protected List<Complex> trySolve(double that) throws UnsupportedOperationException {
-        throw new UnsupportedPolynomialSolveOperationException(variables.size()-1);
+    protected List<Complex> trySolve(double that) {
+        throw new UnsupportedOperationException("solve method is not provided for a polynomial of degree " + (variables.size()-1));
     }
 
     private List<Variable> variables() {

@@ -1,7 +1,7 @@
 package calculus.functions;
 
-import calculus.functions.polynomialFunctions.Linear;
-import calculus.functions.polynomialFunctions.PolynomialFunction;
+import calculus.functions.polynomial.Linear;
+import calculus.functions.polynomial.PolynomialFunction;
 
 public class ParametricFunction extends MathFunction {
     private final PolynomialFunction yFunction;

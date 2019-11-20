@@ -1,6 +1,6 @@
 package calculus;
 
-import calculus.functions.polynomialFunctions.*;
+import calculus.functions.polynomial.*;
 import com.jmath.complex.Complex;
 import org.junit.Test;
 import org.junit.runner.RunWith;

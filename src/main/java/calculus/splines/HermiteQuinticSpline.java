@@ -1,6 +1,6 @@
 package calculus.splines;
 
-import calculus.functions.polynomialFunctions.PolynomialFunction;
+import calculus.functions.polynomial.PolynomialFunction;
 import tracer.motion.Waypoint;
 
 public class HermiteQuinticSpline extends Spline {

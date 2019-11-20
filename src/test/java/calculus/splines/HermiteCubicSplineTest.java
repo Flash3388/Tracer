@@ -1,7 +1,7 @@
 package calculus.splines;
 
-import calculus.functions.polynomialFunctions.Linear;
-import calculus.functions.polynomialFunctions.PolynomialFunction;
+import calculus.functions.polynomial.Linear;
+import calculus.functions.polynomial.PolynomialFunction;
 import org.junit.Test;
 import tracer.motion.Waypoint;
 

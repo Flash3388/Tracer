@@ -1,7 +1,7 @@
 package calculus.splines;
 
-import tracer.motion.Waypoint;
 import tracer.motion.SplineParameters;
+import tracer.motion.Waypoint;
 
 import java.util.HashMap;
 import java.util.Map;

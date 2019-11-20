@@ -1,4 +1,4 @@
-package calculus.functions.polynomialFunctions;
+package calculus.functions.polynomial;
 
 import com.jmath.complex.Complex;
 

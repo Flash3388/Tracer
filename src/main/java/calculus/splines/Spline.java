@@ -2,7 +2,7 @@ package calculus.splines;
 
 import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
-import calculus.functions.polynomialFunctions.PolynomialFunction;
+import calculus.functions.polynomial.PolynomialFunction;
 import com.jmath.ExtendedMath;
 
 public class Spline {

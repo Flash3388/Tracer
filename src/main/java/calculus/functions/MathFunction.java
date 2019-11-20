@@ -1,10 +1,9 @@
 package calculus.functions;
 
-import calculus.functions.polynomialFunctions.Linear;
+import calculus.functions.polynomial.Linear;
 import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.DoubleFunction;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 public abstract class MathFunction implements DoubleFunction<Double> {
     public abstract MathFunction derive();
 
-    public List<Double> realSolutionsTo(double that) throws UnsupportedOperationException {
+    public List<Double> realSolutionsTo(double that) {
         return toReal(solutionsTo(that));
     }
 
@@ -57,7 +56,7 @@ public abstract class MathFunction implements DoubleFunction<Double> {
     }
 
     public double shortestLength(double xStart, double xEnd) {
-        return FunctionUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
+        return MathUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
     }
 
 

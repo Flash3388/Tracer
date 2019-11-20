@@ -1,6 +1,6 @@
 package calculus.functions;
 
-import calculus.functions.polynomialFunctions.PolynomialFunction;
+import calculus.functions.polynomial.PolynomialFunction;
 
 public class RationalFunction extends MathFunction {
     private final PolynomialFunction numerator;

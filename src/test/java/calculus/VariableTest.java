@@ -1,11 +1,8 @@
 package calculus;
 
 import calculus.variables.BiggerPowerException;
-import calculus.variables.SmallerPowerException;
 import calculus.variables.Variable;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
@@ -169,7 +166,7 @@ public class VariableTest {
         FIRST_VARIABLE.add(SECOND_VARIABLE);
     }
 
-    @Test(expected = SmallerPowerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void addition_forVariableWithSmallerPower_ThrowsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
@@ -224,7 +221,7 @@ public class VariableTest {
         FIRST_VARIABLE.subtract(SECOND_VARIABLE);
     }
 
-    @Test(expected = SmallerPowerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void subtraction_forVariableWithSmallerPower_ThrowsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
