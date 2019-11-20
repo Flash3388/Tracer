@@ -15,7 +15,7 @@ public class ConcaveProfileTest {
     public void velocityAt_forConcaveProfileAtValidTime_returnsCorrespondingVelocity() {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
-        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
+        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -33,7 +33,7 @@ public class ConcaveProfileTest {
     public void accelerationAt_forConcaveProfileAtValidTime_returnsCorrespondingAcceleration() {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
-        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
+        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -51,7 +51,7 @@ public class ConcaveProfileTest {
     public void jerkAt_forConcaveProfileAtValidTime_returnsTargetJerk() {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
-        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
+        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -66,7 +66,7 @@ public class ConcaveProfileTest {
     public void distanceAt_forConcaveProfileAtValidTime_returnsCorrespondingDistance() {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
-        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
+        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
@@ -84,7 +84,7 @@ public class ConcaveProfileTest {
     public void duration_ofConvexProfile_returnsCorrectDuration() {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
-        final MotionParameters TARGET = MotionParameters.centimeterUnits(10, 2.5, 1);
+        final MotionParameters TARGET = new MotionParameters(10, 2.5, 1);
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time EXPECTED = Time.seconds(TARGET.acceleration()/TARGET.jerk());

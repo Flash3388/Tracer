@@ -38,7 +38,7 @@ public class ProfileFactory {
 
     private static MotionParameters adjustMaxParameters(MotionParameters max, double targetDistance) {
         if(distancePassedInTwoSCurves(max) > targetDistance)
-            return MotionParameters.centimeterUnits(calcAppropriateVelocity(max, targetDistance), max.acceleration(), max.jerk());
+            return new MotionParameters(calcAppropriateVelocity(max, targetDistance), max.acceleration(), max.jerk());
         else
             return max;
     }
@@ -68,7 +68,7 @@ public class ProfileFactory {
     }
 
     private static Profile createEndSCurve(Profile prevProfile, MotionParameters max) {
-        MotionParameters reversedMotionParameters = MotionParameters.centimeterUnits(0, -max.acceleration(), -max.jerk());
+        MotionParameters reversedMotionParameters = new MotionParameters(0, -max.acceleration(), -max.jerk());
 
         return createSCurve(prevProfile, reversedMotionParameters);
     }

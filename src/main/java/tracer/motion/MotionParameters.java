@@ -1,14 +1,9 @@
 package tracer.motion;
 
 public class MotionParameters {
-    private final double
-            velocity,
-            acceleration,
-            jerk;
-
-    public static MotionParameters centimeterUnits(double velocity, double acceleration, double jerk) {
-        return new MotionParameters(velocity, acceleration, jerk);
-    }
+    private final double velocity;
+    private final double acceleration;
+    private final double jerk;
 
     public static MotionParameters constantVelocity(double velocity) {
         return new MotionParameters(velocity, 0, 0);
@@ -20,6 +15,12 @@ public class MotionParameters {
 
     public static MotionParameters stop() {
         return new MotionParameters(0, 0, 0);
+    }
+
+    public MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {
+        this.velocity = velocityCentimetersPerSecond;
+        this.acceleration = accelerationCentimetersPerSecondPerSecond;
+        this.jerk = jerkCentimetersPerSecondPerSecondPerSecond;
     }
 
     public double velocity() {
@@ -37,12 +38,5 @@ public class MotionParameters {
     @Override
     public String toString() {
         return String.format("velocity: %f, acceleration: %f, jerk: %f", velocity, acceleration, jerk);
-    }
-
-    private MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {
-        this.velocity = velocityCentimetersPerSecond;
-
-        this.acceleration = accelerationCentimetersPerSecondPerSecond;
-        this.jerk = jerkCentimetersPerSecondPerSecondPerSecond;
     }
 }

@@ -4,7 +4,7 @@ import calculus.splines.LengthOutsideOfFunctionBoundsException;
 import calculus.splines.Spline;
 import calculus.splines.SplineFactory;
 import calculus.splines.SplineType;
-import tracer.motion.Waypoint;
+import calculus.splines.parameters.Waypoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;

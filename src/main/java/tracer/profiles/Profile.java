@@ -59,7 +59,7 @@ public abstract class Profile {
     }
 
     public MotionParameters parametersAt(Time currentTime) {
-        return MotionParameters.centimeterUnits(velocityAt(currentTime), accelerationAt(currentTime), jerkAt(currentTime));
+        return new MotionParameters(velocityAt(currentTime), accelerationAt(currentTime), jerkAt(currentTime));
     }
 
     public double velocityAt(Time currentTime) {

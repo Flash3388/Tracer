@@ -1,7 +1,7 @@
 package tracer.trajectories;
 
 import calculus.splines.SplineType;
-import tracer.motion.Waypoint;
+import calculus.splines.parameters.Waypoint;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ public class SwerveTrajectory {
 
     private List<Waypoint> shiftPath(List<Waypoint> centerPath, double xOffset, double yOffset) {
         return centerPath.stream()
-                .map(waypoint -> Waypoint.centimetersRadians(waypoint.x()+xOffset, waypoint.y()+yOffset, waypoint.heading()))
+                .map(waypoint -> new Waypoint(waypoint.x()+xOffset, waypoint.y()+yOffset, waypoint.heading()))
                 .collect(Collectors.toList());
     }
 

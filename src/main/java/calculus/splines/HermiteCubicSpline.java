@@ -1,7 +1,7 @@
 package calculus.splines;
 
 import calculus.functions.polynomial.Cubic;
-import tracer.motion.Waypoint;
+import calculus.splines.parameters.Waypoint;
 
 public class HermiteCubicSpline extends Spline {
     public HermiteCubicSpline(Waypoint startWaypoint, Waypoint endWaypoint, double startLength) {

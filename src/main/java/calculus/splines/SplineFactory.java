@@ -1,7 +1,7 @@
 package calculus.splines;
 
-import tracer.motion.SplineParameters;
-import tracer.motion.Waypoint;
+import calculus.splines.parameters.SplineParameters;
+import calculus.splines.parameters.Waypoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +13,8 @@ public class SplineFactory {
     public SplineFactory() {
         splineConstructors = new HashMap<>();
 
-        splineConstructors.put(SplineType.CUBIC_HERMITE, parameters -> createCubicSpline(parameters.getFirst(),parameters.getSecond(), parameters.getStartLength()));
-        splineConstructors.put(SplineType.QUINTIC_HERMITE, parameters -> createQuinticSpline(parameters.getFirst(), parameters.getSecond(), parameters.getStartLength()));
+        splineConstructors.put(SplineType.CUBIC_HERMITE, parameters -> createCubicSpline(parameters.start(),parameters.end(), parameters.startLength()));
+        splineConstructors.put(SplineType.QUINTIC_HERMITE, parameters -> createQuinticSpline(parameters.start(), parameters.end(), parameters.startLength()));
     }
 
     public Spline get(SplineType type, Waypoint start, Waypoint end, double startLength) {

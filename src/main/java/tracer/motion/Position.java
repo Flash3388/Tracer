@@ -7,12 +7,14 @@ public class Position {
     private final double distance;
     private final double angle;
 
-    public static Position centimetersDegrees(Time timing, double distance, double angle) {
-        return new Position(timing, distance, angle);
-    }
-
     public static Position start() {
         return new Position(Time.milliseconds(0), 0, 0);
+    }
+
+    public Position(Time timing, double distanceCentimeters, double angleDegrees) {
+        this.timing = timing;
+        this.distance = distanceCentimeters;
+        this.angle = angleDegrees;
     }
 
     public Time getTiming() {
@@ -25,11 +27,5 @@ public class Position {
 
     public double getAngle() {
         return angle;
-    }
-
-    private Position(Time timing, double distanceCentimeters, double angleDegrees) {
-        this.timing = timing;
-        this.distance = distanceCentimeters;
-        this.angle = angleDegrees;
     }
 }

@@ -1,7 +1,7 @@
 package tracer.trajectories;
 
 import calculus.splines.SplineType;
-import tracer.motion.Waypoint;
+import calculus.splines.parameters.Waypoint;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ public class TankTrajectory {
 
     private List<Waypoint> shiftPath(List<Waypoint> centerPath, double offset) {
         return centerPath.stream()
-                .map(waypoint -> Waypoint.centimetersRadians(waypoint.x()+offset, waypoint.y(), waypoint.heading()))
+                .map(waypoint -> new Waypoint(waypoint.x()+offset, waypoint.y(), waypoint.heading()))
                 .collect(Collectors.toList());
     }
 }

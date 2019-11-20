@@ -61,7 +61,7 @@ public class Variable {
 
     @Override
     public String toString() {
-        return String.format("%fX^%f", modifierm, power);
+        return String.format("%fX^%d", modifier, power);
     }
 
     public boolean equals(Variable other) {
