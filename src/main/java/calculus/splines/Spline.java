@@ -37,11 +37,11 @@ public class Spline {
     }
 
     public double yAt(double t) {
-        return yFunction.apply(t);
+        return yFunction.applyAsDouble(t);
     }
 
     public double xAt(double t) {
-        return xFunction.apply(t);
+        return xFunction.applyAsDouble(t);
     }
 
     public double length() {
@@ -60,7 +60,7 @@ public class Spline {
         checkLength(length);
         double t = percentageAtLength(length - startLength);
 
-        return Math.atan2(yFunction.derive().apply(t), xFunction.derive().apply(t));
+        return Math.atan2(yFunction.derive().applyAsDouble(t), xFunction.derive().applyAsDouble(t));
     }
 
     private double percentageAtLength(double length) {

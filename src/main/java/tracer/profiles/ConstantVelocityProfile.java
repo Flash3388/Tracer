@@ -27,7 +27,7 @@ public class ConstantVelocityProfile extends Profile {
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.apply(timeInSeconds);
+        return distance.applyAsDouble(timeInSeconds);
     }
 
     @Override

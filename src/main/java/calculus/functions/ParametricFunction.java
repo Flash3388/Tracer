@@ -13,8 +13,8 @@ public class ParametricFunction extends MathFunction {
     }
 
     @Override
-    public Double apply(double x) {
-        return yFunction.apply(x);
+    public double applyAsDouble(double x) {
+        return yFunction.applyAsDouble(x);
     }
 
     @Override
@@ -29,6 +29,6 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     public Linear linearOn(MathFunction derivative, double x) {
-        return super.linearOn(derivative, xFunction.apply(x));
+        return super.linearOn(derivative, xFunction.applyAsDouble(x));
     }
 }

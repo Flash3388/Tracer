@@ -7,9 +7,10 @@ import com.jmath.complex.Complex;
 import java.util.List;
 import java.util.Random;
 import java.util.function.DoubleFunction;
+import java.util.function.DoubleUnaryOperator;
 import java.util.stream.Collectors;
 
-public abstract class MathFunction implements DoubleFunction<Double> {
+public abstract class MathFunction implements DoubleUnaryOperator {
     public abstract MathFunction derive();
 
     public List<Double> realSolutionsTo(double that) {
@@ -40,8 +41,8 @@ public abstract class MathFunction implements DoubleFunction<Double> {
     }
 
     public Linear linearOn(MathFunction derivative, double x) {
-        double m = derivative.apply(x);
-        double tangentPoint = apply(x);
+        double m = derivative.applyAsDouble(x);
+        double tangentPoint = applyAsDouble(x);
 
         return new Linear(m, x, tangentPoint);
     }
@@ -52,7 +53,7 @@ public abstract class MathFunction implements DoubleFunction<Double> {
     }
 
     public double shortestLength(double xStart, double xEnd) {
-        return MathUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
+        return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
     }
 
     private List<Double> toReal(List<Complex> complex) {

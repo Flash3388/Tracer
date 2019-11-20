@@ -46,7 +46,7 @@ public class PolynomialFunctionTest {
 
     @Test
     public void applyValue_returnsCorrectResult() {
-        Double ACTUAL = EXAMPLE_FUNCTION.apply(1);
+        Double ACTUAL = EXAMPLE_FUNCTION.applyAsDouble(1);
         Double EXPECTED = 4.0;
 
         assertEquals(ACTUAL, EXPECTED);

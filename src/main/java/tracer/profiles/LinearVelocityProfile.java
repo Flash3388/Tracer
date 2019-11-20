@@ -25,13 +25,13 @@ public class LinearVelocityProfile extends Profile {
     @Override
     protected double relativeVelocityAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return velocity.apply(timeInSeconds);
+        return velocity.applyAsDouble(timeInSeconds);
     }
 
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.apply(timeInSeconds);
+        return distance.applyAsDouble(timeInSeconds);
     }
 
     @Override

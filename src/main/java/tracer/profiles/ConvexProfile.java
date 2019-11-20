@@ -33,19 +33,19 @@ public class ConvexProfile extends Profile {
     @Override
     protected double relativeVelocityAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return velocity.apply(timeInSeconds);
+        return velocity.applyAsDouble(timeInSeconds);
     }
 
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.apply(timeInSeconds);
+        return distance.applyAsDouble(timeInSeconds);
     }
 
     @Override
     protected double relativeAccelerationAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return acceleration.apply(timeInSeconds);
+        return acceleration.applyAsDouble(timeInSeconds);
     }
 
     @Override
