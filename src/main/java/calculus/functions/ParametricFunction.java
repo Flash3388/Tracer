@@ -24,7 +24,7 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     public String toString() {
-        return "y= "+yFunction.toString().replace('X', 't')+"\nx= "+xFunction.toString().replace('X', 't');
+        return String.format("y= %s\nx= %s", yFunction.toString().replace('X', 't'), xFunction.toString().replace('X', 't'));
     }
 
     @Override

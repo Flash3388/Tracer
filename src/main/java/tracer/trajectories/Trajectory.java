@@ -30,7 +30,7 @@ public class Trajectory {
 
     public double angleAt(double length) {
         try {
-            return getCorrespondingSpline(length).angleAt(length);
+            return getCorrespondingSpline(length).angleRadAt(length);
         } catch (LengthOutsideOfFunctionBoundsException e) {
             System.out.println(e.getMessage());
             return 0.0;

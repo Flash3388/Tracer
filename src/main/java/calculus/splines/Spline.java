@@ -56,7 +56,7 @@ public class Spline {
         return startLength;
     }
 
-    public double angleAt(double length) throws LengthOutsideOfFunctionBoundsException {//in radians
+    public double angleRadAt(double length) throws LengthOutsideOfFunctionBoundsException {
         checkLength(length);
         double t = percentageAtLength(length - startLength);
 

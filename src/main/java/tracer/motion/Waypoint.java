@@ -28,7 +28,7 @@ public class Waypoint {
 
     @Override
     public String toString() {
-        return "X: " + x + " Y: " + y + " Heading: " + heading;
+        return String.format("X: %f, Y: %f, Heading: %f",x,y,heading);
     }
 
     private Waypoint(double xCentimeters, double yCentimeters, double headingRadians) {

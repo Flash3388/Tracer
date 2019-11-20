@@ -104,7 +104,7 @@ public abstract class Profile {
 
     @Override
     public String toString() {
-        return "from: " + startTime + " to: " + end() + "\n" + "from: " + initialDistance + " to: " + absoluteLength();
+        return String.format("from: %s, to: %s\nfrom: %f, to: %f",startTime, end(), initialDistance, absoluteLength());
     }
 
     protected abstract double relativeVelocityAt(Time relativeTime);

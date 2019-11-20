@@ -61,12 +61,11 @@ public class Variable {
 
     @Override
     public String toString() {
-        return modifier + "X^" + power;
+        return String.format("%fX^%f", modifierm, power);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return toString().equals(obj.toString());
+    public boolean equals(Variable other) {
+        return modifier == other.modifier() && power == other.power();
     }
 
     private Variable numberDerivative() {

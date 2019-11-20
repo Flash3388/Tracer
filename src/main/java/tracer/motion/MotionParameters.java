@@ -36,7 +36,7 @@ public class MotionParameters {
 
     @Override
     public String toString() {
-        return "velocity: "+velocity+" acceleration: " + acceleration + " jerk: " + jerk;
+        return String.format("velocity: %f, acceleration: %f, jerk: %f", velocity, acceleration, jerk);
     }
 
     private MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {

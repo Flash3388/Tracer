@@ -23,13 +23,13 @@ public class SplineTest {
     @Test
     public void angleAt_ofLineSpline_returnsAngle() throws LengthOutsideOfFunctionBoundsException {
         final double EXPECTED = Math.PI/4;
-        final double ACTUAL = LINEAR_SPLINE.angleAt(0.5);
+        final double ACTUAL = LINEAR_SPLINE.angleRadAt(0.5);
 
         assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
     }
 
     @Test(expected = LengthOutsideOfFunctionBoundsException.class)
     public void angleAtLengthOutsideOfBounds_ofLineSpline_throwsException() throws LengthOutsideOfFunctionBoundsException {
-        LINEAR_SPLINE.angleAt(-1);
+        LINEAR_SPLINE.angleRadAt(-1);
     }
 }
