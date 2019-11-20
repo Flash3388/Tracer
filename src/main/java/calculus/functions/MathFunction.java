@@ -16,7 +16,7 @@ public abstract class MathFunction implements DoubleFunction<Double> {
         return toReal(solutionsTo(that));
     }
 
-    public List<Complex> solutionsTo(double that) throws UnsupportedOperationException, UnsolvableFunctionParametersException {
+    public List<Complex> solutionsTo(double that) {
         throw new UnsolvableFunctionParametersException();
     }
 
@@ -39,10 +39,6 @@ public abstract class MathFunction implements DoubleFunction<Double> {
         return x;
     }
 
-    public Linear linearOn(double x) {
-        return linearOn(derive(), x);
-    }
-
     public Linear linearOn(MathFunction derivative, double x) {
         double m = derivative.apply(x);
         double tangentPoint = apply(x);
@@ -57,27 +53,6 @@ public abstract class MathFunction implements DoubleFunction<Double> {
 
     public double shortestLength(double xStart, double xEnd) {
         return MathUtil.distance(xStart, apply(xStart), xEnd, apply(xEnd));
-    }
-
-
-    private double newtonMethod(double y, double accuracy) {
-        double initialGuess = new Random().nextDouble();//segments and stuff yata yata
-
-        return nextGuess(derive(), initialGuess, y, accuracy);
-    }
-
-    private double nextGuess(MathFunction derivative, double current, double y, double accuracy) {
-        Linear tangent = linearOn(derivative, current);
-        double guess = tangent.realSolutionsTo(y).get(0);
-
-        if(isCorrect(guess, y, accuracy))
-            return guess;
-        else
-            return nextGuess(derivative, guess, y, accuracy);
-    }
-
-    private boolean isCorrect(double result, double y, double accuracy) {
-        return ExtendedMath.constrained(result, y-accuracy, y+accuracy);
     }
 
     private List<Double> toReal(List<Complex> complex) {
