@@ -11,7 +11,7 @@ public class ParametricFunction extends MathFunction {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
     }
-    
+
     @Override
     public double applyAsDouble(double x) {
         return yFunction.applyAsDouble(x);
@@ -24,7 +24,7 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     public String toString() {
-        return String.format("y= %s\nx= %s", yFunction.toString().replace('X', 't'), xFunction.toString().replace('X', 't'));
+        return String.format("y= %s\nt= %s", yFunction, xFunction);
     }
 
     @Override

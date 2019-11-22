@@ -3,6 +3,7 @@ package calculus.functions.polynomial;
 import com.jmath.complex.Complex;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class Linear extends PolynomialFunction {
     }
 
     @Override
-    protected List<Complex> trySolve(double result) {
+    protected Collection<Complex> trySolve(double result) {
         double a = get(0).modifier();
         double b = get(1).modifier() - result;
 
-        return Collections.singletonList(new Complex(-b / a, 0));
+        return Collections.singleton(new Complex(-b / a, 0));
     }
 }

@@ -6,6 +6,7 @@ import com.jmath.complex.Complex;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public List<Complex> solutionsTo(double result) throws IllegalArgumentException {
+    public Collection<Complex> solutionsTo(double result) throws IllegalArgumentException {
         if(get(0).modifier() == 0)
             return derivativeWithoutA().solutionsTo(result);
         else
@@ -121,7 +122,7 @@ public class PolynomialFunction extends MathFunction {
         return factory.getConverted(result);
     }
 
-    protected List<Complex> trySolve(double that) {
+    protected Collection<Complex> trySolve(double that) {
         throw new UnsupportedOperationException("solve method is not provided for a polynomial of degree " + (variables.size()-1));
     }
 
