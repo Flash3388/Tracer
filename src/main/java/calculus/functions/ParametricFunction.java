@@ -11,7 +11,7 @@ public class ParametricFunction extends MathFunction {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
     }
-
+    
     @Override
     public double applyAsDouble(double x) {
         return yFunction.applyAsDouble(x);

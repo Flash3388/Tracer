@@ -77,6 +77,11 @@ public class Spline {
         return actualFunction.lengthBetween(0, 1, ACCURACY/100);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Spline && equals((Spline) obj);
+    }
+
     public boolean equals(Spline other) {
         return ExtendedMath.equals(xAt(0), other.xAt(0), ACCURACY) && ExtendedMath.equals(yAt(0), other.yAt(0), ACCURACY)
                 && ExtendedMath.equals(xAt(1), other.xAt(1), ACCURACY) && ExtendedMath.equals(yAt(1), other.yAt(1), ACCURACY);

@@ -1,5 +1,7 @@
 package calculus.variables;
 
+import calculus.splines.Spline;
+
 public class Variable {
     private final double modifier;
     private final int power;
@@ -62,6 +64,11 @@ public class Variable {
     @Override
     public String toString() {
         return String.format("%fX^%d", modifier, power);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Variable && equals((Variable) obj);
     }
 
     public boolean equals(Variable other) {
