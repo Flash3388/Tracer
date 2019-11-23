@@ -11,6 +11,14 @@ public class RationalFunction extends MathFunction {
         this.denominator = denominator;
     }
 
+    public PolynomialFunction numerator() {
+        return numerator;
+    }
+
+    public PolynomialFunction denominator() {
+        return denominator;
+    }
+
     @Override
     public double applyAsDouble(double x) {
         return numerator.applyAsDouble(x)/denominator.applyAsDouble(x);
@@ -19,5 +27,14 @@ public class RationalFunction extends MathFunction {
     @Override
     public MathFunction derive() {
         return new RationalFunction(numerator.mul(denominator.derive()).sub(numerator.derive().mul(denominator)), denominator.pow(2));
+    }
+
+    @Override
+    public boolean equals(MathFunction other) {
+        return other instanceof RationalFunction && equals((RationalFunction) other);
+    }
+
+    public boolean equals(RationalFunction other) {
+        return numerator.equals(other.numerator()) && denominator.equals(other.denominator());
     }
 }

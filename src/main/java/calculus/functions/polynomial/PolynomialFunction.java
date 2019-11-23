@@ -1,6 +1,7 @@
 package calculus.functions.polynomial;
 
 import calculus.functions.MathFunction;
+import calculus.functions.RationalFunction;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
@@ -58,6 +59,15 @@ public class PolynomialFunction extends MathFunction {
             return derivativeWithoutA().solutionsTo(result);
         else
             return trySolve(result);
+    }
+
+    @Override
+    public boolean equals(MathFunction other) {
+        return other instanceof PolynomialFunction && equals((PolynomialFunction) other);
+    }
+
+    public boolean equals(PolynomialFunction other) {
+        return variables.equals(other.variables());
     }
 
     public List<Double> modifiers() {

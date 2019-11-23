@@ -53,12 +53,14 @@ public abstract class MathFunction implements DoubleUnaryOperator {
         return obj instanceof MathFunction && equals((MathFunction) obj);
     }
 
-    public boolean equals(MathFunction other) {
-        return this.hashCode()==other.hashCode();
-    }
+    public abstract boolean equals(MathFunction other);
 
     public double shortestLength(double xStart, double xEnd) {
-        return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
+        return distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
+    }
+
+    public static double distance(double xStart, double yStart, double xEnd, double yEnd) {
+        return Math.sqrt(Math.pow(xEnd - xStart, 2) + Math.pow(yEnd - yStart, 2));
     }
 
     private Collection<Double> toReal(Collection<Complex> complex) {

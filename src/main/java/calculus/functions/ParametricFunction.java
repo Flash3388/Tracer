@@ -5,11 +5,19 @@ import calculus.functions.polynomial.PolynomialFunction;
 
 public class ParametricFunction extends MathFunction {
     private final PolynomialFunction yFunction;
-    private final PolynomialFunction xFunction;
+    private final PolynomialFunction tFunction;
 
-    public ParametricFunction(PolynomialFunction yFunction, PolynomialFunction xFunction) {
+    public ParametricFunction(PolynomialFunction yFunction, PolynomialFunction tFunction) {
         this.yFunction = yFunction;
-        this.xFunction = xFunction;
+        this.tFunction = tFunction;
+    }
+
+    public PolynomialFunction yFunction() {
+        return yFunction;
+    }
+
+    public PolynomialFunction tFunction() {
+        return tFunction;
     }
 
     @Override
@@ -19,16 +27,25 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     public MathFunction derive() {
-        return new RationalFunction(yFunction, xFunction);
+        return new RationalFunction(yFunction, tFunction);
     }
 
     @Override
     public String toString() {
-        return String.format("y= %s\nt= %s", yFunction, xFunction);
+        return String.format("y= %s\nt= %s", yFunction, tFunction);
     }
 
     @Override
     public Linear linearOn(MathFunction derivative, double x) {
-        return super.linearOn(derivative, xFunction.applyAsDouble(x));
+        return super.linearOn(derivative, tFunction.applyAsDouble(x));
+    }
+
+    @Override
+    public boolean equals(MathFunction other) {
+        return other instanceof ParametricFunction && equals((ParametricFunction) other);
+    }
+
+    public boolean equals(ParametricFunction other) {
+        return tFunction.equals(other.tFunction()) && yFunction.equals(other.yFunction());
     }
 }
