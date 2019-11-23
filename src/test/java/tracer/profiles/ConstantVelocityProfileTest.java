@@ -1,14 +1,12 @@
 package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
-import com.jmath.ExtendedMath;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ConstantVelocityProfileTest {
-    private final static double DEF_DELTA = 0.0001;
+    private final static double DEF_DELTA = 0.001;
 
     @Test
     public void velocityAt_forConstantVelocityProfileAtValidTime_returnsInitialVelocity() {
@@ -72,6 +70,6 @@ public class ConstantVelocityProfileTest {
         final ConstantVelocityProfile PROFILE = new ConstantVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
         final Double ACTUAL = PROFILE.distanceAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
+        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 }

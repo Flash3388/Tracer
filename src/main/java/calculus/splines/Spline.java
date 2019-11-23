@@ -56,8 +56,8 @@ public class Spline {
         return startLength;
     }
 
-    public double angleRadAt(double length) throws LengthOutsideOfFunctionBoundsException {
-        checkLength(length);
+    public double angleRadAt(double length) {
+        length = adjustLength(length);
         double t = percentageAtLength(length - startLength);
 
         return Math.atan2(yFunction.derive().applyAsDouble(t), xFunction.derive().applyAsDouble(t));
@@ -67,10 +67,13 @@ public class Spline {
         return actualFunction.pointAtLength(0, length, ACCURACY);
     }
 
-    private void checkLength(double length) throws LengthOutsideOfFunctionBoundsException {
+    private double adjustLength(double length) {
         length -= startLength;
-        if(length < 0 || length > arcLength)
-            throw new LengthOutsideOfFunctionBoundsException();
+        if(length < 0)
+            return 0;
+        else if(length > arcLength)
+            return arcLength;
+        return length;
     }
 
     private double calcArcLength() {

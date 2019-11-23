@@ -29,12 +29,7 @@ public class Trajectory {
     }
 
     public double angleAt(double length) {
-        try {
-            return getCorrespondingSpline(length).angleRadAt(length);
-        } catch (LengthOutsideOfFunctionBoundsException e) {
-            System.out.println(e.getMessage());
-            return 0.0;
-        }
+        return getCorrespondingSpline(length).angleRadAt(length);
     }
 
     private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
@@ -48,7 +43,7 @@ public class Trajectory {
         return result;
     }
 
-    private Spline getCorrespondingSpline(double length) throws LengthOutsideOfFunctionBoundsException {
+    private Spline getCorrespondingSpline(double length) {
         for (Spline spline: splines)
             if(spline.absoluteLength() >= length && length >= spline.startLength())//might not need the second part since the list is sorted from start to finish
                 return spline;

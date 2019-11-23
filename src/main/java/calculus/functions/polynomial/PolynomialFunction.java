@@ -54,11 +54,11 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public Collection<Complex> solutionsTo(double result) throws IllegalArgumentException {
+    public Collection<Complex> solutionsTo(double targetY) throws IllegalArgumentException {
         if(get(0).modifier() == 0)
-            return derivativeWithoutA().solutionsTo(result);
+            return derivativeWithoutA().solutionsTo(targetY);
         else
-            return trySolve(result);
+            return trySolve(targetY);
     }
 
     @Override

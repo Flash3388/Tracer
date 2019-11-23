@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 public abstract class MathFunction implements DoubleUnaryOperator {
     public abstract MathFunction derive();
 
-    public Collection<Double> realSolutionsTo(double that) {
-        return toReal(solutionsTo(that));
+    public Collection<Double> realSolutionsTo(double targetY) {
+        return toReal(solutionsTo(targetY));
     }
 
-    public Collection<Complex> solutionsTo(double that) {
+    public Collection<Complex> solutionsTo(double targetY) {
         throw new UnsupportedOperationException();
     }
 

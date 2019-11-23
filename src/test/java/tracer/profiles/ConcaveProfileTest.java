@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ConcaveProfileTest {
-    private final static double DEF_DELTA = 0.0001;
+    private final static double DEF_DELTA = 0.001;
 
     @Test
     public void velocityAt_forConcaveProfileAtValidTime_returnsCorrespondingVelocity() {
@@ -26,7 +26,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
         final Double ACTUAL = PROFILE.velocityAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
+        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
         final Double ACTUAL = PROFILE.accelerationAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
+        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
         final Double ACTUAL = PROFILE.jerkAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, TARGET.jerk(), DEF_DELTA));
+        assertEquals(ACTUAL, TARGET.jerk(), DEF_DELTA);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
         final Double ACTUAL = PROFILE.accelerationAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
+        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 
     @Test

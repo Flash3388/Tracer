@@ -1,15 +1,13 @@
 package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
-import com.jmath.ExtendedMath;
 import org.junit.Test;
 import tracer.motion.MotionParameters;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ConvexProfileTest {
-    private final static double DEF_DELTA = 0.0001;
+    private final static double DEF_DELTA = 0.001;
 
     @Test
     public void velocityAt_forConvexProfileAtValidTime_returnsCorrespondingVelocity() {
@@ -27,7 +25,7 @@ public class ConvexProfileTest {
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
         final double ACTUAL = PROFILE.velocityAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
+        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class ConvexProfileTest {
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
         final double ACTUAL = PROFILE.accelerationAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
+        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 
     @Test
@@ -62,7 +60,7 @@ public class ConvexProfileTest {
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
         final double ACTUAL = -PROFILE.jerkAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, TARGET.jerk(), DEF_DELTA));
+        assertEquals(ACTUAL, TARGET.jerk(), DEF_DELTA);
     }
 
     @Test
@@ -81,7 +79,7 @@ public class ConvexProfileTest {
         final ConvexProfile PROFILE = new ConvexProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, TARGET, INITIAL_TIME);
         final double ACTUAL = PROFILE.distanceAt(T);
 
-        assertTrue(ExtendedMath.equals(ACTUAL, EXPECTED, DEF_DELTA));
+        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 
     @Test
