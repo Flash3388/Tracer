@@ -11,9 +11,9 @@ public class Position {
         return new Position(Time.milliseconds(0), 0, 0);
     }
 
-    public Position(Time timing, double distanceCentimeters, double angleDegrees) {
+    public Position(Time timing, double distanceMeters, double angleDegrees) {
         this.timing = timing;
-        this.distance = distanceCentimeters;
+        this.distance = distanceMeters;
         this.angle = angleDegrees;
     }
 

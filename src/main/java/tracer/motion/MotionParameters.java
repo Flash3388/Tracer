@@ -17,10 +17,10 @@ public class MotionParameters {
         return new MotionParameters(0, 0, 0);
     }
 
-    public MotionParameters(double velocityCentimetersPerSecond, double accelerationCentimetersPerSecondPerSecond, double jerkCentimetersPerSecondPerSecondPerSecond) {
-        this.velocity = velocityCentimetersPerSecond;
-        this.acceleration = accelerationCentimetersPerSecondPerSecond;
-        this.jerk = jerkCentimetersPerSecondPerSecondPerSecond;
+    public MotionParameters(double velocityMetersPerSecond, double accelerationMetersPerSecondPerSecond, double jerkMetersPerSecondPerSecondPerSecond) {
+        this.velocity = velocityMetersPerSecond;
+        this.acceleration = accelerationMetersPerSecondPerSecond;
+        this.jerk = jerkMetersPerSecondPerSecondPerSecond;
     }
 
     public double velocity() {

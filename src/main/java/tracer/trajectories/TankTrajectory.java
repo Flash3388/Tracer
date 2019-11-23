@@ -10,9 +10,9 @@ public class TankTrajectory {
     private final Trajectory left;
     private final Trajectory right;
 
-    public TankTrajectory(SplineType splineType, List<Waypoint> centerPath, double distanceBetweenWheelsCentimeters) {
-        left = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheelsCentimeters/2));
-        right = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheelsCentimeters/2));
+    public TankTrajectory(SplineType splineType, List<Waypoint> centerPath, double distanceBetweenWheelsMeters) {
+        left = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheelsMeters/2));
+        right = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheelsMeters/2));
     }
 
     public Trajectory left() {
