@@ -9,7 +9,7 @@ import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 import tracer.trajectories.Trajectory;
 
-public class TrajectoryController {
+public class TrajectoryController implements Followable {
     private final Profile trajectoryProfile;
 
     private final PidController pidController;
@@ -27,8 +27,14 @@ public class TrajectoryController {
         orientationController = new TrajectoryOrientationController(trajectory, trajectoryProfile, gP);
     }
 
+    @Override
     public void reset() {
         pidController.reset();
+    }
+
+    @Override
+    public Time finalTiming() {
+        return trajectoryProfile.finalTiming();
     }
 
     public double calculate(Position position) {

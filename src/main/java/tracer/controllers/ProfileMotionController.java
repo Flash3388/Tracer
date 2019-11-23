@@ -18,8 +18,8 @@ public class ProfileMotionController {
     }
 
     public double calculate(Time timing) {
-        double vOut = profile.velocityAt(timing);
-        double aOut = profile.accelerationAt(timing);
+        double vOut = kV * profile.velocityAt(timing);
+        double aOut = kA * profile.accelerationAt(timing);
         double out = vOut + aOut + kl;
 
         return ExtendedMath.constrain(out, -1, 1);
