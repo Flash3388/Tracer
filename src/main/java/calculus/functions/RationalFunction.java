@@ -13,7 +13,6 @@ public class RationalFunction extends MathFunction {
 
     @Override
     public double applyAsDouble(double x) {
-        System.out.println(x);
         return numerator.applyAsDouble(x)/denominator.applyAsDouble(x);
     }
 

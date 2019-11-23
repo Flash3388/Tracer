@@ -26,7 +26,7 @@ public class PolynomialFunction extends MathFunction {
 
     public PolynomialFunction(List<Double> constants, int polynomialDegree) {
         if(constants.size() != polynomialDegree+1)
-            throw new IncorrectNumberOfConstantsException(polynomialDegree);
+            throw new IllegalArgumentException("Number of constants is incorrect for polynomial degree of %d");
         variables = generateFunction(constants);
         factory = new PolynomialFactory();
     }

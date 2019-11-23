@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProfileFactory {
     public static Profile createTrajectoryProfile(Profile prevProfile, MotionParameters max, Trajectory trajectory) {
-        return createTrajectoryProfile(prevProfile.initialDistance(), prevProfile.endParameters().velocity(), max, prevProfile.start(), trajectory);
+        return createTrajectoryProfile(prevProfile.initialDistance(), prevProfile.finalParameters().velocity(), max, prevProfile.initialTiming(), trajectory);
     }
 
     public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
@@ -24,7 +24,7 @@ public class ProfileFactory {
     }
 
     public static Profile createSCurve(Profile prevProfile, MotionParameters max) {
-        return createSCurve(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), max, prevProfile.end());
+        return createSCurve(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), max, prevProfile.finalTiming());
     }
 
     public static Profile createSCurve(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
@@ -51,7 +51,7 @@ public class ProfileFactory {
         double result = targetDistance * max.jerk() / (2*max.acceleration()) - (1 + 2/3.0) * Math.pow(max.acceleration(), 3)/(2*max.acceleration());
 
         if(result < 0)
-            throw new TooSmallDistanceException();
+            throw new IllegalArgumentException("Too small distance compared to maximum jerk and acceleration");
         return result;
     }
 
@@ -64,7 +64,7 @@ public class ProfileFactory {
     }
 
     private static Time calcConstantVelocityDuration(Profile sCurve, double trajectoryLength) {
-        return Time.seconds((trajectoryLength - 2 * sCurve.length()) / sCurve.endParameters().velocity());
+        return Time.seconds((trajectoryLength - 2 * sCurve.length()) / sCurve.finalParameters().velocity());
     }
 
     private static Profile createEndSCurve(Profile prevProfile, MotionParameters max) {
@@ -80,6 +80,6 @@ public class ProfileFactory {
     private static Time calcLinearProfileDuration(Profile concave, MotionParameters max) {
         double linearEndVelocity = max.velocity() - Math.pow(max.acceleration(), 2)/(2 * max.jerk());
 
-        return Time.seconds((linearEndVelocity - concave.endParameters().velocity())/max.acceleration());
+        return Time.seconds((linearEndVelocity - concave.finalParameters().velocity())/max.acceleration());
     }
 }

@@ -12,7 +12,7 @@ public class LinearVelocityProfile extends Profile {
     private final PolynomialFunction distance;
 
     public LinearVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.endParameters().velocity(), prevProfile.endParameters().acceleration(), prevProfile.end(), duration);
+        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finalParameters().acceleration(), prevProfile.finalTiming(), duration);
     }
 
     public LinearVelocityProfile(double initialDistance, double initialVelocity, double initialAcceleration, Time startTime, Time duration) {
