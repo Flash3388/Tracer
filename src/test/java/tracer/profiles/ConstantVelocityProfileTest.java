@@ -65,10 +65,10 @@ public class ConstantVelocityProfileTest {
         final Time END_TIME = Time.seconds(2);
 
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final Double EXPECTED = INITIAL_DISTANCE + RELATIVE_TIME_IN_SECONDS * INITIAL_VELOCITY;
+        final double EXPECTED = INITIAL_DISTANCE + RELATIVE_TIME_IN_SECONDS * INITIAL_VELOCITY;
 
         final ConstantVelocityProfile PROFILE = new ConstantVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
-        final Double ACTUAL = PROFILE.distanceAt(T);
+        final double ACTUAL = PROFILE.distanceAt(T);
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }

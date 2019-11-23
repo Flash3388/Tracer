@@ -21,10 +21,10 @@ public class ConcaveProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final Double EXPECTED = INITIAL_VELOCITY + TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2;
+        final double EXPECTED = INITIAL_VELOCITY + TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2;
 
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
-        final Double ACTUAL = PROFILE.velocityAt(T);
+        final double ACTUAL = PROFILE.velocityAt(T);
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
@@ -39,10 +39,10 @@ public class ConcaveProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final Double EXPECTED = TARGET.jerk() * RELATIVE_TIME_IN_SECONDS;
+        final double EXPECTED = TARGET.jerk() * RELATIVE_TIME_IN_SECONDS;
 
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
-        final Double ACTUAL = PROFILE.accelerationAt(T);
+        final double ACTUAL = PROFILE.accelerationAt(T);
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
@@ -57,7 +57,7 @@ public class ConcaveProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
-        final Double ACTUAL = PROFILE.jerkAt(T);
+        final double ACTUAL = PROFILE.jerkAt(T);
 
         assertEquals(ACTUAL, TARGET.jerk(), DEF_DELTA);
     }
@@ -72,10 +72,10 @@ public class ConcaveProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
 
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final Double EXPECTED = INITIAL_DISTANCE + INITIAL_VELOCITY * RELATIVE_TIME_IN_SECONDS + TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 3)/6;
+        final double EXPECTED = INITIAL_DISTANCE + INITIAL_VELOCITY * RELATIVE_TIME_IN_SECONDS + TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 3)/6;
 
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
-        final Double ACTUAL = PROFILE.accelerationAt(T);
+        final double ACTUAL = PROFILE.accelerationAt(T);
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
