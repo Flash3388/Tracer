@@ -19,7 +19,7 @@ public class Cubic extends PolynomialFunction {
     }
 
     @Override
-    protected List<Complex> trySolve(double result) {
+    protected Collection<Complex> trySolve(double result) {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();
@@ -28,8 +28,8 @@ public class Cubic extends PolynomialFunction {
         return roots(a, b, c, d);
     }
 
-    private List<Complex> roots(double a, double b, double c, double d) {
-        List<Complex> results;
+    private Collection<Complex> roots(double a, double b, double c, double d) {
+        Collection<Complex> results;
         double f = (3*c/a - b*b/(a*a))/3;
         double g = (2*Math.pow(b, 3)/Math.pow(a, 3) - 9*b*c/Math.pow(a, 2) + 27*d/a)/27;
         double h = g*g/4 + f*f*f/27;
@@ -44,7 +44,7 @@ public class Cubic extends PolynomialFunction {
         return results;
     }
 
-    private List<Complex> threeRealRoots(double a, double b, double g, double h) {
+    private Collection<Complex> threeRealRoots(double a, double b, double g, double h) {
         List<Complex> results = new ArrayList<>(3);
         double i = Math.sqrt(g*g/4 - h);
         double j = ExtendedMath.root(i, 3);
@@ -61,8 +61,8 @@ public class Cubic extends PolynomialFunction {
         return results;
     }
 
-    private List<Complex> oneRealRoot(double a, double b, double g, double h) {
-        List<Complex> results = new ArrayList<>(3);
+    private Collection<Complex> oneRealRoot(double a, double b, double g, double h) {
+        Collection<Complex> results = new ArrayList<>(3);
         double R = -g/2 + Math.sqrt(h);
         double S = ComplexMath.complexRoot(R, 3).real();
         double T = -g/2 - Math.sqrt(h);
@@ -76,8 +76,8 @@ public class Cubic extends PolynomialFunction {
         return results;
     }
 
-    private List<Complex> allRealAndEqual(double a, double d) {
-        List<Complex> results = new ArrayList<>(3);
+    private Collection<Complex> allRealAndEqual(double a, double d) {
+        Collection<Complex> results = new ArrayList<>(3);
         Complex result = new Complex( -ExtendedMath.root(d/a, 3), 0);
 
         results.add(result);

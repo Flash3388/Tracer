@@ -4,6 +4,7 @@ import com.jmath.complex.Complex;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public class Quartic extends PolynomialFunction {
     }
 
     @Override
-    protected List<Complex> trySolve(double result) {
+    protected Collection<Complex> trySolve(double result) {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();
@@ -27,7 +28,7 @@ public class Quartic extends PolynomialFunction {
         return roots(a, b, c, d, e);
     }
 
-    private List<Complex> roots(double a, double b, double c, double d, double e) {
+    private Collection<Complex> roots(double a, double b, double c, double d, double e) {
         b /= a;
         c /= a;
         d /= a;
@@ -48,14 +49,14 @@ public class Quartic extends PolynomialFunction {
         return new Cubic(1, f/2, (f*f - 4*h)/16, -g*g/64);
     }
 
-    private List<Complex> filter(List<Complex> solutions) {
+    private List<Complex> filter(Collection<Complex> solutions) {
         return solutions.stream()
                 .filter(c -> c.real() != 0)
                 .collect(Collectors.toList());
     }
 
-    private List<Complex> finalRoots(double a, double b, double g, Complex firstSolution, Complex secondSolution) {
-        List<Complex> results = new ArrayList<>(4);
+    private Collection<Complex> finalRoots(double a, double b, double g, Complex firstSolution, Complex secondSolution) {
+        Collection<Complex> results = new ArrayList<>(4);
         Complex p = firstSolution.roots(2).get(0);
         Complex q = secondSolution.roots(2).get(0);
         Complex r = new Complex(-g, 0).div(p.multiply(q).multiply(8));

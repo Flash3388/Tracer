@@ -17,7 +17,7 @@ public class Quadratic extends PolynomialFunction {
     }
 
     @Override
-    protected List<Complex> trySolve(double result) {
+    protected Collection<Complex> trySolve(double result) {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier() - result;
