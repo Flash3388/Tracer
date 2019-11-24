@@ -33,16 +33,16 @@ public class TrajectoryController implements Followable {
     }
 
     @Override
-    public Time finalTiming() {
-        return trajectoryProfile.finalTiming();
+    public Time finaltimestamp() {
+        return trajectoryProfile.finaltimestamp();
     }
 
     public double calculate(Position position) {
-        Time timing = position.getTiming();
+        Time timestamp = position.gettimestamp();
         double distance = position.getDistance();
 
-        double pidOut = pidController.calculate(distance, trajectoryProfile.distanceAt(timing));
-        double motionOut = motionController.calculate(position.getTiming());
+        double pidOut = pidController.calculate(distance, trajectoryProfile.distanceAt(timestamp));
+        double motionOut = motionController.calculate(position.gettimestamp());
         double orientationOut = orientationController.calculate(position);
 
         return ExtendedMath.constrain(ExtendedMath.constrain(pidOut + motionOut, -1, 1) + orientationOut, -1, 1);

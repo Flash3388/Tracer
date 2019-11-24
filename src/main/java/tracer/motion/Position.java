@@ -3,7 +3,7 @@ package tracer.motion;
 import com.flash3388.flashlib.time.Time;
 
 public class Position {
-    private final Time timing;
+    private final Time timestamp;
     private final double distance;
     private final double angle;
 
@@ -11,14 +11,14 @@ public class Position {
         return new Position(Time.milliseconds(0), 0, 0);
     }
 
-    public Position(Time timing, double distanceMeters, double angleDegrees) {
-        this.timing = timing;
+    public Position(Time timestamp, double distanceMeters, double angleDegrees) {
+        this.timestamp = timestamp;
         this.distance = distanceMeters;
         this.angle = angleDegrees;
     }
 
-    public Time getTiming() {
-        return timing;
+    public Time gettimestamp() {
+        return timestamp;
     }
 
     public double getDistance() {

@@ -20,7 +20,7 @@ public class TrajectoryOrientationController {
     }
 
     public double calculate(Position position) {
-        double pOut = kP * getAngleError(position.getTiming(), position.getAngle()) * KP_MODIFIER;
+        double pOut = kP * getAngleError(position.gettimestamp(), position.getAngle()) * KP_MODIFIER;
         return ExtendedMath.constrain(pOut, -1, 1);
     }
 

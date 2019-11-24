@@ -11,7 +11,7 @@ public abstract class Profile {
     private final Time startTime;
 
     public Profile(Profile prevProfile, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.finalParameters(), prevProfile.finalTiming(), duration);
+        this(prevProfile.absoluteLength(), prevProfile.finalParameters(), prevProfile.finaltimestamp(), duration);
     }
 
     public Profile(double initialDistance, MotionParameters initialParameters, Time startTime, Time duration) {
@@ -23,14 +23,14 @@ public abstract class Profile {
     }
 
     public boolean hasValuesOn(Time currentTime) {
-        return currentTime.largerThanOrEquals(startTime) && currentTime.lessThanOrEquals(finalTiming());
+        return currentTime.largerThanOrEquals(startTime) && currentTime.lessThanOrEquals(finaltimestamp());
     }
 
-    public Time initialTiming() {
+    public Time initialtimestamp() {
         return startTime;
     }
 
-    public Time finalTiming() {
+    public Time finaltimestamp() {
         return startTime.add(duration);
     }
 
@@ -51,11 +51,11 @@ public abstract class Profile {
     }
 
     public double absoluteLength() {
-        return distanceAt(finalTiming());
+        return distanceAt(finaltimestamp());
     }
 
     public MotionParameters finalParameters() {
-        return parametersAt(finalTiming());
+        return parametersAt(finaltimestamp());
     }
 
     public MotionParameters parametersAt(Time currentTime) {
@@ -83,10 +83,10 @@ public abstract class Profile {
     }
 
     private Time correctTime(Time time) {
-        if(time.after(finalTiming()))
-            return finalTiming();
-        else if(time.before(initialTiming()))
-            return initialTiming();
+        if(time.after(finaltimestamp()))
+            return finaltimestamp();
+        else if(time.before(initialtimestamp()))
+            return initialtimestamp();
         return time;
     }
 
@@ -96,7 +96,7 @@ public abstract class Profile {
 
     @Override
     public String toString() {
-        return String.format("from: %s, to: %s\nfrom: %f, to: %f",startTime, finalTiming(), initialDistance, absoluteLength());
+        return String.format("from: %s, to: %s\nfrom: %f, to: %f",startTime, finaltimestamp(), initialDistance, absoluteLength());
     }
 
     protected abstract double relativeVelocityAt(Time relativeTime);

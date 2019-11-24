@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProfileFactory {
     public static Profile createTrajectoryProfile(Profile prevProfile, MotionParameters max, Trajectory trajectory) {
-        return createTrajectoryProfile(prevProfile.initialDistance(), prevProfile.finalParameters().velocity(), max, prevProfile.initialTiming(), trajectory);
+        return createTrajectoryProfile(prevProfile.initialDistance(), prevProfile.finalParameters().velocity(), max, prevProfile.initialtimestamp(), trajectory);
     }
 
     public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
@@ -24,7 +24,7 @@ public class ProfileFactory {
     }
 
     public static Profile createSCurve(Profile prevProfile, MotionParameters max) {
-        return createSCurve(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), max, prevProfile.finalTiming());
+        return createSCurve(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), max, prevProfile.finaltimestamp());
     }
 
     public static Profile createSCurve(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {

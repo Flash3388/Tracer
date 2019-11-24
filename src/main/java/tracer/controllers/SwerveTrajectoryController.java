@@ -43,7 +43,7 @@ public class SwerveTrajectoryController implements Followable {
     }
 
     @Override
-    public Time finalTiming() {
-        return frontRight.finalTiming();
+    public Time finaltimestamp() {
+        return frontRight.finaltimestamp();
     }
 }

@@ -29,7 +29,7 @@ public class TankTrajectoryController implements Followable {
     }
 
     @Override
-    public Time finalTiming() {
-        return right.finalTiming();
+    public Time finaltimestamp() {
+        return right.finaltimestamp();
     }
 }

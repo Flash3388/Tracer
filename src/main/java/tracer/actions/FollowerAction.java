@@ -37,7 +37,7 @@ abstract class FollowerAction extends Action {
 
     @Override
     protected boolean isFinished() {
-        return relativeTime().largerThanOrEquals(followable.finalTiming());
+        return relativeTime().largerThanOrEquals(followable.finaltimestamp());
     }
 
     abstract void setValues(Time relativeTime);
