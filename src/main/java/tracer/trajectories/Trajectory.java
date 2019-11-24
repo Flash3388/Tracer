@@ -34,11 +34,11 @@ public class Trajectory {
 
     private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
         List<Spline> result = new ArrayList<>();
-        result.add(hermiteFactory.get(splineType, path.get(0), path.get(1), 0));
+        result.add(hermiteFactory.create(splineType, path.get(0), path.get(1), 0));
 
         IntStream.range(0, path.size())
                 .skip(2)
-                .forEach(positionIndex -> result.add(hermiteFactory.get(splineType, path.get(positionIndex-1), path.get(positionIndex), result.get(positionIndex-2).absoluteLength())));
+                .forEach(positionIndex -> result.add(hermiteFactory.create(splineType, path.get(positionIndex-1), path.get(positionIndex), result.get(positionIndex-2).absoluteLength())));
 
         return result;
     }

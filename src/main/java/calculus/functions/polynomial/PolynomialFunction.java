@@ -1,7 +1,6 @@
 package calculus.functions.polynomial;
 
 import calculus.functions.MathFunction;
-import calculus.functions.RationalFunction;
 import calculus.variables.Variable;
 import com.jmath.complex.Complex;
 
@@ -50,11 +49,11 @@ public class PolynomialFunction extends MathFunction {
 
     @Override
     public PolynomialFunction derive() {
-        return factory.get(deriveVariables());
+        return factory.create(deriveVariables());
     }
 
     @Override
-    public Collection<Complex> solutionsTo(double targetY) throws IllegalArgumentException {
+    public Collection<Complex> solutionsTo(double targetY) {
         if(get(0).modifier() == 0)
             return derivativeWithoutA().solutionsTo(targetY);
         else
@@ -68,15 +67,6 @@ public class PolynomialFunction extends MathFunction {
 
     public boolean equals(PolynomialFunction other) {
         return variables.equals(other.variables());
-    }
-
-    public List<Double> modifiers() {
-        List<Double> modifiers = new ArrayList<>();
-        for (Variable var : variables) {
-            modifiers.add(var.modifier());
-        }
-
-        return modifiers;
     }
 
     public PolynomialFunction pow(int degree) {
@@ -107,7 +97,7 @@ public class PolynomialFunction extends MathFunction {
                 .collect(Collectors.toList());
         result.addAll(zeroVariables(var.power()));
 
-        return factory.getConverted(result);
+        return factory.createConverted(result);
     }
 
     public PolynomialFunction sub(PolynomialFunction other) {
@@ -129,7 +119,7 @@ public class PolynomialFunction extends MathFunction {
             result = tmp;
         }
 
-        return factory.getConverted(result);
+        return factory.createConverted(result);
     }
 
     protected Collection<Complex> trySolve(double that) {
@@ -141,7 +131,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     private PolynomialFunction derivativeWithoutA() {
-        return factory.getConverted(new ArrayList<>(variables.subList(1, variables.size())));
+        return factory.createConverted(new ArrayList<>(variables.subList(1, variables.size())));
     }
 
     private PolynomialFunction sum(List<PolynomialFunction> functions) {

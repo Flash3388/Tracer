@@ -19,11 +19,11 @@ public class PolynomialFactory {
         polynomials.put(4, Quartic::new);
     }
 
-    public PolynomialFunction getConverted(List<Variable> variables) {
-        return get(toConstants(variables));
+    public PolynomialFunction createConverted(List<Variable> variables) {
+        return create(toConstants(variables));
     }
 
-    public PolynomialFunction get(List<Double> constants) {
+    public PolynomialFunction create(List<Double> constants) {
         int degree = constants.size()-1;
 
         if(degree < 1 || degree > 4)

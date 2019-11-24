@@ -17,7 +17,7 @@ public class SplineFactory {
         splineConstructors.put(SplineType.QUINTIC_HERMITE, parameters -> createQuinticSpline(parameters.start(), parameters.end(), parameters.startLength()));
     }
 
-    public Spline get(SplineType type, Waypoint start, Waypoint end, double startLength) {
+    public Spline create(SplineType type, Waypoint start, Waypoint end, double startLength) {
         return splineConstructors.get(type).apply(new SplineParameters(start, end, startLength));
     }
 
