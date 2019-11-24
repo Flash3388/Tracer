@@ -21,10 +21,10 @@ public class Linear extends PolynomialFunction {
     }
 
     @Override
-    protected Collection<Complex> trySolve(double result) {
+    protected List<Complex> trySolve(double result) {
         double a = get(0).modifier();
         double b = get(1).modifier() - result;
 
-        return Collections.singleton(new Complex(-b / a, 0));
+        return Collections.singletonList((new Complex(-b / a, 0)));
     }
 }

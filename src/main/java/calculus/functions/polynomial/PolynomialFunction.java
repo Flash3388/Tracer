@@ -54,7 +54,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public Collection<Complex> solutionsTo(double targetY) throws IllegalArgumentException {
+    public List<Complex> solutionsTo(double targetY) throws IllegalArgumentException {
         if(get(0).modifier() == 0)
             return derivativeWithoutA().solutionsTo(targetY);
         else
@@ -132,7 +132,7 @@ public class PolynomialFunction extends MathFunction {
         return factory.getConverted(result);
     }
 
-    protected Collection<Complex> trySolve(double that) {
+    protected List<Complex> trySolve(double that) {
         throw new UnsupportedOperationException("solve method is not provided for a polynomial of degree " + (variables.size()-1));
     }
 

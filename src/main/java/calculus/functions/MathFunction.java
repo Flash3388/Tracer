@@ -3,6 +3,7 @@ package calculus.functions;
 import calculus.functions.polynomial.Linear;
 import com.jmath.ExtendedMath;
 import com.jmath.complex.Complex;
+import util.MathUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -56,11 +57,7 @@ public abstract class MathFunction implements DoubleUnaryOperator {
     public abstract boolean equals(MathFunction other);
 
     public double shortestLength(double xStart, double xEnd) {
-        return distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
-    }
-
-    public static double distance(double xStart, double yStart, double xEnd, double yEnd) {
-        return Math.sqrt(Math.pow(xEnd - xStart, 2) + Math.pow(yEnd - yStart, 2));
+        return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
     }
 
     private Collection<Double> toReal(Collection<Complex> complex) {

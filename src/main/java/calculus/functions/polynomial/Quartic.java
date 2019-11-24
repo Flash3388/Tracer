@@ -2,7 +2,9 @@ package calculus.functions.polynomial;
 
 import com.jmath.complex.Complex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Quartic extends PolynomialFunction {
@@ -15,7 +17,7 @@ public class Quartic extends PolynomialFunction {
     }
 
     @Override
-    protected Collection<Complex> trySolve(double result) {
+    protected List<Complex> trySolve(double result) {
         double a = get(0).modifier();
         double b = get(1).modifier();
         double c = get(2).modifier();
@@ -25,7 +27,7 @@ public class Quartic extends PolynomialFunction {
         return roots(a, b, c, d, e);
     }
 
-    private Collection<Complex> roots(double a, double b, double c, double d, double e) {
+    private List<Complex> roots(double a, double b, double c, double d, double e) {
         b /= a;
         c /= a;
         d /= a;
@@ -34,7 +36,7 @@ public class Quartic extends PolynomialFunction {
 
         double g = d + Math.pow(b, 3)/8 - b*c/2;
         Cubic cubic = findCubic(b, c, d, e, g);
-        List<Complex> fixedSolutions = sortByImaginary(cubic.solutionsTo(0));
+        List<Complex> fixedSolutions = filter(cubic.solutionsTo(0));
 
         return finalRoots(a, b, g, fixedSolutions.get(0), fixedSolutions.get(1));
     }
@@ -46,15 +48,14 @@ public class Quartic extends PolynomialFunction {
         return new Cubic(1, f/2, (f*f - 4*h)/16, -g*g/64);
     }
 
-    private List<Complex> sortByImaginary(Collection<Complex> solutions) {
+    private List<Complex> filter(List<Complex> solutions) {
         return solutions.stream()
-                .sorted(Comparator.comparingDouble(Complex::real))
-                .sorted(Comparator.comparingDouble(Complex::imaginary))
+                .filter(c -> c.real() != 0)
                 .collect(Collectors.toList());
     }
 
-    private Collection<Complex> finalRoots(double a, double b, double g, Complex firstSolution, Complex secondSolution) {
-        Collection<Complex> results = new ArrayList<>(4);
+    private List<Complex> finalRoots(double a, double b, double g, Complex firstSolution, Complex secondSolution) {
+        List<Complex> results = new ArrayList<>(4);
         Complex p = firstSolution.roots(2).get(0);
         Complex q = secondSolution.roots(2).get(0);
         Complex r = new Complex(-g, 0).div(p.multiply(q).multiply(8));

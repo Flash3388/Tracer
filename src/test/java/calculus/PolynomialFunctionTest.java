@@ -19,7 +19,7 @@ public class PolynomialFunctionTest {
         @Parameterized.Parameter(1)
         public double result;
         @Parameterized.Parameter(2)
-        public List<Complex> expectedResult;
+        public Collection<Complex> expectedResult;
 
         @Parameterized.Parameters(name = "function({0}).solutionTo({1}) == {2}")
         public static Collection<Object[]> data() {
