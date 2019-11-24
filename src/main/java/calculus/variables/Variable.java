@@ -92,12 +92,8 @@ public class Variable {
     }
 
     private void checkIfMatching(Variable variable) {
-        if(variable.power() > power) {
-            throw new BiggerPowerException();
-        }
-
-        else if(variable.power() < power) {
-            throw new IllegalArgumentException("Given variable's power is smaller then the initial");
+        if(variable.power() != power) {
+            throw new IllegalArgumentException("other variable's power is not compatible with the original");
         }
     }
 }

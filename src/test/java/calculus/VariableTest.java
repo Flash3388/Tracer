@@ -1,6 +1,5 @@
 package calculus;
 
-import calculus.variables.BiggerPowerException;
 import calculus.variables.Variable;
 import org.junit.Test;
 
@@ -153,21 +152,8 @@ public class VariableTest {
         FIRST_VARIABLE.add(SECOND_VARIABLE);
     }
 
-    @Test(expected = BiggerPowerException.class)
-    public void addition_forVariableWithBiggerPower_ThrowsCorrectException() {
-        final double FIRST_MODIFIER = 2.0;
-        final double SECOND_MODIFIER = 1.0;
-        final int FIRST_POWER = 1;
-        final int SECOND_POWER = 2;
-
-        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
-        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
-
-        FIRST_VARIABLE.add(SECOND_VARIABLE);
-    }
-
     @Test(expected = IllegalArgumentException.class)
-    public void addition_forVariableWithSmallerPower_ThrowsCorrectException() {
+    public void addition_forVariableWithIncorrectPower_ThrowsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -208,21 +194,8 @@ public class VariableTest {
         FIRST_VARIABLE.subtract(SECOND_VARIABLE);
     }
 
-    @Test(expected = BiggerPowerException.class)
-    public void subtraction_forVariableWithBiggerPower_ThrowsCorrectException() {
-        final double FIRST_MODIFIER = 2.0;
-        final double SECOND_MODIFIER = 1.0;
-        final int FIRST_POWER = 1;
-        final int SECOND_POWER = 2;
-
-        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
-        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
-
-        FIRST_VARIABLE.subtract(SECOND_VARIABLE);
-    }
-
     @Test(expected = IllegalArgumentException.class)
-    public void subtraction_forVariableWithSmallerPower_ThrowsCorrectException() {
+    public void subtraction_forVariableWithIncorrectPower_ThrowsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
