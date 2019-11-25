@@ -19,14 +19,15 @@ public class PolynomialFactory {
         polynomials.put(4, Quartic::new);
     }
 
-    public PolynomialFunction createConverted(List<Variable> variables) {
-        return create(toConstants(variables));
+    public PolynomialFunction fromVariables(List<Variable> variables) {
+        return fromConstants(toConstants(variables));
     }
 
-    public PolynomialFunction create(List<Double> constants) {
+    public PolynomialFunction fromConstants(List<Double> constants) {
         int degree = constants.size()-1;
+        checkConstants(constants);
 
-        if(degree < 1 || degree > 4)
+        if(polynomials.containsKey(degree))
             return new PolynomialFunction(constants);
         return polynomials.get(degree).apply(constants);
     }
@@ -35,5 +36,10 @@ public class PolynomialFactory {
         return variables.stream()
                 .mapToDouble(Variable::modifier)
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    }
+
+    private void checkConstants(List<Double> constants) {
+        if(constants.isEmpty())
+            throw new IllegalArgumentException("function cannot be created with no constants");
     }
 }
