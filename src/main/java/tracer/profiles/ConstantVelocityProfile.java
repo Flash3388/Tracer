@@ -10,7 +10,7 @@ public class ConstantVelocityProfile extends Profile {
     private final PolynomialFunction distance;
 
     public ConstantVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finaltimestamp(), duration);
+        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finalTimestamp(), duration);
     }
 
     public ConstantVelocityProfile(double initialDistance, double initialVelocity, Time startTime, Time duration) {

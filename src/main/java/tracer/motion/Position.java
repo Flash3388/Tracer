@@ -17,11 +17,11 @@ public class Position {
         this.angle = angleDegrees;
     }
 
-    public Time gettimestamp() {
+    public Time timestamp() {
         return timestamp;
     }
 
-    public double getDistance() {
+    public double distance() {
         return distance;
     }
 

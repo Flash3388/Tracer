@@ -16,7 +16,7 @@ public class ConvexProfile extends Profile {
     private final PolynomialFunction distance;
 
     public ConvexProfile(Profile prevProfile, MotionParameters target) {
-        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finalParameters().acceleration(), target, prevProfile.finaltimestamp());
+        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finalParameters().acceleration(), target, prevProfile.finalTimestamp());
     }
 
     public ConvexProfile(double initialDistance, double initialVelocity, double initialAcceleration, MotionParameters target, Time startTime) {
