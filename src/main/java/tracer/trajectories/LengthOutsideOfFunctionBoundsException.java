@@ -1,4 +1,4 @@
-package calculus.splines;
+package tracer.trajectories;
 
 public class LengthOutsideOfFunctionBoundsException extends RuntimeException {
     public LengthOutsideOfFunctionBoundsException() {

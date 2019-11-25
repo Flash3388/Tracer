@@ -1,6 +1,5 @@
 package tracer.trajectories;
 
-import calculus.splines.LengthOutsideOfFunctionBoundsException;
 import calculus.splines.Spline;
 import calculus.splines.SplineFactory;
 import calculus.splines.SplineType;
