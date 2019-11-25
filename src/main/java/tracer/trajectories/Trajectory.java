@@ -29,7 +29,7 @@ public class Trajectory {
     }
 
     public double angleAt(double length) {
-        return getCorrespondingSpline(length).angleRadAt(length);
+        return correspondingSpline(length).angleRadAt(length);
     }
 
     private List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
@@ -43,7 +43,7 @@ public class Trajectory {
         return result;
     }
 
-    private Spline getCorrespondingSpline(double length) {
+    private Spline correspondingSpline(double length) {
         for (Spline spline: splines)
             if(spline.absoluteLength() >= length && length >= spline.startLength())//might not need the second part since the list is sorted from start to finish
                 return spline;

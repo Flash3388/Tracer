@@ -13,14 +13,14 @@ public class MotionParameters {
         return new MotionParameters(velocity, acceleration, 0);
     }
 
-    public static MotionParameters stop() {
-        return new MotionParameters(0, 0, 0);
-    }
-
     public MotionParameters(double velocityMetersPerSecond, double accelerationMetersPerSecondPerSecond, double jerkMetersPerSecondPerSecondPerSecond) {
         this.velocity = velocityMetersPerSecond;
         this.acceleration = accelerationMetersPerSecondPerSecond;
         this.jerk = jerkMetersPerSecondPerSecondPerSecond;
+    }
+
+    public static MotionParameters stop() {
+        return new MotionParameters(0, 0, 0);
     }
 
     public double velocity() {
