@@ -25,6 +25,6 @@ public class TrajectoryOrientationController {
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {
-        return Math.toDegrees(trajectory.angleAt(trajectoryProfile.distanceAt(currentTime))) - currentAngle;
+        return Math.toDegrees(trajectory.angleRadAt(trajectoryProfile.distanceAt(currentTime))) - currentAngle;
     }
 }

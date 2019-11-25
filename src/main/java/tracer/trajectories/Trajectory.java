@@ -27,7 +27,7 @@ public class Trajectory {
         return splines.get(splines.size()-1).absoluteLength();
     }
 
-    public double angleAt(double length) {
+    public double angleRadAt(double length) {
         return correspondingSpline(length).angleRadAt(length);
     }
 
@@ -47,6 +47,6 @@ public class Trajectory {
             if(spline.absoluteLength() >= length && length >= spline.startLength())//might not need the second part since the list is sorted from start to finish
                 return spline;
 
-        throw new LengthOutsideOfFunctionBoundsException();
+        throw new LengthOutsideOfBoundsException();
     }
 }

@@ -4,6 +4,7 @@ import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.jmath.ExtendedMath;
+import tracer.trajectories.LengthOutsideOfBoundsException;
 
 public class Spline {
     private final static double ACCURACY = 0.001;
@@ -28,14 +29,6 @@ public class Spline {
         return actualFunction;
     }
 
-    public PolynomialFunction yFunction() {
-        return yFunction;
-    }
-
-    public PolynomialFunction xFunction() {
-        return xFunction;
-    }
-
     public double yAt(double t) {
         return yFunction.applyAsDouble(t);
     }
@@ -57,7 +50,9 @@ public class Spline {
     }
 
     public double angleRadAt(double length) {
-        length = adjustLength(length);
+        checkLength(length);
+        
+        length -= startLength;
         double t = percentageAtLength(length - startLength);
 
         return Math.atan2(yFunction.derive().applyAsDouble(t), xFunction.derive().applyAsDouble(t));
@@ -67,13 +62,9 @@ public class Spline {
         return actualFunction.pointAtLength(0, length, ACCURACY);
     }
 
-    private double adjustLength(double length) {
-        length -= startLength;
-        if(length < 0)
-            return 0;
-        else if(length > arcLength)
-            return arcLength;
-        return length;
+    private void checkLength(double length) {
+        if(!ExtendedMath.constrained(length, startLength, absoluteLength()))
+            throw new LengthOutsideOfBoundsException();
     }
 
     private double calcArcLength() {
