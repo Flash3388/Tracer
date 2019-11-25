@@ -41,8 +41,8 @@ public class ParametricFunction extends MathFunction {
     }
 
     @Override
-    public boolean equals(MathFunction other) {
-        return other instanceof ParametricFunction && equals((ParametricFunction) other);
+    public boolean equals(Object obj) {
+        return obj instanceof ParametricFunction && equals((ParametricFunction) obj);
     }
 
     public boolean equals(ParametricFunction other) {

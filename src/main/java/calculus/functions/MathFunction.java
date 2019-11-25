@@ -49,14 +49,7 @@ public abstract class MathFunction implements DoubleUnaryOperator {
         return new Linear(m, x, tangentPoint);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof MathFunction && equals((MathFunction) obj);
-    }
-
-    public abstract boolean equals(MathFunction other);
-
-    public double shortestLength(double xStart, double xEnd) {
+    private double shortestLength(double xStart, double xEnd) {
         return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
     }
 

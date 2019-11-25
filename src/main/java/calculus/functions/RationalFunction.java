@@ -30,8 +30,8 @@ public class RationalFunction extends MathFunction {
     }
 
     @Override
-    public boolean equals(MathFunction other) {
-        return other instanceof RationalFunction && equals((RationalFunction) other);
+    public boolean equals(Object obj) {
+        return obj instanceof RationalFunction && equals((RationalFunction) obj);
     }
 
     public boolean equals(RationalFunction other) {

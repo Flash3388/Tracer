@@ -68,8 +68,8 @@ public class PolynomialFunction extends MathFunction {
     }
 
     @Override
-    public boolean equals(MathFunction other) {
-        return other instanceof PolynomialFunction && equals((PolynomialFunction) other);
+    public boolean equals(Object obj) {
+        return obj instanceof PolynomialFunction && equals((PolynomialFunction) obj);
     }
 
     public boolean equals(PolynomialFunction other) {
