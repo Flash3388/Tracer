@@ -44,7 +44,14 @@ public class PolynomialFunction extends MathFunction {
 
     @Override
     public String toString() {
-        return variables.toString().replace('[',' ').replace(']',' ').replace(',','+');
+        AtomicReference<String> result = new AtomicReference<>("");
+        result.set(result.get() + variables.get(0));
+
+        variables.stream()
+                .skip(1)
+                .forEach(variable -> result.set(result.get()+" +"+variable));
+
+        return result.get();
     }
 
     @Override
