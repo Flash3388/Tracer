@@ -19,7 +19,7 @@ public class PolynomialFactory {
         polynomials.put(4, Quartic::new);
     }
 
-    public PolynomialFunction fromVariables(List<Variable> variables) {
+    public PolynomialFunction fromVariableModifiers(List<Variable> variables) {
         return fromConstants(toConstants(variables));
     }
 

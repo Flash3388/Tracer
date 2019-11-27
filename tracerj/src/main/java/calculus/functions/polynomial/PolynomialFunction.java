@@ -104,7 +104,7 @@ public class PolynomialFunction extends MathFunction {
                 .collect(Collectors.toList());
         result.addAll(zeroVariables(var.power()));
 
-        return factory.fromVariables(result);
+        return factory.fromVariableModifiers(result);
     }
 
     public PolynomialFunction sub(PolynomialFunction other) {
@@ -126,7 +126,7 @@ public class PolynomialFunction extends MathFunction {
             result = tmp;
         }
 
-        return factory.fromVariables(result);
+        return factory.fromVariableModifiers(result);
     }
 
     protected Collection<Complex> trySolve(double that) {
@@ -138,7 +138,7 @@ public class PolynomialFunction extends MathFunction {
     }
 
     private PolynomialFunction derivativeWithoutA() {
-        return factory.fromVariables(new ArrayList<>(variables.subList(1, variables.size())));
+        return factory.fromVariableModifiers(new ArrayList<>(variables.subList(1, variables.size())));
     }
 
     private PolynomialFunction sum(List<PolynomialFunction> functions) {

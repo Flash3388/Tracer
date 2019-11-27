@@ -11,16 +11,16 @@ public class ConstantVelocityProfileTest {
     @Test
     public void velocityAt_forConstantVelocityProfileAtValidTime_returnsInitialVelocity() {
         final double INITIAL_DISTANCE = 10;
-        final Double INITIAL_VELOCITY = 5.0;
+        final double INITIAL_VELOCITY = 5.0;
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
         final Time END_TIME = Time.seconds(2);
 
         final ConstantVelocityProfile PROFILE = new ConstantVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
-        final Double ACTUAL = PROFILE.velocityAt(T);
+        final double ACTUAL = PROFILE.velocityAt(T);
 
-        assertEquals(ACTUAL, INITIAL_VELOCITY);
+        assertEquals(ACTUAL, INITIAL_VELOCITY, DEF_DELTA);
     }
 
     @Test
