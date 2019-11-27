@@ -47,6 +47,6 @@ public class Trajectory {
             if(spline.absoluteLength() >= length && length >= spline.startLength())//might not need the second part since the list is sorted from start to finish
                 return spline;
 
-        throw new LengthOutsideOfBoundsException();
+        throw new IllegalArgumentException(String.format("Length %f is outside of this trajectory's length limit", length));
     }
 }

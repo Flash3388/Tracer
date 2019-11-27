@@ -63,31 +63,28 @@ public abstract class Profile {
     }
 
     public double velocityAt(Time currentTime) {
-        currentTime = correctTime(currentTime);
+        checkTime(currentTime);
         return relativeVelocityAt(relativeTime(currentTime)) + initialParameters.velocity();
     }
 
     public double distanceAt(Time currentTime) {
-        currentTime = correctTime(currentTime);
+        checkTime(currentTime);
         return relativeDistanceAt(relativeTime(currentTime)) + initialDistance;
     }
 
     public double accelerationAt(Time currentTime) {
-        currentTime = correctTime(currentTime);
+        checkTime(currentTime);
         return relativeAccelerationAt(relativeTime(currentTime)) + initialParameters.acceleration();
     }
 
     public double jerkAt(Time currentTime) {
-        currentTime = correctTime(currentTime);
+        checkTime(currentTime);
         return relativeJerkAt(relativeTime(currentTime)) + initialParameters.jerk();
     }
 
-    private Time correctTime(Time time) {
-        if(time.after(finalTimestamp()))
-            return finalTimestamp();
-        else if(time.before(initialTimestamp()))
-            return initialTimestamp();
-        return time;
+    private void checkTime(Time time) {
+        if(time.before(initialTimestamp()) || time.after(finalTimestamp()))
+            throw new IllegalArgumentException(String.format("time %s is outside of this profile's time limits", time));
     }
 
     private Time relativeTime(Time currentTime) {

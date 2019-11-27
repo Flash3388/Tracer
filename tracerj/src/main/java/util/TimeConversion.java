@@ -6,6 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeConversion {
     public static double toSeconds(Time t) {
-        return t.toUnit(TimeUnit.SECONDS).value();
+        return t.valueAsMillis()/1000.0;
     }
 }

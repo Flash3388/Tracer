@@ -4,7 +4,6 @@ import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.jmath.ExtendedMath;
-import tracer.trajectories.LengthOutsideOfBoundsException;
 
 public class Spline {
     private final static double ACCURACY = 0.001;
@@ -64,7 +63,7 @@ public class Spline {
 
     private void checkLength(double length) {
         if(!ExtendedMath.constrained(length, startLength, absoluteLength()))
-            throw new LengthOutsideOfBoundsException();
+            throw new IllegalArgumentException(String.format("Length %f is outside of this spline's length limit", length));
     }
 
     private double calcArcLength() {
