@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile 'com.flash3388.flashlib:flashlib:2.0.0-beta.6'
+    compile 'com.flash3388.util:jmath:1.0'
+}
