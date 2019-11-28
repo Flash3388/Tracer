@@ -1,12 +1,21 @@
-subprojects {
-    apply plugin: 'java'
+allprojects {
+    version = VERSION_NAME
+    group = GROUP
 
     repositories {
         mavenCentral()
     }
+}
+
+subprojects {
+    apply plugin: 'java'
 
     dependencies {
         compile "com.flash3388.flashlib:flashlib:2.0.0-beta.6"
         compile "com.flash3388.util:jmath:1.0"
     }
+}
+
+def isReleaseBuild() {
+    return version.contains("SNAPSHOT") == false
 }
