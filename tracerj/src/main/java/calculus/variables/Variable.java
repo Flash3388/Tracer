@@ -1,7 +1,5 @@
 package calculus.variables;
 
-import calculus.splines.Spline;
-
 public class Variable {
     private final double modifier;
     private final int power;

@@ -2,10 +2,10 @@ import com.flash3388.flashlib.time.Clock;
 
 import java.util.function.DoubleSupplier;
 
-public abstract class Motor implements DoubleSupplier, TimeBehavior<Double> {
+public abstract class MotorSchedule implements DoubleSupplier, TimeBehavior<Double> {
     private final Clock systemClock;
 
-    public Motor(Clock systemClock) {
+    public MotorSchedule(Clock systemClock) {
         this.systemClock = systemClock;
     }
 
