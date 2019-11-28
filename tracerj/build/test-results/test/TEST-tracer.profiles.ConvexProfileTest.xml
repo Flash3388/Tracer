@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tracer.profiles.ConvexProfileTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-11-27T14:45:55" hostname="DESKTOP-ITVORO1" time="0.04">
+  <properties/>
+  <testcase name="velocityAt_forConvexProfileAtValidTime_returnsCorrespondingVelocity" classname="tracer.profiles.ConvexProfileTest" time="0.038"/>
+  <testcase name="accelerationAt_forConvexProfileAtValidTime_returnsCorrespondingAcceleration" classname="tracer.profiles.ConvexProfileTest" time="0.0"/>
+  <testcase name="jerkAt_forConvexProfileAtValidTime_returnsTargetJerk" classname="tracer.profiles.ConvexProfileTest" time="0.0"/>
+  <testcase name="duration_ofConvexProfile_returnsCorrectDuration" classname="tracer.profiles.ConvexProfileTest" time="0.0"/>
+  <testcase name="distanceAt_forConvexProfileAtValidTime_returnsCorrespondingDistance" classname="tracer.profiles.ConvexProfileTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
