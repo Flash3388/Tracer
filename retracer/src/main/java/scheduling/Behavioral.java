@@ -1,4 +1,4 @@
-import com.flash3388.flashlib.time.Time;
+package scheduling;
 
 public interface Behavioral<T,R> {
     T behavior(R input);

@@ -1,3 +1,5 @@
+package scheduling;
+
 import com.flash3388.flashlib.time.Clock;
 
 import java.util.function.DoubleSupplier;

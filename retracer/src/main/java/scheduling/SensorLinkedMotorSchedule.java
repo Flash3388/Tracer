@@ -1,3 +1,5 @@
+package scheduling;
+
 import java.util.function.DoubleSupplier;
 
 public abstract class SensorLinkedMotorSchedule<T> implements DoubleSupplier, Behavioral<Double, T> {
