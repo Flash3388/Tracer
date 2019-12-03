@@ -15,6 +15,9 @@ public class Spline {
     private final double arcLength;
     private final double startLength;
 
+    private double lastReachedPercentage;
+    private double lastReachedLength;
+
     public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength) {
         this.yFunction = yFunction;
         this.xFunction = xFunction;
@@ -22,6 +25,8 @@ public class Spline {
 
         actualFunction = new ParametricFunction(yFunction, xFunction);
         arcLength = calcArcLength();
+        lastReachedPercentage = 0;
+        lastReachedLength = 0;
     }
 
     public MathFunction parametricFunction() {
@@ -53,12 +58,19 @@ public class Spline {
 
         length -= startLength;
         double t = percentageAtLength(length - startLength);
+        lastReachedPercentage = t;
+        lastReachedLength = length;
 
         return Math.atan2(yFunction.derive().applyAsDouble(t), xFunction.derive().applyAsDouble(t));
     }
 
     private double percentageAtLength(double length) {
-        return actualFunction.pointAtLength(0, length, ACCURACY);
+        double start = 0;
+        if(length > lastReachedLength) {
+            start = lastReachedPercentage;
+            length =- lastReachedLength;
+        }
+        return actualFunction.pointAtLength(start, length, ACCURACY);
     }
 
     private void checkLength(double length) {
