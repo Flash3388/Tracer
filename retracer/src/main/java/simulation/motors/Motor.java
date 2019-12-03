@@ -16,7 +16,7 @@ public class Motor {
         schedule.start();
     }
 
-    public double adjustedValue() {
+    public double torque() {
         return 0;
     }
 }
