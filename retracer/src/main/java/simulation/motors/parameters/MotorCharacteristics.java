@@ -1,7 +1,21 @@
 package simulation.motors.parameters;
 
+import simulation.motors.parameters.segments.LinearSequence;
+
 public class MotorCharacteristics {
-    public MotorCharacteristics() {
-        //efficiency graph, conversion ration, torque things etc.
+    private final LinearSequence torqueGraph;
+    private final double gearRation;
+
+    public MotorCharacteristics(LinearSequence torqueGraph, double gearRation) {
+        this.torqueGraph = torqueGraph;
+        this.gearRation = gearRation;
+    }
+
+    public double maxTorqueAt(double rpm) {
+        return torqueGraph.at(rpm) * gearRation;
+    }
+
+    public double gearRatio() {
+        return gearRation;
     }
 }

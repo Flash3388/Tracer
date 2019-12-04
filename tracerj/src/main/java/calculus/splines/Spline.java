@@ -3,9 +3,10 @@ package calculus.splines;
 import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
 import calculus.functions.polynomial.PolynomialFunction;
+import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
 
-public class Spline {
+public class Spline implements Segment {
     private final static double ACCURACY = 0.001;
 
     private final PolynomialFunction yFunction;
@@ -40,11 +41,12 @@ public class Spline {
         return arcLength;
     }
 
-    public double absoluteLength() {
+    @Override
+    public double end() {
         return arcLength + startLength;
     }
 
-    public double startLength() {
+    public double start() {
         return startLength;
     }
 
@@ -62,7 +64,7 @@ public class Spline {
     }
 
     private void checkLength(double length) {
-        if(!ExtendedMath.constrained(length, startLength, absoluteLength()))
+        if(!ExtendedMath.constrained(length, startLength, end()))
             throw new IllegalArgumentException(String.format("Length %f is outside of this spline's length limit", length));
     }
 

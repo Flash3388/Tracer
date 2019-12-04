@@ -16,7 +16,13 @@ public class Motor {
         schedule.start();
     }
 
-    public double torque() {
-        return 0;
+    public double torqueAt(double wheelAngularVelocity) {
+        double rpm = angularVelocityToRpm(wheelAngularVelocity);
+
+        return characteristics.maxTorqueAt(rpm)*characteristics.gearRatio()*schedule.get();
+    }
+
+    private double angularVelocityToRpm(double angularVelocity) {
+        return angularVelocity/(60*characteristics.gearRatio()*schedule.get())/(2*Math.PI);
     }
 }

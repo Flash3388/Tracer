@@ -14,7 +14,7 @@ public class ProfileFactory {
 
     public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
         List<Profile> profiles = new ArrayList<>();
-        max = adjustMaxParameters(max, trajectory.length());
+        max = adjustMaxParameters(max, trajectory.end());
 
         profiles.add(createStartSCurve(initialDistance, initialVelocity, max, startTime));
         profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
@@ -60,7 +60,7 @@ public class ProfileFactory {
     }
 
     private static ConstantVelocityProfile createConstantVelocityProfile(Profile prevProfile, Trajectory trajectory) {
-        return new ConstantVelocityProfile(prevProfile, calcConstantVelocityDuration(prevProfile, trajectory.length()));
+        return new ConstantVelocityProfile(prevProfile, calcConstantVelocityDuration(prevProfile, trajectory.end()));
     }
 
     private static Time calcConstantVelocityDuration(Profile sCurve, double trajectoryLength) {
