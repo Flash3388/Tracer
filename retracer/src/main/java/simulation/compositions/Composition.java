@@ -4,5 +4,5 @@ import com.jmath.vectors.Vector2;
 
 public interface Composition {
     void simulate();
-    Vector2 accelerationAt(double velocity);
+    Vector2 accelerationAt(Vector2 velocity);
 }
