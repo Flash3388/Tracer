@@ -70,7 +70,7 @@ public class Spline {
             start = lastReachedPercentage;
             length =- lastReachedLength;
         }
-        return actualFunction.pointAtLength(start, length, ACCURACY);
+        return actualFunction.pointAtLength(start, length, ACCURACY) + start;
     }
 
     private void checkLength(double length) {
