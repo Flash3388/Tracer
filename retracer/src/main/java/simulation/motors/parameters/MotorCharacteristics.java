@@ -18,4 +18,8 @@ public class MotorCharacteristics {
     public double gearRatio() {
         return gearRation;
     }
+
+    public double angularVelocityToRpm(double angularVelocity) {
+        return angularVelocity/(60*gearRation)/(2*Math.PI);
+    }
 }

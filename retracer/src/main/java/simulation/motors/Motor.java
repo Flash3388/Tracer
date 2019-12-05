@@ -3,26 +3,18 @@ package simulation.motors;
 import scheduling.Schedule;
 import simulation.motors.parameters.MotorCharacteristics;
 
-public class Motor {
+public class Motor extends Drive{
     private final MotorCharacteristics characteristics;
-    private final Schedule<Double> schedule;
 
     public Motor(MotorCharacteristics characteristics, Schedule<Double> schedule) {
+        super(schedule);
         this.characteristics = characteristics;
-        this.schedule = schedule;
-    }
-
-    public void start() {
-        schedule.start();
     }
 
     public double torqueAt(double wheelAngularVelocity) {
-        double rpm = angularVelocityToRpm(wheelAngularVelocity);
+        double scheduled = scheduled();
+        double rpm = characteristics.angularVelocityToRpm(wheelAngularVelocity);
 
-        return characteristics.maxTorqueAt(rpm)*characteristics.gearRatio()*schedule.get();
-    }
-
-    private double angularVelocityToRpm(double angularVelocity) {
-        return angularVelocity/(60*characteristics.gearRatio()*schedule.get())/(2*Math.PI);
+        return characteristics.maxTorqueAt(rpm)*characteristics.gearRatio()*scheduled;
     }
 }

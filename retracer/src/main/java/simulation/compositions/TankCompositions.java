@@ -1,6 +1,7 @@
 package simulation.compositions;
 
 import com.jmath.vectors.Vector2;
+import simulation.motors.DriveSide;
 
 public class TankCompositions implements Composition {
     private final DriveSide right;
@@ -34,8 +35,8 @@ public class TankCompositions implements Composition {
     }
 
     private Vector2 tractionForce(Vector2 velocity) {
-        double rightTorque = right.sideTorque((velocity.y() - velocity.x()) / physicalCharacteristics.wheelRadius());
-        double leftTorque = left.sideTorque((velocity.y() + velocity.x()) / physicalCharacteristics.wheelRadius());
+        double rightTorque = right.torqueAt((velocity.y() - velocity.x()) / physicalCharacteristics.wheelRadius());
+        double leftTorque = left.torqueAt((velocity.y() + velocity.x()) / physicalCharacteristics.wheelRadius());
 
         double rightForce = rightTorque / physicalCharacteristics.wheelRadius();
         double leftForce = leftTorque / physicalCharacteristics.wheelRadius();
