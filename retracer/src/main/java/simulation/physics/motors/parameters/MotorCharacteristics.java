@@ -3,16 +3,16 @@ package simulation.physics.motors.parameters;
 import calculus.functions.MathFunction;
 
 public class MotorCharacteristics {
-    private final MathFunction torqueGraph;
+    private final MathFunction torqueFunction;
     private final double gearRation;
 
-    public MotorCharacteristics(MathFunction torqueGraph, double gearRation) {
-        this.torqueGraph = torqueGraph;
+    public MotorCharacteristics(MathFunction torqueFunction, double gearRation) {
+        this.torqueFunction = torqueFunction;
         this.gearRation = gearRation;
     }
 
     public double maxTorqueAt(double rpm) {
-        return torqueGraph.applyAsDouble(rpm) * gearRation;
+        return torqueFunction.applyAsDouble(rpm) * gearRation;
     }
 
     public double gearRatio() {
