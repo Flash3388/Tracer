@@ -1,7 +1,7 @@
-package simulation.compositions;
+package simulation.physics.compositions;
 
 import com.jmath.vectors.Vector2;
-import simulation.motors.DriveSide;
+import simulation.physics.motors.DriveSide;
 
 public class TankCompositions implements Composition {
     private final DriveSide right;
@@ -19,7 +19,7 @@ public class TankCompositions implements Composition {
     }
 
     @Override
-    public void simulate() {
+    public void start() {
         right.start();
         left.start();
     }
@@ -32,6 +32,11 @@ public class TankCompositions implements Composition {
         Vector2 Fg = gravityForce();
 
         return Ft.add(Fd).add(Fr).add(Fg).div(physicalCharacteristics.mass());
+    }
+
+    @Override
+    public boolean isDone() {
+        return right.isDone() && left.isDone();
     }
 
     private Vector2 tractionForce(Vector2 velocity) {

@@ -1,4 +1,4 @@
-package simulation.motors;
+package simulation.physics.motors;
 
 public enum MotorType {
     CIM,

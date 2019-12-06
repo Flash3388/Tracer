@@ -1,4 +1,4 @@
-package simulation.motors.parameters.segments;
+package simulation.physics.motors.parameters.segments;
 
 import calculus.segments.SegmentSequence;
 

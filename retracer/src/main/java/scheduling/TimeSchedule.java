@@ -3,7 +3,7 @@ package scheduling;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 
-public abstract class TimeSchedule<T> extends Schedule<T> implements TimeBehavior<T> {
+public abstract class TimeSchedule<T> implements Schedule<T>, TimeBehavior<T> {
     private final Clock systemClock;
     private Time startTime;
 

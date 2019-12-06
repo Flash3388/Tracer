@@ -1,4 +1,4 @@
-package simulation.compositions;
+package simulation.physics.compositions;
 
 public class PhysicalCharacteristics {
     private final double mass;

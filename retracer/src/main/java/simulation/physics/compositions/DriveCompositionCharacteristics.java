@@ -1,4 +1,4 @@
-package simulation.compositions;
+package simulation.physics.compositions;
 
 public class DriveCompositionCharacteristics {
     private final double aerodynamicDrag;

@@ -1,13 +1,12 @@
-package simulation.motors;
+package simulation.physics.motors;
 
 import scheduling.Schedule;
-import simulation.motors.parameters.MotorCharacteristics;
+import simulation.physics.motors.parameters.MotorCharacteristics;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class DriveSide extends Drive{
     private final List<Motor> motors;

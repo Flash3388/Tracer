@@ -1,6 +1,6 @@
-package simulation.motors.parameters;
+package simulation.physics.motors.parameters;
 
-import simulation.motors.parameters.segments.LinearSequence;
+import simulation.physics.motors.parameters.segments.LinearSequence;
 
 public class MotorCharacteristics {
     private final LinearSequence torqueGraph;

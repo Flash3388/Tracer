@@ -1,7 +1,7 @@
-package simulation.motors;
+package simulation.physics.motors;
 
 import scheduling.Schedule;
-import simulation.motors.parameters.MotorCharacteristics;
+import simulation.physics.motors.parameters.MotorCharacteristics;
 
 import java.util.HashMap;
 import java.util.Map;

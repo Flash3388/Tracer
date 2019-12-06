@@ -1,4 +1,4 @@
-package simulation.motors;
+package simulation.physics.motors;
 
 import scheduling.Schedule;
 
@@ -11,6 +11,10 @@ public abstract class Drive {
 
     public void start() {
         schedule.start();
+    }
+
+    public boolean isDone() {
+        return schedule.isDone();
     }
 
     public abstract double torqueAt(double wheelAngularVelocity);
