@@ -1,16 +1,17 @@
 package calculus.segments;
 
 import java.util.List;
+import java.util.stream.Stream;
 
-public class SegmentSequence<s extends Segment> implements Segment {
-    private final List<s> segments;
+public class SegmentSequence<S extends Segment> implements Segment {
+    private final List<S> segments;
 
-    public SegmentSequence(List<s> segments) {
+    public SegmentSequence(List<S> segments) {
         this.segments = segments;
     }
 
-    protected s correspondingSegment(double value) {
-        for (s segment: segments)
+    public S correspondingSegment(double value) {
+        for (S segment: segments)
             if(segment.end() >= value && value >= segment.start())
                 return segment;
 
@@ -25,5 +26,14 @@ public class SegmentSequence<s extends Segment> implements Segment {
     @Override
     public double end() {
         return segments.get(segments.size()-1).end();
+    }
+
+    @Override
+    public Object get() {
+        return segments;
+    }
+
+    public Stream<S> stream() {
+        return segments.stream();
     }
 }

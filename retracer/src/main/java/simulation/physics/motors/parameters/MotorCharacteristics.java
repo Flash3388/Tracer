@@ -1,18 +1,18 @@
 package simulation.physics.motors.parameters;
 
-import simulation.physics.motors.parameters.segments.LinearSequence;
+import calculus.functions.MathFunction;
 
 public class MotorCharacteristics {
-    private final LinearSequence torqueGraph;
+    private final MathFunction torqueGraph;
     private final double gearRation;
 
-    public MotorCharacteristics(LinearSequence torqueGraph, double gearRation) {
+    public MotorCharacteristics(MathFunction torqueGraph, double gearRation) {
         this.torqueGraph = torqueGraph;
         this.gearRation = gearRation;
     }
 
     public double maxTorqueAt(double rpm) {
-        return torqueGraph.at(rpm) * gearRation;
+        return torqueGraph.applyAsDouble(rpm) * gearRation;
     }
 
     public double gearRatio() {

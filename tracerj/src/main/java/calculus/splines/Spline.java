@@ -6,7 +6,7 @@ import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
 
-public class Spline implements Segment {
+public class Spline implements Segment<Spline> {
     private final static double ACCURACY = 0.001;
 
     private final PolynomialFunction yFunction;
@@ -44,6 +44,11 @@ public class Spline implements Segment {
     @Override
     public double end() {
         return arcLength + startLength;
+    }
+
+    @Override
+    public Spline get() {
+        return this;
     }
 
     public double start() {

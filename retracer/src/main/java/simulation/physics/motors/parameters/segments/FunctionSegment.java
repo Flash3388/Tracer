@@ -1,14 +1,14 @@
 package simulation.physics.motors.parameters.segments;
 
-import calculus.functions.polynomial.Linear;
+import calculus.functions.MathFunction;
 import calculus.segments.Segment;
 
-public class LineSegment implements Segment {
-    private final Linear linear;
+public class FunctionSegment implements Segment<MathFunction> {
+    private final MathFunction linear;
     private final double start;
     private final double end;
 
-    public LineSegment(Linear linear, double start, double end) {
+    public FunctionSegment(MathFunction linear, double start, double end) {
         this.linear = linear;
         this.start = start;
         this.end = end;
@@ -26,5 +26,10 @@ public class LineSegment implements Segment {
     @Override
     public double end() {
         return end;
+    }
+
+    @Override
+    public MathFunction get() {
+        return linear;
     }
 }
