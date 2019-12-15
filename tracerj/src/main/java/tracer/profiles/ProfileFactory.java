@@ -37,10 +37,22 @@ public class ProfileFactory {
     }
 
     private static MotionParameters adjustMaxParameters(MotionParameters max, double targetDistance) {
-        if(distancePassedInTwoSCurves(max) > targetDistance)
+        if(isIllegalVelocity(max, targetDistance))
             return new MotionParameters(calcAppropriateVelocity(max, targetDistance), max.acceleration(), max.jerk());
         else
             return max;
+    }
+
+    private static boolean isIllegalVelocity(double velocity, MotionParameters max, double targetDistance) {
+        return isIllegalVelocity(new MotionParameters(velocity, max.acceleration(), max.jerk()), targetDistance);
+    }
+
+    private static boolean isIllegalVelocity(MotionParameters max, double targetDistance) {
+        try {
+            return Math.abs(distancePassedInTwoSCurves(max)) > Math.abs(targetDistance);
+        } catch (IllegalArgumentException ignored) {
+            return true;
+        }
     }
 
     private static double distancePassedInTwoSCurves(MotionParameters max) {
@@ -50,7 +62,7 @@ public class ProfileFactory {
     private static double calcAppropriateVelocity(MotionParameters max, double targetDistance) {
         double result = targetDistance * max.jerk() / (2*max.acceleration()) - (1 + 2/3.0) * Math.pow(max.acceleration(), 3)/(2*max.acceleration());
 
-        if(result < 0)
+        if(isIllegalVelocity(result, max, targetDistance))
             throw new IllegalArgumentException("Too small distance compared to maximum jerk and acceleration");
         return result;
     }
