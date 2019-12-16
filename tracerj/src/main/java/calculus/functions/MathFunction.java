@@ -15,14 +15,6 @@ import java.util.stream.Collectors;
 public abstract class MathFunction implements DoubleUnaryOperator {
     public abstract MathFunction derive();
 
-    public Collection<Double> realSolutionsTo(double targetY) {
-        return toReal(solutionsTo(targetY));
-    }
-
-    public Collection<Complex> solutionsTo(double targetY) {
-        throw new UnsupportedOperationException();
-    }
-
     public double lengthBetween(double from, double to, double step) {
         double sum = 0;
 

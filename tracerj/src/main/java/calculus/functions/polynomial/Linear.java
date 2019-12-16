@@ -19,12 +19,4 @@ public class Linear extends PolynomialFunction {
     public Linear(List<Double> constants) {
         super(constants, 1);
     }
-
-    @Override
-    protected Collection<Complex> trySolve(double result) {
-        double a = get(0).modifier();
-        double b = get(1).modifier() - result;
-
-        return Collections.singleton((new Complex(-b / a, 0)));
-    }
 }
