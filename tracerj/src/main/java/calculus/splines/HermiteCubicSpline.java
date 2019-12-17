@@ -1,6 +1,6 @@
 package calculus.splines;
 
-import calculus.functions.polynomial.Cubic;
+import calculus.functions.polynomial.PolynomialFunction;
 import calculus.splines.parameters.Waypoint;
 
 public class HermiteCubicSpline extends Spline {
@@ -8,22 +8,22 @@ public class HermiteCubicSpline extends Spline {
         super(calcYFunction(startWaypoint, endWaypoint), calcXFunction(startWaypoint, endWaypoint), startLength);
     }
 
-    private static Cubic calcYFunction(Waypoint start, Waypoint end) {
+    private static PolynomialFunction calcYFunction(Waypoint start, Waypoint end) {
         double m0y = Math.sin(start.heading());
         double m1y = Math.sin(end.heading());
 
         return calcFunction(start.y(), m0y, end.y(), m1y);
     }
 
-    private static Cubic calcXFunction(Waypoint start, Waypoint end) {
+    private static PolynomialFunction calcXFunction(Waypoint start, Waypoint end) {
         double m0x = Math.cos(start.heading());
         double m1x = Math.cos(end.heading());
 
         return calcFunction(start.x(), m0x, end.x(), m1x);
     }
 
-    private static Cubic calcFunction(double startPosition, double startDerivative, double endPosition, double endDerivative) {
-        return new Cubic(
+    private static PolynomialFunction calcFunction(double startPosition, double startDerivative, double endPosition, double endDerivative) {
+        return new PolynomialFunction(
                 calcA(startPosition, startDerivative, endPosition, endDerivative),
                 calcB(startPosition, startDerivative, endPosition, endDerivative),
                 calcC(startDerivative),

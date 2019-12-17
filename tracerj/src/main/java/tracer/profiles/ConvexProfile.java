@@ -1,9 +1,7 @@
 package tracer.profiles;
 
-import calculus.functions.polynomial.Cubic;
 import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
-import calculus.functions.polynomial.Quadratic;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import util.TimeConversion;
@@ -26,8 +24,8 @@ public class ConvexProfile extends Profile {
         targetJerk = -target.jerk();
 
         acceleration = new Linear(targetJerk, 0);
-        velocity = new Quadratic(targetJerk/2, targetAcceleration, 0);
-        distance = new Cubic(targetJerk/6, targetAcceleration /2, initialVelocity, 0);
+        velocity = new PolynomialFunction(targetJerk/2, targetAcceleration, 0.0);
+        distance = new PolynomialFunction(targetJerk/6, targetAcceleration /2, initialVelocity, 0.0);
     }
 
     @Override

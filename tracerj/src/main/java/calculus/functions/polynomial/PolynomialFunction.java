@@ -2,18 +2,15 @@ package calculus.functions.polynomial;
 
 import calculus.functions.MathFunction;
 import calculus.variables.Variable;
-import com.jmath.complex.Complex;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PolynomialFunction extends MathFunction {
-    private final PolynomialFactory factory;
     private final List<Variable> variables;
 
     public PolynomialFunction(Double... constants) {
@@ -24,11 +21,14 @@ public class PolynomialFunction extends MathFunction {
         this(constants, constants.size()-1);
     }
 
+    public static PolynomialFunction fromVariableModifiers(List<Variable> variables) {
+        return new PolynomialFunction(toConstants(variables));
+    }
+
     public PolynomialFunction(List<Double> constants, int polynomialDegree) {
         if(constants.size() != polynomialDegree+1)
             throw new IllegalArgumentException("Number of constants is incorrect for polynomial degree of %d");
         variables = generateFunction(constants);
-        factory = new PolynomialFactory();
     }
 
     @Override
@@ -36,10 +36,6 @@ public class PolynomialFunction extends MathFunction {
         return variables.stream()
                 .mapToDouble(variable -> variable.at(x))
                 .sum();
-    }
-
-    public Variable get(int index) {
-        return variables.get(index);
     }
 
     @Override
@@ -56,15 +52,7 @@ public class PolynomialFunction extends MathFunction {
 
     @Override
     public PolynomialFunction derive() {
-        return factory.fromConstants(deriveVariables());
-    }
-
-    @Override
-    public Collection<Complex> solutionsTo(double targetY) {
-        if(get(0).modifier() == 0)
-            return derivativeWithoutA().solutionsTo(targetY);
-        else
-            return trySolve(targetY);
+        return fromVariableModifiers(deriveVariables());
     }
 
     @Override
@@ -104,7 +92,7 @@ public class PolynomialFunction extends MathFunction {
                 .collect(Collectors.toList());
         result.addAll(zeroVariables(var.power()));
 
-        return factory.fromVariables(result);
+        return fromVariableModifiers(result);
     }
 
     public PolynomialFunction sub(PolynomialFunction other) {
@@ -126,19 +114,17 @@ public class PolynomialFunction extends MathFunction {
             result = tmp;
         }
 
-        return factory.fromVariables(result);
+        return fromVariableModifiers(result);
     }
 
-    protected Collection<Complex> trySolve(double that) {
-        throw new UnsupportedOperationException("solve method is not provided for a polynomial of degree " + (variables.size()-1));
+    private static List<Double> toConstants(List<Variable> variables) {
+        return variables.stream()
+                .mapToDouble(Variable::modifier)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
     private List<Variable> variables() {
         return variables;
-    }
-
-    private PolynomialFunction derivativeWithoutA() {
-        return factory.fromVariables(new ArrayList<>(variables.subList(1, variables.size())));
     }
 
     private PolynomialFunction sum(List<PolynomialFunction> functions) {
@@ -167,10 +153,10 @@ public class PolynomialFunction extends MathFunction {
                 .collect(Collectors.toList());
     }
 
-    private List<Double> deriveVariables() {
+    private List<Variable> deriveVariables() {
         return variables.stream()
                 .limit(variables.size()-1)
-                .map(variable -> variable.derive().modifier())
+                .map(Variable::derive)
                 .collect(Collectors.toList());
     }
 

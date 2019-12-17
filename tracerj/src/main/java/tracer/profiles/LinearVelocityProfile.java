@@ -2,7 +2,6 @@ package tracer.profiles;
 
 import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
-import calculus.functions.polynomial.Quadratic;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
 import util.TimeConversion;
@@ -19,7 +18,7 @@ public class LinearVelocityProfile extends Profile {
         super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), startTime, duration);
 
         velocity = new Linear(initialAcceleration, 0);
-        distance = new Quadratic(initialAcceleration/2, initialVelocity, 0);
+        distance = new PolynomialFunction(initialAcceleration/2, initialVelocity, 0.0);
     }
 
     @Override

@@ -31,16 +31,16 @@ public class LinearVelocityProfileTest {
     public void accelerationAt_forLinearVelocityProfileAtValidTime_returnsInitialAcceleration() {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
-        final Double INITIAL_ACCELERATION = 2.5;
+        final double INITIAL_ACCELERATION = 2.5;
 
         final Time INITIAL_TIME = Time.seconds(1);
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
         final Time END_TIME = Time.seconds(2);
 
         final LinearVelocityProfile PROFILE = new LinearVelocityProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, INITIAL_ACCELERATION, INITIAL_TIME, END_TIME.sub(INITIAL_TIME));
-        final Double ACTUAL = PROFILE.accelerationAt(T);
+        final double ACTUAL = PROFILE.accelerationAt(T);
 
-        assertEquals(ACTUAL, INITIAL_ACCELERATION);
+        assertEquals(ACTUAL, INITIAL_ACCELERATION, DEF_DELTA);
     }
 
     @Test

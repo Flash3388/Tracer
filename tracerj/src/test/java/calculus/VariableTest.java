@@ -6,6 +6,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class VariableTest {
+    private final static double DEF_DELTA = 0.001;
+
     @Test
     public void calcDerivative_forNumber_returnsZero() {
         final double MODIFIER = 2.0;
@@ -69,12 +71,12 @@ public class VariableTest {
 
     @Test
     public void atValue_forXWithZeroPower_returnsModifier() {
-        final Double MODIFIER = 2.0;
+        final double MODIFIER = 2.0;
         final double VALUE = 1.0;
 
-        final Double ACTUAL = Variable.modifier(MODIFIER).at(VALUE);
+        final double ACTUAL = Variable.modifier(MODIFIER).at(VALUE);
 
-        assertEquals(ACTUAL, MODIFIER);
+        assertEquals(ACTUAL, MODIFIER, DEF_DELTA);
     }
 
     @Test
@@ -82,10 +84,10 @@ public class VariableTest {
         final double VALUE = 1.0;
         final int POWER = 2;
 
-        final Double ZERO = 0.0;
-        final Double ACTUAL = new Variable(ZERO, POWER).at(VALUE);
+        final double ZERO = 0.0;
+        final double ACTUAL = new Variable(ZERO, POWER).at(VALUE);
 
-        assertEquals(ACTUAL, ZERO);
+        assertEquals(ACTUAL, ZERO, DEF_DELTA);
     }
 
     @Test
