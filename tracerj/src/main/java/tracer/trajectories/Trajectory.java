@@ -1,6 +1,5 @@
 package tracer.trajectories;
 
-import calculus.segments.Segment;
 import calculus.segments.SegmentSequence;
 import calculus.splines.Spline;
 import calculus.splines.SplineFactory;

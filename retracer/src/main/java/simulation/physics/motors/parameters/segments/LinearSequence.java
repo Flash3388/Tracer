@@ -1,7 +1,6 @@
 package simulation.physics.motors.parameters.segments;
 
 import calculus.functions.MathFunction;
-import calculus.functions.polynomial.Linear;
 import calculus.segments.Segment;
 import calculus.segments.SegmentSequence;
 
