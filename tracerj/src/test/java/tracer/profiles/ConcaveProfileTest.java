@@ -75,7 +75,7 @@ public class ConcaveProfileTest {
         final double EXPECTED = INITIAL_DISTANCE + INITIAL_VELOCITY * RELATIVE_TIME_IN_SECONDS + TARGET.jerk() * Math.pow(RELATIVE_TIME_IN_SECONDS, 3)/6;
 
         final ConcaveProfile PROFILE = new ConcaveProfile(INITIAL_DISTANCE, INITIAL_VELOCITY, TARGET, INITIAL_TIME);
-        final double ACTUAL = PROFILE.accelerationAt(T);
+        final double ACTUAL = PROFILE.distanceAt(T);
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
