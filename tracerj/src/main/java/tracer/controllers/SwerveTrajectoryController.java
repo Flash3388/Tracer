@@ -11,11 +11,11 @@ public class SwerveTrajectoryController implements Followable {
     private final TrajectoryController frontLeft;
     private final TrajectoryController frontRight;
 
-    public SwerveTrajectoryController(SwerveTrajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD) {
-        rearLeft = new TrajectoryController(trajectory.rearLeft(), max, kV, kA, kP, kI, kD);
-        rearRight = new TrajectoryController(trajectory.rearRight(), max, kV, kA, kP, kI, kD);
-        frontLeft = new TrajectoryController(trajectory.frontLeft(), max, kV, kA, kP, kI, kD);
-        frontRight = new TrajectoryController(trajectory.frontRight(), max, kV, kA, kP, kI, kD);
+    public SwerveTrajectoryController(SwerveTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage) {
+        rearLeft = new TrajectoryController(trajectory.rearLeft(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
+        rearRight = new TrajectoryController(trajectory.rearRight(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
+        frontLeft = new TrajectoryController(trajectory.frontLeft(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
+        frontRight = new TrajectoryController(trajectory.frontRight(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
     }
 
     public double calcForRearLeft(Position position) {

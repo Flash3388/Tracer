@@ -5,14 +5,6 @@ public class MotionParameters {
     private final double acceleration;
     private final double jerk;
 
-    public static MotionParameters constantVelocity(double velocity) {
-        return new MotionParameters(velocity, 0, 0);
-    }
-
-    public static MotionParameters linearVelocity(double velocity, double acceleration) {
-        return new MotionParameters(velocity, acceleration, 0);
-    }
-
     public MotionParameters(double velocityMetersPerSecond, double accelerationMetersPerSecondPerSecond, double jerkMetersPerSecondPerSecondPerSecond) {
         this.velocity = velocityMetersPerSecond;
         this.acceleration = accelerationMetersPerSecondPerSecond;
@@ -21,6 +13,18 @@ public class MotionParameters {
 
     public static MotionParameters stop() {
         return new MotionParameters(0, 0, 0);
+    }
+
+    public static MotionParameters constantVelocity(double velocity) {
+        return new MotionParameters(velocity, 0, 0);
+    }
+
+    public static MotionParameters linearVelocity(double velocity, double acceleration) {
+        return new MotionParameters(velocity, acceleration, 0);
+    }
+
+    public static MotionParameters frcKitOfPartsParameters(double velocityMetersPerSecond) {
+        return new MotionParameters(velocityMetersPerSecond, FrcParameters.DEFAULT_ACCELERATION_METERS_PER_SECOND_PER_SECOND, FrcParameters.DEFAULT_JERK_METERS_PER_SECOND_PER_SECOND_PER_SECOND);
     }
 
     public double velocity() {

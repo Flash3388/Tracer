@@ -6,9 +6,6 @@ import com.jmath.complex.Complex;
 import util.MathUtil;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-import java.util.function.DoubleFunction;
 import java.util.function.DoubleUnaryOperator;
 import java.util.stream.Collectors;
 
