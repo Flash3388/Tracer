@@ -9,9 +9,9 @@ public class TankTrajectoryController implements Followable {
     private final TrajectoryController left;
     private final TrajectoryController right;
 
-    public TankTrajectoryController(TankTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double gP) {
-        left = new TrajectoryController(trajectory.left(), max, motionControllerParameters, pidControllerParameters, gP);
-        right = new TrajectoryController(trajectory.right(), max, motionControllerParameters, pidControllerParameters, -gP);
+    public TankTrajectoryController(TankTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
+        left = new TrajectoryController(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP);
+        right = new TrajectoryController(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP);
     }
 
     public double calcForLeft(Position position) {
