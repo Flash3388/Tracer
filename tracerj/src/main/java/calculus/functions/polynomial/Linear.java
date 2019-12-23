@@ -1,10 +1,6 @@
 package calculus.functions.polynomial;
 
-import com.jmath.complex.Complex;
-
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Linear extends PolynomialFunction {

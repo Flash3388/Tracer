@@ -8,20 +8,26 @@ public class ProfileMotionController {
     private final Profile profile;
     private final double kV;
     private final double kA;
-    private final double kl;
+    private final double kS;
 
-    public ProfileMotionController(Profile profile, double kV, double kA, double kl) {
+    public ProfileMotionController(Profile profile, MotionControllerParameters parameters) {
+        this(profile, parameters.kV(), parameters.kA(), parameters.kS());
+    }
+
+    public ProfileMotionController(Profile profile, double kV, double kA, double kS) {
         this.profile = profile;
         this.kV = kV;
         this.kA = kA;
-        this.kl = kl;
+        this.kS = kS;
     }
 
     public double calculate(Time timestamp) {
-        double vOut = kV * profile.velocityAt(timestamp);
-        double aOut = kA * profile.accelerationAt(timestamp);
-        double out = vOut + aOut + kl;
+        double velocity = profile.velocityAt(timestamp);
 
-        return ExtendedMath.constrain(out, -1, 1);
+        double vOut = kV * velocity;
+        double aOut = kA * profile.accelerationAt(timestamp);
+        double sOut = kS * Math.signum(velocity);
+
+        return vOut + aOut + sOut;
     }
 }

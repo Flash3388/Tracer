@@ -15,16 +15,19 @@ public class TrajectoryController implements Followable {
     private final PidController pidController;
     private final ProfileMotionController motionController;
     private final TrajectoryOrientationController orientationController;
+    private final double maxVoltage;
 
-    public TrajectoryController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD) {
-        this(trajectory, max, kV, kA, kP, kI, kD, 0);
+    public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage) {
+        this(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, 0);
     }
 
-    public TrajectoryController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
+    public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
         trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
-        pidController = new PidController(kP, kI, kD, 0);
-        motionController = new ProfileMotionController(trajectoryProfile, kV, kA, 0);
+        motionController = new ProfileMotionController(trajectoryProfile, motionControllerParameters);
+        pidController = new PidController(pidControllerParameters.kP(), pidControllerParameters.kI(), pidControllerParameters.kD(), 0);
+        pidController.setOutputLimit(maxVoltage);
         orientationController = new TrajectoryOrientationController(trajectory, trajectoryProfile, gP);
+        this.maxVoltage = maxVoltage;
     }
 
     @Override
@@ -44,7 +47,8 @@ public class TrajectoryController implements Followable {
         double pidOut = pidController.calculate(distance, trajectoryProfile.distanceAt(timestamp));
         double motionOut = motionController.calculate(position.timestamp());
         double orientationOut = orientationController.calculate(position);
+        double vOut = (pidOut + motionOut + orientationOut)/maxVoltage;
 
-        return ExtendedMath.constrain(ExtendedMath.constrain(pidOut + motionOut, -1, 1) + orientationOut, -1, 1);
+        return ExtendedMath.constrain(vOut, -1, 1);
     }
 }
