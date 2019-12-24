@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class TracerBenchmark {
 
     @Benchmark
-    @BenchmarkMode(Mode.All)
+    @BenchmarkMode(Mode.Throughput)
     public void run(Blackhole blackhole) throws Exception {
         Waypoint start = new Waypoint(0, 0, 0);
         Waypoint end = new Waypoint(2, 0, 0);
@@ -28,6 +28,10 @@ public class TracerBenchmark {
         PidControllerParameters pidControllerParameters = new PidControllerParameters(1, 0, 0);
         TankTrajectoryController controller = new TankTrajectoryController(trajectory, max, motionControllerParameters, pidControllerParameters, 12, 0);
 
-        blackhole.consume(controller.finalTimestamp());
+        blackhole.consume(pidControllerParameters);
+        blackhole.consume(motionControllerParameters);
+        blackhole.consume(controller);
+
+        controller.reset();
     }
 }

@@ -57,5 +57,5 @@ task clearBenchmarkResults(type: Delete) {
 
 task benchmark {
     dependsOn project.tasks.clearBenchmarkResults,
-            project.tasks.build, project.tasks.jmh
+            project.tasks.assemble, project.tasks.jmh
 }

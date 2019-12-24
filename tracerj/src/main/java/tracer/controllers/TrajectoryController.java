@@ -23,7 +23,7 @@ public class TrajectoryController implements Followable {
 
     public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
         trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
-        System.out.println(trajectoryProfile.duration());
+        //System.out.println(trajectoryProfile.duration());
         motionController = new ProfileMotionController(trajectoryProfile, motionControllerParameters);
         pidController = new PidController(pidControllerParameters.kP(), pidControllerParameters.kI(), pidControllerParameters.kD(), 0);
         pidController.setOutputLimit(maxVoltage);

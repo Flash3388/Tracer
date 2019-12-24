@@ -32,7 +32,7 @@ public class TankTrajectoryFollowerAction extends FollowerAction {
 
         double right = controller.calcForRight(rightPos);
         double left = controller.calcForLeft(leftPos);
-        System.out.println(String.format("right: %.4f left: %.4f", right, left));
+        //System.out.println(String.format("right: %.4f left: %.4f", right, left));
         tankSystem.tankDrive(right, left);
     }
 
