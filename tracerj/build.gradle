@@ -1,7 +1,16 @@
+apply plugin: 'maven-publish'
+
 dependencies {
     testCompile "junit:junit:4.12"
 }
 
+publishing {
+    publications {
+        mavenTracer(MavenPublication) {
+            from components.java
+        }
+    }
+}
 //apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
 
 apply plugin: "me.champeau.gradle.jmh"

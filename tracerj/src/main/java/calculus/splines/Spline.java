@@ -2,6 +2,7 @@ package calculus.splines;
 
 import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
+import calculus.functions.RootFunction;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
@@ -86,7 +87,8 @@ public class Spline implements Segment<Spline> {
     }
 
     private double calcArcLength() {
-        return actualFunction.lengthBetween(0, 1, ACCURACY/100);
+        MathFunction thing = new RootFunction(xFunction.derive().mul(xFunction.derive()).add(yFunction.derive().mul(yFunction.derive())), 2);
+        return thing.integrate(0, 1);
     }
 
     @Override

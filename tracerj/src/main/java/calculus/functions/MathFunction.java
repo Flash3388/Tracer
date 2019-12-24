@@ -2,6 +2,7 @@ package calculus.functions;
 
 import calculus.functions.polynomial.Linear;
 import com.jmath.ExtendedMath;
+import com.jmath.Integrals;
 import com.jmath.complex.Complex;
 import util.MathUtil;
 
@@ -10,15 +11,12 @@ import java.util.function.DoubleUnaryOperator;
 import java.util.stream.Collectors;
 
 public abstract class MathFunction implements DoubleUnaryOperator {
+    private final static int SLICES = 1000;
+
     public abstract MathFunction derive();
 
-    public double lengthBetween(double from, double to, double step) {
-        double sum = 0;
-
-        for(double x=from; x <= to; x+=step)
-            sum += shortestLength(x, x+step);
-
-        return sum;
+    public double integrate(double from, double to) {
+        return Integrals.simpsonsRule(this::applyAsDouble, from, to, SLICES);
     }
 
     public double pointAtLength(double start, double length, double accuracy) {
@@ -40,12 +38,5 @@ public abstract class MathFunction implements DoubleUnaryOperator {
 
     private double shortestLength(double xStart, double xEnd) {
         return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
-    }
-
-    private Collection<Double> toReal(Collection<Complex> complex) {
-        return complex.stream()
-                .filter(solution -> solution.imaginary() == 0)
-                .map(Complex::real)
-                .collect(Collectors.toList());
     }
 }
