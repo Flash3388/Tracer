@@ -28,11 +28,6 @@ public class SegmentSequence<S extends Segment> implements Segment {
         return segments.get(segments.size()-1).end();
     }
 
-    @Override
-    public Object get() {
-        return segments;
-    }
-
     public Stream<S> stream() {
         return segments.stream();
     }

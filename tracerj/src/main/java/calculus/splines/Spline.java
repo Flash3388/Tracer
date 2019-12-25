@@ -1,18 +1,17 @@
 package calculus.splines;
 
 import calculus.functions.MathFunction;
-import calculus.functions.ParametricFunction;
-import calculus.functions.RootFunction;
+import calculus.functions.SquareRootFunction;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
 
 public class Spline implements Segment<Spline> {
-    private final static double ACCURACY = 0.001;
+    private static final double ACCURACY = 0.001;
 
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
-    private final MathFunction actualFunction;
+    private final MathFunction lengthFunctionDerivative;
 
     private final double arcLength;
     private final double startLength;
@@ -25,14 +24,10 @@ public class Spline implements Segment<Spline> {
         this.xFunction = xFunction;
         this.startLength = startLength;
 
-        actualFunction = new ParametricFunction(yFunction, xFunction);
+        lengthFunctionDerivative = new SquareRootFunction(xFunction.derive().mul(xFunction.derive()).add(yFunction.derive().mul(yFunction.derive())), 2);
         arcLength = calcArcLength();
         lastReachedPercentage = 0;
         lastReachedLength = 0;
-    }
-
-    public MathFunction parametricFunction() {
-        return actualFunction;
     }
 
     public double yAt(double t) {
@@ -53,10 +48,6 @@ public class Spline implements Segment<Spline> {
     }
 
     @Override
-    public Spline get() {
-        return this;
-    }
-
     public double start() {
         return startLength;
     }
@@ -68,6 +59,7 @@ public class Spline implements Segment<Spline> {
         double t = percentageAtLength(length - startLength);
         lastReachedPercentage = t;
         lastReachedLength = length;
+        System.out.println(t);
 
         return Math.atan2(yFunction.derive().applyAsDouble(t), xFunction.derive().applyAsDouble(t));
     }
@@ -78,7 +70,7 @@ public class Spline implements Segment<Spline> {
             start = lastReachedPercentage;
             length =- lastReachedLength;
         }
-        return actualFunction.pointAtLength(start, length, ACCURACY) + start;
+        return lengthFunctionDerivative.findIntegral(start, length);
     }
 
     private void checkLength(double length) {
@@ -87,8 +79,7 @@ public class Spline implements Segment<Spline> {
     }
 
     private double calcArcLength() {
-        MathFunction thing = new RootFunction(xFunction.derive().mul(xFunction.derive()).add(yFunction.derive().mul(yFunction.derive())), 2);
-        return thing.integrate(0, 1);
+        return lengthFunctionDerivative.integrate(0, 1);
     }
 
     @Override
