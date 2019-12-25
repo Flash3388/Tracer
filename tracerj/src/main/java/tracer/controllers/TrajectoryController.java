@@ -3,6 +3,8 @@ package tracer.controllers;
 import com.flash3388.flashlib.robot.control.PidController;
 import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
+import tracer.controllers.parameters.MotionControllerParameters;
+import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.profiles.Profile;
@@ -23,7 +25,6 @@ public class TrajectoryController implements Followable {
 
     public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
         trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
-        //System.out.println(trajectoryProfile.duration());
         motionController = new ProfileMotionController(trajectoryProfile, motionControllerParameters);
         pidController = new PidController(pidControllerParameters.kP(), pidControllerParameters.kI(), pidControllerParameters.kD(), 0);
         pidController.setOutputLimit(maxVoltage);

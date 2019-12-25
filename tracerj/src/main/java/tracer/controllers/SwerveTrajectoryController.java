@@ -1,6 +1,8 @@
 package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.controllers.parameters.MotionControllerParameters;
+import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.trajectories.SwerveTrajectory;

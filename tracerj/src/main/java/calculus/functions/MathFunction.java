@@ -1,14 +1,8 @@
 package calculus.functions;
 
-import calculus.functions.polynomial.Linear;
-import com.jmath.ExtendedMath;
 import com.jmath.Integrals;
-import com.jmath.complex.Complex;
-import util.MathUtil;
 
-import java.util.Collection;
 import java.util.function.DoubleUnaryOperator;
-import java.util.stream.Collectors;
 
 public abstract class MathFunction implements DoubleUnaryOperator {
     private final static int SLICES = 1000;
@@ -19,24 +13,18 @@ public abstract class MathFunction implements DoubleUnaryOperator {
         return Integrals.simpsonsRule(this::applyAsDouble, from, to, SLICES);
     }
 
-    public double pointAtLength(double start, double length, double accuracy) {
+    public double findIntegral(double from, double target, double accuracy) {
+        double t = from;
         double sum = 0;
-        double x = start;
+        long start = System.currentTimeMillis();
+        do {
+            double yStart = applyAsDouble(t);
+            double yEnd = applyAsDouble(t+accuracy);
+            sum += accuracy/2 * (yStart + yEnd);
+            t += accuracy;
+        } while (sum < target);
+        long end = System.currentTimeMillis();
 
-        for(; !ExtendedMath.constrained(sum, length-accuracy, length+accuracy) && sum < length; x+=accuracy)
-            sum += shortestLength(x, x+accuracy);
-
-        return x;
-    }
-
-    public Linear linearOn(MathFunction derivative, double x) {
-        double m = derivative.applyAsDouble(x);
-        double tangentPoint = applyAsDouble(x);
-
-        return new Linear(m, x, tangentPoint);
-    }
-
-    private double shortestLength(double xStart, double xEnd) {
-        return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
+        return t;
     }
 }

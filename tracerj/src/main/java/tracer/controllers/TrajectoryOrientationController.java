@@ -7,8 +7,6 @@ import tracer.profiles.Profile;
 import tracer.trajectories.Trajectory;
 
 public class TrajectoryOrientationController {
-    private static final double KP_MODIFIER = 1/80.0;
-
     private final Trajectory trajectory;
     private final Profile trajectoryProfile;
     private final double kP;
@@ -20,11 +18,11 @@ public class TrajectoryOrientationController {
     }
 
     public double calculate(Position position) {
-        double pOut = kP * getAngleError(position.timestamp(), position.getAngle()) * KP_MODIFIER;
+        double pOut = kP * getAngleError(position.timestamp(), position.getAngle());
         return ExtendedMath.constrain(pOut, -1, 1);
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {
-        return Math.toDegrees(trajectory.angleRadAt(trajectoryProfile.distanceAt(currentTime))) - currentAngle;
+        return -Math.toDegrees(trajectory.angleRadAt(trajectoryProfile.distanceAt(currentTime))) - currentAngle;
     }
 }
