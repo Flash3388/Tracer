@@ -7,7 +7,7 @@ import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
 
 public class Spline implements Segment<Spline> {
-    private static final double ACCURACY = 0.001;
+    private static final double ACCURACY = 0.000001;
 
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
@@ -24,7 +24,7 @@ public class Spline implements Segment<Spline> {
         this.xFunction = xFunction;
         this.startLength = startLength;
 
-        lengthFunctionDerivative = new SquareRootFunction(xFunction.derive().mul(xFunction.derive()).add(yFunction.derive().mul(yFunction.derive())), 2);
+        lengthFunctionDerivative = new SquareRootFunction(xFunction.derive().mul(xFunction.derive()).add(yFunction.derive().mul(yFunction.derive())));
         arcLength = calcArcLength();
         lastReachedPercentage = 0;
         lastReachedLength = 0;
@@ -59,7 +59,6 @@ public class Spline implements Segment<Spline> {
         double t = percentageAtLength(length - startLength);
         lastReachedPercentage = t;
         lastReachedLength = length;
-        System.out.println(t);
 
         return Math.atan2(yFunction.derive().applyAsDouble(t), xFunction.derive().applyAsDouble(t));
     }
@@ -68,9 +67,9 @@ public class Spline implements Segment<Spline> {
         double start = 0;
         if(length > lastReachedLength) {
             start = lastReachedPercentage;
-            length =- lastReachedLength;
+            length -= lastReachedLength;
         }
-        return lengthFunctionDerivative.findIntegral(start, length);
+        return lengthFunctionDerivative.findIntegral(start, length, ACCURACY);
     }
 
     private void checkLength(double length) {
