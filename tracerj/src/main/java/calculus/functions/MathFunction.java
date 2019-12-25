@@ -16,13 +16,14 @@ public abstract class MathFunction implements DoubleUnaryOperator {
     public double findIntegral(double from, double target, double accuracy) {
         double t = from;
         double sum = 0;
-
+        long start = System.currentTimeMillis();
         do {
             double yStart = applyAsDouble(t);
-            double yEnd = applyAsDouble(t+ accuracy);
-            sum += (accuracy/2) * (yStart + yEnd);
+            double yEnd = applyAsDouble(t+accuracy);
+            sum += accuracy/2 * (yStart + yEnd);
             t += accuracy;
         } while (sum < target);
+        long end = System.currentTimeMillis();
 
         return t;
     }

@@ -7,7 +7,7 @@ import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
 
 public class Spline implements Segment<Spline> {
-    private static final double ACCURACY = 0.000001;
+    private static final double ACCURACY = 0.00001;
 
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
@@ -65,6 +65,7 @@ public class Spline implements Segment<Spline> {
 
     private double percentageAtLength(double length) {
         double start = 0;
+
         if(length > lastReachedLength) {
             start = lastReachedPercentage;
             length -= lastReachedLength;
