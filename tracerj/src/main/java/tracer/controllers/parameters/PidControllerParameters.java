@@ -1,4 +1,4 @@
-package tracer.controllers;
+package tracer.controllers.parameters;
 
 public class PidControllerParameters {
     private final double kP;

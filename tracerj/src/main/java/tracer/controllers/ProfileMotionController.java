@@ -1,7 +1,7 @@
 package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
-import com.jmath.ExtendedMath;
+import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.profiles.Profile;
 
 public class ProfileMotionController {
