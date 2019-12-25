@@ -1,6 +1,6 @@
 package calculus.segments;
 
-public interface Segment<T> {
+public interface Segment {
     double start();
     double end();
 }
