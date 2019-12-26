@@ -26,6 +26,11 @@ public class ParametricFunction extends MathFunction {
     }
 
     @Override
+    public double xAt(double t) {
+        return xFunction.applyAsDouble(t);
+    }
+
+    @Override
     public MathFunction derive() {
         return new RationalFunction(yFunction, xFunction);
     }
@@ -33,11 +38,6 @@ public class ParametricFunction extends MathFunction {
     @Override
     public String toString() {
         return String.format("parametric: {\ny= %s\nt= %s\n}", yFunction, xFunction);
-    }
-
-    @Override
-    protected double shortestLength(double xStart, double xEnd) {
-        return MathUtil.distance(xFunction.applyAsDouble(xStart), applyAsDouble(xStart), xFunction.applyAsDouble(xEnd), applyAsDouble(xEnd));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package calculus.functions;
 
-import com.jmath.ExtendedMath;
+import calculus.functions.polynomial.Quadratic;
+import calculus.splines.parameters.Waypoint;
 import com.jmath.Integrals;
 import util.MathUtil;
 
@@ -11,8 +12,21 @@ public abstract class MathFunction implements DoubleUnaryOperator {
 
     public abstract MathFunction derive();
 
+    public double xAt(double t) {
+        return t;
+    }
+
     public double integrate(double from, double to) {
         return Integrals.simpsonsRule(this::applyAsDouble, from, to, SLICES);
+    }
+
+    public double integralAt(double from, double target, double accuracy) {
+        double sum = 0;
+        double x = from;
+
+        for(;sum < target; x+=accuracy)
+            sum += Quadratic.fromThreePoints(Waypoint.point(x, applyAsDouble(x)), Waypoint.point((x+accuracy)/2, applyAsDouble((x+accuracy)/2)), Waypoint.point(x+accuracy, applyAsDouble(x+accuracy))).integrate(x, x+accuracy);
+        return x;
     }
 
     public double pointAtLength(double start, double length, double accuracy) {
@@ -25,7 +39,7 @@ public abstract class MathFunction implements DoubleUnaryOperator {
         return x;
     }
 
-    protected double shortestLength(double xStart, double xEnd) {
-        return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
+    protected double shortestLength(double tStart, double tEnd) {
+        return MathUtil.distance(xAt(tStart), applyAsDouble(tStart), xAt(tEnd), applyAsDouble(tEnd));
     }
 }

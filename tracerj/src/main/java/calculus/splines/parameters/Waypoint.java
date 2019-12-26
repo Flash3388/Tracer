@@ -11,6 +11,10 @@ public class Waypoint {
         this.heading = headingRadians;
     }
 
+    public static Waypoint point(double x, double y) {
+        return new Waypoint(x, y, 0);
+    }
+
     public double x() {
         return x;
     }

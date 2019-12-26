@@ -52,7 +52,9 @@ public class Spline implements Segment {
         double t = percentageAtLength(length - startLength);
         lastReachedPercentage = t;
         lastReachedLength = length;
-        System.out.println("t "+t);
+
+        if(t>1)
+            t = 1;
 
         return Math.atan2(yFunctionDerivative.applyAsDouble(t), xFunctionDerivative.applyAsDouble(t));
     }
@@ -64,7 +66,7 @@ public class Spline implements Segment {
             start = lastReachedPercentage;
             length -= lastReachedLength;
         }
-        return actualFunction.pointAtLength(start, length, ACCURACY);
+        return actualFunction.pointAtLength(start, length, length/200);
     }
 
     private void checkLength(double length) {
