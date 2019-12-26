@@ -1,6 +1,5 @@
 package calculus.functions;
 
-import calculus.functions.polynomial.Quadratic;
 import calculus.splines.parameters.Waypoint;
 import com.jmath.Integrals;
 import util.MathUtil;
@@ -18,15 +17,6 @@ public abstract class MathFunction implements DoubleUnaryOperator {
 
     public double integrate(double from, double to) {
         return Integrals.simpsonsRule(this::applyAsDouble, from, to, SLICES);
-    }
-
-    public double integralAt(double from, double target, double accuracy) {
-        double sum = 0;
-        double x = from;
-
-        for(;sum < target; x+=accuracy)
-            sum += Quadratic.fromThreePoints(Waypoint.point(x, applyAsDouble(x)), Waypoint.point((x+accuracy)/2, applyAsDouble((x+accuracy)/2)), Waypoint.point(x+accuracy, applyAsDouble(x+accuracy))).integrate(x, x+accuracy);
-        return x;
     }
 
     public double pointAtLength(double start, double length, double accuracy) {
