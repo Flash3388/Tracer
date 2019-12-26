@@ -23,9 +23,10 @@ public class ProfileMotionController {
 
     public double calculate(Time timestamp) {
         double velocity = profile.velocityAt(timestamp);
+        double acceleration = profile.accelerationAt(timestamp);
 
         double vOut = kV * velocity;
-        double aOut = kA * profile.accelerationAt(timestamp);
+        double aOut = kA * acceleration;
         double sOut = kS * Math.signum(velocity);
 
         return vOut + aOut + sOut;

@@ -30,6 +30,6 @@ public class TankTrajectory {
     }
 
     private Waypoint shift(Waypoint waypoint, double offset) {
-        return new Waypoint(waypoint.x() + offset * Math.sin(waypoint.heading()), waypoint.y() + offset * Math.cos(waypoint.heading()), waypoint.heading());
+        return new Waypoint(waypoint.x() - offset * Math.sin(waypoint.heading()), waypoint.y() + offset * Math.cos(waypoint.heading()), waypoint.heading());
     }
 }

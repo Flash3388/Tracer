@@ -38,7 +38,7 @@ public class TrajectoryController implements Followable {
     }
 
     @Override
-    public Time finalTimestamp() {
+    public Time duration() {
         return trajectoryProfile.finalTimestamp();
     }
 

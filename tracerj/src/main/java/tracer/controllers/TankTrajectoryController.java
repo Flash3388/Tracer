@@ -18,11 +18,19 @@ public class TankTrajectoryController implements Followable {
     }
 
     public double calcForLeft(Position position) {
-        return left.calculate(position);
+        try {
+            return left.calculate(position);
+        } catch (IllegalArgumentException e) {
+            return 0;
+        }
     }
 
     public double calcForRight(Position position) {
-        return right.calculate(position);
+        try {
+            return right.calculate(position);
+        } catch (IllegalArgumentException e) {
+            return 0;
+        }
     }
 
     @Override
@@ -32,7 +40,7 @@ public class TankTrajectoryController implements Followable {
     }
 
     @Override
-    public Time finalTimestamp() {
-        return right.finalTimestamp();
+    public Time duration() {
+        return right.duration().after(left.duration()) ? right.duration() : left.duration();
     }
 }

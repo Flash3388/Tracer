@@ -1,6 +1,8 @@
 package calculus.functions;
 
+import com.jmath.ExtendedMath;
 import com.jmath.Integrals;
+import util.MathUtil;
 
 import java.util.function.DoubleUnaryOperator;
 
@@ -13,18 +15,17 @@ public abstract class MathFunction implements DoubleUnaryOperator {
         return Integrals.simpsonsRule(this::applyAsDouble, from, to, SLICES);
     }
 
-    public double findIntegral(double from, double target, double accuracy) {
-        double t = from;
+    public double pointAtLength(double start, double length, double accuracy) {
         double sum = 0;
-        long start = System.currentTimeMillis();
-        do {
-            double yStart = applyAsDouble(t);
-            double yEnd = applyAsDouble(t+accuracy);
-            sum += accuracy/2 * (yStart + yEnd);
-            t += accuracy;
-        } while (sum < target);
-        long end = System.currentTimeMillis();
+        double x = start;
 
-        return t;
+        for (;sum < length; x+= accuracy)
+            sum += shortestLength(x, x + accuracy);
+
+        return x;
+    }
+
+    protected double shortestLength(double xStart, double xEnd) {
+        return MathUtil.distance(xStart, applyAsDouble(xStart), xEnd, applyAsDouble(xEnd));
     }
 }

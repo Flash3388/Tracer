@@ -18,11 +18,13 @@ public class TrajectoryOrientationController {
     }
 
     public double calculate(Position position) {
-        double pOut = kP * getAngleError(position.timestamp(), position.getAngle());
+        double expected = -Math.toDegrees(trajectory.angleRadAt(trajectoryProfile.distanceAt(position.timestamp())));
+
+        double pOut = (kP * expected - position.getAngle());
         return ExtendedMath.constrain(pOut, -1, 1);
     }
 
     private double getAngleError(Time currentTime, double currentAngle) {
-        return -Math.toDegrees(trajectory.angleRadAt(trajectoryProfile.distanceAt(currentTime))) - currentAngle;
+        return  - currentAngle;
     }
 }

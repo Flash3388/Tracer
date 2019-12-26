@@ -33,9 +33,10 @@ public class PolynomialFunction extends MathFunction {
 
     @Override
     public double applyAsDouble(double x) {
-        return variables.stream()
-                .mapToDouble(variable -> variable.at(x))
-                .sum();
+        double sum = 0;
+        for (Variable var : variables)
+            sum += var.at(x);
+        return sum;
     }
 
     @Override
