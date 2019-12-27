@@ -1,7 +1,6 @@
 package calculus.functions;
 
 import calculus.functions.polynomial.PolynomialFunction;
-import util.MathUtil;
 
 public class ParametricFunction extends MathFunction {
     private final PolynomialFunction yFunction;

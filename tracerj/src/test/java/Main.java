@@ -9,7 +9,7 @@ public class Main {
         Trajectory trajectory = new Trajectory(SplineType.CUBIC_HERMITE, start, end);
 
         long startL = System.currentTimeMillis();
-        for (double i = 0; i < trajectory.end(); i+=0.01)
+        for (double i = 0; i < trajectory.end(); i+=0.001)
             trajectory.angleRadAt(i);
         long endL = System.currentTimeMillis();
         System.out.println((endL - startL)/100);
