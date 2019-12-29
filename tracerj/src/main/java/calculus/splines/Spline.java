@@ -13,20 +13,25 @@ public class Spline implements Segment {
     private final PolynomialFunction yFunctionDerivative;
     private final PolynomialFunction xFunctionDerivative;
     private final MathFunction actualFunction;
+    private final MathFunction lengthFunctionDerivative;
 
     private final double arcLength;
     private final double startLength;
+    private final double maxPassedPercentage;
 
     private double lastReachedPercentage;
     private double lastReachedLength;
 
-    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength) {
+    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength, double maxDistancePassedPerCycle) {
         this.yFunctionDerivative = yFunction.derive();
         this.xFunctionDerivative = xFunction.derive();
         this.startLength = startLength;
 
         actualFunction = new ParametricFunction(yFunction, xFunction);
+        lengthFunctionDerivative = new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative)));
         arcLength = calcArcLength();
+        maxPassedPercentage = maxDistancePassedPerCycle/arcLength;
+
         lastReachedPercentage = 0;
         lastReachedLength = 0;
     }
@@ -59,12 +64,13 @@ public class Spline implements Segment {
     private double percentageAtLength(double length) {
         double start = 0;
 
-        if(length > lastReachedLength) {
+        if(length >= lastReachedLength) {
             start = lastReachedPercentage;
             length -= lastReachedLength;
         }
-        
-        return actualFunction.pointAtLength(start, length, length/200);
+        if(length == 0)
+            return 0;
+        return actualFunction.binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPassedPercentage, length/50);
     }
 
     private void checkLength(double length) {
@@ -73,7 +79,7 @@ public class Spline implements Segment {
     }
 
     private double calcArcLength() {
-        return new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative))).integrate(0, 1);
+        return lengthFunctionDerivative.integrate(0, 1);
     }
 
     @Override

@@ -2,6 +2,7 @@ package tracer.trajectories;
 
 import calculus.splines.SplineType;
 import calculus.splines.parameters.Waypoint;
+import com.flash3388.flashlib.time.Time;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,9 +11,9 @@ public class TankTrajectory {
     private final Trajectory left;
     private final Trajectory right;
 
-    public TankTrajectory(SplineType splineType, List<Waypoint> centerPath, double distanceBetweenWheelsMeters) {
-        left = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheelsMeters/2));
-        right = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheelsMeters/2));
+    public TankTrajectory(SplineType splineType, List<Waypoint> centerPath, double distanceBetweenWheelsMeters, double maxVelocityMetersPerSecond, Time maxCycleTime) {
+        left = new Trajectory(splineType, maxVelocityMetersPerSecond, maxCycleTime, shiftPath(centerPath, distanceBetweenWheelsMeters/2));
+        right = new Trajectory(splineType, maxVelocityMetersPerSecond, maxCycleTime, shiftPath(centerPath, -distanceBetweenWheelsMeters/2));
     }
 
     public Trajectory left() {

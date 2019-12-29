@@ -13,19 +13,19 @@ public class SplineFactory {
     public SplineFactory() {
         splineConstructors = new HashMap<>();
 
-        splineConstructors.put(SplineType.CUBIC_HERMITE, parameters -> createCubicSpline(parameters.start(),parameters.end(), parameters.startLength()));
-        splineConstructors.put(SplineType.QUINTIC_HERMITE, parameters -> createQuinticSpline(parameters.start(), parameters.end(), parameters.startLength()));
+        splineConstructors.put(SplineType.CUBIC_HERMITE, parameters -> createCubicSpline(parameters.start(),parameters.end(), parameters.startLength(), parameters.maxDistancePassedPerCycle()));
+        splineConstructors.put(SplineType.QUINTIC_HERMITE, parameters -> createQuinticSpline(parameters.start(), parameters.end(), parameters.startLength(), parameters.maxDistancePassedPerCycle()));
     }
 
-    public Spline create(SplineType type, Waypoint start, Waypoint end, double startLength) {
-        return splineConstructors.get(type).apply(new SplineParameters(start, end, startLength));
+    public Spline create(SplineType type, Waypoint start, Waypoint end, double startLength, double maxDistancePassedPerCycle) {
+        return splineConstructors.get(type).apply(new SplineParameters(start, end, startLength, maxDistancePassedPerCycle));
     }
 
-    private HermiteCubicSpline createCubicSpline(Waypoint start, Waypoint end, double startLength) {
-        return new HermiteCubicSpline(start, end, startLength);
+    private HermiteCubicSpline createCubicSpline(Waypoint start, Waypoint end, double startLength, double maxDistancePassedPerCycle) {
+        return new HermiteCubicSpline(start, end, startLength, maxDistancePassedPerCycle);
     }
 
-    private HermiteQuinticSpline createQuinticSpline(Waypoint start, Waypoint end, double startLength) {
-        return new HermiteQuinticSpline(start, end, startLength);
+    private HermiteQuinticSpline createQuinticSpline(Waypoint start, Waypoint end, double startLength, double maxDistancePassedPerCycle) {
+        return new HermiteQuinticSpline(start, end, startLength, maxDistancePassedPerCycle);
     }
 }

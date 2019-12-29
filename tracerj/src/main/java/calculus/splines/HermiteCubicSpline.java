@@ -4,8 +4,8 @@ import calculus.functions.polynomial.PolynomialFunction;
 import calculus.splines.parameters.Waypoint;
 
 public class HermiteCubicSpline extends Spline {
-    public HermiteCubicSpline(Waypoint startWaypoint, Waypoint endWaypoint, double startLength) {
-        super(calcYFunction(startWaypoint, endWaypoint), calcXFunction(startWaypoint, endWaypoint), startLength);
+    public HermiteCubicSpline(Waypoint startWaypoint, Waypoint endWaypoint, double startLength, double maxPercentagePerCycle) {
+        super(calcYFunction(startWaypoint, endWaypoint), calcXFunction(startWaypoint, endWaypoint), startLength, maxPercentagePerCycle);
     }
 
     private static PolynomialFunction calcYFunction(Waypoint start, Waypoint end) {

@@ -1,5 +1,6 @@
 package calculus.functions;
 
+import com.jmath.ExtendedMath;
 import com.jmath.Integrals;
 import util.MathUtil;
 
@@ -22,14 +23,20 @@ public abstract class MathFunction implements DoubleUnaryOperator {
         return Integrals.simpsonsRule(this::applyAsDouble, from, to, slices);
     }
 
-    public double pointAtLength(double start, double length, double accuracy) {
-        double sum = 0;
-        double x = start;
+    public double binarySearchPercentageAtLength(MathFunction lengthFunctionDerivative, double start, double length, double maxPercentage, double accuracy) {
+        double shortestLength = shortestDistance(start, start + maxPercentage);
 
-        for (;sum < length; x+= accuracy)
-            sum += shortestDistance(x, x + accuracy);
+        if(shortestLength/2 > length)
+            return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy);
 
-        return x;
+        double lengthPassedInHalfOfTheWay = lengthFunctionDerivative.integrate(start, start + maxPercentage/2, 10);
+
+        if(ExtendedMath.constrained(lengthPassedInHalfOfTheWay, length-accuracy, length+accuracy))
+            return maxPercentage/2 + start;
+        else if(lengthPassedInHalfOfTheWay < length)
+            return binarySearchPercentageAtLength(lengthFunctionDerivative, start + maxPercentage / 2, length-lengthPassedInHalfOfTheWay, maxPercentage/2, accuracy);
+        else
+            return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy);
     }
 
     private double shortestDistance(double tStart, double tEnd) {
