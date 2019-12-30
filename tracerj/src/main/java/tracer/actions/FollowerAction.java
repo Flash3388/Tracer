@@ -1,6 +1,6 @@
 package tracer.actions;
 
-import com.flash3388.flashlib.robot.scheduling.Action;
+import com.flash3388.flashlib.robot.scheduling.actions.Action;
 import com.flash3388.flashlib.robot.systems.drive.Drive;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
@@ -17,6 +17,7 @@ abstract class FollowerAction extends Action {
         this.drive = drive;
         this.followable = followable;
         this.clock = clock;
+        setTimeout(followable.duration());
     }
 
     @Override
@@ -33,11 +34,6 @@ abstract class FollowerAction extends Action {
     @Override
     protected void end() {
         drive.stop();
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return relativeTime().largerThanOrEquals(followable.finalTimestamp());
     }
 
     abstract void setValues(Time relativeTime);

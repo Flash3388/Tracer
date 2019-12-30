@@ -1,13 +1,16 @@
 package calculus.segments;
 
-import java.util.List;
+import java.util.Deque;
 import java.util.stream.Stream;
 
 public class SegmentSequence<S extends Segment> implements Segment {
-    private final List<S> segments;
+    private final Deque<S> segments;
 
-    public SegmentSequence(List<S> segments) {
+    public SegmentSequence(Deque<S> segments) {
         this.segments = segments;
+
+        if(segments.isEmpty())
+            throw new IllegalArgumentException("deque of segments must contain at least one Segment");
     }
 
     public S correspondingSegment(double value) {
@@ -20,17 +23,14 @@ public class SegmentSequence<S extends Segment> implements Segment {
 
     @Override
     public double start() {
-        return segments.get(0).start();
+        //noinspection ConstantConditions
+        return segments.peek().start();
     }
 
     @Override
     public double end() {
-        return segments.get(segments.size()-1).end();
-    }
-
-    @Override
-    public Object get() {
-        return segments;
+        //noinspection ConstantConditions
+        return segments.peekLast().end();
     }
 
     public Stream<S> stream() {

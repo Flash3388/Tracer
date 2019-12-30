@@ -1,15 +1,14 @@
 package calculus.functions;
 
-import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 
 public class ParametricFunction extends MathFunction {
     private final PolynomialFunction yFunction;
-    private final PolynomialFunction tFunction;
+    private final PolynomialFunction xFunction;
 
-    public ParametricFunction(PolynomialFunction yFunction, PolynomialFunction tFunction) {
+    public ParametricFunction(PolynomialFunction yFunction, PolynomialFunction xFunction) {
         this.yFunction = yFunction;
-        this.tFunction = tFunction;
+        this.xFunction = xFunction;
     }
 
     public PolynomialFunction yFunction() {
@@ -17,7 +16,7 @@ public class ParametricFunction extends MathFunction {
     }
 
     public PolynomialFunction tFunction() {
-        return tFunction;
+        return xFunction;
     }
 
     @Override
@@ -26,18 +25,18 @@ public class ParametricFunction extends MathFunction {
     }
 
     @Override
+    public double xAt(double t) {
+        return xFunction.applyAsDouble(t);
+    }
+
+    @Override
     public MathFunction derive() {
-        return new RationalFunction(yFunction, tFunction);
+        return new RationalFunction(yFunction, xFunction);
     }
 
     @Override
     public String toString() {
-        return String.format("parametric: {\ny= %s\nt= %s\n}", yFunction, tFunction);
-    }
-
-    @Override
-    public Linear linearOn(MathFunction derivative, double x) {
-        return super.linearOn(derivative, tFunction.applyAsDouble(x));
+        return String.format("parametric: {\ny= %s\nt= %s\n}", yFunction, xFunction);
     }
 
     @Override
@@ -46,6 +45,6 @@ public class ParametricFunction extends MathFunction {
     }
 
     public boolean equals(ParametricFunction other) {
-        return tFunction.equals(other.tFunction()) && yFunction.equals(other.yFunction());
+        return xFunction.equals(other.tFunction()) && yFunction.equals(other.yFunction());
     }
 }

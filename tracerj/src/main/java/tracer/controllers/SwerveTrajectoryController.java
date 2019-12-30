@@ -1,6 +1,8 @@
 package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.controllers.parameters.MotionControllerParameters;
+import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.trajectories.SwerveTrajectory;
@@ -11,7 +13,8 @@ public class SwerveTrajectoryController implements Followable {
     private final TrajectoryController frontLeft;
     private final TrajectoryController frontRight;
 
-    public SwerveTrajectoryController(SwerveTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage) {
+    public SwerveTrajectoryController(SwerveTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters,
+                                      PidControllerParameters pidControllerParameters, double maxVoltage) {
         rearLeft = new TrajectoryController(trajectory.rearLeft(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
         rearRight = new TrajectoryController(trajectory.rearRight(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
         frontLeft = new TrajectoryController(trajectory.frontLeft(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
@@ -43,7 +46,7 @@ public class SwerveTrajectoryController implements Followable {
     }
 
     @Override
-    public Time finalTimestamp() {
-        return frontRight.finalTimestamp();
+    public Time duration() {
+        return frontRight.duration();
     }
 }

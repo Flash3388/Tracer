@@ -25,7 +25,7 @@ public class RationalFunction extends MathFunction {
     }
 
     @Override
-    public MathFunction derive() {
+    public RationalFunction derive() {
         return new RationalFunction(numerator.mul(denominator.derive()).sub(numerator.derive().mul(denominator)), denominator.pow(2));
     }
 

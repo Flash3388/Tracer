@@ -11,8 +11,8 @@ public class TankTrajectory {
     private final Trajectory right;
 
     public TankTrajectory(SplineType splineType, List<Waypoint> centerPath, double distanceBetweenWheelsMeters) {
-        left = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheelsMeters/2));
-        right = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheelsMeters/2));
+        left = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheelsMeters/2));
+        right = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheelsMeters/2));
     }
 
     public Trajectory left() {
@@ -25,7 +25,11 @@ public class TankTrajectory {
 
     private List<Waypoint> shiftPath(List<Waypoint> centerPath, double offset) {
         return centerPath.stream()
-                .map(waypoint -> new Waypoint(waypoint.x()+offset, waypoint.y(), waypoint.heading()))
+                .map(waypoint -> shift(waypoint, offset))
                 .collect(Collectors.toList());
+    }
+
+    private Waypoint shift(Waypoint waypoint, double offset) {
+        return new Waypoint(waypoint.x() - offset * Math.sin(waypoint.heading()), waypoint.y() + offset * Math.cos(waypoint.heading()), waypoint.heading());
     }
 }

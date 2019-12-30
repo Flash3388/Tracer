@@ -13,7 +13,7 @@ public class SplineTest {
 
     @Test
     public void arcLength_ofLineSpline_returnsCorrectArcLength() {
-        final double EXPECTED = LINEAR_FUNCTION.lengthBetween(0, 1, DEF_DELTA);
+        final double EXPECTED = LINEAR_FUNCTION.integrate(0, 1);
         final double ACTUAL = LINEAR_SPLINE.length();
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);

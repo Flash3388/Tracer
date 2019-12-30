@@ -6,9 +6,7 @@ import calculus.splines.SplineFactory;
 import calculus.splines.SplineType;
 import calculus.splines.parameters.Waypoint;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Trajectory extends SegmentSequence<Spline> {
@@ -24,7 +22,7 @@ public class Trajectory extends SegmentSequence<Spline> {
         return correspondingSegment(length).angleRadAt(length);
     }
 
-    private static List<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
+    private static Deque<Spline> generateTrajectory(List<Waypoint> path, SplineType splineType) {
         List<Spline> result = new ArrayList<>();
         SplineFactory hermiteFactory = new SplineFactory();
         result.add(hermiteFactory.create(splineType, path.get(0), path.get(1), 0));
@@ -33,6 +31,6 @@ public class Trajectory extends SegmentSequence<Spline> {
                 .skip(2)
                 .forEach(positionIndex -> result.add(hermiteFactory.create(splineType, path.get(positionIndex-1), path.get(positionIndex), result.get(positionIndex-2).end())));
 
-        return result;
+        return new ArrayDeque<>(result);
     }
 }
