@@ -15,7 +15,7 @@ public class ParametricFunction extends MathFunction {
         return yFunction;
     }
 
-    public PolynomialFunction tFunction() {
+    public PolynomialFunction xFunction() {
         return xFunction;
     }
 
@@ -45,6 +45,6 @@ public class ParametricFunction extends MathFunction {
     }
 
     public boolean equals(ParametricFunction other) {
-        return xFunction.equals(other.tFunction()) && yFunction.equals(other.yFunction());
+        return xFunction.equals(other.xFunction()) && yFunction.equals(other.yFunction());
     }
 }
