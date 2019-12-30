@@ -7,6 +7,7 @@ import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
+import tracer.profiles.LinearVelocityProfile;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 import tracer.trajectories.Trajectory;
@@ -20,11 +21,20 @@ public class TrajectoryController implements Followable {
     private final double maxVoltage;
 
     public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage) {
-        this(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, 0);
+        this(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, 0, Time.milliseconds(0));
+    }
+
+    public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, Time idleTimeAtEnd) {
+        this(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, 0, idleTimeAtEnd);
     }
 
     public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
-        trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
+        this(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, gP, Time.milliseconds(0));
+    }
+
+    public TrajectoryController(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP, Time idleTimeAtEnd) {
+        Profile standardTrajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
+        trajectoryProfile = new LinearVelocityProfile(standardTrajectoryProfile, idleTimeAtEnd);
         motionController = new ProfileMotionController(trajectoryProfile, motionControllerParameters);
         pidController = new PidController(pidControllerParameters.kP(), pidControllerParameters.kI(), pidControllerParameters.kD(), 0);
         pidController.setOutputLimit(maxVoltage);

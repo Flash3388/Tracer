@@ -13,6 +13,7 @@ public class SwerveTrajectoryController implements Followable {
     private final TrajectoryController frontLeft;
     private final TrajectoryController frontRight;
 
+    @Deprecated
     public SwerveTrajectoryController(SwerveTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters,
                                       PidControllerParameters pidControllerParameters, double maxVoltage) {
         rearLeft = new TrajectoryController(trajectory.rearLeft(), max, motionControllerParameters, pidControllerParameters, maxVoltage);
