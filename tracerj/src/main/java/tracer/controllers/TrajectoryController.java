@@ -49,7 +49,7 @@ public class TrajectoryController implements Followable {
 
     @Override
     public Time duration() {
-        return trajectoryProfile.finalTimestamp();
+        return trajectoryProfile.finalTimestamp().sub(trajectoryProfile.initialTimestamp());
     }
 
     public double calculate(Position position) {
