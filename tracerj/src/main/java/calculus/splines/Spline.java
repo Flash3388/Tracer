@@ -82,9 +82,13 @@ public class Spline implements Segment {
     }
 
     public boolean equals(Spline other) {
-        return ExtendedMath.equals(xFunctionDerivative.applyAsDouble(0), other.xFunctionDerivative.applyAsDouble(0), ACCURACY) &&
-                ExtendedMath.equals(yFunctionDerivative.applyAsDouble(0), other.yFunctionDerivative.applyAsDouble(0), ACCURACY) &&
+        return ExtendedMath.equals(yFunctionDerivative.applyAsDouble(0), other.yFunctionDerivative.applyAsDouble(0), ACCURACY) &&
+                ExtendedMath.equals(yFunctionDerivative.applyAsDouble(1), other.yFunctionDerivative.applyAsDouble(1), ACCURACY) &&
+                ExtendedMath.equals(xFunctionDerivative.applyAsDouble(0), other.xFunctionDerivative.applyAsDouble(0), ACCURACY) &&
                 ExtendedMath.equals(xFunctionDerivative.applyAsDouble(1), other.xFunctionDerivative.applyAsDouble(1), ACCURACY) &&
-                ExtendedMath.equals(yFunctionDerivative.applyAsDouble(1), other.yFunctionDerivative.applyAsDouble(1), ACCURACY);
+                ExtendedMath.equals(actualFunction.applyAsDouble(0), other.actualFunction.applyAsDouble(0), ACCURACY) &&
+                ExtendedMath.equals(actualFunction.applyAsDouble(1), other.actualFunction.applyAsDouble(1), ACCURACY) &&
+                ExtendedMath.equals(actualFunction.xAt(0), other.actualFunction.xAt(0), ACCURACY) &&
+                ExtendedMath.equals(actualFunction.xAt(1), other.actualFunction.xAt(1), ACCURACY);
     }
 }
