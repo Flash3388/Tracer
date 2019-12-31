@@ -1,8 +1,7 @@
-package tracer.trajectories;
+package calculus.trajectories;
 
 import calculus.splines.SplineType;
 import calculus.splines.parameters.Waypoint;
-import com.flash3388.flashlib.time.Time;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,11 +12,11 @@ public class SwerveTrajectory {
     private final Trajectory frontLeft;
     private final Trajectory frontRight;
 
-    public SwerveTrajectory(SplineType splineType, List<Waypoint> centerPath, double widthDistanceMeters, double lengthDistanceMeters, double maxVelocityMetersPerSecond, Time maxCycleTime) {
-        rearLeft = new Trajectory(splineType, maxVelocityMetersPerSecond, maxCycleTime, shiftPath(centerPath, -widthDistanceMeters/2, -lengthDistanceMeters/2));
-        rearRight = new Trajectory(splineType, maxVelocityMetersPerSecond, maxCycleTime, shiftPath(centerPath, widthDistanceMeters/2, -lengthDistanceMeters/2));;
-        frontLeft = new Trajectory(splineType, maxVelocityMetersPerSecond, maxCycleTime, shiftPath(centerPath, -widthDistanceMeters/2, lengthDistanceMeters/2));;
-        frontRight = new Trajectory(splineType, maxVelocityMetersPerSecond, maxCycleTime, shiftPath(centerPath, widthDistanceMeters/2, lengthDistanceMeters/2));;
+    public SwerveTrajectory(SplineType splineType, List<Waypoint> centerPath, double widthDistanceMeters, double lengthDistanceMeters) {
+        rearLeft = new Trajectory(splineType, shiftPath(centerPath, -widthDistanceMeters/2, -lengthDistanceMeters/2));
+        rearRight = new Trajectory(splineType, shiftPath(centerPath, widthDistanceMeters/2, -lengthDistanceMeters/2));;
+        frontLeft = new Trajectory(splineType, shiftPath(centerPath, -widthDistanceMeters/2, lengthDistanceMeters/2));;
+        frontRight = new Trajectory(splineType, shiftPath(centerPath, widthDistanceMeters/2, lengthDistanceMeters/2));;
     }
 
     private List<Waypoint> shiftPath(List<Waypoint> centerPath, double xOffset, double yOffset) {

@@ -5,7 +5,7 @@ import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
-import tracer.trajectories.SwerveTrajectory;
+import calculus.trajectories.SwerveTrajectory;
 
 public class SwerveTrajectoryController implements Followable {
     private final TrajectoryController rearLeft;

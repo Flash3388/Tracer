@@ -2,7 +2,7 @@ package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionParameters;
-import tracer.trajectories.Trajectory;
+import calculus.trajectories.Trajectory;
 
 import java.util.ArrayList;
 import java.util.List;

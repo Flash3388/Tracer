@@ -17,12 +17,11 @@ public class Spline implements Segment {
 
     private final double arcLength;
     private final double startLength;
-    private final double maxPassedPercentage;
 
     private double lastReachedPercentage;
     private double lastReachedLength;
 
-    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength, double maxDistancePassedPerCycle) {
+    public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength) {
         this.yFunctionDerivative = yFunction.derive();
         this.xFunctionDerivative = xFunction.derive();
         this.startLength = startLength;
@@ -30,7 +29,6 @@ public class Spline implements Segment {
         actualFunction = new ParametricFunction(yFunction, xFunction);
         lengthFunctionDerivative = new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative)));
         arcLength = calcArcLength();
-        maxPassedPercentage = maxDistancePassedPerCycle/arcLength;
 
         lastReachedPercentage = 0;
         lastReachedLength = 0;
@@ -57,6 +55,7 @@ public class Spline implements Segment {
         double t = ExtendedMath.constrain(percentageAtLength(length - startLength), 0, 1);
         lastReachedPercentage = t;
         lastReachedLength = length;
+        System.out.println(t);
 
         return Math.atan2(yFunctionDerivative.applyAsDouble(t), xFunctionDerivative.applyAsDouble(t));
     }
@@ -70,7 +69,7 @@ public class Spline implements Segment {
         }
         if(length == 0)
             return 0;
-        return actualFunction.binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPassedPercentage, length/50);
+        return actualFunction.binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, length, length/200);
     }
 
     private void checkLength(double length) {

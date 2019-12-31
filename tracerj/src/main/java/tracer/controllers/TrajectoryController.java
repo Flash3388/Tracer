@@ -9,7 +9,7 @@ import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
-import tracer.trajectories.Trajectory;
+import calculus.trajectories.Trajectory;
 
 public class TrajectoryController implements Followable {
     private final Profile trajectoryProfile;
