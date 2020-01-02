@@ -6,6 +6,7 @@ import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.trajectories.TankTrajectory;
+import tracer.trajectories.Trajectory;
 
 public class TankTrajectoryController implements Followable {
     private final TrajectoryController left;
@@ -13,8 +14,16 @@ public class TankTrajectoryController implements Followable {
 
     public TankTrajectoryController(TankTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters,
                                     PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
-        left = new TrajectoryController(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP);
-        right = new TrajectoryController(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP);
+        if(trajectory.right().end() > trajectory.left().end()) {
+            right = TrajectoryController.create(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP);
+            TrajectoryController standardLeft = TrajectoryController.create(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP);
+            left = TrajectoryController.create(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP, idleTime(right, standardLeft));
+        }
+        else {
+            left = TrajectoryController.create(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP);
+            TrajectoryController standardRight = TrajectoryController.create(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP);
+            right = TrajectoryController.create(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP, idleTime(left, standardRight));
+        }
     }
 
     public double calcForLeft(Position position) {
@@ -32,7 +41,11 @@ public class TankTrajectoryController implements Followable {
     }
 
     @Override
-    public Time finalTimestamp() {
-        return right.finalTimestamp();
+    public Time duration() {
+        return right.duration().after(left.duration()) ? right.duration() : left.duration();
+    }
+
+    private Time idleTime(TrajectoryController longer, TrajectoryController shorter) {
+        return longer.duration().sub(shorter.duration());
     }
 }

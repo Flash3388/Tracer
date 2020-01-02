@@ -17,6 +17,7 @@ abstract class FollowerAction extends Action {
         this.drive = drive;
         this.followable = followable;
         this.clock = clock;
+        setTimeout(followable.duration());
     }
 
     @Override
@@ -33,11 +34,6 @@ abstract class FollowerAction extends Action {
     @Override
     protected void end() {
         drive.stop();
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return relativeTime().largerThanOrEquals(followable.finalTimestamp());
     }
 
     abstract void setValues(Time relativeTime);

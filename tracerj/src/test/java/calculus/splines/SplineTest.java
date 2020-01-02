@@ -2,9 +2,9 @@ package calculus.splines;
 
 import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SplineTest {
     private final static double DEF_DELTA = 0.001;
@@ -13,7 +13,7 @@ public class SplineTest {
 
     @Test
     public void arcLength_ofLineSpline_returnsCorrectArcLength() {
-        final double EXPECTED = LINEAR_FUNCTION.integrate(0, 1);
+        final double EXPECTED = Math.sqrt(2);
         final double ACTUAL = LINEAR_SPLINE.length();
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);

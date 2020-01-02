@@ -13,8 +13,8 @@ import java.util.stream.IntStream;
 public class PolynomialFunction extends MathFunction {
     private final List<Variable> variables;
 
-    public PolynomialFunction(Double... constants) {
-        this(Arrays.asList(constants));
+    public PolynomialFunction(double... constants) {
+        this(Arrays.stream(constants).boxed().collect(Collectors.toList()));
     }
 
     public PolynomialFunction(List<Double> constants) {
@@ -33,9 +33,10 @@ public class PolynomialFunction extends MathFunction {
 
     @Override
     public double applyAsDouble(double x) {
-        return variables.stream()
-                .mapToDouble(variable -> variable.at(x))
-                .sum();
+        double sum = 0;
+        for (Variable var : variables)
+            sum += var.at(x);
+        return sum;
     }
 
     @Override

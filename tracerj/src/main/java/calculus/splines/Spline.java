@@ -1,17 +1,18 @@
 package calculus.splines;
 
 import calculus.functions.MathFunction;
+import calculus.functions.ParametricFunction;
 import calculus.functions.SquareRootFunction;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
 
 public class Spline implements Segment {
-    private static final double ACCURACY = 0.00001;
+    private static final double ACCURACY = 0.0001;
 
-    private final PolynomialFunction yFunction;
-    private final PolynomialFunction xFunction;
-    private final MathFunction lengthFunctionDerivative;
+    private final PolynomialFunction yFunctionDerivative;
+    private final PolynomialFunction xFunctionDerivative;
+    private final MathFunction actualFunction;
 
     private final double arcLength;
     private final double startLength;
@@ -20,22 +21,14 @@ public class Spline implements Segment {
     private double lastReachedLength;
 
     public Spline(PolynomialFunction yFunction, PolynomialFunction xFunction, double startLength) {
-        this.yFunction = yFunction;
-        this.xFunction = xFunction;
+        this.yFunctionDerivative = yFunction.derive();
+        this.xFunctionDerivative = xFunction.derive();
         this.startLength = startLength;
 
-        lengthFunctionDerivative = new SquareRootFunction(xFunction.derive().mul(xFunction.derive()).add(yFunction.derive().mul(yFunction.derive())));
+        actualFunction = new ParametricFunction(yFunction, xFunction);
         arcLength = calcArcLength();
         lastReachedPercentage = 0;
         lastReachedLength = 0;
-    }
-
-    public double yAt(double t) {
-        return yFunction.applyAsDouble(t);
-    }
-
-    public double xAt(double t) {
-        return xFunction.applyAsDouble(t);
     }
 
     public double length() {
@@ -56,11 +49,11 @@ public class Spline implements Segment {
         checkLength(length);
 
         length -= startLength;
-        double t = percentageAtLength(length - startLength);
+        double t = ExtendedMath.constrain(percentageAtLength(length - startLength), 0, 1);
         lastReachedPercentage = t;
         lastReachedLength = length;
 
-        return Math.atan2(yFunction.derive().applyAsDouble(t), xFunction.derive().applyAsDouble(t));
+        return Math.atan2(yFunctionDerivative.applyAsDouble(t), xFunctionDerivative.applyAsDouble(t));
     }
 
     private double percentageAtLength(double length) {
@@ -70,7 +63,8 @@ public class Spline implements Segment {
             start = lastReachedPercentage;
             length -= lastReachedLength;
         }
-        return lengthFunctionDerivative.findIntegral(start, length, ACCURACY);
+        
+        return actualFunction.pointAtLength(start, length, length/200);
     }
 
     private void checkLength(double length) {
@@ -79,7 +73,7 @@ public class Spline implements Segment {
     }
 
     private double calcArcLength() {
-        return lengthFunctionDerivative.integrate(0, 1);
+        return new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative))).integrate(0, 1);
     }
 
     @Override
@@ -88,7 +82,16 @@ public class Spline implements Segment {
     }
 
     public boolean equals(Spline other) {
-        return ExtendedMath.equals(xAt(0), other.xAt(0), ACCURACY) && ExtendedMath.equals(yAt(0), other.yAt(0), ACCURACY)
-                && ExtendedMath.equals(xAt(1), other.xAt(1), ACCURACY) && ExtendedMath.equals(yAt(1), other.yAt(1), ACCURACY);
+        return ExtendedMath.equals(Math.atan2(yFunctionDerivative.applyAsDouble(0), xFunctionDerivative.applyAsDouble(0)), Math.atan2(other.yFunctionDerivative.applyAsDouble(0), other.xFunctionDerivative.applyAsDouble(0)), ACCURACY) &&
+                ExtendedMath.equals(Math.atan2(yFunctionDerivative.applyAsDouble(1), xFunctionDerivative.applyAsDouble(1)), Math.atan2(other.yFunctionDerivative.applyAsDouble(1), other.xFunctionDerivative.applyAsDouble(1)), ACCURACY) &&
+                ExtendedMath.equals(actualFunction.applyAsDouble(0), other.actualFunction.applyAsDouble(0), ACCURACY) &&
+                ExtendedMath.equals(actualFunction.applyAsDouble(1), other.actualFunction.applyAsDouble(1), ACCURACY) &&
+                ExtendedMath.equals(actualFunction.xAt(0), other.actualFunction.xAt(0), ACCURACY) &&
+                ExtendedMath.equals(actualFunction.xAt(1), other.actualFunction.xAt(1), ACCURACY);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("parametric: %s length: %.4f", actualFunction, arcLength);
     }
 }

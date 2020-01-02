@@ -6,27 +6,20 @@ import tracer.profiles.Profile;
 
 public class ProfileMotionController {
     private final Profile profile;
-    private final double kV;
-    private final double kA;
-    private final double kS;
+    private final MotionControllerParameters parameters;
 
     public ProfileMotionController(Profile profile, MotionControllerParameters parameters) {
-        this(profile, parameters.kV(), parameters.kA(), parameters.kS());
-    }
-
-    public ProfileMotionController(Profile profile, double kV, double kA, double kS) {
         this.profile = profile;
-        this.kV = kV;
-        this.kA = kA;
-        this.kS = kS;
+        this.parameters = parameters;
     }
 
     public double calculate(Time timestamp) {
         double velocity = profile.velocityAt(timestamp);
+        double acceleration = profile.accelerationAt(timestamp);
 
-        double vOut = kV * velocity;
-        double aOut = kA * profile.accelerationAt(timestamp);
-        double sOut = kS * Math.signum(velocity);
+        double vOut = parameters.kV() * velocity;
+        double aOut = parameters.kA() * acceleration;
+        double sOut = parameters.kS() * Math.signum(velocity);
 
         return vOut + aOut + sOut;
     }

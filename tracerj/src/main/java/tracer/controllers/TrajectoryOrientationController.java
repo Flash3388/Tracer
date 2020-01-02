@@ -1,7 +1,5 @@
 package tracer.controllers;
 
-import com.flash3388.flashlib.time.Time;
-import com.jmath.ExtendedMath;
 import tracer.motion.Position;
 import tracer.profiles.Profile;
 import tracer.trajectories.Trajectory;
@@ -18,11 +16,14 @@ public class TrajectoryOrientationController {
     }
 
     public double calculate(Position position) {
-        double pOut = kP * getAngleError(position.timestamp(), position.getAngle());
-        return ExtendedMath.constrain(pOut, -1, 1);
-    }
+        double passedDistance = trajectoryProfile.distanceAt(position.timestamp());
+        double expected;
+        try {
+             expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
+        } catch (IllegalArgumentException ignored) {
+            expected = -Math.toDegrees(trajectory.angleRadAt(trajectory.end()));
+        }
 
-    private double getAngleError(Time currentTime, double currentAngle) {
-        return -Math.toDegrees(trajectory.angleRadAt(trajectoryProfile.distanceAt(currentTime))) - currentAngle;
+        return (kP * (expected - position.getAngle()));
     }
 }
