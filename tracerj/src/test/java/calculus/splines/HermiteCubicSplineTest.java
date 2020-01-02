@@ -3,9 +3,9 @@ package calculus.splines;
 import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.splines.parameters.Waypoint;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HermiteCubicSplineTest {
     @Test

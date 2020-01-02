@@ -1,14 +1,9 @@
 package calculus;
 
-import calculus.functions.polynomial.*;
-import com.jmath.complex.Complex;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import calculus.functions.polynomial.PolynomialFunction;
+import org.junit.jupiter.api.Test;
 
-import java.util.*;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PolynomialFunctionTest {
     private final static PolynomialFunction EXAMPLE_FUNCTION = new PolynomialFunction(2.0, 2.0);
