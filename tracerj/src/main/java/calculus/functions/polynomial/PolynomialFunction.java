@@ -13,8 +13,8 @@ import java.util.stream.IntStream;
 public class PolynomialFunction extends MathFunction {
     private final List<Variable> variables;
 
-    public PolynomialFunction(Double... constants) {
-        this(Arrays.asList(constants));
+    public PolynomialFunction(double... constants) {
+        this(Arrays.stream(constants).boxed().collect(Collectors.toList()));
     }
 
     public PolynomialFunction(List<Double> constants) {

@@ -1,9 +1,9 @@
 package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConstantVelocityProfileTest {
     private final static double DEF_DELTA = 0.001;
