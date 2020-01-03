@@ -55,7 +55,6 @@ public class Spline implements Segment {
         double t = ExtendedMath.constrain(percentageAtLength(length - startLength), 0, 1);
         lastReachedPercentage = t;
         lastReachedLength = length;
-        System.out.println(t);
 
         return Math.atan2(yFunctionDerivative.applyAsDouble(t), xFunctionDerivative.applyAsDouble(t));
     }
