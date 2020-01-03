@@ -5,6 +5,7 @@ import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
+import tracer.following.Followable;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.profiles.ComplexProfile;

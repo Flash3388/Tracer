@@ -4,17 +4,18 @@ import com.flash3388.flashlib.robot.scheduling.actions.Action;
 import com.flash3388.flashlib.robot.systems.drive.Drive;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
-import tracer.controllers.Followable;
+import tracer.following.Followable;
+import tracer.following.Follower;
 
 abstract class FollowerAction extends Action {
-    private final Drive drive;
+    private final Follower follower;
     private final Followable followable;
     private final Clock clock;
 
     private Time startTime;
 
-    FollowerAction(Drive drive, Followable followable, Clock clock) {
-        this.drive = drive;
+    FollowerAction(Follower follower, Followable followable, Clock clock) {
+        this.follower = follower;
         this.followable = followable;
         this.clock = clock;
         setTimeout(followable.duration());
@@ -22,6 +23,7 @@ abstract class FollowerAction extends Action {
 
     @Override
     protected void initialize() {
+        follower.resetMeasuringDevices();
         followable.reset();
         startTime = clock.currentTime();
     }
@@ -33,7 +35,7 @@ abstract class FollowerAction extends Action {
 
     @Override
     protected void end() {
-        drive.stop();
+        follower.stop();
     }
 
     abstract void setValues(Time relativeTime);
