@@ -1,11 +1,13 @@
 package calculus.splines;
 
 import calculus.splines.parameters.Waypoint;
+import com.sun.jdi.connect.Connector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,34 +17,62 @@ public class SplineTest {
 
     @ParameterizedTest
     @MethodSource("provideSplinesForArcLength")
-    public void arcLength_ofLineSpline_returnsCorrectArcLength(Spline spline, double expectedLength) {
+    public void arcLength_ofLineSpline_returnsCorrectArcLength(Spline spline, final double expectedLength) {
         final double ACTUAL = spline.length();
-        System.out.println(ACTUAL);
 
         assertEquals(ACTUAL, expectedLength, DEF_DELTA);
     }
-
-    @Test
-    public void angleAt_ofLineSpline_returnsAngle() {
+//
+//    @ParameterizedTest
+//    @MethodSource("provideSplinesForAngle")
+//    public void angleAt_ofLineSpline_returnsAngle() {
 //        final double EXPECTED = Math.PI/4;
 //        final double ACTUAL = LINEAR_SPLINE.angleRadAt(0.5);
-
+//
 //        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
-    }
+//    }
 
     private static Stream<Arguments> provideSplinesForArcLength() {
-        SplineFactory factory = new SplineFactory();
+        List<Arguments> splines = provideSplines();
+
         return Stream.of(
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(45)), new Waypoint(1, 1, Math.toRadians(45)), 0), Math.sqrt(2)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(45)), new Waypoint(1, 1, Math.toRadians(45)), 0), Math.sqrt(2)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(0)), new Waypoint(1, 0, Math.toRadians(0)), 0), 1),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(0)), new Waypoint(1, 0, Math.toRadians(0)), 0), 1),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(90)), new Waypoint(0, 1, Math.toRadians(90)), 0), 1),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(90)), new Waypoint(0, 1, Math.toRadians(90)), 0), 1),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0), 1),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0), 1),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(180)), new Waypoint(-1, 0, Math.toRadians(180)), 0), 1),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(180)), new Waypoint(-1, 0, Math.toRadians(180)), 0), 1)
+                Arguments.of(splines.get(0).get()[0], Math.sqrt(2)),
+                Arguments.of(splines.get(1).get()[0], Math.sqrt(2)),
+                Arguments.of(splines.get(2).get()[0], 1),
+                Arguments.of(splines.get(3).get()[0], 1),
+                Arguments.of(splines.get(4).get()[0], 1),
+                Arguments.of(splines.get(5).get()[0], 1),
+                Arguments.of(splines.get(6).get()[0], 1),
+                Arguments.of(splines.get(7).get()[0], 1),
+                Arguments.of(splines.get(8).get()[0], 1),
+                Arguments.of(splines.get(9).get()[0], 1),
+                Arguments.of(splines.get(10).get()[0], 0),
+                Arguments.of(splines.get(11).get()[0], 0)
+        );
+    }
+
+    private static Stream<Arguments> provideSplinesForAngle() {
+        return Stream.of(
+
+        );
+    }
+
+    private static List<Arguments> provideSplines() {
+        SplineFactory factory = new SplineFactory();
+
+        return List.of(
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(45)), new Waypoint(1, 1, Math.toRadians(45)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(45)), new Waypoint(1, 1, Math.toRadians(45)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 0, 0), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 0, 0), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(90)), new Waypoint(0, 1, Math.toRadians(90)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(90)), new Waypoint(0, 1, Math.toRadians(90)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(180)), new Waypoint(-1, 0, Math.toRadians(180)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(180)), new Waypoint(-1, 0, Math.toRadians(180)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(0, 0, 0), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(0, 0, 0), 0))
         );
     }
 }
