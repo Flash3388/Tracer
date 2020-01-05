@@ -1,9 +1,8 @@
 package calculus.splines;
 
+import calculus.functions.polynomial.PolynomialFunction;
 import calculus.splines.parameters.Waypoint;
 import com.flash3388.flashlib.math.Mathf;
-import com.jmath.ExtendedMath;
-import com.sun.jdi.connect.Connector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -13,20 +12,26 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SplineTest {
     private final static double DEF_DELTA = 0.001;
 
     @ParameterizedTest
     @MethodSource("provideSplinesForArcLength")
-    public void arcLengthSpline_returnsCorrectArcLength(Spline spline, final double expectedLength) {
+    public void arcLengthSpline_returnsCorrectArcLength(final Spline spline, final double expectedLength) {
         assertEquals(spline.length(), expectedLength, DEF_DELTA);
     }
 
     @ParameterizedTest
     @MethodSource("provideSplinesForAngle")
-    public void angleAtSpline_returnsAngle(Spline spline, double angleAtMiddle) {
-        assertEquals(Mathf.translateInRange(spline.angleRadAt(0.5), Math.toRadians(360), true), angleAtMiddle, Math.toRadians(1));
+    public void angleAtSpline_returnsAngle(final Spline spline, final double angleAtMiddle) {
+        assertEquals(Mathf.translateInRange(spline.angleRadAt(spline.length()/2), Math.toRadians(360), true), angleAtMiddle, Math.toRadians(0.1));
+    }
+
+    @Test
+    public void angleAtSpline_forLengthOutsideOfSpline_throwsIllegalArgument() {
+        assertThrows(IllegalArgumentException.class, () -> new Spline(new PolynomialFunction(0, 0), new PolynomialFunction(1, 0), 0).angleRadAt(2));
     }
 
     private static Stream<Arguments> provideSplinesForArcLength() {
@@ -60,8 +65,8 @@ public class SplineTest {
                 Arguments.of(splines.get(6).get()[0], Math.toRadians(90)),
                 Arguments.of(splines.get(7).get()[0], Math.toRadians(90)),
                 Arguments.of(splines.get(8).get()[0], Math.toRadians(180)),
-                Arguments.of(splines.get(9).get()[0], Math.toRadians(38.42)),
-                Arguments.of(splines.get(10).get()[0], Math.toRadians(36.8))
+                Arguments.of(splines.get(9).get()[0], Math.toRadians(45)),
+                Arguments.of(splines.get(10).get()[0], Math.toRadians(45.7))
         );
     }
 
