@@ -1,6 +1,8 @@
 package calculus.splines;
 
 import calculus.splines.parameters.Waypoint;
+import com.flash3388.flashlib.math.Mathf;
+import com.jmath.ExtendedMath;
 import com.sun.jdi.connect.Connector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,19 +20,14 @@ public class SplineTest {
     @ParameterizedTest
     @MethodSource("provideSplinesForArcLength")
     public void arcLength_ofLineSpline_returnsCorrectArcLength(Spline spline, final double expectedLength) {
-        final double ACTUAL = spline.length();
-
-        assertEquals(ACTUAL, expectedLength, DEF_DELTA);
+        assertEquals(spline.length(), expectedLength, DEF_DELTA);
     }
-//
-//    @ParameterizedTest
-//    @MethodSource("provideSplinesForAngle")
-//    public void angleAt_ofLineSpline_returnsAngle() {
-//        final double EXPECTED = Math.PI/4;
-//        final double ACTUAL = LINEAR_SPLINE.angleRadAt(0.5);
-//
-//        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
-//    }
+
+    @ParameterizedTest
+    @MethodSource("provideSplinesForAngle")
+    public void angleAt_ofLineSpline_returnsAngle(Spline spline, double angleAtMiddle) {
+        assertEquals(Mathf.translateInRange(spline.angleRadAt(0.5), Math.toRadians(360), true), angleAtMiddle, DEF_DELTA);
+    }
 
     private static Stream<Arguments> provideSplinesForArcLength() {
         List<Arguments> splines = provideSplines();
@@ -45,15 +42,26 @@ public class SplineTest {
                 Arguments.of(splines.get(6).get()[0], 1),
                 Arguments.of(splines.get(7).get()[0], 1),
                 Arguments.of(splines.get(8).get()[0], 1),
-                Arguments.of(splines.get(9).get()[0], 1),
-                Arguments.of(splines.get(10).get()[0], 0),
-                Arguments.of(splines.get(11).get()[0], 0)
+                Arguments.of(splines.get(9).get()[0], 1.486),
+                Arguments.of(splines.get(10).get()[0], 1.5244)
         );
     }
 
     private static Stream<Arguments> provideSplinesForAngle() {
-        return Stream.of(
+        List<Arguments> splines = provideSplines();
 
+        return Stream.of(
+                Arguments.of(splines.get(0).get()[0], Math.toRadians(45)),
+                Arguments.of(splines.get(1).get()[0], Math.toRadians(45)),
+                Arguments.of(splines.get(2).get()[0], 0),
+                Arguments.of(splines.get(3).get()[0], 0),
+                Arguments.of(splines.get(4).get()[0], Math.toRadians(90)),
+                Arguments.of(splines.get(5).get()[0], Math.toRadians(90)),
+                Arguments.of(splines.get(6).get()[0], Math.toRadians(90)),
+                Arguments.of(splines.get(7).get()[0], Math.toRadians(90)),
+                Arguments.of(splines.get(8).get()[0], Math.toRadians(180)),
+                Arguments.of(splines.get(9).get()[0], Math.toRadians(38.42)),
+                Arguments.of(splines.get(10).get()[0], Math.toRadians(36.8))
         );
     }
 
@@ -70,9 +78,8 @@ public class SplineTest {
                 Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
                 Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
                 Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(180)), new Waypoint(-1, 0, Math.toRadians(180)), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(180)), new Waypoint(-1, 0, Math.toRadians(180)), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(0, 0, 0), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(0, 0, 0), 0))
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 1, Math.toRadians(90)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 1, Math.toRadians(90)), 0))
         );
     }
 }
