@@ -15,18 +15,18 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SplineTest {
-    private final static double DEF_DELTA = 0.01;
+    private final static double DEF_DELTA = 0.001;
 
     @ParameterizedTest
     @MethodSource("provideSplinesForArcLength")
-    public void arcLength_ofLineSpline_returnsCorrectArcLength(Spline spline, final double expectedLength) {
+    public void arcLengthSpline_returnsCorrectArcLength(Spline spline, final double expectedLength) {
         assertEquals(spline.length(), expectedLength, DEF_DELTA);
     }
 
     @ParameterizedTest
     @MethodSource("provideSplinesForAngle")
-    public void angleAt_ofLineSpline_returnsAngle(Spline spline, double angleAtMiddle) {
-        assertEquals(Mathf.translateInRange(spline.angleRadAt(0.5), Math.toRadians(360), true), angleAtMiddle, DEF_DELTA);
+    public void angleAtSpline_returnsAngle(Spline spline, double angleAtMiddle) {
+        assertEquals(Mathf.translateInRange(spline.angleRadAt(0.5), Math.toRadians(360), true), angleAtMiddle, Math.toRadians(1));
     }
 
     private static Stream<Arguments> provideSplinesForArcLength() {
