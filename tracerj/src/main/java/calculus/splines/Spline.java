@@ -46,6 +46,7 @@ public class Spline implements Segment {
     }
 
     public double angleRadAt(double length) {
+        length = Math.abs(length);
         checkLength(length);
 
         length -= startLength;
