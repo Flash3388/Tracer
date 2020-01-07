@@ -49,7 +49,6 @@ public class Spline implements Segment {
         length = Math.abs(length);
         checkLength(length);
 
-        length -= startLength;
         double t = ExtendedMath.constrain(percentageAtLength(length - startLength), 0, 1);
         lastReachedPercentage = t;
         lastReachedLength = length;

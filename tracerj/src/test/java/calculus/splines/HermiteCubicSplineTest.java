@@ -36,11 +36,11 @@ public class HermiteCubicSplineTest {
 
         return List.of(
                 Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(45)), new Waypoint(1, 1, Math.toRadians(45)), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 0, 0), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(1, 0, 0), 0)),
                 Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(90)), new Waypoint(0, 1, Math.toRadians(90)), 0)),
                 Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
                 Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, Math.toRadians(180)), new Waypoint(-1, 0, Math.toRadians(180)), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 1, Math.toRadians(90)), 0))
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(1, 1, Math.toRadians(90)), 0))
         );
     }
 }

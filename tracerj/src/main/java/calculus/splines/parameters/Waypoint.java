@@ -5,6 +5,10 @@ public class Waypoint {
     private final double y;
     private final double heading;
 
+    public Waypoint() {
+        this(0, 0, 0);
+    }
+
     public Waypoint(double xMeters, double yMeters, double headingRadians) {
         this.x = xMeters;
         this.y = yMeters;
