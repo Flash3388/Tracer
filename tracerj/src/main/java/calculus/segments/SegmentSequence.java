@@ -1,6 +1,8 @@
 package calculus.segments;
 
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class SegmentSequence<S extends Segment> implements Segment {
@@ -35,5 +37,23 @@ public class SegmentSequence<S extends Segment> implements Segment {
 
     public Stream<S> stream() {
         return segments.stream();
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof SegmentSequence && equals((SegmentSequence)obj);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public boolean equals(SegmentSequence sequence) {
+        if(segments.size() != sequence.segments.size())
+            return false;
+        return new ArrayList<>(segments).equals(new ArrayList<>(sequence.segments));
+    }
+
+    @Override
+    public String toString() {
+        return segments.toString();
     }
 }

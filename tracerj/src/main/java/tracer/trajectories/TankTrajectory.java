@@ -3,6 +3,7 @@ package tracer.trajectories;
 import calculus.splines.SplineType;
 import calculus.splines.parameters.Waypoint;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +11,11 @@ public class TankTrajectory {
     private final Trajectory left;
     private final Trajectory right;
 
-    public TankTrajectory(SplineType splineType, List<Waypoint> centerPath, double distanceBetweenWheelsMeters) {
+    public TankTrajectory(SplineType splineType, double distanceBetweenWheelsMeters, Waypoint... centerPath) {
+        this(splineType, distanceBetweenWheelsMeters, Arrays.asList(centerPath));
+    }
+
+    public TankTrajectory(SplineType splineType, double distanceBetweenWheelsMeters, List<Waypoint> centerPath) {
         left = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheelsMeters/2));
         right = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheelsMeters/2));
     }
@@ -31,5 +36,10 @@ public class TankTrajectory {
 
     private Waypoint shift(Waypoint waypoint, double offset) {
         return new Waypoint(waypoint.x() - offset * Math.sin(waypoint.heading()), waypoint.y() + offset * Math.cos(waypoint.heading()), waypoint.heading());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{ right: %s , left: %s", right, left);
     }
 }
