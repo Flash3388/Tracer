@@ -76,7 +76,7 @@ public class ProfileFactory {
     }
 
     private static Time calcConstantVelocityDuration(Profile sCurve, double trajectoryLength) {
-        return Time.seconds(Math.abs((trajectoryLength - 2 * sCurve.length()) / sCurve.finalParameters().velocity()));
+        return Time.seconds((trajectoryLength - 2 * sCurve.length()) / Math.abs(sCurve.finalParameters().velocity()));
     }
 
     private static Profile createEndSCurve(Profile prevProfile, MotionParameters max) {

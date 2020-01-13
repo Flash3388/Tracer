@@ -36,7 +36,7 @@ public class ParametricFunction extends MathFunction {
 
     @Override
     public String toString() {
-        return String.format("parametric: {\ny= %s\nt= %s\n}", yFunction, xFunction);
+        return String.format("parametric: {\ny= %s\nx= %s\n}", yFunction, xFunction);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package tracer.controllers;
 
+import com.flash3388.flashlib.math.Mathf;
 import tracer.motion.Position;
 import tracer.profiles.Profile;
 import calculus.trajectories.Trajectory;
@@ -24,6 +25,6 @@ public class TrajectoryOrientationController {
             expected = -Math.toDegrees(trajectory.angleRadAt(trajectory.end()));
         }
 
-        return (kP * (expected - position.getAngle()));
+        return (kP * (Mathf.shortestAngularDistance(position.getAngle(), expected)));
     }
 }
