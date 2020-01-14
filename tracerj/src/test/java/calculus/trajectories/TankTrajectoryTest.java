@@ -5,8 +5,6 @@ import calculus.splines.parameters.Waypoint;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import tracer.trajectories.TankTrajectory;
-import tracer.trajectories.Trajectory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +27,8 @@ public class TankTrajectoryTest {
         double width = 1;
 
         return Stream.of(
-                Arguments.of(Arrays.asList(new Waypoint(0, width/2, 0), new Waypoint(1, width/2, 0)), Arrays.asList(new Waypoint(0, -width/2, 0), new Waypoint(1, -width/2, 0)), new TankTrajectory(SplineType.CUBIC_HERMITE, width, new Waypoint(0, 0, 0), new Waypoint(1, 0, 0)))
+                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint().shiftY(width/2).shiftX(1)), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint().shiftY(-width/2).shiftX(1)), new TankTrajectory(SplineType.CUBIC_HERMITE, width, new Waypoint(), new Waypoint().shiftX(1))),
+                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint(1 - width/2, 1, Math.toRadians(90))), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint(1 + width/2, 1, Math.toRadians(90))), new TankTrajectory(SplineType.CUBIC_HERMITE, width, new Waypoint(), new Waypoint().shiftXY(1).shiftHeading(Math.toRadians(90))))
         );
     }
 }

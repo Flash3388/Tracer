@@ -1,37 +1,47 @@
 package tracer.controllers;
 
+import calculus.trajectories.TankTrajectory;
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.following.Followable;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
-import calculus.trajectories.TankTrajectory;
 
 public class TankTrajectoryController implements Followable {
     private final TrajectoryController left;
     private final TrajectoryController right;
 
-    public TankTrajectoryController(TankTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters,
-                                    PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
-        left = TrajectoryController.create(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP);
-        right = TrajectoryController.create(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP);
+    public static TankTrajectoryController fromParameters(PidControllerParameters pidControllerParameters, MotionControllerParameters motionControllerParameters, double gP) {
+        return new TankTrajectoryController(
+                TrajectoryController.left(pidControllerParameters, motionControllerParameters, gP),
+                TrajectoryController.right(pidControllerParameters, motionControllerParameters, gP));
+    }
+
+    public TankTrajectoryController(TrajectoryController left, TrajectoryController right) {
+        this.left = left;
+        this.right = right;
+    }
+
+    public void setTarget(TankTrajectory trajectory, MotionParameters max, double maxVoltage) {
+        if(trajectory.right().end() > trajectory.left().end()) {
+            right.setTarget(trajectory.right(), max, maxVoltage);
+            left.setTarget(trajectory.left(), max, maxVoltage);
+            left.setTarget(trajectory.left(), max, idleTime(right, left), maxVoltage);
+        }
+        else {
+            left.setTarget(trajectory.left(), max, maxVoltage);
+            right.setTarget(trajectory.right(), max, maxVoltage);
+            right.setTarget(trajectory.right(), max, idleTime(left, right), maxVoltage);
+        }
     }
 
     public double calcForLeft(Position position) {
-        try {
-            return left.calculate(position);
-        } catch (IllegalArgumentException e) {
-            return 0;
-        }
+        return left.calculate(position);
     }
 
     public double calcForRight(Position position) {
-        try {
-            return right.calculate(position);
-        } catch (IllegalArgumentException e) {
-            return 0;
-        }
+        return right.calculate(position);
     }
 
     @Override
@@ -43,5 +53,9 @@ public class TankTrajectoryController implements Followable {
     @Override
     public Time duration() {
         return right.duration().after(left.duration()) ? right.duration() : left.duration();
+    }
+
+    private Time idleTime(TrajectoryController longer, TrajectoryController shorter) {
+        return longer.duration().sub(shorter.duration());
     }
 }
