@@ -6,7 +6,6 @@ import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionParameters;
 import tracer.motion.Position;
 import tracer.trajectories.TankTrajectory;
-import tracer.trajectories.Trajectory;
 
 public class TankTrajectoryController implements Followable {
     private final TrajectoryController left;
