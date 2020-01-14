@@ -19,6 +19,7 @@ public class Trajectory extends SegmentSequence<Spline> {
     }
 
     public double angleRadAt(double length) {
+        length = Math.abs(length);
         return correspondingSegment(length).angleRadAt(length);
     }
 
