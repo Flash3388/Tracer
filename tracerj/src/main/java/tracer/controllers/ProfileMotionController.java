@@ -3,7 +3,6 @@ package tracer.controllers;
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.profiles.Profile;
-import tracer.trajectories.Trajectory;
 
 public class ProfileMotionController {
     private final MotionControllerParameters parameters;

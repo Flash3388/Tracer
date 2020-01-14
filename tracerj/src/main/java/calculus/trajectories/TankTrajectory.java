@@ -1,4 +1,4 @@
-package tracer.trajectories;
+package calculus.trajectories;
 
 import calculus.splines.SplineType;
 import calculus.splines.parameters.Waypoint;

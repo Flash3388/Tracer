@@ -4,7 +4,7 @@ import com.flash3388.flashlib.math.Mathf;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;
 import tracer.profiles.Profile;
-import tracer.trajectories.Trajectory;
+import calculus.trajectories.Trajectory;
 
 public class TrajectoryOrientationController {
     private final double kP;

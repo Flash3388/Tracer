@@ -10,7 +10,7 @@ import tracer.profiles.ComplexProfile;
 import tracer.profiles.LinearVelocityProfile;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
-import tracer.trajectories.Trajectory;
+import calculus.trajectories.Trajectory;
 
 import java.util.Arrays;
 

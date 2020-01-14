@@ -1,4 +1,4 @@
-package tracer.trajectories;
+package calculus.trajectories;
 
 import calculus.segments.SegmentSequence;
 import calculus.splines.Spline;
