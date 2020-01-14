@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SplineTest {
-    private final static double DEF_DELTA = 0.001;
+    private static final double DEF_DELTA = 0.001;
+    private static final double ANGLE_DELTA = Math.toRadians(0.5);
 
     @ParameterizedTest
     @MethodSource("provideSplinesForArcLength")
@@ -26,7 +27,7 @@ public class SplineTest {
     @ParameterizedTest
     @MethodSource("provideSplinesForAngle")
     public void angleAtSpline_returnsAngle(final Spline spline, final double angleAtMiddle) {
-        assertEquals(Mathf.translateInRange(spline.angleRadAt(spline.length()/2), Math.toRadians(360), true), angleAtMiddle, Math.toRadians(0.5));
+        assertEquals(Mathf.translateInRange(spline.angleRadAt(spline.length()/2), Math.toRadians(360), true), angleAtMiddle, ANGLE_DELTA);
     }
 
     @Test
