@@ -2,6 +2,7 @@ package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.parameters.MotionControllerParameters;
+import tracer.motion.Position;
 import tracer.profiles.Profile;
 
 public class ProfileMotionController {
@@ -13,9 +14,9 @@ public class ProfileMotionController {
         this.parameters = parameters;
     }
 
-    public double calculate(Time timestamp) {
-        double velocity = profile.velocityAt(timestamp);
-        double acceleration = profile.accelerationAt(timestamp);
+    public double calculate(Position position) {
+        double velocity = profile.velocityAt(position.timestamp());
+        double acceleration = profile.accelerationAt(position.timestamp());
 
         double vOut = parameters.kV() * velocity;
         double aOut = parameters.kA() * acceleration;

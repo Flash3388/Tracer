@@ -16,41 +16,16 @@ import calculus.trajectories.Trajectory;
 import java.util.Arrays;
 
 public class TrajectoryController implements Followable {
-    private final Profile trajectoryProfile;
-
-    private final PidController pidController;
+    private final ProfilePidController pidController;
     private final ProfileMotionController motionController;
     private final TrajectoryOrientationController orientationController;
     private final double maxVoltage;
 
-    public static TrajectoryController create(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage) {
-        return create(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, 0, Time.milliseconds(0));
-    }
-
-    public static TrajectoryController create(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, Time idleTimeAtEnd) {
-        return create(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, 0, idleTimeAtEnd);
-    }
-
-    public static TrajectoryController create(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
-        return create(trajectory, max, motionControllerParameters, pidControllerParameters, maxVoltage, gP, Time.milliseconds(0));
-    }
-
-    public static TrajectoryController create(Trajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters, PidControllerParameters pidControllerParameters, double maxVoltage, double gP, Time idleTimeAtEnd) {
-        Profile trajectoryProfile = extendProfile(trajectory, idleTimeAtEnd, max);
-        return new TrajectoryController(trajectoryProfile,
-                new ProfileMotionController(trajectoryProfile, motionControllerParameters),
-                new PidController(pidControllerParameters.kP(), pidControllerParameters.kI(), pidControllerParameters.kD(), 0),
-                new TrajectoryOrientationController(trajectory, trajectoryProfile, gP), maxVoltage);
-    }
-
-    public TrajectoryController(Profile trajectoryProfile, ProfileMotionController motionController, PidController pidController,TrajectoryOrientationController orientationController, double maxVoltage) {
-        this.trajectoryProfile = trajectoryProfile;
-        this.motionController = motionController;
+    public TrajectoryController(ProfilePidController pidController, ProfileMotionController motionController,TrajectoryOrientationController orientationController, double maxVoltage) {
         this.pidController = pidController;
+        this.motionController = motionController;
         this.orientationController = orientationController;
         this.maxVoltage = maxVoltage;
-
-        pidController.setOutputLimit(maxVoltage);
     }
 
     @Override
@@ -60,15 +35,12 @@ public class TrajectoryController implements Followable {
 
     @Override
     public Time duration() {
-        return trajectoryProfile.finalTimestamp().sub(trajectoryProfile.initialTimestamp());
+        return pidController.duration();
     }
 
     public double calculate(Position position) {
-        Time timestamp = position.timestamp();
-        double distance = position.distance();
-
-        double pidOut = pidController.calculate(distance, trajectoryProfile.distanceAt(timestamp));
-        double motionOut = motionController.calculate(position.timestamp());
+        double pidOut = pidController.calculate(position);
+        double motionOut = motionController.calculate(position);
         double orientationOut = orientationController.calculate(position);
         double vOut = (pidOut + motionOut + orientationOut)/maxVoltage;
 
