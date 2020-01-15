@@ -7,35 +7,24 @@ import tracer.motion.Position;
 import tracer.profiles.Profile;
 
 public class ProfilePidController {
-    private final PidController pidController;
-    private Profile trajectoryProfile;
+    private final PidController controller;
+    private final Profile trajectoryProfile;
 
-    public ProfilePidController(PidControllerParameters parameters) {
-        pidController = new PidController(parameters.kP(), parameters.kI(), parameters.kD(), 0);
-        trajectoryProfile = null;
-    }
-
-    public void setTarget(Profile trajectoryProfile, double maxVoltage) {
+    public ProfilePidController(PidControllerParameters parameters, Profile trajectoryProfile, double maxVoltage) {
         this.trajectoryProfile = trajectoryProfile;
-        pidController.setOutputLimit(maxVoltage);
+        controller = new PidController(parameters.kP(), parameters.kI(), parameters.kD(), 0);
+        controller.setOutputLimit(maxVoltage);
     }
 
     public void reset() {
-        pidController.reset();
+        controller.reset();
     }
 
     public Time duration() {
-        checkTarget();
         return trajectoryProfile.duration();
     }
 
     public double calculate(Position position) {
-        checkTarget();
-        return pidController.calculate(position.distance(), trajectoryProfile.distanceAt(position.timestamp()));
-    }
-
-    private void checkTarget() {
-        if(trajectoryProfile == null)
-            throw new NoTargetException();
+        return controller.calculate(position.distance(), trajectoryProfile.distanceAt(position.timestamp()));
     }
 }

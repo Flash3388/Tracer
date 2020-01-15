@@ -8,32 +8,19 @@ import calculus.trajectories.Trajectory;
 
 public class TrajectoryOrientationController {
     private final double kP;
+    private final Trajectory trajectory;
+    private final Profile trajectoryProfile;
 
-    private Trajectory trajectory;
-    private Profile trajectoryProfile;
-
-    public TrajectoryOrientationController(double kP) {
+    public TrajectoryOrientationController(double kP, Trajectory trajectory, Profile trajectoryProfile) {
         this.kP = kP;
-        trajectory = null;
-        trajectoryProfile = null;
-    }
-
-    public void setTarget(Trajectory trajectory, Profile trajectoryProfile) {
         this.trajectory = trajectory;
         this.trajectoryProfile = trajectoryProfile;
     }
 
     public double calculate(Position position) {
-        checkTarget();
-
         double passedDistance = ExtendedMath.constrain(trajectoryProfile.distanceAt(position.timestamp()), -trajectory.end(), trajectory.end());
         double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
 
         return (kP * (Mathf.shortestAngularDistance(position.getAngle(), expected)));
-    }
-
-    private void checkTarget() {
-        if(trajectory == null || trajectoryProfile == null)
-            throw new NoTargetException();
     }
 }
