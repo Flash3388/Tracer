@@ -5,22 +5,15 @@ import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.profiles.Profile;
 
 public class ProfileMotionController {
+    private final Profile profile;
     private final MotionControllerParameters parameters;
 
-    private Profile profile;
-
-    public ProfileMotionController(MotionControllerParameters parameters) {
-        this.parameters = parameters;
-        profile = null;
-    }
-
-    public void setTarget(Profile profile) {
+    public ProfileMotionController(Profile profile, MotionControllerParameters parameters) {
         this.profile = profile;
+        this.parameters = parameters;
     }
 
     public double calculate(Time timestamp) {
-        checkTarget();
-
         double velocity = profile.velocityAt(timestamp);
         double acceleration = profile.accelerationAt(timestamp);
 
@@ -29,10 +22,5 @@ public class ProfileMotionController {
         double sOut = parameters.kS() * Math.signum(velocity);
 
         return vOut + aOut + sOut;
-    }
-
-    private void checkTarget() {
-        if(profile == null)
-            throw new NoTargetException();
     }
 }

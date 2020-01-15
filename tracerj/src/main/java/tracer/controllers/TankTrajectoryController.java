@@ -11,27 +11,17 @@ public class TankTrajectoryController implements Followable {
     private final TrajectoryController left;
     private final TrajectoryController right;
 
-    public static TankTrajectoryController fromParameters(PidControllerParameters pidControllerParameters, MotionControllerParameters motionControllerParameters, double gP) {
-        return new TankTrajectoryController(
-                TrajectoryController.left(pidControllerParameters, motionControllerParameters, gP),
-                TrajectoryController.right(pidControllerParameters, motionControllerParameters, gP));
-    }
-
-    public TankTrajectoryController(TrajectoryController left, TrajectoryController right) {
-        this.left = left;
-        this.right = right;
-    }
-
-    public void setTarget(TankTrajectory trajectory, MotionParameters max, double maxVoltage) {
+    public TankTrajectoryController(TankTrajectory trajectory, MotionParameters max, MotionControllerParameters motionControllerParameters,
+                                    PidControllerParameters pidControllerParameters, double maxVoltage, double gP) {
         if(trajectory.right().end() > trajectory.left().end()) {
-            right.setTarget(trajectory.right(), max, maxVoltage);
-            left.setTarget(trajectory.left(), max, maxVoltage);
-            left.setTarget(trajectory.left(), max, idleTime(right, left), maxVoltage);
+            right = TrajectoryController.create(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP);
+            TrajectoryController standardLeft = TrajectoryController.create(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP);
+            left = TrajectoryController.create(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP, idleTime(right, standardLeft));
         }
         else {
-            left.setTarget(trajectory.left(), max, maxVoltage);
-            right.setTarget(trajectory.right(), max, maxVoltage);
-            right.setTarget(trajectory.right(), max, idleTime(left, right), maxVoltage);
+            left = TrajectoryController.create(trajectory.left(), max, motionControllerParameters, pidControllerParameters, maxVoltage, gP);
+            TrajectoryController standardRight = TrajectoryController.create(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP);
+            right = TrajectoryController.create(trajectory.right(), max, motionControllerParameters, pidControllerParameters, maxVoltage, -gP, idleTime(left, standardRight));
         }
     }
 
