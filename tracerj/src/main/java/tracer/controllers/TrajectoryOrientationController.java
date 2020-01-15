@@ -7,14 +7,14 @@ import tracer.profiles.Profile;
 import calculus.trajectories.Trajectory;
 
 public class TrajectoryOrientationController {
+    private final double kP;
     private final Trajectory trajectory;
     private final Profile trajectoryProfile;
-    private final double kP;
 
-    public TrajectoryOrientationController(Trajectory trajectory, Profile trajectoryProfile, double kP) {
+    public TrajectoryOrientationController(double kP, Trajectory trajectory, Profile trajectoryProfile) {
+        this.kP = kP;
         this.trajectory = trajectory;
         this.trajectoryProfile = trajectoryProfile;
-        this.kP = kP;
     }
 
     public double calculate(Position position) {

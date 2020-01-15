@@ -6,12 +6,12 @@ import tracer.motion.Position;
 import tracer.profiles.Profile;
 
 public class ProfileMotionController {
-    private final Profile profile;
     private final MotionControllerParameters parameters;
+    private final Profile profile;
 
-    public ProfileMotionController(Profile profile, MotionControllerParameters parameters) {
-        this.profile = profile;
+    public ProfileMotionController(MotionControllerParameters parameters, Profile profile) {
         this.parameters = parameters;
+        this.profile = profile;
     }
 
     public double calculate(Position position) {
