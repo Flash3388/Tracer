@@ -21,6 +21,17 @@ public class TrajectoryOrientationController {
         double passedDistance = ExtendedMath.constrain(trajectoryProfile.distanceAt(position.timestamp()), -trajectory.end(), trajectory.end());
         double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
 
-        return (kP * (Mathf.shortestAngularDistance(position.getAngle(), expected)));
+        return (kP * shortestAngularDistance(position.getAngle(), expected));
+    }
+
+    private double shortestAngularDistance(double from, double to) {
+        double result = Mathf.shortestAngularDistance(from, to);
+        to = Mathf.translateInRange(to, 180, true);
+        from = Mathf.translateInRange(from, 180, true);
+
+        if(to > from)
+            return result;
+        else
+            return -result;
     }
 }
