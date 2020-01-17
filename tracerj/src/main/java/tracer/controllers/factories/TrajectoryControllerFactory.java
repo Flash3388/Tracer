@@ -41,7 +41,7 @@ public class TrajectoryControllerFactory {
         return new TrajectoryController(
                 pidControllerFactory.create(trajectoryProfile, maxVoltage),
                 profileMotionControllerFactory.create(trajectoryProfile),
-                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile),
+                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile, trajectory.isForward()),
                 maxVoltage
         );
     }

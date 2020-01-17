@@ -11,7 +11,7 @@ public class TrajectoryOrientationControllerFactory {
         this.gP = gP;
     }
 
-    public TrajectoryOrientationController create(Trajectory trajectory, Profile trajectoryProfile) {
-        return new TrajectoryOrientationController(gP, trajectory, trajectoryProfile);
+    public TrajectoryOrientationController create(Trajectory trajectory, Profile trajectoryProfile, boolean isForward) {
+        return new TrajectoryOrientationController(gP, trajectory, trajectoryProfile, isForward);
     }
 }
