@@ -19,14 +19,14 @@ public class TankTrajectoryControllerFactory {
         right = TrajectoryControllerFactory.right(pidControllerParameters, motionControllerParameters, gP);
     }
 
-    public TankTrajectoryController create(TankTrajectory trajectory, MotionParameters max, double maxVoltage) {
+    public TankTrajectoryController create(TankTrajectory trajectory, MotionParameters max, double maxVoltage, boolean isForward) {
         return new TankTrajectoryController(
-                left(trajectory, max, maxVoltage),
-                right(trajectory, max, maxVoltage)
+                left(trajectory, max, maxVoltage, isForward),
+                right(trajectory, max, maxVoltage, isForward)
         );
     }
 
-    private TrajectoryController left(TankTrajectory trajectory, MotionParameters max, double maxVoltage) {
+    private TrajectoryController left(TankTrajectory trajectory, MotionParameters max, double maxVoltage, boolean isForward) {
         Time idleTime;
 
         if(trajectory.left().end() > trajectory.right().end())
@@ -34,10 +34,10 @@ public class TankTrajectoryControllerFactory {
         else
             idleTime = Time.milliseconds(0);
 
-        return left.create(trajectory.left(), max, maxVoltage, idleTime);
+        return left.create(trajectory.left(), max, maxVoltage, idleTime, isForward);
     }
 
-    private TrajectoryController right(TankTrajectory trajectory, MotionParameters max, double maxVoltage) {
+    private TrajectoryController right(TankTrajectory trajectory, MotionParameters max, double maxVoltage, boolean isForward) {
         Time idleTime;
 
         if(trajectory.right().end() > trajectory.left().end())
@@ -45,7 +45,7 @@ public class TankTrajectoryControllerFactory {
         else
             idleTime = Time.milliseconds(0);
 
-        return right.create(trajectory.right(), max, maxVoltage, idleTime);
+        return right.create(trajectory.right(), max, maxVoltage, idleTime, isForward);
     }
 
     private Time idleTime(TankTrajectory trajectory, MotionParameters max, boolean isRightLonger) {

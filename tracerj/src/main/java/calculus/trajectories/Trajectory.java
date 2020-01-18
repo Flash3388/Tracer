@@ -10,15 +10,12 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Trajectory extends SegmentSequence<Spline> {
-    private final boolean isForward;
-
-    public Trajectory(SplineType splineType, boolean isForward, Waypoint... path) {
-        this(splineType, Arrays.asList(path), isForward);
+    public Trajectory(SplineType splineType, Waypoint... path) {
+        this(splineType, Arrays.asList(path));
     }
 
-    public Trajectory(SplineType splineType, List<Waypoint> path, boolean isForward) {
+    public Trajectory(SplineType splineType, List<Waypoint> path) {
         super(generateTrajectory(path, splineType));
-        this.isForward = isForward;
     }
 
     public double angleRadAt(double length) {
@@ -36,9 +33,5 @@ public class Trajectory extends SegmentSequence<Spline> {
                 .forEach(positionIndex -> result.add(hermiteFactory.create(splineType, path.get(positionIndex-1), path.get(positionIndex), result.get(positionIndex-2).end())));
 
         return new ArrayDeque<>(result);
-    }
-
-    public boolean isForward() {
-        return isForward;
     }
 }

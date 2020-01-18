@@ -16,8 +16,8 @@ public class TankTrajectoryTest {
     @ParameterizedTest
     @MethodSource("provideExpectedAndActualWaypoints")
     public void generateTankTrajectory_returnsCorrectlyAdjustedTrajectory(final List<Waypoint> expectedLeft, final List<Waypoint> expectedRight, final TankTrajectory actual) {
-        final Trajectory EXPECTED_LEFT = new Trajectory(SplineType.CUBIC_HERMITE, expectedLeft, true);
-        final Trajectory EXPECTED_RIGHT = new Trajectory(SplineType.CUBIC_HERMITE, expectedRight, true);
+        final Trajectory EXPECTED_LEFT = new Trajectory(SplineType.CUBIC_HERMITE, expectedLeft);
+        final Trajectory EXPECTED_RIGHT = new Trajectory(SplineType.CUBIC_HERMITE, expectedRight);
 
         assertEquals(EXPECTED_LEFT, actual.left());
         assertEquals(EXPECTED_RIGHT, actual.right());
@@ -27,8 +27,8 @@ public class TankTrajectoryTest {
         double width = 1;
 
         return Stream.of(
-                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint().shiftY(width/2).shiftX(1)), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint().shiftY(-width/2).shiftX(1)), new TankTrajectory(SplineType.CUBIC_HERMITE, width, true, new Waypoint(), new Waypoint().shiftX(1))),
-                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint(1 - width/2, 1, Math.toRadians(90))), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint(1 + width/2, 1, Math.toRadians(90))), new TankTrajectory(SplineType.CUBIC_HERMITE, width, true, new Waypoint(), new Waypoint().shiftXY(1).shiftHeading(Math.toRadians(90))))
+                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint().shiftY(width/2).shiftX(1)), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint().shiftY(-width/2).shiftX(1)), new TankTrajectory(SplineType.CUBIC_HERMITE, width, new Waypoint(), new Waypoint().shiftX(1))),
+                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint(1 - width/2, 1, Math.toRadians(90))), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint(1 + width/2, 1, Math.toRadians(90))), new TankTrajectory(SplineType.CUBIC_HERMITE, width, new Waypoint(), new Waypoint().shiftXY(1).shiftHeading(Math.toRadians(90))))
         );
     }
 }
