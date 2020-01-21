@@ -14,7 +14,7 @@ public class ProfileFactory {
 
     public static Profile createTrajectoryProfile(double initialDistance, double initialVelocity, MotionParameters max, Time startTime, Trajectory trajectory) {
         List<Profile> profiles = new ArrayList<>();
-        max = adjustMaxParameters(max, trajectory.end());
+        isIllegalVelocity(max, trajectory.end());
 
         profiles.add(createStartSCurve(initialDistance, initialVelocity, max, startTime));
         profiles.add(createConstantVelocityProfile(profiles.get(0), trajectory));
@@ -36,35 +36,13 @@ public class ProfileFactory {
         return new ComplexProfile(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, profiles);
     }
 
-    private static MotionParameters adjustMaxParameters(MotionParameters max, double targetDistance) {
-        if(isIllegalVelocity(max, targetDistance))
-            return new MotionParameters(calcAppropriateVelocity(max, targetDistance), max.acceleration(), max.jerk());
-        else
-            return max;
-    }
-
-    private static boolean isIllegalVelocity(double velocity, MotionParameters max, double targetDistance) {
-        return isIllegalVelocity(new MotionParameters(velocity, max.acceleration(), max.jerk()), targetDistance);
-    }
-
-    private static boolean isIllegalVelocity(MotionParameters max, double targetDistance) {
-        try {
-            return Math.abs(distancePassedInTwoSCurves(max)) > Math.abs(targetDistance);
-        } catch (IllegalArgumentException ignored) {
-            return true;
-        }
+    private static void isIllegalVelocity(MotionParameters max, double targetDistance) {
+        if (Math.abs(distancePassedInTwoSCurves(max)) > Math.abs(targetDistance))
+            throw new IllegalArgumentException("Too small distance compared to maximum parameters");;
     }
 
     private static double distancePassedInTwoSCurves(MotionParameters max) {
-         return createStartSCurve(0.0, 0.0, max, Time.milliseconds(0)).length() * 2;
-    }
-
-    private static double calcAppropriateVelocity(MotionParameters max, double targetDistance) {
-        double result = targetDistance * max.jerk() / (2*max.acceleration()) - (1 + 2/3.0) * Math.pow(max.acceleration(), 3)/(2*max.acceleration());
-
-        if(isIllegalVelocity(result, max, targetDistance))
-            throw new IllegalArgumentException("Too small distance compared to maximum jerk and acceleration");
-        return result;
+        return new ConcaveProfile(0, 0, max, Time.milliseconds(0)).length() * 4;
     }
 
     private static Profile createStartSCurve(double initialDistance, double initialVelocity, MotionParameters max, Time startTime) {
