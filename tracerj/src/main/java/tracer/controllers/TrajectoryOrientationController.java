@@ -7,6 +7,8 @@ import tracer.profiles.BasicProfile;
 import calculus.trajectories.Trajectory;
 import tracer.profiles.Profile;
 
+import static util.MathUtil.shortestAngularDistance;
+
 public class TrajectoryOrientationController {
     private final double kP;
     private final Trajectory trajectory;
@@ -26,16 +28,5 @@ public class TrajectoryOrientationController {
         expected = isForward ? expected : 180 - Mathf.translateInRange(expected, 360, true);
 
         return (kP * shortestAngularDistance(position.getAngle(), expected));
-    }
-
-    private double shortestAngularDistance(double from, double to) {
-        double result = Mathf.shortestAngularDistance(from, to);
-        to = Mathf.translateInRange(to, 360, true);
-        from = Mathf.translateInRange(from, 360, true);
-
-        if(to > from)
-            return result;
-        else
-            return -result;
     }
 }

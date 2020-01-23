@@ -92,7 +92,7 @@ public class VariableTest {
     }
 
     @Test
-    public void multiplication_forTwoVariables_ReturnsAddedSquaresAndMultipliedModifiers() {
+    public void multiplication_forTwoVariables_returnsAddedSquaresAndMultipliedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 3.0;
         final int FIRST_POWER = 1;
@@ -111,7 +111,7 @@ public class VariableTest {
     }
 
     @Test
-    public void multiplication_forVariableByNumber_ReturnVariableWithModifierMultipliedByNumber() {
+    public void multiplication_forVariableByNumber_returnVariableWithModifierMultipliedByNumber() {
         final double INITIAL_MODIFIER = 1.0;
         final double MULTIPLICATION_MODIFIER = 2.0;
         final double EXPECTED_MODIFIER = INITIAL_MODIFIER * MULTIPLICATION_MODIFIER;
@@ -127,7 +127,7 @@ public class VariableTest {
     }
 
     @Test
-    public void addition_forVariablesWithSamePowers_ReturnsVariableWithAddedModifiers() {
+    public void variableAdd_forVariablesWithSamePowers_returnsVariableWithAddedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int POWER = 2;
@@ -143,7 +143,7 @@ public class VariableTest {
     }
 
     @Test
-    public void addition_forVariablesWithDifferentPowers_ThrowsException() {
+    public void variableAdd_forVariablesWithDifferentPowers_throwsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -156,7 +156,7 @@ public class VariableTest {
     }
 
     @Test
-    public void addition_forVariableWithIncorrectPower_ThrowsCorrectException() {
+    public void variableAdd_forVariableWithIncorrectPower_throwsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -169,7 +169,7 @@ public class VariableTest {
     }
 
     @Test
-    public void subtraction_forVariablesWithSamePowers_ReturnsVariableWithSubtractedModifiers() {
+    public void variableSub_forVariablesWithSamePowers_returnsVariableWithSubtractedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int POWER = 2;
@@ -185,7 +185,7 @@ public class VariableTest {
     }
 
     @Test
-    public void subtraction_forVariablesWithDifferentPowers_ThrowsException() {
+    public void variableSub_forVariablesWithDifferentPowers_throwsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -198,7 +198,7 @@ public class VariableTest {
     }
 
     @Test
-    public void subtraction_forVariableWithIncorrectPower_ThrowsCorrectException() {
+    public void variableSub_forVariableWithIncorrectPower_throwsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -211,7 +211,7 @@ public class VariableTest {
     }
 
     @Test
-    public void square_forVariable_ReturnSquareOfVariable() {
+    public void variableSquare_forVariable_returnSquareOfVariable() {
         final double MODIFIER = 2.0;
         final int POWER = 2;
 
