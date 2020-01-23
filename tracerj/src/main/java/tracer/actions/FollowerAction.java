@@ -4,7 +4,7 @@ import com.flash3388.flashlib.robot.scheduling.actions.Action;
 import com.flash3388.flashlib.robot.systems.drive.Drive;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
-import tracer.controllers.Followable;
+import tracer.following.Followable;
 
 abstract class FollowerAction extends Action {
     private final Drive drive;

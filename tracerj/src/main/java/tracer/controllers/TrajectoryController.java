@@ -2,6 +2,7 @@ package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
+import tracer.following.Followable;
 import tracer.motion.Position;
 
 public class TrajectoryController implements Followable {

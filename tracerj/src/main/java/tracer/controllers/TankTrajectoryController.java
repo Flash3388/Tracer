@@ -1,6 +1,7 @@
 package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.following.Followable;
 import tracer.motion.Position;
 
 public class TankTrajectoryController implements Followable {
