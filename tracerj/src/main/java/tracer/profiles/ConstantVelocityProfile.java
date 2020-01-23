@@ -2,36 +2,55 @@ package tracer.profiles;
 
 import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
+import calculus.trajectories.Trajectory;
 import com.flash3388.flashlib.time.Time;
-import tracer.motion.MotionParameters;
+import tracer.motion.MotionState;
 import util.TimeConversion;
 
-public class ConstantVelocityProfile extends Profile {
+public class ConstantVelocityProfile extends BasicProfile {
     private final PolynomialFunction distance;
+    private final Time duration;
+
+    public ConstantVelocityProfile(Time duration) {
+        this(new ProfileState(), duration);
+    }
 
     public ConstantVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finalTimestamp(), duration);
+        this(prevProfile.finalState(), duration);
     }
 
-    public ConstantVelocityProfile(double initialDistance, double initialVelocity, Time startTime, Time duration) {
-        super(initialDistance, MotionParameters.constantVelocity(initialVelocity), startTime, duration);
+    public ConstantVelocityProfile(ProfileState initialState, Time duration) {
+        super(initialState);
+        this.duration = duration;
 
-        distance = new Linear(initialVelocity, 0);
+        distance = new Linear(initialState.velocity(), 0);
+    }
+
+    public static ConstantVelocityProfile forTrajectory(Trajectory trajectory, MotionState target) {
+        double distancePassedIn2SCurves = ProfileFactory.distancePassedInTwoSCurves(target);
+        double distanceToBePassed = trajectory.end() - distancePassedIn2SCurves;
+
+        return new ConstantVelocityProfile(Time.seconds(distanceToBePassed/target.velocity()));
     }
 
     @Override
-    protected double relativeVelocityAt(Time t) {
-        return 0;
+    public Time duration() {
+        return duration;
     }
 
     @Override
-    protected double relativeDistanceAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
+    protected double relativeDistanceAt(Time relativeTime) {
+        double timeInSeconds = TimeConversion.toSeconds(relativeTime);
         return distance.applyAsDouble(timeInSeconds);
     }
 
     @Override
-    protected double relativeAccelerationAt(Time t) {
+    protected double relativeVelocityAt(Time relativeTime) {
+        return 0;
+    }
+
+    @Override
+    protected double relativeAccelerationAt(Time relativeTime) {
         return 0;
     }
 
@@ -39,5 +58,4 @@ public class ConstantVelocityProfile extends Profile {
     protected double relativeJerkAt(Time relativeTime) {
         return 0;
     }
-
 }

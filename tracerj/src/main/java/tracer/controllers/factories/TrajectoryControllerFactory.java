@@ -5,13 +5,8 @@ import com.flash3388.flashlib.time.Time;
 import tracer.controllers.TrajectoryController;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
-import tracer.motion.MotionParameters;
-import tracer.profiles.ComplexProfile;
-import tracer.profiles.LinearVelocityProfile;
-import tracer.profiles.Profile;
-import tracer.profiles.ProfileFactory;
-
-import java.util.Arrays;
+import tracer.motion.MotionState;
+import tracer.profiles.*;
 
 public class TrajectoryControllerFactory {
     private final ProfilePidControllerFactory pidControllerFactory;
@@ -36,7 +31,7 @@ public class TrajectoryControllerFactory {
         return new TrajectoryControllerFactory(pidControllerParameters, motionControllerParameters, 0);
     }
 
-    public TrajectoryController create(Trajectory trajectory, MotionParameters max, double maxVoltage, Time idleTimeAtEnd, boolean isForward) {
+    public TrajectoryController create(Trajectory trajectory, MotionState max, double maxVoltage, Time idleTimeAtEnd, boolean isForward) {
         Profile trajectoryProfile = extendProfile(trajectory, idleTimeAtEnd, max);
         return new TrajectoryController(
                 pidControllerFactory.create(trajectoryProfile, maxVoltage),
@@ -46,8 +41,7 @@ public class TrajectoryControllerFactory {
         );
     }
 
-    private Profile extendProfile(Trajectory trajectory, Time idleTime, MotionParameters max) {
-        Profile standardTrajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
-        return new ComplexProfile(0, max, Time.milliseconds(0), Arrays.asList(standardTrajectoryProfile, new LinearVelocityProfile(standardTrajectoryProfile, idleTime)));
+    private Profile extendProfile(Trajectory trajectory, Time idleTime, MotionState max) {
+        return ProfileFactory.createTrajectoryProfile(max, trajectory).then(new ConstantVelocityProfile(idleTime));
     }
 }

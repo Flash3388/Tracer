@@ -4,6 +4,7 @@ import com.flash3388.flashlib.robot.control.PidController;
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.Position;
+import tracer.profiles.BasicProfile;
 import tracer.profiles.Profile;
 
 public class ProfilePidController {
@@ -21,10 +22,10 @@ public class ProfilePidController {
     }
 
     public Time duration() {
-        return trajectoryProfile.duration();
+        return trajectoryProfile.deltaState().timestamp();
     }
 
     public double calculate(Position position) {
-        return controller.calculate(position.distance(), trajectoryProfile.distanceAt(position.timestamp()));
+        return controller.calculate(position.distance(), trajectoryProfile.state(position.timestamp()).distance());
     }
 }

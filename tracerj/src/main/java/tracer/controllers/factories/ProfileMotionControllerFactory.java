@@ -2,6 +2,7 @@ package tracer.controllers.factories;
 
 import tracer.controllers.ProfileMotionController;
 import tracer.controllers.parameters.MotionControllerParameters;
+import tracer.profiles.BasicProfile;
 import tracer.profiles.Profile;
 
 public class ProfileMotionControllerFactory {

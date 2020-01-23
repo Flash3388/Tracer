@@ -3,8 +3,9 @@ package tracer.controllers;
 import com.flash3388.flashlib.math.Mathf;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;
-import tracer.profiles.Profile;
+import tracer.profiles.BasicProfile;
 import calculus.trajectories.Trajectory;
+import tracer.profiles.Profile;
 
 public class TrajectoryOrientationController {
     private final double kP;
@@ -20,7 +21,7 @@ public class TrajectoryOrientationController {
     }
 
     public double calculate(Position position) {
-        double passedDistance = ExtendedMath.constrain(trajectoryProfile.distanceAt(position.timestamp()), -trajectory.end(), trajectory.end());
+        double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance(), -trajectory.end(), trajectory.end());
         double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
         expected = isForward ? expected : 180 - Mathf.translateInRange(expected, 360, true);
 

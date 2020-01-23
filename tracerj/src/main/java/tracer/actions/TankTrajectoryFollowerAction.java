@@ -6,6 +6,7 @@ import com.flash3388.flashlib.time.Time;
 import tracer.controllers.TankTrajectoryController;
 import tracer.motion.Position;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.DoubleSupplier;
 
 public class TankTrajectoryFollowerAction extends FollowerAction {
@@ -27,6 +28,7 @@ public class TankTrajectoryFollowerAction extends FollowerAction {
     }
     @Override
     void setValues(Time relativeTime) {
+        System.out.println(relativeTime.valueAsMillis()/1000.0);
         Position rightPos = rightPosition(relativeTime);
         Position leftPos = leftPosition(relativeTime);
 

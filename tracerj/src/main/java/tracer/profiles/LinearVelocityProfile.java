@@ -3,34 +3,52 @@ package tracer.profiles;
 import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
-import tracer.motion.MotionParameters;
+import tracer.motion.MotionState;
 import util.TimeConversion;
 
-public class LinearVelocityProfile extends Profile {
-    private final PolynomialFunction velocity;
+public class LinearVelocityProfile extends BasicProfile {
+    private final Time duration;
     private final PolynomialFunction distance;
+    private final PolynomialFunction velocity;
 
-    public LinearVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finalParameters().acceleration(), prevProfile.finalTimestamp(), duration);
+    public LinearVelocityProfile(Time duration) {
+        this(new ProfileState(), duration);
     }
 
-    public LinearVelocityProfile(double initialDistance, double initialVelocity, double initialAcceleration, Time startTime, Time duration) {
-        super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), startTime, duration);
+    public LinearVelocityProfile(Profile prevProfile, Time duration) {
+        this(prevProfile.finalState(), duration);
+    }
 
-        velocity = new Linear(initialAcceleration, 0);
-        distance = new PolynomialFunction(initialAcceleration/2, initialVelocity, 0.0);
+    public LinearVelocityProfile(ProfileState initialState, Time duration) {
+        super(initialState);
+        this.duration = duration;
+
+        velocity = new Linear(initialState.acceleration(), 0);
+        distance = new PolynomialFunction(initialState.acceleration()/2, initialState.velocity(), 0.0);
+    }
+
+    public static LinearVelocityProfile forSCurve(MotionState target) {
+        MotionState finalStateOnConcave = new ConcaveProfile(target).finalState().parameters();
+        double velocityDelta = target.sub(finalStateOnConcave).velocity();
+
+        return new LinearVelocityProfile(Time.seconds(velocityDelta/target.acceleration()));
     }
 
     @Override
-    protected double relativeVelocityAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
-        return velocity.applyAsDouble(timeInSeconds);
+    public Time duration() {
+        return duration;
     }
 
     @Override
     protected double relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
         return distance.applyAsDouble(timeInSeconds);
+    }
+
+    @Override
+    protected double relativeVelocityAt(Time t) {
+        double timeInSeconds = TimeConversion.toSeconds(t);
+        return velocity.applyAsDouble(timeInSeconds);
     }
 
     @Override

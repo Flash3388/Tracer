@@ -2,6 +2,7 @@ package tracer.controllers.factories;
 
 import tracer.controllers.ProfilePidController;
 import tracer.controllers.parameters.PidControllerParameters;
+import tracer.profiles.BasicProfile;
 import tracer.profiles.Profile;
 
 public class ProfilePidControllerFactory {

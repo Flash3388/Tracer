@@ -6,7 +6,8 @@ import tracer.controllers.TankTrajectoryController;
 import tracer.controllers.TrajectoryController;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
-import tracer.motion.MotionParameters;
+import tracer.motion.MotionState;
+import tracer.profiles.BasicProfile;
 import tracer.profiles.Profile;
 import tracer.profiles.ProfileFactory;
 
@@ -19,25 +20,14 @@ public class TankTrajectoryControllerFactory {
         right = TrajectoryControllerFactory.right(pidControllerParameters, motionControllerParameters, gP);
     }
 
-    public TankTrajectoryController create(TankTrajectory trajectory, MotionParameters max, double maxVoltage, boolean isForward) {
+    public TankTrajectoryController create(TankTrajectory trajectory, MotionState max, double maxVoltage, boolean isForward) {
         return new TankTrajectoryController(
                 left(trajectory, max, maxVoltage, isForward),
                 right(trajectory, max, maxVoltage, isForward)
         );
     }
 
-    private TrajectoryController left(TankTrajectory trajectory, MotionParameters max, double maxVoltage, boolean isForward) {
-        Time idleTime;
-
-        if(trajectory.left().end() > trajectory.right().end())
-            idleTime = idleTime(trajectory, max, false);
-        else
-            idleTime = Time.milliseconds(0);
-
-        return left.create(trajectory.left(), max, maxVoltage, idleTime, isForward);
-    }
-
-    private TrajectoryController right(TankTrajectory trajectory, MotionParameters max, double maxVoltage, boolean isForward) {
+    private TrajectoryController left(TankTrajectory trajectory, MotionState max, double maxVoltage, boolean isForward) {
         Time idleTime;
 
         if(trajectory.right().end() > trajectory.left().end())
@@ -45,13 +35,24 @@ public class TankTrajectoryControllerFactory {
         else
             idleTime = Time.milliseconds(0);
 
+        return left.create(trajectory.left(), max, maxVoltage, idleTime, isForward);
+    }
+
+    private TrajectoryController right(TankTrajectory trajectory, MotionState max, double maxVoltage, boolean isForward) {
+        Time idleTime;
+
+        if(trajectory.left().end() > trajectory.right().end())
+            idleTime = idleTime(trajectory, max, false);
+        else
+            idleTime = Time.milliseconds(0);
+
         return right.create(trajectory.right(), max, maxVoltage, idleTime, isForward);
     }
 
-    private Time idleTime(TankTrajectory trajectory, MotionParameters max, boolean isRightLonger) {
-        Profile left = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory.left());
-        Profile right = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory.right());
+    private Time idleTime(TankTrajectory trajectory, MotionState max, boolean isRightLonger) {
+        Profile left = ProfileFactory.createTrajectoryProfile(max, trajectory.left());
+        Profile right = ProfileFactory.createTrajectoryProfile(max, trajectory.right());
 
-        return isRightLonger ? right.duration().sub(left.duration()) : left.duration().sub(right.duration());
+        return isRightLonger ? right.deltaState().timestamp().sub(left.deltaState().timestamp()) : left.deltaState().timestamp().sub(right.deltaState().timestamp());
     }
 }
