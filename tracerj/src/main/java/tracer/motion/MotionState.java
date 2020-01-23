@@ -1,6 +1,12 @@
 package tracer.motion;
 
+import com.jmath.ExtendedMath;
+
+import java.util.Objects;
+
 public class MotionState {
+    private final static double DEF_DELTA = 0.001;
+
     private final double velocity;
     private final double acceleration;
     private final double jerk;
@@ -49,6 +55,22 @@ public class MotionState {
 
     public MotionState mul(double val) {
         return new MotionState(velocity * val, acceleration * val, jerk * val);
+    }
+
+    public boolean equals(MotionState other) {
+        return ExtendedMath.equals(velocity, other.velocity(), DEF_DELTA) &&
+                ExtendedMath.equals(acceleration, other.acceleration(), DEF_DELTA) &&
+                ExtendedMath.equals(jerk, other.jerk(), DEF_DELTA);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof MotionState && equals((MotionState)o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(velocity, acceleration, jerk);
     }
 
     @Override

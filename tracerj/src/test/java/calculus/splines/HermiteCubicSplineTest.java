@@ -15,7 +15,7 @@ public class HermiteCubicSplineTest {
     @ParameterizedTest
     @MethodSource("provideSplinesForTest")
     public void createInstance_ofLineSpline_returnsCorrectSpline(final Spline actual, final Spline expected) {
-        assertThat(actual, expected);
+        assertEquals(actual, expected);
     }
 
     private static Stream<Arguments> provideSplinesForTest() {

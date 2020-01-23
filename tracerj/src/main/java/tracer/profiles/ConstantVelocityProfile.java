@@ -11,26 +11,34 @@ public class ConstantVelocityProfile extends BasicProfile {
     private final PolynomialFunction distance;
     private final Time duration;
 
-    public ConstantVelocityProfile(Time duration) {
-        this(new ProfileState(), duration);
+    public ConstantVelocityProfile(MotionState state, Time duration) {
+        this(new ProfileState(), state, duration);
     }
 
-    public ConstantVelocityProfile(Profile prevProfile, Time duration) {
-        this(prevProfile.finalState(), duration);
+    public ConstantVelocityProfile(Profile prevProfile, MotionState state, Time duration) {
+        this(prevProfile.finalState(), state, duration);
     }
 
-    public ConstantVelocityProfile(ProfileState initialState, Time duration) {
+    public ConstantVelocityProfile(ProfileState initialState, MotionState state, Time duration) {
         super(initialState);
         this.duration = duration;
 
-        distance = new Linear(initialState.velocity(), 0);
+        distance = new Linear(state.velocity(), 0);
+    }
+
+    public static ConstantVelocityProfile continuation(Profile prevProfile, Time duration) {
+        return continuation(prevProfile.finalState(), duration);
+    }
+
+    public static ConstantVelocityProfile continuation(ProfileState initialState, Time duration) {
+        return new ConstantVelocityProfile(initialState, initialState.parameters(), duration);
     }
 
     public static ConstantVelocityProfile forTrajectory(Trajectory trajectory, MotionState target) {
         double distancePassedIn2SCurves = ProfileFactory.distancePassedInTwoSCurves(target);
         double distanceToBePassed = trajectory.end() - distancePassedIn2SCurves;
 
-        return new ConstantVelocityProfile(Time.seconds(distanceToBePassed/target.velocity()));
+        return new ConstantVelocityProfile(target, Time.seconds(distanceToBePassed/target.velocity()));
     }
 
     @Override

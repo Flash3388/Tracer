@@ -13,7 +13,7 @@ public class LinkedProfile extends MoreBasicProfile {
     public LinkedProfile(ProfileState initialState, Profile profile, Profile next) {
         super(initialState);
         current = profile;
-        this.next = new ProfileDelegate(profile, next);
+        this.next = new ProfileDelegate(current.finalState().sub(initialState), next);
     }
 
     @Override
