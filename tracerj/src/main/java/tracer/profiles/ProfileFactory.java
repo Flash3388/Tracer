@@ -13,7 +13,7 @@ public class ProfileFactory {
     }
 
     public static Profile createTrajectoryProfile(ProfileState initialState, MotionState max, Trajectory trajectory) {
-        isIllegalVelocity(max, trajectory.end());
+        checkVelocity(max, trajectory.end());
         return createSCurve(initialState, max).then(ConstantVelocityProfile.forTrajectory(trajectory, max)).then(createSCurve(max.mul(-1)));
     }
 
@@ -33,7 +33,7 @@ public class ProfileFactory {
         return createSCurve(target).deltaState().distance();
     }
 
-    private static void isIllegalVelocity(MotionState max, double targetDistance) {
+    private static void checkVelocity(MotionState max, double targetDistance) {
         if (Math.abs(distancePassedInTwoSCurves(max)) > Math.abs(targetDistance))
             throw new IllegalArgumentException("Too small distance compared to maximum parameters");;
     }
