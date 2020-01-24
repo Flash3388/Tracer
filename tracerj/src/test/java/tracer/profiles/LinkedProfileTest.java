@@ -5,6 +5,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
+import tracer.units.morion.Acceleration;
+import tracer.units.morion.Velocity;
 
 import java.util.stream.Stream;
 
@@ -37,15 +40,15 @@ public class LinkedProfileTest {
     }
 
     private static Stream<Arguments> provideBaseProfilesForLinkedProfileTest() {
-        MotionState target = new MotionState(1, 2, 3);
+        MotionState target = MotionState.meterUnits(1, 2, 3);
 
         return Stream.of(
-                Arguments.of(new ConstantVelocityProfile(MotionState.constantVelocity(2), Time.seconds(2))),
-                Arguments.of(ConstantVelocityProfile.continuation(new ProfileState(2, MotionState.constantVelocity(2), Time.milliseconds(0)), Time.seconds(2))),
-                Arguments.of(new LinearVelocityProfile(MotionState.linearVelocity(1, 2), Time.seconds(2))),
-                Arguments.of(new LinearVelocityProfile(new ProfileState(2, MotionState.stop(), Time.milliseconds(0)), MotionState.linearVelocity(1, 2), Time.seconds(2))),
+                Arguments.of(new ConstantVelocityProfile(MotionState.constantVelocity(Velocity.metersPerSecond(2)), Time.seconds(2))),
+                Arguments.of(ConstantVelocityProfile.continuation(new ProfileState(Distance.meters(2), MotionState.constantVelocity(Velocity.metersPerSecond(2)), Time.milliseconds(0)), Time.seconds(2))),
+                Arguments.of(new LinearVelocityProfile(MotionState.linearVelocity(Velocity.metersPerSecond(1), Acceleration.metersPerSecondSquared(2)), Time.seconds(2))),
+                Arguments.of(new LinearVelocityProfile(new ProfileState(Distance.meters(2), MotionState.stop(), Time.milliseconds(0)), MotionState.linearVelocity(Velocity.metersPerSecond(1), Acceleration.metersPerSecondSquared(2)), Time.seconds(2))),
                 Arguments.of(new ConcaveProfile(target)),
-                Arguments.of(new ConcaveProfile(new ProfileState(2, MotionState.stop(), Time.milliseconds(0)), target))
+                Arguments.of(new ConcaveProfile(new ProfileState(Distance.meters(2), MotionState.stop(), Time.milliseconds(0)), target))
         );
     }
 }

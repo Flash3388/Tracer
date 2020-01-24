@@ -4,6 +4,10 @@ import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
+import tracer.units.morion.Acceleration;
+import tracer.units.morion.Jerk;
+import tracer.units.morion.Velocity;
 import util.TimeConversion;
 
 public class LinearVelocityProfile extends BasicProfile {
@@ -23,8 +27,8 @@ public class LinearVelocityProfile extends BasicProfile {
         super(initialState);
         this.duration = duration;
 
-        velocity = new Linear(state.acceleration(), 0);
-        distance = new PolynomialFunction(state.acceleration()/2, state.velocity(), 0.0);
+        velocity = new Linear(state.acceleration().valueAsMetersPerSecondSquared(), 0);
+        distance = new PolynomialFunction(state.acceleration().valueAsMetersPerSecondSquared()/2, state.velocity().valueAsMetersPerSecond(), 0.0);
     }
 
     public static LinearVelocityProfile continuation(Profile prevProfile, Time duration) {
@@ -37,9 +41,9 @@ public class LinearVelocityProfile extends BasicProfile {
 
     public static LinearVelocityProfile forSCurve(MotionState target) {
         MotionState finalStateOnConcave = new ConcaveProfile(target).finalState().parameters();
-        double velocityDelta = target.sub(finalStateOnConcave).velocity();
+        double velocityDelta = target.sub(finalStateOnConcave).velocity().valueAsMetersPerSecond();
 
-        return new LinearVelocityProfile(finalStateOnConcave, Time.seconds(velocityDelta/target.acceleration()));
+        return new LinearVelocityProfile(finalStateOnConcave, Time.seconds(velocityDelta/target.acceleration().valueAsMetersPerSecondSquared()));
     }
 
     @Override
@@ -48,24 +52,24 @@ public class LinearVelocityProfile extends BasicProfile {
     }
 
     @Override
-    protected double relativeDistanceAt(Time t) {
+    protected Distance relativeDistanceAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return distance.applyAsDouble(timeInSeconds);
+        return Distance.meters(distance.applyAsDouble(timeInSeconds));
     }
 
     @Override
-    protected double relativeVelocityAt(Time t) {
+    protected Velocity relativeVelocityAt(Time t) {
         double timeInSeconds = TimeConversion.toSeconds(t);
-        return velocity.applyAsDouble(timeInSeconds);
+        return Velocity.metersPerSecond(velocity.applyAsDouble(timeInSeconds));
     }
 
     @Override
-    protected double relativeAccelerationAt(Time t) {
-        return 0;
+    protected Acceleration relativeAccelerationAt(Time t) {
+        return Acceleration.metersPerSecondSquared(0);
     }
 
     @Override
-    protected double relativeJerkAt(Time relativeTime) {
-        return 0;
+    protected Jerk relativeJerkAt(Time relativeTime) {
+        return Jerk.metersPerSecondCubed(0);
     }
 }

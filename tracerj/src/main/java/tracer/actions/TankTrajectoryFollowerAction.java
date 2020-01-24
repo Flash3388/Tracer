@@ -5,18 +5,20 @@ import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.TankTrajectoryController;
 import tracer.motion.Position;
+import tracer.units.distance.Distance;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 public class TankTrajectoryFollowerAction extends FollowerAction {
     private final TankDriveSystem tankSystem;
     private final TankTrajectoryController controller;
-    private final DoubleSupplier rightDistanceSupplier;
-    private final DoubleSupplier leftDistanceSupplier;
+    private final Supplier<Distance> rightDistanceSupplier;
+    private final Supplier<Distance> leftDistanceSupplier;
     private final DoubleSupplier angleSupplier;
 
-    public TankTrajectoryFollowerAction(TankDriveSystem tankSystem, TankTrajectoryController controller, DoubleSupplier rightDistanceSupplier, DoubleSupplier leftDistanceSupplier, DoubleSupplier angleSupplier, Clock clock) {
+    public TankTrajectoryFollowerAction(TankDriveSystem tankSystem, TankTrajectoryController controller, Supplier<Distance> rightDistanceSupplier, Supplier<Distance> leftDistanceSupplier, DoubleSupplier angleSupplier, Clock clock) {
         super(tankSystem, controller, clock);
         this.tankSystem = tankSystem;
         this.controller = controller;
@@ -40,10 +42,10 @@ public class TankTrajectoryFollowerAction extends FollowerAction {
 
 
     private Position rightPosition(Time relativeTime) {
-        return new Position(relativeTime, rightDistanceSupplier.getAsDouble(), angleSupplier.getAsDouble());
+        return new Position(relativeTime, rightDistanceSupplier.get(), angleSupplier.getAsDouble());
     }
 
     private Position leftPosition(Time relativeTime) {
-        return new Position(relativeTime, leftDistanceSupplier.getAsDouble(), angleSupplier.getAsDouble());
+        return new Position(relativeTime, leftDistanceSupplier.get(), angleSupplier.getAsDouble());
     }
 }

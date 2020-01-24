@@ -26,6 +26,6 @@ public class ProfilePidController {
     }
 
     public double calculate(Position position) {
-        return controller.calculate(position.distance(), trajectoryProfile.state(position.timestamp()).distance());
+        return controller.calculate(position.distance().valueAsMeters(), trajectoryProfile.state(position.timestamp()).distance().valueAsMeters());
     }
 }

@@ -49,6 +49,10 @@ public class Jerk implements Unit {
         return value;
     }
 
+    public double valueAsMetersPerSecondCubed() {
+        return toUnit(DistanceUnit.METERS, TimeUnit.SECONDS, TimeUnit.SECONDS, TimeUnit.SECONDS).value();
+    }
+
     public DistanceUnit distanceUnit() {
         return distanceUnit;
     }

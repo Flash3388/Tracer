@@ -2,6 +2,7 @@ package tracer.profiles;
 
 import calculus.trajectories.Trajectory;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
 
 public class ProfileFactory {
     public static Profile createTrajectoryProfile(MotionState max, Trajectory trajectory) {
@@ -13,8 +14,8 @@ public class ProfileFactory {
     }
 
     public static Profile createTrajectoryProfile(ProfileState initialState, MotionState max, Trajectory trajectory) {
-        checkVelocity(max, trajectory.end());
-        return createSCurve(initialState, max).then(ConstantVelocityProfile.forTrajectory(trajectory, max)).then(createSCurve(max.mul(-1)));
+        checkVelocity(max, Distance.meters(trajectory.end()));
+        return createSCurve(initialState, max).then(ConstantVelocityProfile.forTrajectory(trajectory, max)).then(createSCurve(max.reverse()));
     }
 
     public static Profile createSCurve(MotionState max) {
@@ -29,12 +30,12 @@ public class ProfileFactory {
         return new ConcaveProfile(initialState, max).then(LinearVelocityProfile.forSCurve(max)).then(new ConvexProfile(max));
     }
 
-    public static double distancePassedInTwoSCurves(MotionState target) {
+    public static Distance distancePassedInTwoSCurves(MotionState target) {
         return createSCurve(target).deltaState().distance();
     }
 
-    private static void checkVelocity(MotionState max, double targetDistance) {
-        if (Math.abs(distancePassedInTwoSCurves(max)) > Math.abs(targetDistance))
+    private static void checkVelocity(MotionState max, Distance targetDistance) {
+        if (Math.abs(distancePassedInTwoSCurves(max).valueAsMeters()) > Math.abs(targetDistance.valueAsMeters()))
             throw new IllegalArgumentException("Too small distance compared to maximum parameters");;
     }
 }

@@ -3,6 +3,9 @@ package tracer.profiles;
 import com.flash3388.flashlib.time.Time;
 import org.junit.jupiter.api.Test;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
+import tracer.units.morion.Acceleration;
+import tracer.units.morion.Velocity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,8 +25,8 @@ public class LinearVelocityProfileTest {
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
         final double EXPECTED = INITIAL_VELOCITY + RELATIVE_TIME_IN_SECONDS * INITIAL_ACCELERATION;
 
-        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.linearVelocity(INITIAL_VELOCITY, INITIAL_ACCELERATION), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
-        final double ACTUAL = PROFILE.state(T).velocity();
+        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(Distance.meters(INITIAL_DISTANCE), MotionState.linearVelocity(Velocity.metersPerSecond(INITIAL_VELOCITY), Acceleration.metersPerSecondSquared(INITIAL_ACCELERATION)), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
+        final double ACTUAL = PROFILE.state(T).velocity().valueAsMetersPerSecond();
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
@@ -38,8 +41,8 @@ public class LinearVelocityProfileTest {
         final Time T = INITIAL_TIME.add(Time.seconds(0.1));
         final Time END_TIME = Time.seconds(2);
 
-        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.linearVelocity(INITIAL_VELOCITY, INITIAL_ACCELERATION), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
-        final double ACTUAL = PROFILE.state(T).acceleration();
+        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(Distance.meters(INITIAL_DISTANCE), MotionState.linearVelocity(Velocity.metersPerSecond(INITIAL_VELOCITY), Acceleration.metersPerSecondSquared(INITIAL_ACCELERATION)), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
+        final double ACTUAL = PROFILE.state(T).acceleration().valueAsMetersPerSecondSquared();
 
         assertEquals(ACTUAL, INITIAL_ACCELERATION, DEF_DELTA);
     }
@@ -55,8 +58,8 @@ public class LinearVelocityProfileTest {
         final Time END_TIME = Time.seconds(2);
 
         final Double EXPECTED = 0.0;
-        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.linearVelocity(INITIAL_VELOCITY, INITIAL_ACCELERATION), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
-        final Double ACTUAL = PROFILE.state(T).jerk();
+        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(Distance.meters(INITIAL_DISTANCE), MotionState.linearVelocity(Velocity.metersPerSecond(INITIAL_VELOCITY), Acceleration.metersPerSecondSquared(INITIAL_ACCELERATION)), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
+        final double ACTUAL = PROFILE.state(T).jerk().valueAsMetersPerSecondCubed();
 
         assertEquals(ACTUAL, EXPECTED);
     }
@@ -74,8 +77,8 @@ public class LinearVelocityProfileTest {
         final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
         final double EXPECTED = INITIAL_DISTANCE + INITIAL_VELOCITY * RELATIVE_TIME_IN_SECONDS + INITIAL_ACCELERATION * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2;
 
-        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.linearVelocity(INITIAL_VELOCITY, INITIAL_ACCELERATION), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
-        final double ACTUAL = PROFILE.state(T).distance();
+        final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(Distance.meters(INITIAL_DISTANCE), MotionState.linearVelocity(Velocity.metersPerSecond(INITIAL_VELOCITY), Acceleration.metersPerSecondSquared(INITIAL_ACCELERATION)), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
+        final double ACTUAL = PROFILE.state(T).distance().valueAsMeters();
 
         assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }

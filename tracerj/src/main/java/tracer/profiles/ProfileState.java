@@ -3,25 +3,27 @@ package tracer.profiles;
 import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
+import tracer.units.morion.Acceleration;
+import tracer.units.morion.Jerk;
+import tracer.units.morion.Velocity;
 
 public class ProfileState {
-    private final static double DEF_DELTA = 0.001;
-
-    private final double distance;
+    private final Distance distance;
     private final MotionState state;
     private final Time timestamp;
 
     public ProfileState() {
-        this(0, MotionState.stop(), Time.milliseconds(0));
+        this(Distance.meters(0), MotionState.stop(), Time.milliseconds(0));
     }
 
-    public ProfileState(double distance, MotionState state, Time timestamp) {
+    public ProfileState(Distance distance, MotionState state, Time timestamp) {
         this.distance = distance;
         this.state = state;
         this.timestamp = timestamp;
     }
 
-    public double distance() {
+    public Distance distance() {
         return distance;
     }
 
@@ -33,28 +35,28 @@ public class ProfileState {
         return timestamp;
     }
 
-    public double velocity() {
+    public Velocity velocity() {
         return state.velocity();
     }
 
-    public double acceleration() {
+    public Acceleration acceleration() {
         return state.acceleration();
     }
 
-    public double jerk() {
+    public Jerk jerk() {
         return state.jerk();
     }
 
     public ProfileState add(ProfileState other) {
-        return new ProfileState(distance + other.distance(), state.add(other.parameters()), timestamp.add(other.timestamp()));
+        return new ProfileState(distance.add(other.distance()), state.add(other.parameters()), timestamp.add(other.timestamp()));
     }
 
     public ProfileState sub(ProfileState other) {
-        return new ProfileState(distance - other.distance(), state.sub(other.parameters()), timestamp.sub(other.timestamp()));
+        return new ProfileState(distance.sub(other.distance()), state.sub(other.parameters()), timestamp.sub(other.timestamp()));
     }
 
     public boolean equals(ProfileState other) {
-        return ExtendedMath.equals(distance, other.distance(), DEF_DELTA) &&
+        return distance.equals(other.distance()) &&
                 state.equals(other.parameters()) &&
                 timestamp.equals(other.timestamp());
     }

@@ -47,6 +47,10 @@ public class Acceleration implements Unit {
         return value;
     }
 
+    public double valueAsMetersPerSecondSquared() {
+        return toUnit(DistanceUnit.METERS, TimeUnit.SECONDS, TimeUnit.SECONDS).value();
+    }
+
     public DistanceUnit distanceUnit() {
         return distanceUnit;
     }

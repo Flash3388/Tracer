@@ -2,6 +2,10 @@ package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
+import tracer.units.morion.Acceleration;
+import tracer.units.morion.Jerk;
+import tracer.units.morion.Velocity;
 
 public abstract class BasicProfile extends MoreBasicProfile {
     public BasicProfile(Profile prevProfile) {
@@ -22,10 +26,10 @@ public abstract class BasicProfile extends MoreBasicProfile {
         return new ProfileState(relativeDistanceAt(relativeTime), relativeMotionState(relativeTime), relativeTime);
     }
 
-    protected abstract double relativeDistanceAt(Time relativeTime);
-    protected abstract double relativeVelocityAt(Time relativeTime);
-    protected abstract double relativeAccelerationAt(Time relativeTime);
-    protected abstract double relativeJerkAt(Time relativeTime);
+    protected abstract Distance relativeDistanceAt(Time relativeTime);
+    protected abstract Velocity relativeVelocityAt(Time relativeTime);
+    protected abstract Acceleration relativeAccelerationAt(Time relativeTime);
+    protected abstract Jerk relativeJerkAt(Time relativeTime);
 
     private MotionState relativeMotionState(Time relativeTime) {
         return new MotionState(relativeVelocityAt(relativeTime), relativeAccelerationAt(relativeTime), relativeJerkAt(relativeTime));

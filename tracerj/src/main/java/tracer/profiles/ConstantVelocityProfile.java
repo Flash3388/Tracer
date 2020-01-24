@@ -5,6 +5,10 @@ import calculus.functions.polynomial.PolynomialFunction;
 import calculus.trajectories.Trajectory;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
+import tracer.units.morion.Acceleration;
+import tracer.units.morion.Jerk;
+import tracer.units.morion.Velocity;
 import util.TimeConversion;
 
 public class ConstantVelocityProfile extends BasicProfile {
@@ -23,7 +27,7 @@ public class ConstantVelocityProfile extends BasicProfile {
         super(initialState);
         this.duration = duration;
 
-        distance = new Linear(state.velocity(), 0);
+        distance = new Linear(state.velocity().valueAsMetersPerSecond(), 0);
     }
 
     public static ConstantVelocityProfile continuation(Profile prevProfile, Time duration) {
@@ -35,10 +39,10 @@ public class ConstantVelocityProfile extends BasicProfile {
     }
 
     public static ConstantVelocityProfile forTrajectory(Trajectory trajectory, MotionState target) {
-        double distancePassedIn2SCurves = ProfileFactory.distancePassedInTwoSCurves(target);
-        double distanceToBePassed = trajectory.end() - distancePassedIn2SCurves;
+        Distance distancePassedIn2SCurves = ProfileFactory.distancePassedInTwoSCurves(target);
+        double distanceToBePassed = trajectory.end() - distancePassedIn2SCurves.valueAsMeters();
 
-        return new ConstantVelocityProfile(target, Time.seconds(distanceToBePassed/target.velocity()));
+        return new ConstantVelocityProfile(target, Time.seconds(distanceToBePassed/target.velocity().valueAsMetersPerSecond()));
     }
 
     @Override
@@ -47,23 +51,23 @@ public class ConstantVelocityProfile extends BasicProfile {
     }
 
     @Override
-    protected double relativeDistanceAt(Time relativeTime) {
+    protected Distance relativeDistanceAt(Time relativeTime) {
         double timeInSeconds = TimeConversion.toSeconds(relativeTime);
-        return distance.applyAsDouble(timeInSeconds);
+        return Distance.meters(distance.applyAsDouble(timeInSeconds));
     }
 
     @Override
-    protected double relativeVelocityAt(Time relativeTime) {
-        return 0;
+    protected Velocity relativeVelocityAt(Time relativeTime) {
+        return Velocity.metersPerSecond(0);
     }
 
     @Override
-    protected double relativeAccelerationAt(Time relativeTime) {
-        return 0;
+    protected Acceleration relativeAccelerationAt(Time relativeTime) {
+        return Acceleration.metersPerSecondSquared(0);
     }
 
     @Override
-    protected double relativeJerkAt(Time relativeTime) {
-        return 0;
+    protected Jerk relativeJerkAt(Time relativeTime) {
+        return Jerk.metersPerSecondCubed(0);
     }
 }

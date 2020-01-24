@@ -23,7 +23,7 @@ public class TrajectoryOrientationController {
     }
 
     public double calculate(Position position) {
-        double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance(), -trajectory.end(), trajectory.end());
+        double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance().valueAsMeters(), -trajectory.end(), trajectory.end());
         double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
         expected = isForward ? expected : 180 - Mathf.translateInRange(expected, 360, true);
 

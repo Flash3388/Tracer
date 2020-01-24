@@ -4,6 +4,10 @@ import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.units.distance.Distance;
+import tracer.units.morion.Acceleration;
+import tracer.units.morion.Jerk;
+import tracer.units.morion.Velocity;
 import util.TimeConversion;
 
 public class ConcaveProfile extends BasicProfile {
@@ -23,37 +27,38 @@ public class ConcaveProfile extends BasicProfile {
     public ConcaveProfile(ProfileState initialState, MotionState target) {
         super(initialState);
         this.target = target;
+        double jerkMeters = target.jerk().valueAsMetersPerSecondCubed();
 
-        acceleration = new Linear(target.jerk(), 0);
-        velocity = new PolynomialFunction(target.jerk()/2, 0.0, 0.0);
-        distance = new PolynomialFunction(target.jerk()/6, 0.0, initialState.velocity(), 0.0);
+        acceleration = new Linear(jerkMeters, 0);
+        velocity = new PolynomialFunction(jerkMeters/2, 0.0, 0.0);
+        distance = new PolynomialFunction(jerkMeters/6, 0.0, initialState.velocity().valueAsMetersPerSecond(), 0.0);
     }
 
     @Override
-    protected double relativeDistanceAt(Time relativeTime) {
+    protected Distance relativeDistanceAt(Time relativeTime) {
         double timeInSeconds = TimeConversion.toSeconds(relativeTime);
-        return distance.applyAsDouble(timeInSeconds);
+        return Distance.meters(distance.applyAsDouble(timeInSeconds));
     }
 
     @Override
-    protected double relativeVelocityAt(Time relativeTime) {
+    protected Velocity relativeVelocityAt(Time relativeTime) {
         double timeInSeconds = TimeConversion.toSeconds(relativeTime);
-        return velocity.applyAsDouble(timeInSeconds);
+        return Velocity.metersPerSecond(velocity.applyAsDouble(timeInSeconds));
     }
 
     @Override
-    protected double relativeAccelerationAt(Time relativeTime) {
+    protected Acceleration relativeAccelerationAt(Time relativeTime) {
         double timeInSeconds = TimeConversion.toSeconds(relativeTime);
-        return acceleration.applyAsDouble(timeInSeconds);
+        return Acceleration.metersPerSecondSquared(acceleration.applyAsDouble(timeInSeconds));
     }
 
     @Override
-    protected double relativeJerkAt(Time relativeTime) {
+    protected Jerk relativeJerkAt(Time relativeTime) {
         return target.jerk();
     }
 
     @Override
     public Time duration() {
-        return Time.seconds(target.acceleration()/target.jerk());
+        return Time.seconds(target.acceleration().valueAsMetersPerSecondSquared()/target.jerk().valueAsMetersPerSecondCubed());
     }
 }
