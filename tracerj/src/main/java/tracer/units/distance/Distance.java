@@ -1,5 +1,6 @@
 package tracer.units.distance;
 
+import com.flash3388.flashlib.util.CompareResult;
 import tracer.units.generic.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
 
@@ -44,6 +45,7 @@ public class Distance implements Unit {
         return new Distance(value, DistanceUnit.MILLIMETERS);
     }
 
+    @Override
     public double value() {
         return value;
     }
@@ -84,10 +86,6 @@ public class Distance implements Unit {
 
     public Distance toUnit(DistanceUnit newUnit) {
         return new Distance(unit.toUnit(newUnit, value), newUnit);
-    }
-
-    public boolean equals(Distance other) {
-        return sub(other).value() == 0;
     }
 
     @Override

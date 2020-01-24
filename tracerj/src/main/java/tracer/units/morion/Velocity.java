@@ -1,5 +1,6 @@
 package tracer.units.morion;
 
+import com.flash3388.flashlib.util.CompareResult;
 import tracer.units.distance.DistanceUnit;
 import tracer.units.generic.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
@@ -28,10 +29,19 @@ public class Velocity implements Unit {
         return new Velocity(value, DistanceUnit.METERS, TimeUnit.SECONDS);
     }
 
+    public static Velocity feetPerSecond(double value) {
+        return new Velocity(value, DistanceUnit.FEET, TimeUnit.SECONDS);
+    }
+
     public static Velocity inchesPerSecond(double value) {
         return new Velocity(value, DistanceUnit.INCHES, TimeUnit.SECONDS);
     }
 
+    public static Velocity centimetersPerSecond(double value) {
+        return new Velocity(value, DistanceUnit.CENTIMETERS, TimeUnit.SECONDS);
+    }
+
+    @Override
     public double value() {
         return value;
     }
@@ -77,6 +87,13 @@ public class Velocity implements Unit {
     }
 
     public Velocity toUnit(DistanceUnit newDistanceUnit, TimeUnit newTimeUnit) {
-        return new Velocity(timeUnit.toUnit(newTimeUnit, distanceUnit.toUnit(newDistanceUnit, value)), newDistanceUnit, newTimeUnit);
+        return new Velocity(
+                distanceUnit.toUnit(newDistanceUnit,
+                        timeUnit.toUnit(newTimeUnit, value)), newDistanceUnit, newTimeUnit);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Velocity && equals((Velocity)o);
     }
 }
