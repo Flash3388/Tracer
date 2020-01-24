@@ -5,6 +5,8 @@ import calculus.splines.parameters.Waypoint;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import tracer.units.angle.Angle;
+import tracer.units.distance.Distance;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,8 +29,8 @@ public class TankTrajectoryTest {
         double width = 1;
 
         return Stream.of(
-                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint().shiftY(width/2).shiftX(1)), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint().shiftY(-width/2).shiftX(1)), new TankTrajectory(SplineType.CUBIC_HERMITE, width, new Waypoint(), new Waypoint().shiftX(1))),
-                Arguments.of(Arrays.asList(new Waypoint().shiftY(width/2), new Waypoint(1 - width/2, 1, Math.toRadians(90))), Arrays.asList(new Waypoint().shiftY(-width/2), new Waypoint(1 + width/2, 1, Math.toRadians(90))), new TankTrajectory(SplineType.CUBIC_HERMITE, width, new Waypoint(), new Waypoint().shiftXY(1).shiftHeading(Math.toRadians(90))))
+                Arguments.of(Arrays.asList(new Waypoint().shiftY(Distance.meters(width/2)), new Waypoint().shiftY(Distance.meters(width/2)).shiftX(Distance.meters(1))), Arrays.asList(new Waypoint().shiftY(Distance.meters(-width/2)), new Waypoint().shiftY(Distance.meters(-width/2)).shiftX(Distance.meters(1))), new TankTrajectory(SplineType.CUBIC_HERMITE, Distance.meters(width), new Waypoint(), new Waypoint().shiftX(Distance.meters(1)))),
+                Arguments.of(Arrays.asList(new Waypoint().shiftY(Distance.meters(width/2)), new Waypoint(Distance.meters(1 - width/2), Distance.meters(1), Angle.degrees(90))), Arrays.asList(new Waypoint().shiftY(Distance.meters(-width/2)), new Waypoint(Distance.meters(1 + width/2), Distance.meters(1), Angle.degrees(90))), new TankTrajectory(SplineType.CUBIC_HERMITE, Distance.meters(width), new Waypoint(), new Waypoint().shiftXY(Distance.meters(1)).shiftHeading(Angle.degrees(90))))
         );
     }
 }

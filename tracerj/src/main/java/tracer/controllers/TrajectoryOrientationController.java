@@ -27,6 +27,6 @@ public class TrajectoryOrientationController {
         double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
         expected = isForward ? expected : 180 - Mathf.translateInRange(expected, 360, true);
 
-        return (kP * shortestAngularDistance(position.getAngle(), expected));
+        return (kP * shortestAngularDistance(position.getAngle().valueAsDegrees(), expected));
     }
 }

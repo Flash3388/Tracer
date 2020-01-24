@@ -1,54 +1,53 @@
 package calculus.splines.parameters;
 
+import tracer.units.angle.Angle;
+import tracer.units.distance.Distance;
+
 public class Waypoint {
-    private final double x;
-    private final double y;
-    private final double heading;
+    private final Distance x;
+    private final Distance y;
+    private final Angle heading;
 
     public Waypoint() {
-        this(0, 0, 0);
+        this(Distance.meters(0), Distance.meters(0), Angle.degrees(0));
     }
 
-    public Waypoint(double xMeters, double yMeters, double headingRadians) {
-        this.x = xMeters;
-        this.y = yMeters;
-        this.heading = headingRadians;
+    public Waypoint(Distance x, Distance y, Angle heading) {
+        this.x = x;
+        this.y = y;
+        this.heading = heading;
     }
 
-    public Waypoint shiftXY(double meters) {
-        return new Waypoint(x+meters, y+meters, heading);
+    public Waypoint shiftXY(Distance distance) {
+        return new Waypoint(x.add(distance), y.add(distance), heading);
     }
 
-    public Waypoint shiftX(double xMeters) {
-        return new Waypoint(x+xMeters, y, heading);
+    public Waypoint shiftX(Distance addition) {
+        return new Waypoint(x.add(addition), y, heading);
     }
 
-    public Waypoint shiftY(double yMeters) {
-        return new Waypoint(x, y+yMeters, heading);
+    public Waypoint shiftY(Distance addition) {
+        return new Waypoint(x, y.add(addition), heading);
     }
 
-    public Waypoint shiftHeading(double headingRadians) {
-        return new Waypoint(x, y, heading+headingRadians);
+    public Waypoint shiftHeading(Angle addition) {
+        return new Waypoint(x, y, heading.add(addition));
     }
 
-    public double x() {
+    public Distance x() {
         return x;
     }
 
-    public double y() {
+    public Distance y() {
         return y;
     }
 
-    public double heading() {
+    public Angle heading() {
         return heading;
-    }
-
-    public double headingDegrees() {
-        return Math.toDegrees(heading);
     }
 
     @Override
     public String toString() {
-        return String.format("X: %f, Y: %f, Heading: %f",x,y,heading);
+        return String.format("X: %s, Y: %s, Heading: %s",x,y,heading);
     }
 }

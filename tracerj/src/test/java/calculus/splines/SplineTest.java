@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import tracer.units.angle.Angle;
+import tracer.units.distance.Distance;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -76,17 +78,17 @@ public class SplineTest {
         Waypoint base = new Waypoint();
 
         return List.of(
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftHeading(Math.toRadians(45)), base.shiftHeading(Math.toRadians(45)).shiftXY(1), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base.shiftHeading(Math.toRadians(45)), base.shiftHeading(Math.toRadians(45)).shiftXY(1), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base, base.shiftX(1), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base, base.shiftX(1), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftHeading(Math.toRadians(90)), base.shiftHeading(Math.toRadians(90)).shiftY(1), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base.shiftHeading(Math.toRadians(90)), base.shiftHeading(Math.toRadians(90)).shiftY(1), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftXY(1).shiftHeading(Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base.shiftXY(1).shiftHeading(Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftHeading(Math.toRadians(180)), base.shiftX(-1).shiftHeading(Math.toRadians(180)), 0)),
-                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base, base.shiftXY(1).shiftHeading(Math.toRadians(90)), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base, base.shiftXY(1).shiftHeading(Math.toRadians(90)), 0))
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftHeading(Angle.degrees(45)), base.shiftHeading(Angle.degrees(45)).shiftXY(Distance.meters(1)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base.shiftHeading(Angle.degrees(45)), base.shiftHeading(Angle.degrees((45))).shiftXY(Distance.meters(1)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base, base.shiftX(Distance.meters(1)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base, base.shiftX(Distance.meters(1)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftHeading(Angle.degrees(90)), base.shiftHeading(Angle.degrees(90)).shiftY(Distance.meters(1)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base.shiftHeading(Angle.degrees(90)), base.shiftHeading(Angle.degrees(90)).shiftY(Distance.meters(1)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftXY(Distance.meters(1)).shiftHeading(Angle.degrees(90)), new Waypoint(Distance.meters(1), Distance.meters(2), Angle.degrees(90)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base.shiftXY(Distance.meters(1)).shiftHeading(Angle.degrees(90)), new Waypoint(Distance.meters(1), Distance.meters(2), Angle.degrees(90)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base.shiftHeading(Angle.degrees(180)), base.shiftX(Distance.meters(-1)).shiftHeading(Angle.degrees(180)), 0)),
+                Arguments.of(factory.create(SplineType.CUBIC_HERMITE, base, base.shiftXY(Distance.meters(1)).shiftHeading(Angle.degrees(90)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, base, base.shiftXY(Distance.meters(1)).shiftHeading(Angle.degrees(90)), 0))
         );
     }
 }

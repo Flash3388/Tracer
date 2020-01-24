@@ -9,17 +9,17 @@ public class HermiteQuinticSpline extends Spline {
     }
 
     private static PolynomialFunction calcYFunction(Waypoint start, Waypoint end) {
-        double m0y = Math.sin(start.heading());
-        double m1y = Math.sin(end.heading());
+        double m0y = Math.sin(start.heading().valueAsRadians());
+        double m1y = Math.sin(end.heading().valueAsRadians());
 
-        return calcFunction(start.y(), m0y, Math.atan(start.heading()), end.y(), m1y, Math.atan(end.heading()));
+        return calcFunction(start.y().valueAsMeters(), m0y, Math.atan(start.heading().valueAsRadians()), end.y().valueAsMeters(), m1y, Math.atan(end.heading().valueAsRadians()));
     }
 
     private static PolynomialFunction calcXFunction(Waypoint start, Waypoint end) {
-        double m0x = Math.cos(start.heading());
-        double m1x = Math.cos(end.heading());
+        double m0x = Math.cos(start.heading().valueAsRadians());
+        double m1x = Math.cos(end.heading().valueAsRadians());
 
-        return calcFunction(start.x(), m0x, m0x, end.x(), m1x, m1x);
+        return calcFunction(start.x().valueAsMeters(), m0x, m0x, end.x().valueAsMeters(), m1x, m1x);
     }
 
     private static PolynomialFunction calcFunction(double startPosition, double startDerivative, double startSecondDerivative, double endPosition, double endDerivative, double endSecondDerivative) {

@@ -12,6 +12,14 @@ public class Angle implements Unit {
         this.unit = unit;
     }
 
+    public static Angle degrees(double value) {
+        return new Angle(value, AngleUnit.DEGREES);
+    }
+
+    public static Angle radians(double value) {
+        return new Angle(value, AngleUnit.RADIANS);
+    }
+
     @Override
     public double value() {
         return value;

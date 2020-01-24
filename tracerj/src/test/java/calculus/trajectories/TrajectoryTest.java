@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import tracer.units.angle.Angle;
+import tracer.units.distance.Distance;
 
 import java.util.stream.Stream;
 
@@ -25,7 +27,7 @@ public class TrajectoryTest {
 
     @Test
     public void angleAt_lengthOutsideOfBounds_throwsException() {
-        Trajectory trajectory = new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(1, 1, Math.toRadians(90)));
+        Trajectory trajectory = new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(Distance.meters(1), Distance.meters(1), Angle.degrees(90)));
 
         assertThrows(IllegalArgumentException.class, () -> trajectory.angleRadAt(2));
     }
@@ -34,9 +36,9 @@ public class TrajectoryTest {
         SplineFactory factory = new SplineFactory();
 
         return Stream.of(
-                Arguments.of(new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint().shiftXY(1).shiftHeading(Math.toRadians(90))), factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(1, 1, Math.toRadians(90)), 0), 1),
-                Arguments.of(new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint().shiftX(1), new Waypoint(2, 1, Math.toRadians(90))), factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(1, 1, Math.toRadians(90)), 1), 2),
-                Arguments.of(new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint().shiftX(1), new Waypoint(2, 1, Math.toRadians(90)), new Waypoint(2, 2, Math.toRadians(90))), factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(1, 1, Math.toRadians(90)), 1), 2)
+                Arguments.of(new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint().shiftXY(Distance.meters(1)).shiftHeading(Angle.degrees(90))), factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(Distance.meters(1), Distance.meters(1), Angle.degrees(90)), 0), 1),
+                Arguments.of(new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint().shiftX(Distance.meters(1)), new Waypoint(Distance.meters(2), Distance.meters(1), Angle.degrees(90))), factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(Distance.meters(1), Distance.meters(1), Angle.degrees(90)), 1), 2),
+                Arguments.of(new Trajectory(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint().shiftX(Distance.meters(1)), new Waypoint(Distance.meters(2), Distance.meters(1), Angle.degrees(90)), new Waypoint(Distance.meters(2), Distance.meters(2), Angle.degrees(90))), factory.create(SplineType.CUBIC_HERMITE, new Waypoint(), new Waypoint(Distance.meters(1), Distance.meters(1), Angle.degrees(90)), 1), 2)
         );
     }
 }

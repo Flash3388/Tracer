@@ -7,11 +7,13 @@ import tracer.controllers.factories.TrajectoryControllerFactory;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionState;
+import tracer.units.angle.Angle;
+import tracer.units.distance.Distance;
 
 public class Main {
     public static void main(String[] args) {
         MotionState max = MotionState.meterUnits(1, 2, 4);
-        Trajectory trajectory = new Trajectory(SplineType.QUINTIC_HERMITE, new Waypoint(), new Waypoint(3, 2, Math.toRadians(90)));
+        Trajectory trajectory = new Trajectory(SplineType.QUINTIC_HERMITE, new Waypoint(), new Waypoint(Distance.meters(3), Distance.meters(2), Angle.degrees(90)));
         MotionControllerParameters motionParameters = new MotionControllerParameters(4, 1.05, 0);
         PidControllerParameters pidParameters = new PidControllerParameters(1, 0, 0);
 

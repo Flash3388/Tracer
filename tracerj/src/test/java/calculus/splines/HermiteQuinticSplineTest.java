@@ -5,6 +5,8 @@ import calculus.splines.parameters.Waypoint;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import tracer.units.angle.Angle;
+import tracer.units.distance.Distance;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -34,11 +36,11 @@ public class HermiteQuinticSplineTest {
         SplineFactory factory = new SplineFactory();
 
         return List.of(
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(45)), new Waypoint(1, 1, Math.toRadians(45)), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 0, 0), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, Math.toRadians(90)), new Waypoint(0, 1, Math.toRadians(90)), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(1,1, Math.toRadians(90)), new Waypoint(1, 2, Math.toRadians(90)), 0)),
-                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(0,0, 0), new Waypoint(1, 1, Math.toRadians(90)), 0))
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(Distance.meters(0), Distance.meters(0), Angle.degrees(45)), new Waypoint(Distance.meters(1), Distance.meters(1), Angle.degrees(45)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(Distance.meters(0), Distance.meters(0), Angle.degrees(0)), new Waypoint(Distance.meters(1), Distance.meters(0), Angle.degrees(0)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(Distance.meters(0), Distance.meters(0), Angle.degrees(90)), new Waypoint(Distance.meters(0), Distance.meters(1), Angle.degrees(90)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(Distance.meters(1), Distance.meters(1), Angle.degrees(90)), new Waypoint(Distance.meters(1), Distance.meters(2), Angle.degrees(90)), 0)),
+                Arguments.of(factory.create(SplineType.QUINTIC_HERMITE, new Waypoint(Distance.meters(0), Distance.meters(0), Angle.degrees(0)), new Waypoint(Distance.meters(1), Distance.meters(1), Angle.degrees(90)), 0))
         );
     }
 }

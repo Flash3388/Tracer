@@ -2,6 +2,7 @@ package calculus.trajectories;
 
 import calculus.splines.SplineType;
 import calculus.splines.parameters.Waypoint;
+import tracer.units.distance.Distance;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,13 +12,13 @@ public class TankTrajectory {
     private final Trajectory left;
     private final Trajectory right;
 
-    public TankTrajectory(SplineType splineType, double distanceBetweenWheelsMeters, Waypoint... centerPath) {
-        this(splineType, distanceBetweenWheelsMeters, Arrays.asList(centerPath));
+    public TankTrajectory(SplineType splineType, Distance distanceBetweenWheels, Waypoint... centerPath) {
+        this(splineType, distanceBetweenWheels, Arrays.asList(centerPath));
     }
 
-    public TankTrajectory(SplineType splineType, double distanceBetweenWheelsMeters, List<Waypoint> centerPath) {
-        left = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheelsMeters/2));
-        right = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheelsMeters/2));
+    public TankTrajectory(SplineType splineType, Distance distanceBetweenWheels, List<Waypoint> centerPath) {
+        left = new Trajectory(splineType, shiftPath(centerPath, distanceBetweenWheels.valueAsMeters()/2));
+        right = new Trajectory(splineType, shiftPath(centerPath, -distanceBetweenWheels.valueAsMeters()/2));
     }
 
     public Trajectory left() {
@@ -35,7 +36,7 @@ public class TankTrajectory {
     }
 
     private Waypoint shift(Waypoint waypoint, double offset) {
-        return waypoint.shiftX(-offset * Math.sin(waypoint.heading())).shiftY(offset * Math.cos(waypoint.heading()));
+        return waypoint.shiftX(Distance.meters(-offset * Math.sin(waypoint.heading().valueAsRadians()))).shiftY(Distance.meters(offset * Math.cos(waypoint.heading().valueAsRadians())));
     }
 
     @Override
