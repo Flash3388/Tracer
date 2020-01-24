@@ -1,7 +1,8 @@
-import tracer.units.distance.Distance;
+import tracer.units.morion.Velocity;
 
 public class Main {
     public static void main(String[] args) {
-        Distance distance = Distance.inches(2);
+        Velocity velocity = Velocity.centimetersPerSecond(3);
+        System.out.println(velocity.add(Velocity.inchesPerSecond(1)));
     }
 }

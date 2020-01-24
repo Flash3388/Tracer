@@ -1,4 +1,4 @@
-package tracer.units.generic;
+package tracer.units.exceptions;
 
 public class NotMatchingUnitsException extends IllegalArgumentException{
     public NotMatchingUnitsException() {

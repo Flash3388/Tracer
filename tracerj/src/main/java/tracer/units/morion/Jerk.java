@@ -1,7 +1,7 @@
 package tracer.units.morion;
 
 import tracer.units.distance.DistanceUnit;
-import tracer.units.generic.NotMatchingUnitsException;
+import tracer.units.exceptions.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
 import tracer.units.time.TimeUnit;
 
@@ -101,5 +101,15 @@ public class Jerk implements Unit {
                         firstTimeUnit.toUnit(newFirstTimeUnit,
                                 secondTimeUnit.toUnit(newSecondTimeUnit,
                                         thirdTimeUnit.toUnit(newThirdTimeUnit, value)))), newDistanceUnit, newFirstTimeUnit, newSecondTimeUnit, newThirdTimeUnit);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Jerk && equals((Jerk) o);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%.4f [%s] per [%s] per [%s] per [%s]", value, distanceUnit.name(), firstTimeUnit.name(), secondTimeUnit.name(), thirdTimeUnit.name());
     }
 }

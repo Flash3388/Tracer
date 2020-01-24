@@ -1,8 +1,7 @@
 package tracer.units.morion;
 
-import com.flash3388.flashlib.util.CompareResult;
 import tracer.units.distance.DistanceUnit;
-import tracer.units.generic.NotMatchingUnitsException;
+import tracer.units.exceptions.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
 import tracer.units.time.TimeUnit;
 
@@ -95,5 +94,10 @@ public class Velocity implements Unit {
     @Override
     public boolean equals(Object o) {
         return o instanceof Velocity && equals((Velocity)o);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%.4f [%s] per [%s]", value, distanceUnit.name(), timeUnit.name());
     }
 }

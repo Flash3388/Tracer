@@ -1,7 +1,6 @@
 package tracer.units.distance;
 
-import com.flash3388.flashlib.util.CompareResult;
-import tracer.units.generic.NotMatchingUnitsException;
+import tracer.units.exceptions.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
 
 public class Distance implements Unit {
@@ -91,5 +90,10 @@ public class Distance implements Unit {
     @Override
     public boolean equals(Object o) {
         return o instanceof Distance && equals((Distance)o);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%.4f [%s]", value, unit.name());
     }
 }
