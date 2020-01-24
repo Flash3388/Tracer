@@ -4,8 +4,7 @@ import com.flash3388.flashlib.robot.control.PidController;
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.Position;
-import tracer.profiles.BasicProfile;
-import tracer.profiles.Profile;
+import tracer.profiles.base.Profile;
 
 public class ProfilePidController {
     private final PidController controller;

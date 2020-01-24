@@ -7,7 +7,7 @@ import tracer.motion.MotionState;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConstantVelocityProfileTest {
-    private final static double DEF_DELTA = 0.001;
+    private final static double DEFAULT_DELTA = 0.001;
 
     @Test
     public void velocityAt_forConstantVelocityProfileAtValidTime_returnsInitialVelocity() {
@@ -21,7 +21,7 @@ public class ConstantVelocityProfileTest {
         final ConstantVelocityProfile PROFILE = ConstantVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.constantVelocity(INITIAL_VELOCITY), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
         final double ACTUAL = PROFILE.state(T).velocity();
 
-        assertEquals(ACTUAL, INITIAL_VELOCITY, DEF_DELTA);
+        assertEquals(ACTUAL, INITIAL_VELOCITY, DEFAULT_DELTA);
     }
 
     @Test
@@ -71,6 +71,6 @@ public class ConstantVelocityProfileTest {
         final ConstantVelocityProfile PROFILE = ConstantVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.constantVelocity(INITIAL_VELOCITY), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
         final double ACTUAL = PROFILE.state(T).distance();
 
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
+        assertEquals(ACTUAL, EXPECTED, DEFAULT_DELTA);
     }
 }

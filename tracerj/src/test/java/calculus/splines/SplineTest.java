@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SplineTest {
-    private static final double DEF_DELTA = 0.001;
+    private static final double DEFAULT_DELTA = 0.001;
     private static final double ANGLE_DELTA = Math.toRadians(0.5);
 
     @ParameterizedTest
     @MethodSource("provideSplinesForArcLength")
     public void arcLengthSpline_returnsCorrectArcLength(final Spline spline, final double expectedLength) {
-        assertEquals(spline.length(), expectedLength, DEF_DELTA);
+        assertEquals(spline.length(), expectedLength, DEFAULT_DELTA);
     }
 
     @ParameterizedTest

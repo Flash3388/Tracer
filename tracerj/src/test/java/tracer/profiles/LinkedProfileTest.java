@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import tracer.motion.MotionState;
+import tracer.profiles.base.Profile;
 
 import java.util.stream.Stream;
 
@@ -43,9 +44,9 @@ public class LinkedProfileTest {
                 Arguments.of(new ConstantVelocityProfile(MotionState.constantVelocity(2), Time.seconds(2))),
                 Arguments.of(ConstantVelocityProfile.continuation(new ProfileState(2, MotionState.constantVelocity(2), Time.milliseconds(0)), Time.seconds(2))),
                 Arguments.of(new LinearVelocityProfile(MotionState.linearVelocity(1, 2), Time.seconds(2))),
-                Arguments.of(new LinearVelocityProfile(new ProfileState(2, MotionState.stop(), Time.milliseconds(0)), MotionState.linearVelocity(1, 2), Time.seconds(2))),
+                Arguments.of(new LinearVelocityProfile(new ProfileState(2, MotionState.none(), Time.milliseconds(0)), MotionState.linearVelocity(1, 2), Time.seconds(2))),
                 Arguments.of(new ConcaveProfile(target)),
-                Arguments.of(new ConcaveProfile(new ProfileState(2, MotionState.stop(), Time.milliseconds(0)), target))
+                Arguments.of(new ConcaveProfile(new ProfileState(2, MotionState.none(), Time.milliseconds(0)), target))
         );
     }
 }

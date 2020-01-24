@@ -5,14 +5,14 @@ import com.jmath.ExtendedMath;
 import tracer.motion.MotionState;
 
 public class ProfileState {
-    private final static double DEF_DELTA = 0.001;
+    private final static double DEFAULT_DELTA = 0.001;
 
     private final double distance;
     private final MotionState state;
     private final Time timestamp;
 
     public ProfileState() {
-        this(0, MotionState.stop(), Time.milliseconds(0));
+        this(0, MotionState.none(), Time.milliseconds(0));
     }
 
     public ProfileState(double distance, MotionState state, Time timestamp) {
@@ -54,7 +54,7 @@ public class ProfileState {
     }
 
     public boolean equals(ProfileState other) {
-        return ExtendedMath.equals(distance, other.distance(), DEF_DELTA) &&
+        return ExtendedMath.equals(distance, other.distance(), DEFAULT_DELTA) &&
                 state.equals(other.parameters()) &&
                 timestamp.equals(other.timestamp());
     }

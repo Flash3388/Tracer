@@ -1,9 +1,10 @@
-package tracer.profiles;
+package tracer.profiles.base;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.profiles.ProfileState;
 
-public class LinkedProfile extends MoreBasicProfile {
-    private final ProfileDelegate next;
+public class LinkedProfile extends BaseProfile {
+    private final DelegatedProfile next;
     private final Profile current;
 
     public LinkedProfile(Profile prevProfile, Profile profile, Profile next) {
@@ -13,7 +14,7 @@ public class LinkedProfile extends MoreBasicProfile {
     public LinkedProfile(ProfileState initialState, Profile profile, Profile next) {
         super(initialState);
         current = profile;
-        this.next = new ProfileDelegate(current.finalState().sub(initialState), next);
+        this.next = new DelegatedProfile(current.finalState().sub(initialState), next);
     }
 
     @Override

@@ -2,6 +2,7 @@ package tracer.profiles;
 
 import calculus.trajectories.Trajectory;
 import tracer.motion.MotionState;
+import tracer.profiles.base.Profile;
 
 public class ProfileFactory {
     public static Profile createTrajectoryProfile(MotionState max, Trajectory trajectory) {

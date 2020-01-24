@@ -7,7 +7,7 @@ import tracer.motion.MotionState;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LinearVelocityProfileTest {
-    private final static double DEF_DELTA = 0.0001;
+    private final static double DEFAULT_DELTA = 0.0001;
 
     @Test
     public void velocityAt_forLinearVelocityProfileAtValidTime_returnsCorrespondingVelocity() {
@@ -25,7 +25,7 @@ public class LinearVelocityProfileTest {
         final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.linearVelocity(INITIAL_VELOCITY, INITIAL_ACCELERATION), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
         final double ACTUAL = PROFILE.state(T).velocity();
 
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
+        assertEquals(ACTUAL, EXPECTED, DEFAULT_DELTA);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class LinearVelocityProfileTest {
         final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.linearVelocity(INITIAL_VELOCITY, INITIAL_ACCELERATION), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
         final double ACTUAL = PROFILE.state(T).acceleration();
 
-        assertEquals(ACTUAL, INITIAL_ACCELERATION, DEF_DELTA);
+        assertEquals(ACTUAL, INITIAL_ACCELERATION, DEFAULT_DELTA);
     }
 
     @Test
@@ -77,6 +77,6 @@ public class LinearVelocityProfileTest {
         final LinearVelocityProfile PROFILE = LinearVelocityProfile.continuation(new ProfileState(INITIAL_DISTANCE, MotionState.linearVelocity(INITIAL_VELOCITY, INITIAL_ACCELERATION), INITIAL_TIME), END_TIME.sub(INITIAL_TIME));
         final double ACTUAL = PROFILE.state(T).distance();
 
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
+        assertEquals(ACTUAL, EXPECTED, DEFAULT_DELTA);
     }
 }

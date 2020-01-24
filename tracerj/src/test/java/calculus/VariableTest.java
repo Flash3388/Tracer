@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VariableTest {
-    private final static double DEF_DELTA = 0.001;
+    private final static double DEFAULT_DELTA = 0.001;
 
     @Test
     public void calcDerivative_forNumber_returnsZero() {
@@ -77,7 +77,7 @@ public class VariableTest {
 
         final double ACTUAL = Variable.modifier(MODIFIER).at(VALUE);
 
-        assertEquals(ACTUAL, MODIFIER, DEF_DELTA);
+        assertEquals(ACTUAL, MODIFIER, DEFAULT_DELTA);
     }
 
     @Test
@@ -88,11 +88,11 @@ public class VariableTest {
         final double ZERO = 0.0;
         final double ACTUAL = new Variable(ZERO, POWER).at(VALUE);
 
-        assertEquals(ACTUAL, ZERO, DEF_DELTA);
+        assertEquals(ACTUAL, ZERO, DEFAULT_DELTA);
     }
 
     @Test
-    public void multiplication_forTwoVariables_returnsAddedSquaresAndMultipliedModifiers() {
+    public void mul_forTwoVariables_returnsAddedSquaresAndMultipliedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 3.0;
         final int FIRST_POWER = 1;
@@ -111,7 +111,7 @@ public class VariableTest {
     }
 
     @Test
-    public void multiplication_forVariableByNumber_returnVariableWithModifierMultipliedByNumber() {
+    public void mul_forVariableByNumber_returnVariableWithModifierMultipliedByNumber() {
         final double INITIAL_MODIFIER = 1.0;
         final double MULTIPLICATION_MODIFIER = 2.0;
         final double EXPECTED_MODIFIER = INITIAL_MODIFIER * MULTIPLICATION_MODIFIER;
@@ -127,7 +127,7 @@ public class VariableTest {
     }
 
     @Test
-    public void variableAdd_forVariablesWithSamePowers_returnsVariableWithAddedModifiers() {
+    public void add_forVariablesWithSamePowers_returnsVariableWithAddedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int POWER = 2;
@@ -143,7 +143,7 @@ public class VariableTest {
     }
 
     @Test
-    public void variableAdd_forVariablesWithDifferentPowers_throwsException() {
+    public void add_forVariablesWithDifferentPowers_throwsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -156,7 +156,7 @@ public class VariableTest {
     }
 
     @Test
-    public void variableAdd_forVariableWithIncorrectPower_throwsCorrectException() {
+    public void add_forVariableWithIncorrectPower_throwsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -169,7 +169,7 @@ public class VariableTest {
     }
 
     @Test
-    public void variableSub_forVariablesWithSamePowers_returnsVariableWithSubtractedModifiers() {
+    public void sub_forVariablesWithSamePowers_returnsVariableWithSubtractedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int POWER = 2;
@@ -185,7 +185,7 @@ public class VariableTest {
     }
 
     @Test
-    public void variableSub_forVariablesWithDifferentPowers_throwsException() {
+    public void sub_forVariablesWithDifferentPowers_throwsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -198,7 +198,7 @@ public class VariableTest {
     }
 
     @Test
-    public void variableSub_forVariableWithIncorrectPower_throwsCorrectException() {
+    public void sub_forVariableWithIncorrectPower_throwsCorrectException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -211,7 +211,7 @@ public class VariableTest {
     }
 
     @Test
-    public void variableSquare_forVariable_returnSquareOfVariable() {
+    public void square_forVariable_returnSquareOfVariable() {
         final double MODIFIER = 2.0;
         final int POWER = 2;
 

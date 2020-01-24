@@ -1,19 +1,20 @@
-package tracer.profiles;
+package tracer.profiles.base;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.profiles.ProfileState;
 
-public abstract class MoreBasicProfile implements Profile {
+public abstract class BaseProfile implements Profile {
     private final ProfileState initialState;
 
-    public MoreBasicProfile() {
+    public BaseProfile() {
         this(new ProfileState());
     }
 
-    public MoreBasicProfile(Profile prevProfile) {
+    public BaseProfile(Profile prevProfile) {
         this(prevProfile.finalState());
     }
 
-    public MoreBasicProfile(ProfileState initialState) {
+    public BaseProfile(ProfileState initialState) {
         this.initialState = initialState;
     }
 

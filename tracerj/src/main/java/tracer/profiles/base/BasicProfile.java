@@ -1,9 +1,10 @@
-package tracer.profiles;
+package tracer.profiles.base;
 
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.profiles.ProfileState;
 
-public abstract class BasicProfile extends MoreBasicProfile {
+public abstract class BasicProfile extends BaseProfile {
     public BasicProfile(Profile prevProfile) {
         this(prevProfile.finalState());
     }

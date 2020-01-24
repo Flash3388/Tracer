@@ -7,7 +7,7 @@ import tracer.motion.MotionState;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConcaveProfileTest {
-    private final static double DEF_DELTA = 0.001;
+    private final static double DEFAULT_DELTA = 0.001;
 
     @Test
     public void velocityAt_forConcaveProfileAtValidTime_returnsCorrespondingVelocity() {
@@ -24,7 +24,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(new ProfileState(INITIAL_DISTANCE, MotionState.constantVelocity(INITIAL_VELOCITY), INITIAL_TIME), TARGET);
         final double ACTUAL = PROFILE.state(T).velocity();
 
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
+        assertEquals(ACTUAL, EXPECTED, DEFAULT_DELTA);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(new ProfileState(INITIAL_DISTANCE, MotionState.constantVelocity(INITIAL_VELOCITY), INITIAL_TIME), TARGET);
         final double ACTUAL = PROFILE.state(T).acceleration();
 
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
+        assertEquals(ACTUAL, EXPECTED, DEFAULT_DELTA);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(new ProfileState(INITIAL_DISTANCE, MotionState.constantVelocity(INITIAL_VELOCITY), INITIAL_TIME), TARGET);
         final double ACTUAL = PROFILE.state(T).jerk();
 
-        assertEquals(ACTUAL, TARGET.jerk(), DEF_DELTA);
+        assertEquals(ACTUAL, TARGET.jerk(), DEFAULT_DELTA);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class ConcaveProfileTest {
         final ConcaveProfile PROFILE = new ConcaveProfile(new ProfileState(INITIAL_DISTANCE, MotionState.constantVelocity(INITIAL_VELOCITY), INITIAL_TIME), TARGET);
         final double ACTUAL = PROFILE.state(T).distance();
 
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
+        assertEquals(ACTUAL, EXPECTED, DEFAULT_DELTA);
     }
 
     @Test
