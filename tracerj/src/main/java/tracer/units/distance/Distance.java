@@ -1,7 +1,9 @@
 package tracer.units.distance;
 
+import com.flash3388.flashlib.time.Time;
 import tracer.units.exceptions.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
+import tracer.units.morion.Velocity;
 
 public class Distance implements Unit {
     private final double value;
@@ -85,6 +87,10 @@ public class Distance implements Unit {
 
     public double div(Distance denominator) {
         return valueAsMeters()/denominator.valueAsMeters();
+    }
+
+    public Time div(Velocity velocity) {
+        return Time.seconds(valueAsMeters()/velocity.valueAsMetersPerSecond());
     }
 
     public Distance div(double denominator) {

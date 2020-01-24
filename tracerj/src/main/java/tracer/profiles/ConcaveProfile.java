@@ -29,11 +29,15 @@ public class ConcaveProfile extends BasicProfile {
     public ConcaveProfile(ProfileState initialState, MotionState target) {
         super(initialState);
         this.target = target;
-        double jerkMeters = target.jerk().valueAsMetersPerSecondCubed();
 
-        acceleration = new Linear(jerkMeters, 0);
-        velocity = new PolynomialFunction(jerkMeters/2, 0.0, 0.0);
-        distance = new PolynomialFunction(jerkMeters/6, 0.0, initialState.velocity().valueAsMetersPerSecond(), 0.0);
+        acceleration = new Linear(target.jerk().valueAsMetersPerSecondCubed(), 0);
+        velocity = new PolynomialFunction(target.jerk().div(2).valueAsMetersPerSecondCubed(), 0.0, 0.0);
+        distance = new PolynomialFunction(target.jerk().div(6).valueAsMetersPerSecondCubed(), 0.0, initialState.velocity().valueAsMetersPerSecond(), 0.0);
+    }
+
+    @Override
+    public Time duration() {
+        return target.acceleration().div(target.jerk());
     }
 
     @Override
@@ -57,10 +61,5 @@ public class ConcaveProfile extends BasicProfile {
     @Override
     protected Jerk relativeJerkAt(Time relativeTime) {
         return target.jerk();
-    }
-
-    @Override
-    public Time duration() {
-        return Time.seconds(target.acceleration().valueAsMetersPerSecondSquared()/target.jerk().valueAsMetersPerSecondCubed());
     }
 }

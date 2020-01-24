@@ -96,8 +96,8 @@ public class Acceleration implements Unit {
         return value()/other.value();
     }
 
-    public Time div(Velocity velocity) {
-        return Time.seconds(valueAsMetersPerSecondSquared()/velocity.valueAsMetersPerSecond());
+    public Time div(Jerk jerk) {
+        return Time.seconds(valueAsMetersPerSecondSquared()/jerk.valueAsMetersPerSecondCubed());
     }
 
     public Acceleration div(double denominator) {

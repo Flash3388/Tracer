@@ -38,7 +38,7 @@ public class MotionState {
     }
 
     public MotionState reverse() {
-        return stop().sub(this);
+        return new MotionState(velocity.mul(-1), acceleration.mul(-1), jerk.mul(-1));
     }
 
     public Velocity velocity() {

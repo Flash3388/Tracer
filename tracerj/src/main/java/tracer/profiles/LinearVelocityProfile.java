@@ -30,7 +30,7 @@ public class LinearVelocityProfile extends BasicProfile {
         this.duration = duration;
 
         velocity = new Linear(state.acceleration().valueAsMetersPerSecondSquared(), 0);
-        distance = new PolynomialFunction(state.acceleration().valueAsMetersPerSecondSquared()/2, state.velocity().valueAsMetersPerSecond(), 0.0);
+        distance = new PolynomialFunction(state.acceleration().div(2).valueAsMetersPerSecondSquared(), state.velocity().valueAsMetersPerSecond(), 0.0);
     }
 
     public static LinearVelocityProfile continuation(Profile prevProfile, Time duration) {
@@ -43,9 +43,9 @@ public class LinearVelocityProfile extends BasicProfile {
 
     public static LinearVelocityProfile forSCurve(MotionState target) {
         MotionState finalStateOnConcave = new ConcaveProfile(target).finalState().parameters();
-        double velocityDelta = target.sub(finalStateOnConcave).velocity().valueAsMetersPerSecond();
+        Velocity velocityDelta = target.sub(finalStateOnConcave).velocity();
 
-        return new LinearVelocityProfile(finalStateOnConcave, Time.seconds(velocityDelta/target.acceleration().valueAsMetersPerSecondSquared()));
+        return new LinearVelocityProfile(finalStateOnConcave, velocityDelta.div(target.acceleration()));
     }
 
     @Override

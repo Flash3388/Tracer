@@ -1,8 +1,7 @@
-package tracer.profiles;
+package tracer.profiles.base;
 
 import com.flash3388.flashlib.time.Time;
-import tracer.profiles.base.BaseProfile;
-import tracer.profiles.base.Profile;
+import tracer.profiles.ProfileState;
 
 public class LinkedProfile extends BaseProfile {
     private final ProfileDelegate next;

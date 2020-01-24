@@ -1,11 +1,9 @@
 package tracer.units.morion;
 
-import com.flash3388.flashlib.time.Time;
 import tracer.units.distance.DistanceUnit;
 import tracer.units.exceptions.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
 import tracer.units.time.TimeUnit;
-import util.TimeConversion;
 
 public class Jerk implements Unit {
     private final double value;
@@ -100,10 +98,6 @@ public class Jerk implements Unit {
     public double div(Jerk other) {
         other = other.toUnit(this);
         return value()/other.value();
-    }
-
-    public Time div(Acceleration acceleration) {
-        return Time.seconds(valueAsMetersPerSecondCubed()/acceleration.valueAsMetersPerSecondSquared());
     }
 
     public Jerk div(double denominator) {

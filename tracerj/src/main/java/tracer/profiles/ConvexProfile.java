@@ -29,16 +29,16 @@ public class ConvexProfile extends BasicProfile {
     public ConvexProfile(ProfileState initialState, MotionState target) {
         super(initialState);
         this.target = target;
-        double jerkMeters = target.jerk().valueAsMetersPerSecondCubed();
+        double jerkMeters = target.jerk().mul(-1).valueAsMetersPerSecondCubed();
 
-        acceleration = new Linear(-jerkMeters, 0);
-        velocity = new PolynomialFunction(-jerkMeters/2, target.acceleration().valueAsMetersPerSecondSquared(), 0.0);
-        distance = new PolynomialFunction(-jerkMeters/6, target.acceleration().valueAsMetersPerSecondSquared()/2, initialState.velocity().valueAsMetersPerSecond(), 0.0);
+        acceleration = new Linear(jerkMeters, 0);
+        velocity = new PolynomialFunction(jerkMeters/2, target.acceleration().valueAsMetersPerSecondSquared(), 0.0);
+        distance = new PolynomialFunction(jerkMeters/6, target.acceleration().div(2).valueAsMetersPerSecondSquared(), initialState.velocity().valueAsMetersPerSecond(), 0.0);
     }
 
     @Override
     public Time duration() {
-        return Time.seconds(target.acceleration().valueAsMetersPerSecondSquared()/target.jerk().valueAsMetersPerSecondCubed());
+        return target.acceleration().div(target.jerk());
     }
 
     @Override

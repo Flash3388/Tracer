@@ -89,8 +89,8 @@ public class Velocity implements Unit {
         return value()/other.value();
     }
 
-    public Time div(Distance distance) {
-        return Time.seconds(valueAsMetersPerSecond()/distance.valueAsMeters());
+    public Time div(Acceleration acceleration) {
+        return Time.seconds(valueAsMetersPerSecond()/acceleration.valueAsMetersPerSecondSquared());
     }
 
     public Velocity div(double denominator) {
