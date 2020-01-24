@@ -1,9 +1,9 @@
-package tracer.units;
+package tracer.units.distance;
 
-import com.flash3388.flashlib.util.CompareResult;
-import com.jmath.ExtendedMath;
+import tracer.units.generic.NotMatchingUnitsException;
+import tracer.units.generic.Unit;
 
-public class Distance implements Comparable<Distance>{
+public class Distance implements Unit {
     private final double value;
     private final DistanceUnit unit;
 
@@ -26,6 +26,10 @@ public class Distance implements Comparable<Distance>{
 
     public static Distance yards(double value) {
         return new Distance(value, DistanceUnit.YARDS);
+    }
+
+    public static Distance feet(double value) {
+        return new Distance(value, DistanceUnit.FEET);
     }
 
     public static Distance inches(double value) {
@@ -52,10 +56,24 @@ public class Distance implements Comparable<Distance>{
         return unit;
     }
 
+    public Distance add(Unit other) {
+        if (other instanceof Distance)
+            return add((Distance)other);
+        else
+            throw new NotMatchingUnitsException();
+    }
+
     public Distance add(Distance other) {
         other = other.toUnit(unit);
 
         return new Distance(value+other.value(), unit);
+    }
+
+    public Distance sub(Unit other) {
+        if (other instanceof Distance)
+            return sub((Distance)other);
+        else
+            throw new NotMatchingUnitsException();
     }
 
     public Distance sub(Distance other) {
@@ -70,11 +88,6 @@ public class Distance implements Comparable<Distance>{
 
     public boolean equals(Distance other) {
         return sub(other).value() == 0;
-    }
-
-    @Override
-    public int compareTo(Distance distance) {
-        return (int) ExtendedMath.constrain(sub(distance).value(), CompareResult.SMALLER_THAN.value(), CompareResult.GREATER_THAN.value());
     }
 
     @Override

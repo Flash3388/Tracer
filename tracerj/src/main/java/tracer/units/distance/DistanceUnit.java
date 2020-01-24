@@ -1,4 +1,4 @@
-package tracer.units;
+package tracer.units.distance;
 
 public enum DistanceUnit {
     NANOMETERS(DistanceUnitScale.NANOMETERS_TO_METERS_SCALE),
