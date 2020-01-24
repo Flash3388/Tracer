@@ -6,18 +6,18 @@ import tracer.controllers.TankTrajectoryController;
 import tracer.following.TankFollower;
 import tracer.motion.Position;
 
-public class TankTrajectoryFollowerAction extends FollowerAction {
+public class TankFollowerAction extends FollowerAction {
     private final TankFollower tankFollower;
     private final TankTrajectoryController controller;
 
-    public TankTrajectoryFollowerAction(TankFollower tankFollower, TankTrajectoryController controller, Clock clock) {
+    public TankFollowerAction(TankFollower tankFollower, TankTrajectoryController controller, Clock clock) {
         super(tankFollower, controller, clock);
         this.tankFollower = tankFollower;
         this.controller = controller;
     }
 
     @Override
-    void setValues(Time relativeTime) {
+    protected void setValues(Time relativeTime) {
         Position rightPos = rightPosition(relativeTime);
         Position leftPos = leftPosition(relativeTime);
 

@@ -1,6 +1,7 @@
 package tracer.controllers;
 
 import com.flash3388.flashlib.math.Mathf;
+import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;
 import tracer.profiles.BasicProfile;
@@ -22,9 +23,13 @@ public class TrajectoryOrientationController {
         this.isForward = isForward;
     }
 
-    public double calculate(Position position) {
+    public double expectedAngleAt(Position position) {
         double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance(), -trajectory.end(), trajectory.end());
-        double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
+        return -Math.toDegrees(trajectory.angleRadAt(passedDistance));
+    }
+
+    public double calculate(Position position) {
+        double expected = kP == 0 ? 0 : expectedAngleAt(position);
         expected = isForward ? expected : 180 - Mathf.translateInRange(expected, 360, true);
 
         return (kP * shortestAngularDistance(position.getAngle(), expected));

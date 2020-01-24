@@ -36,7 +36,7 @@ abstract class FollowerAction extends Action {
         drive.stop();
     }
 
-    abstract void setValues(Time relativeTime);
+    protected abstract void setValues(Time relativeTime);
 
     private Time relativeTime() {
         return clock.currentTime().sub(startTime);

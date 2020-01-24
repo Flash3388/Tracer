@@ -18,6 +18,10 @@ public class TrajectoryController implements Followable {
         this.maxVoltage = maxVoltage;
     }
 
+    public double expectedAngleAt(Position position) {
+        return orientationController.expectedAngleAt(position);
+    }
+
     @Override
     public void reset() {
         pidController.reset();
