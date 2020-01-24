@@ -18,7 +18,7 @@ public class LinkedProfile extends MoreBasicProfile {
 
     @Override
     public Time duration() {
-        return current.deltaState().timestamp().add(next.deltaState().timestamp());
+        return current.deltaState().timestamp().add(next.duration());
     }
 
     @Override

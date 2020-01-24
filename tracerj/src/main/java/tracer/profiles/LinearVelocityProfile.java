@@ -38,9 +38,8 @@ public class LinearVelocityProfile extends BasicProfile {
     public static LinearVelocityProfile forSCurve(MotionState target) {
         MotionState finalStateOnConcave = new ConcaveProfile(target).finalState().parameters();
         double velocityDelta = target.sub(finalStateOnConcave).velocity();
-        MotionState initialState = new ConcaveProfile(target).finalState().parameters();
 
-        return new LinearVelocityProfile(initialState, Time.seconds(velocityDelta/target.acceleration()));
+        return new LinearVelocityProfile(finalStateOnConcave, Time.seconds(velocityDelta/target.acceleration()));
     }
 
     @Override
