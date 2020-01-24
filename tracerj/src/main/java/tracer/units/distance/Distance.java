@@ -68,7 +68,7 @@ public class Distance implements Unit {
     public Distance add(Distance other) {
         other = other.toUnit(unit);
 
-        return new Distance(value+other.value(), unit);
+        return new Distance(value + other.value(), unit);
     }
 
     public Distance sub(Unit other) {
@@ -81,7 +81,7 @@ public class Distance implements Unit {
     public Distance sub(Distance other) {
         other = other.toUnit(unit);
 
-        return new Distance(value-other.value(), unit);
+        return new Distance(value - other.value(), unit);
     }
 
     public Distance toUnit(DistanceUnit newUnit) {

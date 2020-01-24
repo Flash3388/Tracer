@@ -69,7 +69,7 @@ public class Acceleration implements Unit {
 
     public Acceleration add(Acceleration other) {
         other = other.toUnit(this);
-        return new Acceleration(value + value, distanceUnit, firstTimeUnit, secondTimeUnit);
+        return new Acceleration(value + other.value(), distanceUnit, firstTimeUnit, secondTimeUnit);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class Acceleration implements Unit {
 
     public Acceleration sub(Acceleration other) {
         other = other.toUnit(this);
-        return new Acceleration(value - value, distanceUnit, firstTimeUnit, secondTimeUnit);
+        return new Acceleration(value - other.value(), distanceUnit, firstTimeUnit, secondTimeUnit);
     }
 
     public Acceleration toUnit(Acceleration other) {
