@@ -19,7 +19,7 @@ public class HolonomicFollowerAction extends FollowerAction{
 
     @Override
     protected void setValues(Time relativeTime) {
-        Position position = position(relativeTime)
+        Position position = position(relativeTime);
         double angle = controller.expectedAngleAt(position);
         double value = controller.calculate(position);
         Vector2 valueVector = Vector2.polar(value, angle);
