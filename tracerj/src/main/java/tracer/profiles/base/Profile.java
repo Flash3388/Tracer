@@ -1,6 +1,8 @@
-package tracer.profiles;
+package tracer.profiles.base;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.profiles.LinkedProfile;
+import tracer.profiles.ProfileState;
 
 public interface Profile {
     ProfileState initialState();

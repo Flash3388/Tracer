@@ -1,8 +1,10 @@
 package tracer.profiles;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.profiles.base.BaseProfile;
+import tracer.profiles.base.Profile;
 
-public class ProfileDelegate extends MoreBasicProfile {
+public class ProfileDelegate extends BaseProfile {
     private final Profile inner;
 
     public ProfileDelegate(Profile prevProfile, Profile inner) {

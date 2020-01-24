@@ -100,8 +100,16 @@ public class Acceleration implements Unit {
         return Time.seconds(valueAsMetersPerSecondSquared()/velocity.valueAsMetersPerSecond());
     }
 
+    public Acceleration div(double denominator) {
+        return new Acceleration(value/denominator, distanceUnit, firstTimeUnit, secondTimeUnit);
+    }
+
     public Jerk mul(Time time) {
         return Jerk.metersPerSecondCubed(valueAsMetersPerSecondSquared() * TimeConversion.toSeconds(time));
+    }
+
+    public Acceleration mul(double scalar) {
+        return new Acceleration(value*scalar, distanceUnit, firstTimeUnit, secondTimeUnit);
     }
 
     public Acceleration toUnit(Acceleration other) {

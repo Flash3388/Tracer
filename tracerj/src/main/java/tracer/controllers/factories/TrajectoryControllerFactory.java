@@ -7,6 +7,7 @@ import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionState;
 import tracer.profiles.*;
+import tracer.profiles.base.Profile;
 
 public class TrajectoryControllerFactory {
     private final ProfilePidControllerFactory pidControllerFactory;

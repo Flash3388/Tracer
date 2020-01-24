@@ -83,6 +83,18 @@ public class Distance implements Unit {
         return new Distance(value - other.value(), unit);
     }
 
+    public double div(Distance denominator) {
+        return valueAsMeters()/denominator.valueAsMeters();
+    }
+
+    public Distance div(double denominator) {
+        return new Distance(value/denominator, unit);
+    }
+
+    public Distance mul(double scalar) {
+        return new Distance(value*scalar, unit);
+    }
+
     public Distance toUnit(DistanceUnit newUnit) {
         return new Distance(unit.toUnit(newUnit, value), newUnit);
     }

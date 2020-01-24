@@ -3,9 +3,8 @@ package tracer.controllers;
 import com.flash3388.flashlib.math.Mathf;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;
-import tracer.profiles.BasicProfile;
 import calculus.trajectories.Trajectory;
-import tracer.profiles.Profile;
+import tracer.profiles.base.Profile;
 
 import static util.MathUtil.shortestAngularDistance;
 

@@ -4,6 +4,8 @@ import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.profiles.base.BasicProfile;
+import tracer.profiles.base.Profile;
 import tracer.units.distance.Distance;
 import tracer.units.morion.Acceleration;
 import tracer.units.morion.Jerk;

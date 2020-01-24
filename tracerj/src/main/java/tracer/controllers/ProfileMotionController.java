@@ -2,7 +2,7 @@ package tracer.controllers;
 
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.motion.Position;
-import tracer.profiles.Profile;
+import tracer.profiles.base.Profile;
 
 public class ProfileMotionController {
     private final MotionControllerParameters parameters;

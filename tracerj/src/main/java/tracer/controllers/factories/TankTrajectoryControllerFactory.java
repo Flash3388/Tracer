@@ -7,8 +7,7 @@ import tracer.controllers.TrajectoryController;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionState;
-import tracer.profiles.BasicProfile;
-import tracer.profiles.Profile;
+import tracer.profiles.base.Profile;
 import tracer.profiles.ProfileFactory;
 
 public class TankTrajectoryControllerFactory {

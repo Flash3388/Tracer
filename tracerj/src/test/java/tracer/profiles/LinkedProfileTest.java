@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import tracer.motion.MotionState;
+import tracer.profiles.base.Profile;
 import tracer.units.distance.Distance;
 import tracer.units.morion.Acceleration;
 import tracer.units.morion.Velocity;

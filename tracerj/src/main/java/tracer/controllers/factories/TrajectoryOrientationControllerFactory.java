@@ -2,8 +2,7 @@ package tracer.controllers.factories;
 
 import calculus.trajectories.Trajectory;
 import tracer.controllers.TrajectoryOrientationController;
-import tracer.profiles.BasicProfile;
-import tracer.profiles.Profile;
+import tracer.profiles.base.Profile;
 
 public class TrajectoryOrientationControllerFactory {
     private final double gP;

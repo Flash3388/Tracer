@@ -93,6 +93,10 @@ public class Velocity implements Unit {
         return Time.seconds(valueAsMetersPerSecond()/distance.valueAsMeters());
     }
 
+    public Velocity div(double denominator) {
+        return new Velocity(value/denominator, distanceUnit, timeUnit);
+    }
+
     public Acceleration mul(Time time) {
         return Acceleration.metersPerSecondSquared(valueAsMetersPerSecond() * TimeConversion.toSeconds(time));
     }
@@ -103,6 +107,10 @@ public class Velocity implements Unit {
 
     public Jerk mul(Time firstTime, Time secondTime) {
         return Jerk.metersPerSecondCubed(valueAsMetersPerSecond() * TimeConversion.toSeconds(firstTime) * TimeConversion.toSeconds(secondTime));
+    }
+
+    public Velocity mul(double scalar) {
+        return new Velocity(value*scalar, distanceUnit, timeUnit);
     }
 
     public Velocity toUnit(Velocity velocity) {

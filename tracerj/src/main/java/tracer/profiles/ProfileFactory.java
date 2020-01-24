@@ -2,6 +2,7 @@ package tracer.profiles;
 
 import calculus.trajectories.Trajectory;
 import tracer.motion.MotionState;
+import tracer.profiles.base.Profile;
 import tracer.units.distance.Distance;
 
 public class ProfileFactory {

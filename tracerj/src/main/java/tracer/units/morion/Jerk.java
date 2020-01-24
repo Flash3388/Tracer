@@ -106,6 +106,14 @@ public class Jerk implements Unit {
         return Time.seconds(valueAsMetersPerSecondCubed()/acceleration.valueAsMetersPerSecondSquared());
     }
 
+    public Jerk div(double denominator) {
+        return new Jerk(value/denominator, distanceUnit, firstTimeUnit, secondTimeUnit, thirdTimeUnit);
+    }
+
+    public Jerk mul(double scalar) {
+        return new Jerk(value*scalar, distanceUnit, firstTimeUnit, secondTimeUnit, thirdTimeUnit);
+    }
+
     public Jerk toUnit(Jerk other) {
         return toUnit(other.distanceUnit(), other.firstTimeUnit(), other.secondTimeUnit(), other.thirdTimeUnit());
     }

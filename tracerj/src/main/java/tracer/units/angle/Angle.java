@@ -62,6 +62,19 @@ public class Angle implements Unit {
         return new Angle(value - other.value(), unit);
     }
 
+    public double div(Angle other) {
+        other = other.toUnit(unit);
+        return value / other.value();
+    }
+
+    public Angle div(double denominator) {
+        return new Angle(value/denominator, unit);
+    }
+
+    public Angle mul(double scalar) {
+        return new Angle(value * scalar, unit);
+    }
+
     public Angle toUnit(AngleUnit newUnit) {
         return new Angle(unit.toUnit(newUnit, value), newUnit);
     }
