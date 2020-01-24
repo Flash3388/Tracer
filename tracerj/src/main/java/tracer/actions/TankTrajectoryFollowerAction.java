@@ -31,7 +31,6 @@ public class TankTrajectoryFollowerAction extends FollowerAction {
     }
     @Override
     void setValues(Time relativeTime) {
-        System.out.println(relativeTime.valueAsMillis()/1000.0);
         Position rightPos = rightPosition(relativeTime);
         Position leftPos = leftPosition(relativeTime);
 
