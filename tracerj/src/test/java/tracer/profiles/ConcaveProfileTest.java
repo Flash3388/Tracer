@@ -30,24 +30,6 @@ public class ConcaveProfileTest {
     }
 
     @Test
-    public void accelerationAt_forConcaveProfileAtValidTime_returnsCorrespondingAcceleration() {
-        final double INITIAL_DISTANCE = 10;
-        final double INITIAL_VELOCITY = 5;
-        final MotionState TARGET = MotionState.meterUnits(10, 2.5, 1);
-
-        final Time INITIAL_TIME = Time.seconds(1);
-        final Time T = INITIAL_TIME.add(Time.seconds(0.1));
-
-        final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final double EXPECTED = INITIAL_VELOCITY + TARGET.jerk().valueAsMetersPerSecondCubed() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2;
-
-        final ConcaveProfile PROFILE = new ConcaveProfile(new ProfileState(Distance.meters(INITIAL_DISTANCE), MotionState.constantVelocity(Velocity.metersPerSecond(INITIAL_VELOCITY)), INITIAL_TIME), TARGET);
-        final double ACTUAL = PROFILE.state(T).acceleration().valueAsMetersPerSecondSquared();
-
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
-    }
-
-    @Test
     public void jerkAt_forConcaveProfileAtValidTime_returnsTargetJerk() {
         final double INITIAL_DISTANCE = 10;
         final double INITIAL_VELOCITY = 5;
@@ -63,24 +45,6 @@ public class ConcaveProfileTest {
         final double ACTUAL = PROFILE.state(T).jerk().valueAsMetersPerSecondCubed();
 
         assertEquals(ACTUAL, TARGET.jerk().valueAsMetersPerSecondCubed(), DEF_DELTA);
-    }
-
-    @Test
-    public void distanceAt_forConcaveProfileAtValidTime_returnsCorrespondingDistance() {
-        final double INITIAL_DISTANCE = 10;
-        final double INITIAL_VELOCITY = 5;
-        final MotionState TARGET = MotionState.meterUnits(10, 2.5, 1);
-
-        final Time INITIAL_TIME = Time.seconds(1);
-        final Time T = INITIAL_TIME.add(Time.seconds(0.1));
-
-        final double RELATIVE_TIME_IN_SECONDS = T.sub(INITIAL_TIME).valueAsMillis() / 1000.0;
-        final double EXPECTED = INITIAL_VELOCITY + TARGET.jerk().valueAsMetersPerSecondCubed() * Math.pow(RELATIVE_TIME_IN_SECONDS, 2)/2;
-
-        final ConcaveProfile PROFILE = new ConcaveProfile(new ProfileState(Distance.meters(INITIAL_DISTANCE), MotionState.constantVelocity(Velocity.metersPerSecond(INITIAL_VELOCITY)), INITIAL_TIME), TARGET);
-        final double ACTUAL = PROFILE.state(T).distance().valueAsMeters();
-
-        assertEquals(ACTUAL, EXPECTED, DEF_DELTA);
     }
 
     @Test

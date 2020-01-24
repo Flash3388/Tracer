@@ -1,9 +1,11 @@
 package tracer.units.morion;
 
+import com.flash3388.flashlib.time.Time;
 import tracer.units.distance.DistanceUnit;
 import tracer.units.exceptions.NotMatchingUnitsException;
 import tracer.units.generic.Unit;
 import tracer.units.time.TimeUnit;
+import util.TimeConversion;
 
 public class Acceleration implements Unit {
     private final double value;
@@ -87,6 +89,19 @@ public class Acceleration implements Unit {
     public Acceleration sub(Acceleration other) {
         other = other.toUnit(this);
         return new Acceleration(value - other.value(), distanceUnit, firstTimeUnit, secondTimeUnit);
+    }
+
+    public double div(Acceleration other) {
+        other = other.toUnit(this);
+        return value()/other.value();
+    }
+
+    public Time div(Velocity velocity) {
+        return Time.seconds(valueAsMetersPerSecondSquared()/velocity.valueAsMetersPerSecond());
+    }
+
+    public Jerk mul(Time time) {
+        return Jerk.metersPerSecondCubed(valueAsMetersPerSecondSquared() * TimeConversion.toSeconds(time));
     }
 
     public Acceleration toUnit(Acceleration other) {
