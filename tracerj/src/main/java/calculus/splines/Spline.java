@@ -6,12 +6,6 @@ import calculus.functions.SquareRootFunction;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
-import com.jmath.interpolation.BarycentricRational;
-import com.jmath.interpolation.Interpolation;
-import org.apache.commons.math3.util.Pair;
-import org.apache.commons.math3.util.Precision;
-
-import java.util.*;
 
 public class Spline implements Segment {
     private static final double ACCURACY = 0.001;
@@ -20,7 +14,6 @@ public class Spline implements Segment {
     private final PolynomialFunction xFunctionDerivative;
     private final MathFunction actualFunction;
     private final MathFunction lengthFunctionDerivative;
-    private final Pair<double[], double[]> recordedDatapoints;
 
     private final double arcLength;
     private final double startLength;
@@ -36,7 +29,6 @@ public class Spline implements Segment {
         actualFunction = new ParametricFunction(yFunction, xFunction);
         lengthFunctionDerivative = new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative)));
         arcLength = calcArcLength();
-        recordedDatapoints = generateDatapoints();
 
         lastReachedPercentage = 0;
         lastReachedLength = 0;
@@ -95,29 +87,15 @@ public class Spline implements Segment {
         return lengthFunctionDerivative.integrate(0, 1);
     }
 
-    private Pair<double[], double[]> generateDatapoints() {
-        double[] lengths = new double[(int)(1/ACCURACY)];
-        double[] percentages = new double[(int)(1/ACCURACY)];
-
-        for (int i = 0; i < (int) (1/ACCURACY); ++i) {
-            double percentage = i * ACCURACY;
-            double length = lengthFunctionDerivative.integrate(0, percentage);
-            lengths[i] = length;
-            percentages[i] = percentage;
-        }
-
-        return new Pair<>(lengths, percentages);
-    }
-
     private double percentageAtLength(double length) {
-        double[] lengths = recordedDatapoints.getKey();
-        double[] percentages = recordedDatapoints.getValue();
+        double start = 0;
 
-        for (int i = 0; i < lengths.length; i++) {
-            double guess = lengths[i];
-            if(guess >= length || ExtendedMath.equals(length, guess, ACCURACY))
-                return percentages[i];
+        if(length >= lastReachedLength) {
+            start = lastReachedPercentage;
+            length -= lastReachedLength;
         }
-        return 1;
+        if(length == 0)
+            return 0;
+        return actualFunction.binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, length, ACCURACY);
     }
 }

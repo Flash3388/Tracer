@@ -24,10 +24,7 @@ subprojects {
     apply plugin: 'java'
 
     dependencies {
-        compile ('com.flash3388.flashlib:flashlib:2.1.0') {
-            exclude group: 'com.flash3388.util', module: 'jmath'
-        }
-        compile 'com.github.tomtzook:jmath:1.1.0'
+        compile 'com.flash3388.flashlib:flashlib:2.1.0'
         compile 'org.apache.commons:commons-math3:3.6.1'
     }
 }

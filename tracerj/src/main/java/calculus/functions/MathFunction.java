@@ -24,43 +24,26 @@ public abstract class MathFunction implements DoubleUnaryOperator {
     }
 
     public double binarySearchPercentageAtLength(MathFunction lengthFunctionDerivative, double start, double length, double maxPercentage, double accuracy) {
+        return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage, accuracy, length, 0);
+    }
+
+    private double binarySearchPercentageAtLength(MathFunction lengthFunctionDerivative, double start, double length, double maxPercentage, double accuracy, double originalLength, double sum) {
+        if(sum >= originalLength || ExtendedMath.equals(sum, length, accuracy))
+            return start + maxPercentage;
+
         double shortestLength = shortestDistance(start, start + maxPercentage);
 
         if(shortestLength/2 > length)
-            return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy);
+            return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy, originalLength, sum);
 
         double lengthPassedInHalfOfTheWay = lengthFunctionDerivative.integrate(start, start + maxPercentage/2, 20);
 
         if(ExtendedMath.equals(lengthPassedInHalfOfTheWay, length, accuracy))
             return maxPercentage/2 + start;
         else if(lengthPassedInHalfOfTheWay < length)
-            return binarySearchPercentageAtLength(lengthFunctionDerivative, start + maxPercentage / 2, length-lengthPassedInHalfOfTheWay, maxPercentage/2, accuracy);
+            return binarySearchPercentageAtLength(lengthFunctionDerivative, start + maxPercentage / 2, length-lengthPassedInHalfOfTheWay, maxPercentage/2, accuracy, originalLength, sum + lengthPassedInHalfOfTheWay);
         else
-            return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy);
-    }
-
-    public double locateLength(MathFunction lengthFunctionDerivative, double start, double length, double accuracy) {
-        double maxPercentage = length;
-        double lengthPassedInHalfOfTheWay = 0;
-
-        do {
-            if(shortestDistance(start, start+maxPercentage)/2 > length) {
-                maxPercentage /= 2; continue;
-            }
-
-            lengthPassedInHalfOfTheWay = lengthFunctionDerivative.integrate(start, start + maxPercentage/2, 10);
-
-            if(lengthPassedInHalfOfTheWay < length) {
-                start += maxPercentage;
-                length -= lengthPassedInHalfOfTheWay;
-                maxPercentage /= 2;
-            }
-
-            else
-                maxPercentage /= 2;
-        } while (!ExtendedMath.equals(lengthPassedInHalfOfTheWay, length, accuracy));
-
-        return maxPercentage/2 +start;
+            return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy, originalLength, sum);
     }
 
     public double pointAtLength(double start, double length, double accuracy) {
