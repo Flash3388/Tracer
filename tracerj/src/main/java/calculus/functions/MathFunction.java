@@ -1,5 +1,6 @@
 package calculus.functions;
 
+import com.jmath.ExtendedMath;
 import com.jmath.Integrals;
 import util.MathUtil;
 

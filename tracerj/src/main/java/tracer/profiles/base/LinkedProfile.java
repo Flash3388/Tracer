@@ -24,9 +24,9 @@ public class LinkedProfile extends BaseProfile {
 
     @Override
     protected ProfileState relativeProfileState(Time relativeTime) {
-        if(relativeTime.after(current.deltaState().timestamp()))
+        if(relativeTime.after(current.finalState().timestamp()))
             return next.state(relativeTime);
         else
-            return current.state(relativeTime).sub(current.initialState());
+            return current.state(relativeTime);
     }
 }

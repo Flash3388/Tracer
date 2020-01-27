@@ -33,7 +33,7 @@ public class ConstantVelocityProfile extends BasicProfile {
     }
 
     public static ConstantVelocityProfile continuation(ProfileState initialState, Time duration) {
-        return new ConstantVelocityProfile(initialState, initialState.parameters(), duration);
+        return new ConstantVelocityProfile(initialState, initialState.motionState(), duration);
     }
 
     public static ConstantVelocityProfile forTrajectory(Trajectory trajectory, MotionState target) {

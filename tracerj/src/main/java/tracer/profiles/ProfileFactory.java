@@ -1,6 +1,7 @@
 package tracer.profiles;
 
 import calculus.trajectories.Trajectory;
+import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
 import tracer.profiles.base.Profile;
 

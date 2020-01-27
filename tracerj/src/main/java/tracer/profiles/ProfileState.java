@@ -25,7 +25,7 @@ public class ProfileState {
         return distance;
     }
 
-    public MotionState parameters() {
+    public MotionState motionState() {
         return state;
     }
 
@@ -46,16 +46,16 @@ public class ProfileState {
     }
 
     public ProfileState add(ProfileState other) {
-        return new ProfileState(distance + other.distance(), state.add(other.parameters()), timestamp.add(other.timestamp()));
+        return new ProfileState(distance + other.distance(), state.add(other.motionState()), timestamp.add(other.timestamp()));
     }
 
     public ProfileState sub(ProfileState other) {
-        return new ProfileState(distance - other.distance(), state.sub(other.parameters()), timestamp.sub(other.timestamp()));
+        return new ProfileState(distance - other.distance(), state.sub(other.motionState()), timestamp.sub(other.timestamp()));
     }
 
     public boolean equals(ProfileState other) {
         return ExtendedMath.equals(distance, other.distance(), DEFAULT_DELTA) &&
-                state.equals(other.parameters()) &&
+                state.equals(other.motionState()) &&
                 timestamp.equals(other.timestamp());
     }
 

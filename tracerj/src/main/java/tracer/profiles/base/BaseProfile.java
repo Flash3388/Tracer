@@ -25,7 +25,7 @@ public abstract class BaseProfile implements Profile {
 
     @Override
     public ProfileState finalState() {
-        return state(initialState.timestamp().add(duration()));
+        return state(finalTimestamp());
     }
 
     @Override
@@ -38,7 +38,7 @@ public abstract class BaseProfile implements Profile {
     protected abstract ProfileState relativeProfileState(Time relativeTime);
 
     private void checkTime(Time time) {
-        if(time.before(initialState.timestamp()) || time.after(finalTimestamp()))
+        if(time.before(initialState.timestamp()) || time.after(finalTimestamp().add(Time.milliseconds(1))))
             throw new IllegalArgumentException(String.format("time %s is outside of this profile's time limits", time));
     }
 
@@ -47,6 +47,6 @@ public abstract class BaseProfile implements Profile {
     }
 
     private Time relativeTime(Time currentTime) {
-        return currentTime.sub(initialState().timestamp());
+        return currentTime.sub(initialState.timestamp());
     }
 }

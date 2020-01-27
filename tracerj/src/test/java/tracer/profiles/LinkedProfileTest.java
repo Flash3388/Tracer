@@ -16,7 +16,7 @@ public class LinkedProfileTest {
     @MethodSource("provideBaseProfilesForLinkedProfileTest")
     public void stateAt_forSecondProfileInLinkedProfile_returnsCorrectState(final Profile baseProfile) {
         final Time linearProfileDuration = Time.seconds(1);
-        final Profile linkedProfile = baseProfile.then(new LinearVelocityProfile(baseProfile.finalState().parameters(), linearProfileDuration));
+        final Profile linkedProfile = baseProfile.then(new LinearVelocityProfile(baseProfile.finalState().motionState(), linearProfileDuration));
         final Profile regularProfile = LinearVelocityProfile.continuation(baseProfile, Time.seconds(1));
 
         ProfileState EXPECTED = regularProfile.state(baseProfile.finalState().timestamp().add(linearProfileDuration.sub(Time.seconds(0.5))));
@@ -29,7 +29,7 @@ public class LinkedProfileTest {
     @MethodSource("provideBaseProfilesForLinkedProfileTest")
     public void stateAt_forFirstProfileInLinkedProfile_returnsCorrectState(final Profile baseProfile) {
         final Time linearProfileDuration = Time.seconds(1);
-        final Profile linkedProfile = baseProfile.then(new LinearVelocityProfile(baseProfile.finalState().parameters(), linearProfileDuration));
+        final Profile linkedProfile = baseProfile.then(new LinearVelocityProfile(baseProfile.finalState().motionState(), linearProfileDuration));
 
         ProfileState EXPECTED = baseProfile.state(linearProfileDuration.sub(Time.seconds(0.5)));
         ProfileState ACTUAL = linkedProfile.state(linearProfileDuration.sub(Time.seconds(0.5)));

@@ -45,6 +45,7 @@ public class TrajectoryControllerFactory {
 
     private Profile extendProfile(Trajectory trajectory, Time idleTime, MotionState max) {
         Profile trajectoryProfile = ProfileFactory.createTrajectoryProfile(max, trajectory);
-        return trajectoryProfile.then(ConstantVelocityProfile.continuation(trajectoryProfile, idleTime));
+
+        return trajectoryProfile.then(new ConstantVelocityProfile(trajectoryProfile.finalState().motionState(), idleTime));
     }
 }
