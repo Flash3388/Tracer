@@ -2,6 +2,7 @@ package tracer.controllers;
 
 import com.flash3388.flashlib.math.Mathf;
 import com.flash3388.flashlib.robot.motion.Direction;
+import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;
 import calculus.trajectories.Trajectory;
@@ -22,11 +23,15 @@ public class TrajectoryOrientationController {
         this.direction = direction;
     }
 
-    public double calculate(Position position) {
+    public double calculate(Position position, boolean isRight) {
         double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance(), -trajectory.end(), trajectory.end());
         double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
         expected = direction == Direction.FORWARD ? expected : 180 - Mathf.translateInRange(expected, 360, true);
 
-        return (kP * shortestAngularDistance(position.getAngle(), expected));
+        return (isRight ? -kP : kP * shortestAngularDistance(position.getAngle(), expected));
+    }
+
+    public Time duration() {
+        return trajectoryProfile.deltaState().timestamp();
     }
 }

@@ -33,19 +33,13 @@ public class TrajectoryControllerFactory {
         return new TrajectoryControllerFactory(pidControllerParameters, motionControllerParameters, 0);
     }
 
-    public TrajectoryController create(Trajectory trajectory, MotionState max, double maxVoltage, Time idleTimeAtEnd, Direction direction) {
-        Profile trajectoryProfile = extendProfile(trajectory, idleTimeAtEnd, max);
+    public TrajectoryController create(Trajectory trajectory, MotionState max, double maxVoltage, Direction direction) {
+        Profile trajectoryProfile = ProfileFactory.createTrajectoryProfile(max, trajectory);
         return new TrajectoryController(
+                maxVoltage,
                 pidControllerFactory.create(trajectoryProfile, maxVoltage),
                 profileMotionControllerFactory.create(trajectoryProfile),
-                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile, direction),
-                maxVoltage
+                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile, direction)
         );
-    }
-
-    private Profile extendProfile(Trajectory trajectory, Time idleTime, MotionState max) {
-        Profile trajectoryProfile = ProfileFactory.createTrajectoryProfile(max, trajectory);
-
-        return trajectoryProfile.then(new ConstantVelocityProfile(trajectoryProfile.finalState().motionState(), idleTime));
     }
 }
