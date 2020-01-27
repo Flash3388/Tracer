@@ -29,14 +29,48 @@ public abstract class MathFunction implements DoubleUnaryOperator {
         if(shortestLength/2 > length)
             return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy);
 
-        double lengthPassedInHalfOfTheWay = lengthFunctionDerivative.integrate(start, start + maxPercentage/2, 10);
+        double lengthPassedInHalfOfTheWay = lengthFunctionDerivative.integrate(start, start + maxPercentage/2, 20);
 
-        if(ExtendedMath.constrained(lengthPassedInHalfOfTheWay, length-accuracy, length+accuracy))
+        if(ExtendedMath.equals(lengthPassedInHalfOfTheWay, length, accuracy))
             return maxPercentage/2 + start;
         else if(lengthPassedInHalfOfTheWay < length)
             return binarySearchPercentageAtLength(lengthFunctionDerivative, start + maxPercentage / 2, length-lengthPassedInHalfOfTheWay, maxPercentage/2, accuracy);
         else
             return binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, maxPercentage/2, accuracy);
+    }
+
+    public double locateLength(MathFunction lengthFunctionDerivative, double start, double length, double accuracy) {
+        double maxPercentage = length;
+        double lengthPassedInHalfOfTheWay = 0;
+
+        do {
+            if(shortestDistance(start, start+maxPercentage)/2 > length) {
+                maxPercentage /= 2; continue;
+            }
+
+            lengthPassedInHalfOfTheWay = lengthFunctionDerivative.integrate(start, start + maxPercentage/2, 10);
+
+            if(lengthPassedInHalfOfTheWay < length) {
+                start += maxPercentage;
+                length -= lengthPassedInHalfOfTheWay;
+                maxPercentage /= 2;
+            }
+
+            else
+                maxPercentage /= 2;
+        } while (!ExtendedMath.equals(lengthPassedInHalfOfTheWay, length, accuracy));
+
+        return maxPercentage/2 +start;
+    }
+
+    public double pointAtLength(double start, double length, double accuracy) {
+        double sum = 0;
+        double x = start;
+
+        for (;sum < length; x+= accuracy)
+            sum += shortestDistance(x, x + accuracy);
+
+        return x;
     }
 
     private double shortestDistance(double tStart, double tEnd) {

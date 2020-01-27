@@ -6,9 +6,15 @@ import calculus.functions.SquareRootFunction;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
+import com.jmath.interpolation.BarycentricRational;
+import com.jmath.interpolation.Interpolation;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class Spline implements Segment {
-    private static final double ACCURACY = 0.0001;
+    private static final double ACCURACY = 0.001;
 
     private final PolynomialFunction yFunctionDerivative;
     private final PolynomialFunction xFunctionDerivative;
@@ -68,7 +74,8 @@ public class Spline implements Segment {
         }
         if(length == 0)
             return 0;
-        return actualFunction.binarySearchPercentageAtLength(lengthFunctionDerivative, start, length, length, length/200);
+
+        return actualFunction.pointAtLength(start, length, length/200);
     }
 
     private void checkLength(double length) {

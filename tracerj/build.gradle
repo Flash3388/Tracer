@@ -15,7 +15,6 @@ publishing {
         }
     }
 }
-//apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
 
 apply plugin: "me.champeau.gradle.jmh"
 
@@ -35,7 +34,7 @@ jmh {
     failOnError = false // Should JMH fail immediately if any benchmark had experienced the unrecoverable error?
     forceGC = false // Should JMH force GC between iterations?
     humanOutputFile = new File(BENCHMARK_RESULTS_DIR, "human.txt") // human-readable output file
-    resultsFile = new File(BENCHMARK_RESULTS_DIR, "results.txt") // results file
+    resultsFile = new File(BENCHMARK_RESULTS_DIR, "results.json") // results file
     benchmarkParameters =  [:] // Benchmark parameters.
     profilers = ['gc', 'stack'] // Use profilers to collect additional data. Supported profilers: [cl, comp, gc, stack, perf, perfnorm, perfasm, xperf, xperfasm, hs_cl, hs_comp, hs_gc, hs_rt, hs_thr]
     resultFormat = 'JSON' // Result format type (one of CSV, JSON, NONE, SCSV, TEXT)
