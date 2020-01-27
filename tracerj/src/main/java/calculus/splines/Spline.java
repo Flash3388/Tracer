@@ -8,10 +8,10 @@ import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
 import com.jmath.interpolation.BarycentricRational;
 import com.jmath.interpolation.Interpolation;
+import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math3.util.Precision;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Spline implements Segment {
     private static final double ACCURACY = 0.001;
@@ -20,6 +20,7 @@ public class Spline implements Segment {
     private final PolynomialFunction xFunctionDerivative;
     private final MathFunction actualFunction;
     private final MathFunction lengthFunctionDerivative;
+    private final Pair<double[], double[]> recordedDatapoints;
 
     private final double arcLength;
     private final double startLength;
@@ -35,6 +36,7 @@ public class Spline implements Segment {
         actualFunction = new ParametricFunction(yFunction, xFunction);
         lengthFunctionDerivative = new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative)));
         arcLength = calcArcLength();
+        recordedDatapoints = generateDatapoints();
 
         lastReachedPercentage = 0;
         lastReachedLength = 0;
@@ -42,16 +44,6 @@ public class Spline implements Segment {
 
     public double length() {
         return arcLength;
-    }
-
-    @Override
-    public double end() {
-        return arcLength + startLength;
-    }
-
-    @Override
-    public double start() {
-        return startLength;
     }
 
     public double angleRadAt(double length) {
@@ -65,26 +57,14 @@ public class Spline implements Segment {
         return Math.atan2(yFunctionDerivative.applyAsDouble(t), xFunctionDerivative.applyAsDouble(t));
     }
 
-    private double percentageAtLength(double length) {
-        double start = 0;
-
-        if(length >= lastReachedLength) {
-            start = lastReachedPercentage;
-            length -= lastReachedLength;
-        }
-        if(length == 0)
-            return 0;
-
-        return actualFunction.pointAtLength(start, length, length/200);
+    @Override
+    public double end() {
+        return arcLength + startLength;
     }
 
-    private void checkLength(double length) {
-        if(!ExtendedMath.constrained(length, startLength, end()))
-            throw new IllegalArgumentException(String.format("Length %f is outside of this spline's length limit", length));
-    }
-
-    private double calcArcLength() {
-        return lengthFunctionDerivative.integrate(0, 1);
+    @Override
+    public double start() {
+        return startLength;
     }
 
     @Override
@@ -104,5 +84,40 @@ public class Spline implements Segment {
     @Override
     public String toString() {
         return String.format("parametric: %s length: %.4f", actualFunction, arcLength);
+    }
+
+    private void checkLength(double length) {
+        if(!ExtendedMath.constrained(length, startLength, end()))
+            throw new IllegalArgumentException(String.format("Length %f is outside of this spline's length limit", length));
+    }
+
+    private double calcArcLength() {
+        return lengthFunctionDerivative.integrate(0, 1);
+    }
+
+    private Pair<double[], double[]> generateDatapoints() {
+        double[] lengths = new double[(int)(1/ACCURACY)];
+        double[] percentages = new double[(int)(1/ACCURACY)];
+
+        for (int i = 0; i < (int) (1/ACCURACY); ++i) {
+            double percentage = i * ACCURACY;
+            double length = lengthFunctionDerivative.integrate(0, percentage);
+            lengths[i] = length;
+            percentages[i] = percentage;
+        }
+
+        return new Pair<>(lengths, percentages);
+    }
+
+    private double percentageAtLength(double length) {
+        double[] lengths = recordedDatapoints.getKey();
+        double[] percentages = recordedDatapoints.getValue();
+
+        for (int i = 0; i < lengths.length; i++) {
+            double guess = lengths[i];
+            if(guess >= length || ExtendedMath.equals(length, guess, ACCURACY))
+                return percentages[i];
+        }
+        return 1;
     }
 }
