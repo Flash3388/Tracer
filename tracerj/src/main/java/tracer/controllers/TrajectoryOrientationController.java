@@ -26,6 +26,7 @@ public class TrajectoryOrientationController {
     public double calculate(Position position, boolean isRight) {
         double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance(), -trajectory.end(), trajectory.end());
         double expected = -Math.toDegrees(trajectory.angleRadAt(passedDistance));
+        System.out.println(String.format("distance %.4f angle %.4f time %s", passedDistance, expected, position.timestamp()));
         expected = direction == Direction.FORWARD ? expected : 180 - Mathf.translateInRange(expected, 360, true);
 
         return (isRight ? -kP : kP * shortestAngularDistance(position.getAngle(), expected));

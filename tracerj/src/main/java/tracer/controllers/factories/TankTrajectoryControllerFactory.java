@@ -52,6 +52,6 @@ public class TankTrajectoryControllerFactory {
     }
 
     private Profile extendProfile(Profile base, Time idleTime) {
-        return base.then(new ConstantVelocityProfile(base.finalState().motionState(), idleTime));
+        return base.then(new ConstantVelocityProfile(idleTime));
     }
 }

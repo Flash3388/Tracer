@@ -4,6 +4,7 @@ import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.profiles.base.BaseProfile;
 import tracer.profiles.base.BasicProfile;
 import tracer.profiles.base.Profile;
 import util.TimeConversion;
@@ -13,40 +14,37 @@ public class LinearVelocityProfile extends BasicProfile {
     private final PolynomialFunction distance;
     private final PolynomialFunction velocity;
 
-    public LinearVelocityProfile(MotionState state, Time duration) {
-        this(new ProfileState(), state, duration);
+    public LinearVelocityProfile(Time duration) {
+        this(new ProfileState(), duration);
     }
 
-    public LinearVelocityProfile(Profile prevProfile, MotionState state, Time duration) {
-        this(prevProfile.finalState(), state, duration);
+    public LinearVelocityProfile(Profile prevProfile, Time duration) {
+        this(prevProfile.finalState(), duration);
     }
 
-    public LinearVelocityProfile(ProfileState initialState, MotionState state, Time duration) {
+    public LinearVelocityProfile(ProfileState initialState, Time duration) {
         super(initialState);
         this.duration = duration;
 
-        velocity = new Linear(state.acceleration(), 0);
-        distance = new PolynomialFunction(state.acceleration()/2, state.velocity(), 0.0);
+        velocity = new Linear(initialState.acceleration(), 0);
+        distance = new PolynomialFunction(initialState.acceleration()/2, initialState.velocity(), 0.0);
     }
 
-    public static LinearVelocityProfile continuation(Profile prevProfile, Time duration) {
-        return continuation(prevProfile.finalState(), duration);
-    }
-
-    public static LinearVelocityProfile continuation(ProfileState initialState, Time duration) {
-        return new LinearVelocityProfile(initialState, initialState.motionState(), duration);
-    }
-
-    public static LinearVelocityProfile forSCurve(MotionState target) {
-        MotionState finalStateOnConcave = new ConcaveProfile(target).finalState().motionState();
+    public static LinearVelocityProfile forSCurve(ConcaveProfile concave, MotionState target) {
+        MotionState finalStateOnConcave = concave.finalState().motionState();
         double velocityDelta = target.sub(finalStateOnConcave).velocity();
 
-        return new LinearVelocityProfile(finalStateOnConcave, Time.seconds(velocityDelta/target.acceleration()));
+        return new LinearVelocityProfile(Time.seconds(velocityDelta/target.acceleration()));
     }
 
     @Override
     public Time duration() {
         return duration;
+    }
+
+    @Override
+    public BaseProfile repositionProfile(ProfileState newInitialState) {
+        return new LinearVelocityProfile(newInitialState, duration);
     }
 
     @Override

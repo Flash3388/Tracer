@@ -16,7 +16,8 @@ public class ProfileFactory {
 
     public static Profile createTrajectoryProfile(ProfileState initialState, MotionState max, Trajectory trajectory) {
         checkVelocity(max, trajectory.end());
-        return createSCurve(initialState, max).then(ConstantVelocityProfile.forTrajectory(trajectory, max)).then(createSCurve(max.mul(-1)));
+
+        return createSCurve(initialState, max).then(ConstantVelocityProfile.forTrajectory(trajectory, max)).then(createEndSCurve(max));
     }
 
     public static Profile createSCurve(MotionState max) {
@@ -28,7 +29,7 @@ public class ProfileFactory {
     }
 
     public static Profile createSCurve(ProfileState initialState, MotionState max) {
-        return new ConcaveProfile(initialState, max).then(LinearVelocityProfile.forSCurve(max)).then(new ConvexProfile(max));
+        return new ConcaveProfile(initialState, max).then(LinearVelocityProfile.forSCurve(new ConcaveProfile(initialState, max), max)).then(new ConvexProfile(max));
     }
 
     public static double distancePassedInTwoSCurves(MotionState target) {
@@ -38,5 +39,10 @@ public class ProfileFactory {
     private static void checkVelocity(MotionState max, double targetDistance) {
         if (Math.abs(distancePassedInTwoSCurves(max)) > Math.abs(targetDistance))
             throw new IllegalArgumentException("Too small distance compared to maximum parameters");;
+    }
+
+    private static Profile createEndSCurve(MotionState max) {
+        MotionState endState = new MotionState(0, -max.acceleration(), -max.jerk());
+        return createSCurve(new ProfileState(0, MotionState.constantVelocity(max.velocity()), Time.milliseconds(0)), endState);
     }
 }

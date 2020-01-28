@@ -35,11 +35,12 @@ public abstract class BaseProfile implements Profile {
     }
 
     public abstract Time duration();
+    public abstract BaseProfile repositionProfile(ProfileState newInitialState);
     protected abstract ProfileState relativeProfileState(Time relativeTime);
 
     private void checkTime(Time time) {
         if(time.before(initialState.timestamp()) || time.after(finalTimestamp().add(Time.milliseconds(1))))
-            throw new IllegalArgumentException(String.format("time %s is outside of this profile's time limits", time));
+            throw new IllegalArgumentException(String.format("time %s is outside of this profile's time limits from %s to %s", time, initialState.timestamp(), finalTimestamp()));
     }
 
     private Time finalTimestamp() {

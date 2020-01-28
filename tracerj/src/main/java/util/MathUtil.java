@@ -13,8 +13,8 @@ public class MathUtil {
         from = Mathf.translateInRange(from, 360, true);
 
         if(to > from)
-            return result;
-        else
             return -result;
+        else
+            return result;
     }
 }
