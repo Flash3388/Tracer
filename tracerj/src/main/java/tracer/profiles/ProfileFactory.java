@@ -33,7 +33,7 @@ public class ProfileFactory {
     }
 
     public static double distancePassedInTwoSCurves(MotionState target) {
-        return createSCurve(target).deltaState().distance();
+        return createSCurve(target).deltaState().distance() * 2;
     }
 
     private static void checkVelocity(MotionState max, double targetDistance) {
