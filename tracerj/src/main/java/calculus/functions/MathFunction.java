@@ -1,13 +1,12 @@
 package calculus.functions;
 
-import com.jmath.ExtendedMath;
 import com.jmath.Integrals;
 import util.MathUtil;
 
 import java.util.function.DoubleUnaryOperator;
 
 public abstract class MathFunction implements DoubleUnaryOperator {
-    private final static int SLICES = 1000;
+    private final static int SLICES = 100;
 
     public abstract MathFunction derive();
 

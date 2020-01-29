@@ -31,9 +31,9 @@ public class ConstantVelocityProfile extends BasicProfile {
 
     public static ConstantVelocityProfile forTrajectory(Trajectory trajectory, MotionState target) {
         double distancePassedIn2SCurves = ProfileFactory.distancePassedInTwoSCurves(target);
-        double distanceToBePassed = trajectory.end() - distancePassedIn2SCurves;
+        double distanceToBePassed = trajectory.end() - Math.abs(distancePassedIn2SCurves);
 
-        return new ConstantVelocityProfile(Time.seconds(distanceToBePassed/target.velocity()));
+        return new ConstantVelocityProfile(Time.seconds(distanceToBePassed/Math.abs(target.velocity())));
     }
 
     @Override
