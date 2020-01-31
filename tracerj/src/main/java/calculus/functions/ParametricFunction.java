@@ -2,7 +2,7 @@ package calculus.functions;
 
 import calculus.functions.polynomial.PolynomialFunction;
 
-public class ParametricFunction extends MathFunction {
+public class ParametricFunction extends BasicMathFunction {
     private final PolynomialFunction yFunction;
     private final PolynomialFunction xFunction;
 

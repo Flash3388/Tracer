@@ -2,7 +2,7 @@ package calculus.functions;
 
 import calculus.functions.polynomial.PolynomialFunction;
 
-public class SquareRootFunction extends MathFunction {
+public class SquareRootFunction extends BasicMathFunction {
     private final PolynomialFunction inner;
 
     public SquareRootFunction(PolynomialFunction inner) {

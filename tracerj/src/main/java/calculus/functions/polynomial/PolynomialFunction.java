@@ -1,5 +1,6 @@
 package calculus.functions.polynomial;
 
+import calculus.functions.BasicMathFunction;
 import calculus.functions.MathFunction;
 import calculus.variables.Variable;
 
@@ -10,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class PolynomialFunction extends MathFunction {
+public class PolynomialFunction extends BasicMathFunction {
     private final List<Variable> variables;
 
     public PolynomialFunction(double... constants) {

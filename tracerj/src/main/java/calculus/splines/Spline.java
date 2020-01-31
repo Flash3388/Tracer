@@ -1,5 +1,6 @@
 package calculus.splines;
 
+import calculus.functions.BasicMathFunction;
 import calculus.functions.MathFunction;
 import calculus.functions.ParametricFunction;
 import calculus.functions.SquareRootFunction;
@@ -12,7 +13,7 @@ public class Spline implements Segment {
 
     private final PolynomialFunction yFunctionDerivative;
     private final PolynomialFunction xFunctionDerivative;
-    private final MathFunction actualFunction;
+    private final BasicMathFunction actualFunction;
 
     private final double arcLength;
     private final double startLength;

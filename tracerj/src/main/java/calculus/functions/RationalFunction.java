@@ -2,7 +2,7 @@ package calculus.functions;
 
 import calculus.functions.polynomial.PolynomialFunction;
 
-public class RationalFunction extends MathFunction {
+public class RationalFunction extends BasicMathFunction {
     private final PolynomialFunction numerator;
     private final PolynomialFunction denominator;
 
