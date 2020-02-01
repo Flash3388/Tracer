@@ -63,7 +63,7 @@ public class PolynomialFunction extends BasicMathFunction {
     }
 
     public boolean equals(PolynomialFunction other) {
-        return variables.equals(other.variables());
+        return variables.equals(other.variables);
     }
 
     public PolynomialFunction pow(int degree) {
@@ -76,7 +76,7 @@ public class PolynomialFunction extends BasicMathFunction {
     }
 
     public PolynomialFunction mul(PolynomialFunction other) {
-        List<PolynomialFunction> products = other.variables().stream()
+        List<PolynomialFunction> products = other.variables.stream()
                 .map(this::mul)
                 .collect(Collectors.toList());
 
@@ -106,7 +106,7 @@ public class PolynomialFunction extends BasicMathFunction {
     }
 
     public PolynomialFunction add(PolynomialFunction other) {
-        List<Variable> result = other.variables().stream()
+        List<Variable> result = other.variables.stream()
                 .map(this::add)
                 .collect(Collectors.toList());
 
@@ -123,10 +123,6 @@ public class PolynomialFunction extends BasicMathFunction {
         return variables.stream()
                 .mapToDouble(Variable::modifier)
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-    }
-
-    private List<Variable> variables() {
-        return variables;
     }
 
     private PolynomialFunction sum(List<PolynomialFunction> functions) {

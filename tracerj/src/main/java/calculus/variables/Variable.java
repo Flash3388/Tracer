@@ -34,7 +34,16 @@ public class Variable {
     }
 
     public double at(double value) {
-        return modifier * Math.pow(value, power);
+        double result = modifier;
+
+        for (int i = 0; i < Math.abs(power); i++) {
+            result *= value;
+        }
+
+        if(power < 0)
+            result = modifier/(result/modifier);
+
+        return result;
     }
 
     public Variable add(Variable variable) {
@@ -61,7 +70,7 @@ public class Variable {
 
     @Override
     public String toString() {
-        return String.format("%fX^%d", modifier, power);
+        return String.format("%.4f X^%d", modifier, power);
     }
 
     @Override

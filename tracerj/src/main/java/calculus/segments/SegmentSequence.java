@@ -17,7 +17,7 @@ public class SegmentSequence<S extends Segment> implements Segment {
 
     public S correspondingSegment(double value) {
         for (S segment: segments)
-            if(segment.end() >= value && value >= segment.start())
+            if(value <= segment.end())
                 return segment;
 
         throw new IllegalArgumentException(String.format("Value %f is outside of the segment sequence ", value));

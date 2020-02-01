@@ -1,12 +1,16 @@
 package calculus.splines;
 
 import calculus.functions.BasicMathFunction;
-import calculus.functions.MathFunction;
+import calculus.functions.FunctionSegment;
 import calculus.functions.ParametricFunction;
 import calculus.functions.SquareRootFunction;
+import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Spline implements Segment {
     private static final double ACCURACY = 0.0001;
@@ -27,6 +31,7 @@ public class Spline implements Segment {
         this.startLength = startLength;
 
         actualFunction = new ParametricFunction(yFunction, xFunction);
+        generateLengthFunction();
         arcLength = calcArcLength();
         lastReachedPercentage = 0;
         lastReachedLength = 0;
@@ -75,6 +80,22 @@ public class Spline implements Segment {
     @Override
     public String toString() {
         return String.format("parametric: %s length: %.4f", actualFunction, arcLength);
+    }
+
+    private List<FunctionSegment> generateLengthFunction() {
+        List<FunctionSegment> functionSegments = new ArrayList<>();
+        BasicMathFunction lengthDerivative = new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative)));
+        double prevPercentage = 0;
+        double prevLength = 0;
+
+        for (double i = 0.02; i <= 1.02; i+=0.02) {
+            double length = prevLength + lengthDerivative.integrate(prevPercentage, i, 10);
+            functionSegments.add(new FunctionSegment(Linear.fromTwoPoints(prevLength, prevPercentage, length, i), prevLength, length));
+            prevPercentage = i;
+            prevLength = length;
+        }
+
+        return functionSegments;
     }
 
     private double calcArcLength() {
