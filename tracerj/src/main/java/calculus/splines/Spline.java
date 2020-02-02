@@ -1,16 +1,11 @@
 package calculus.splines;
 
 import calculus.functions.BasicMathFunction;
-import calculus.functions.FunctionSegment;
 import calculus.functions.ParametricFunction;
 import calculus.functions.SquareRootFunction;
-import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import calculus.segments.Segment;
 import com.jmath.ExtendedMath;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Spline implements Segment {
     private static final double ACCURACY = 0.0001;

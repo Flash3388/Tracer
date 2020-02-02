@@ -1,16 +1,15 @@
 package tracer.controllers.factories;
 
 import calculus.trajectories.TankTrajectory;
-import calculus.trajectories.Trajectory;
 import com.flash3388.flashlib.robot.motion.Direction;
 import com.flash3388.flashlib.time.Time;
-import tracer.controllers.*;
+import tracer.controllers.TankTrajectoryController;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionState;
 import tracer.profiles.ConstantVelocityProfile;
-import tracer.profiles.base.Profile;
 import tracer.profiles.ProfileFactory;
+import tracer.profiles.base.Profile;
 
 public class TankTrajectoryControllerFactory {
     private final ProfilePidControllerFactory pidControllerFactory;

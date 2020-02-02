@@ -2,7 +2,6 @@ package calculus.segments;
 
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public class SegmentSequence<S extends Segment> implements Segment {
