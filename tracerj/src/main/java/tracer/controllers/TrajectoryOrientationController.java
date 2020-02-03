@@ -29,16 +29,12 @@ public class TrajectoryOrientationController {
 
     public double calculate(Position position, boolean isRight) {
         double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance(), -trajectory.end(), trajectory.end());
-        double expected = calcExpectedAngle(passedDistance);
+        double expected = expectedAngleAt(passedDistance);
 
         return ((isRight ? -kP : kP) * shortestAngularDistance(position.getAngle(), expected));
     }
 
-    public Time duration() {
-        return trajectoryProfile.deltaState().timestamp();
-    }
-
-    private double calcExpectedAngle(double passedDistance) {
+    public double expectedAngleAt(double passedDistance) {
         double expected;
 
         if(ExtendedMath.equals(passedDistance, lastPassedDistance, 0.01))
@@ -51,5 +47,9 @@ public class TrajectoryOrientationController {
         }
 
         return expected;
+    }
+
+    public Time duration() {
+        return trajectoryProfile.deltaState().timestamp();
     }
 }

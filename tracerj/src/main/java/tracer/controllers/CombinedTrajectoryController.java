@@ -2,6 +2,7 @@ package tracer.controllers;
 
 import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
+import tracer.following.Followable;
 import tracer.motion.Position;
 
 import java.util.List;
@@ -38,5 +39,9 @@ public class CombinedTrajectoryController implements Followable {
     @Override
     public Time duration() {
         return orientationController.duration();
+    }
+
+    public double expectedAngleAt(Position position) {
+        return orientationController.expectedAngleAt(position.distance());
     }
 }
