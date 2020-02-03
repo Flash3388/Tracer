@@ -4,6 +4,9 @@ import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.profiles.base.BaseProfile;
+import tracer.profiles.base.BasicProfile;
+import tracer.profiles.base.Profile;
 import util.TimeConversion;
 
 public class ConcaveProfile extends BasicProfile {
@@ -30,6 +33,21 @@ public class ConcaveProfile extends BasicProfile {
     }
 
     @Override
+    protected double relativeJerkAt(Time relativeTime) {
+        return target.jerk();
+    }
+
+    @Override
+    public Time duration() {
+        return Time.seconds(target.acceleration()/target.jerk());
+    }
+
+    @Override
+    public BaseProfile repositionProfile(ProfileState newInitialState) {
+        return new ConcaveProfile(newInitialState, target);
+    }
+
+    @Override
     protected double relativeDistanceAt(Time relativeTime) {
         double timeInSeconds = TimeConversion.toSeconds(relativeTime);
         return distance.applyAsDouble(timeInSeconds);
@@ -45,15 +63,5 @@ public class ConcaveProfile extends BasicProfile {
     protected double relativeAccelerationAt(Time relativeTime) {
         double timeInSeconds = TimeConversion.toSeconds(relativeTime);
         return acceleration.applyAsDouble(timeInSeconds);
-    }
-
-    @Override
-    protected double relativeJerkAt(Time relativeTime) {
-        return target.jerk();
-    }
-
-    @Override
-    public Time duration() {
-        return Time.seconds(target.acceleration()/target.jerk());
     }
 }

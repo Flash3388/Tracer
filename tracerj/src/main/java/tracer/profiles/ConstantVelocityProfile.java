@@ -5,45 +5,45 @@ import calculus.functions.polynomial.PolynomialFunction;
 import calculus.trajectories.Trajectory;
 import com.flash3388.flashlib.time.Time;
 import tracer.motion.MotionState;
+import tracer.profiles.base.BaseProfile;
+import tracer.profiles.base.BasicProfile;
+import tracer.profiles.base.Profile;
 import util.TimeConversion;
 
 public class ConstantVelocityProfile extends BasicProfile {
     private final PolynomialFunction distance;
     private final Time duration;
 
-    public ConstantVelocityProfile(MotionState state, Time duration) {
-        this(new ProfileState(), state, duration);
+    public ConstantVelocityProfile(Time duration) {
+        this(new ProfileState(), duration);
     }
 
-    public ConstantVelocityProfile(Profile prevProfile, MotionState state, Time duration) {
-        this(prevProfile.finalState(), state, duration);
+    public ConstantVelocityProfile(Profile prevProfile, Time duration) {
+        this(prevProfile.finalState(), duration);
     }
 
-    public ConstantVelocityProfile(ProfileState initialState, MotionState state, Time duration) {
+    public ConstantVelocityProfile(ProfileState initialState, Time duration) {
         super(initialState);
         this.duration = duration;
 
-        distance = new Linear(state.velocity(), 0);
-    }
-
-    public static ConstantVelocityProfile continuation(Profile prevProfile, Time duration) {
-        return continuation(prevProfile.finalState(), duration);
-    }
-
-    public static ConstantVelocityProfile continuation(ProfileState initialState, Time duration) {
-        return new ConstantVelocityProfile(initialState, initialState.parameters(), duration);
+        distance = new Linear(initialState.velocity(), 0);
     }
 
     public static ConstantVelocityProfile forTrajectory(Trajectory trajectory, MotionState target) {
         double distancePassedIn2SCurves = ProfileFactory.distancePassedInTwoSCurves(target);
-        double distanceToBePassed = trajectory.end() - distancePassedIn2SCurves;
+        double distanceToBePassed = trajectory.end() - Math.abs(distancePassedIn2SCurves);
 
-        return new ConstantVelocityProfile(target, Time.seconds(distanceToBePassed/target.velocity()));
+        return new ConstantVelocityProfile(Time.seconds(distanceToBePassed/Math.abs(target.velocity())));
     }
 
     @Override
     public Time duration() {
         return duration;
+    }
+
+    @Override
+    public BaseProfile repositionProfile(ProfileState newInitialState) {
+        return new ConstantVelocityProfile(newInitialState, duration);
     }
 
     @Override

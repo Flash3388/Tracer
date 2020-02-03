@@ -1,12 +1,13 @@
 package tracer.controllers.factories;
 
 import calculus.trajectories.Trajectory;
-import com.flash3388.flashlib.time.Time;
+import com.flash3388.flashlib.robot.motion.Direction;
 import tracer.controllers.TrajectoryController;
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.controllers.parameters.PidControllerParameters;
 import tracer.motion.MotionState;
-import tracer.profiles.*;
+import tracer.profiles.ProfileFactory;
+import tracer.profiles.base.Profile;
 
 public class TrajectoryControllerFactory {
     private final ProfilePidControllerFactory pidControllerFactory;
@@ -31,18 +32,13 @@ public class TrajectoryControllerFactory {
         return new TrajectoryControllerFactory(pidControllerParameters, motionControllerParameters, 0);
     }
 
-    public TrajectoryController create(Trajectory trajectory, MotionState max, double maxVoltage, Time idleTimeAtEnd, boolean isForward) {
-        Profile trajectoryProfile = extendProfile(trajectory, idleTimeAtEnd, max);
+    public TrajectoryController create(Trajectory trajectory, MotionState max, double maxVoltage, Direction direction) {
+        Profile trajectoryProfile = ProfileFactory.createTrajectoryProfile(max, trajectory);
         return new TrajectoryController(
+                maxVoltage,
                 pidControllerFactory.create(trajectoryProfile, maxVoltage),
                 profileMotionControllerFactory.create(trajectoryProfile),
-                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile, isForward),
-                maxVoltage
+                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile, direction)
         );
-    }
-
-    private Profile extendProfile(Trajectory trajectory, Time idleTime, MotionState max) {
-        Profile trajectoryProfile = ProfileFactory.createTrajectoryProfile(max, trajectory);
-        return trajectoryProfile.then(ConstantVelocityProfile.continuation(trajectoryProfile, idleTime));
     }
 }

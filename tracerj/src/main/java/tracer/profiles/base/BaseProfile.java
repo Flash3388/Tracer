@@ -1,19 +1,20 @@
-package tracer.profiles;
+package tracer.profiles.base;
 
 import com.flash3388.flashlib.time.Time;
+import tracer.profiles.ProfileState;
 
-public abstract class MoreBasicProfile implements Profile {
+public abstract class BaseProfile implements Profile {
     private final ProfileState initialState;
 
-    public MoreBasicProfile() {
+    public BaseProfile() {
         this(new ProfileState());
     }
 
-    public MoreBasicProfile(Profile prevProfile) {
+    public BaseProfile(Profile prevProfile) {
         this(prevProfile.finalState());
     }
 
-    public MoreBasicProfile(ProfileState initialState) {
+    public BaseProfile(ProfileState initialState) {
         this.initialState = initialState;
     }
 
@@ -24,7 +25,7 @@ public abstract class MoreBasicProfile implements Profile {
 
     @Override
     public ProfileState finalState() {
-        return state(initialState.timestamp().add(duration()));
+        return state(finalTimestamp());
     }
 
     @Override
@@ -34,11 +35,12 @@ public abstract class MoreBasicProfile implements Profile {
     }
 
     public abstract Time duration();
+    public abstract BaseProfile repositionProfile(ProfileState newInitialState);
     protected abstract ProfileState relativeProfileState(Time relativeTime);
 
     private void checkTime(Time time) {
-        if(time.before(initialState.timestamp()) || time.after(finalTimestamp()))
-            throw new IllegalArgumentException(String.format("time %s is outside of this profile's time limits", time));
+        if(time.before(initialState.timestamp()) || time.after(finalTimestamp().add(Time.milliseconds(1))))
+            throw new IllegalArgumentException(String.format("time %s is outside of this profile's time limits from %s to %s", time, initialState.timestamp(), finalTimestamp()));
     }
 
     private Time finalTimestamp() {
@@ -46,6 +48,6 @@ public abstract class MoreBasicProfile implements Profile {
     }
 
     private Time relativeTime(Time currentTime) {
-        return currentTime.sub(initialState().timestamp());
+        return currentTime.sub(initialState.timestamp());
     }
 }

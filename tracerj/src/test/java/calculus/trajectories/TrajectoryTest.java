@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TrajectoryTest {
-    private final static double DEF_DELTA = 0.001;
+    private final static double DEFAULT_DELTA = 0.001;
 
     @ParameterizedTest
     @MethodSource("provideArgumentsForTrajectoryTest")
     public void angleAtTrajectory_returnsSameAngle(final Trajectory trajectory, final Spline correspondingSpline, final double length) {
-        assertEquals(trajectory.angleRadAt(length), correspondingSpline.angleRadAt(length), DEF_DELTA);
+        assertEquals(trajectory.angleRadAt(length), correspondingSpline.angleRadAt(length), DEFAULT_DELTA);
     }
 
     @Test

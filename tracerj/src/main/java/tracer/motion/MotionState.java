@@ -5,7 +5,7 @@ import com.jmath.ExtendedMath;
 import java.util.Objects;
 
 public class MotionState {
-    private final static double DEF_DELTA = 0.001;
+    private final static double DEFAULT_DELTA = 0.001;
 
     private final double velocity;
     private final double acceleration;
@@ -17,7 +17,7 @@ public class MotionState {
         this.jerk = jerkMetersPerSecondCubed;
     }
 
-    public static MotionState stop() {
+    public static MotionState none() {
         return new MotionState(0, 0, 0);
     }
 
@@ -58,9 +58,9 @@ public class MotionState {
     }
 
     public boolean equals(MotionState other) {
-        return ExtendedMath.equals(velocity, other.velocity(), DEF_DELTA) &&
-                ExtendedMath.equals(acceleration, other.acceleration(), DEF_DELTA) &&
-                ExtendedMath.equals(jerk, other.jerk(), DEF_DELTA);
+        return ExtendedMath.equals(velocity, other.velocity(), DEFAULT_DELTA) &&
+                ExtendedMath.equals(acceleration, other.acceleration(), DEFAULT_DELTA) &&
+                ExtendedMath.equals(jerk, other.jerk(), DEFAULT_DELTA);
     }
 
     @Override

@@ -1,34 +1,20 @@
 package tracer.controllers;
 
-import com.flash3388.flashlib.time.Time;
-import tracer.following.Followable;
 import tracer.motion.Position;
 
-public class TankTrajectoryController implements Followable {
-    private final TrajectoryController left;
-    private final TrajectoryController right;
+import java.util.Arrays;
 
-    public TankTrajectoryController(TrajectoryController left, TrajectoryController right) {
-        this.left = left;
-        this.right = right;
-    }
-
-    public double calcForLeft(Position position) {
-        return left.calculate(position);
+public class TankTrajectoryController extends CombinedTrajectoryController {
+    public TankTrajectoryController(double maxVoltage, ProfilePidController rightPidController,  ProfileMotionController rightMotionController,
+                                    ProfilePidController leftPidController,  ProfileMotionController leftMotionController, TrajectoryOrientationController orientationController) {
+        super(maxVoltage, Arrays.asList(rightPidController, leftPidController), Arrays.asList(rightMotionController, leftMotionController), orientationController);
     }
 
     public double calcForRight(Position position) {
-        return right.calculate(position);
+        return calculate(position, 0, true);
     }
 
-    @Override
-    public void reset() {
-        left.reset();
-        right.reset();
-    }
-
-    @Override
-    public Time duration() {
-        return right.duration().after(left.duration()) ? right.duration() : left.duration();
+    public double calcForLeft(Position position) {
+        return calculate(position, 1, false);
     }
 }

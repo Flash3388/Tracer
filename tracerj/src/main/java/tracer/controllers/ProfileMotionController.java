@@ -2,8 +2,8 @@ package tracer.controllers;
 
 import tracer.controllers.parameters.MotionControllerParameters;
 import tracer.motion.Position;
-import tracer.profiles.BasicProfile;
-import tracer.profiles.Profile;
+import tracer.profiles.ProfileState;
+import tracer.profiles.base.Profile;
 
 public class ProfileMotionController {
     private final MotionControllerParameters parameters;
@@ -15,8 +15,9 @@ public class ProfileMotionController {
     }
 
     public double calculate(Position position) {
-        double velocity = profile.state(position.timestamp()).velocity();
-        double acceleration = profile.state(position.timestamp()).acceleration();
+        ProfileState state = profile.state(position.timestamp());
+        double velocity = state.velocity();
+        double acceleration = state.acceleration();
 
         double vOut = parameters.kV() * velocity;
         double aOut = parameters.kA() * acceleration;

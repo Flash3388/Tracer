@@ -9,8 +9,8 @@ public class MathUtil {
 
     public static double shortestAngularDistance(double from, double to) {
         double result = Mathf.shortestAngularDistance(from, to);
-        to = Mathf.translateInRange(to, 360, true);
-        from = Mathf.translateInRange(from, 360, true);
+        to = Mathf.translateInRange(to, 180, false);
+        from = Mathf.translateInRange(from, 180, false);
 
         if(to > from)
             return result;

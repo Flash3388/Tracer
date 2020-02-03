@@ -1,6 +1,6 @@
 package calculus.splines;
 
-import calculus.functions.MathFunction;
+import calculus.functions.BasicMathFunction;
 import calculus.functions.ParametricFunction;
 import calculus.functions.SquareRootFunction;
 import calculus.functions.polynomial.PolynomialFunction;
@@ -12,7 +12,7 @@ public class Spline implements Segment {
 
     private final PolynomialFunction yFunctionDerivative;
     private final PolynomialFunction xFunctionDerivative;
-    private final MathFunction actualFunction;
+    private final BasicMathFunction actualFunction;
 
     private final double arcLength;
     private final double startLength;
@@ -35,6 +35,18 @@ public class Spline implements Segment {
         return arcLength;
     }
 
+    public double angleRadAt(double length) {
+        length = Math.abs(length);
+        checkLength(length);
+        length -= startLength;
+
+        double t = ExtendedMath.constrain(percentageAtLength(length), 0, 1);
+        lastReachedPercentage = t;
+        lastReachedLength = length;
+
+        return Math.atan2(yFunctionDerivative.applyAsDouble(t), xFunctionDerivative.applyAsDouble(t));
+    }
+
     @Override
     public double end() {
         return arcLength + startLength;
@@ -43,37 +55,6 @@ public class Spline implements Segment {
     @Override
     public double start() {
         return startLength;
-    }
-
-    public double angleRadAt(double length) {
-        length = Math.abs(length);
-        checkLength(length);
-
-        double t = ExtendedMath.constrain(percentageAtLength(length - startLength), 0, 1);
-        lastReachedPercentage = t;
-        lastReachedLength = length;
-
-        return Math.atan2(yFunctionDerivative.applyAsDouble(t), xFunctionDerivative.applyAsDouble(t));
-    }
-
-    private double percentageAtLength(double length) {
-        double start = 0;
-
-        if(length > lastReachedLength) {
-            start = lastReachedPercentage;
-            length -= lastReachedLength;
-        }
-        
-        return actualFunction.pointAtLength(start, length, length/200);
-    }
-
-    private void checkLength(double length) {
-        if(!ExtendedMath.constrained(length, startLength, end()))
-            throw new IllegalArgumentException(String.format("Length %f is outside of this spline's length limit", length));
-    }
-
-    private double calcArcLength() {
-        return new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative))).integrate(0, 1);
     }
 
     @Override
@@ -93,5 +74,25 @@ public class Spline implements Segment {
     @Override
     public String toString() {
         return String.format("parametric: %s length: %.4f", actualFunction, arcLength);
+    }
+
+    private double calcArcLength() {
+        return new SquareRootFunction(xFunctionDerivative.mul(xFunctionDerivative).add(yFunctionDerivative.mul(yFunctionDerivative))).integrate(0, 1);
+    }
+
+    private void checkLength(double length) {
+        if(!ExtendedMath.constrained(length, startLength, end()))
+            throw new IllegalArgumentException(String.format("Length %f is outside of this spline's length limit", length));
+    }
+
+    private double percentageAtLength(double length) {
+        double start = 0;
+
+        if(length > lastReachedLength) {
+            start = lastReachedPercentage;
+            length -= lastReachedLength;
+        }
+
+        return actualFunction.pointAtLength(start, length, length/100);
     }
 }
