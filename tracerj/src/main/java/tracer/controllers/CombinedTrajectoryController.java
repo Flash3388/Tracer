@@ -40,8 +40,4 @@ public class CombinedTrajectoryController implements Followable {
     public Time duration() {
         return orientationController.duration();
     }
-
-    public double expectedAngleAt(Position position) {
-        return orientationController.expectedAngleAt(position.distance());
-    }
 }

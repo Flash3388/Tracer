@@ -38,7 +38,7 @@ public class TrajectoryControllerFactory {
                 maxVoltage,
                 pidControllerFactory.create(trajectoryProfile, maxVoltage),
                 profileMotionControllerFactory.create(trajectoryProfile),
-                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile, direction)
-        );
+                trajectoryOrientationControllerFactory.create(trajectory, trajectoryProfile, direction),
+                trajectoryProfile);
     }
 }
