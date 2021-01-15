@@ -2,7 +2,7 @@ package calculus.functions;
 
 import calculus.functions.polynomial.PolynomialFunction;
 
-public class RationalFunction extends MathFunction {
+public class RationalFunction extends BasicMathFunction {
     private final PolynomialFunction numerator;
     private final PolynomialFunction denominator;
 
@@ -25,7 +25,7 @@ public class RationalFunction extends MathFunction {
     }
 
     @Override
-    public MathFunction derive() {
+    public RationalFunction derive() {
         return new RationalFunction(numerator.mul(denominator.derive()).sub(numerator.derive().mul(denominator)), denominator.pow(2));
     }
 

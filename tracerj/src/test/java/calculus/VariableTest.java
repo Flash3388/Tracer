@@ -1,12 +1,13 @@
 package calculus;
 
 import calculus.variables.Variable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VariableTest {
-    private final static double DEF_DELTA = 0.001;
+    private final static double DEFAULT_DELTA = 0.001;
 
     @Test
     public void calcDerivative_forNumber_returnsZero() {
@@ -76,7 +77,7 @@ public class VariableTest {
 
         final double ACTUAL = Variable.modifier(MODIFIER).at(VALUE);
 
-        assertEquals(ACTUAL, MODIFIER, DEF_DELTA);
+        assertEquals(ACTUAL, MODIFIER, DEFAULT_DELTA);
     }
 
     @Test
@@ -87,11 +88,11 @@ public class VariableTest {
         final double ZERO = 0.0;
         final double ACTUAL = new Variable(ZERO, POWER).at(VALUE);
 
-        assertEquals(ACTUAL, ZERO, DEF_DELTA);
+        assertEquals(ACTUAL, ZERO, DEFAULT_DELTA);
     }
 
     @Test
-    public void multiplication_forTwoVariables_ReturnsAddedSquaresAndMultipliedModifiers() {
+    public void mul_forTwoVariables_returnsAddedSquaresAndMultipliedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 3.0;
         final int FIRST_POWER = 1;
@@ -110,7 +111,7 @@ public class VariableTest {
     }
 
     @Test
-    public void multiplication_forVariableByNumber_ReturnVariableWithModifierMultipliedByNumber() {
+    public void mul_forVariableByNumber_returnVariableWithModifierMultipliedByNumber() {
         final double INITIAL_MODIFIER = 1.0;
         final double MULTIPLICATION_MODIFIER = 2.0;
         final double EXPECTED_MODIFIER = INITIAL_MODIFIER * MULTIPLICATION_MODIFIER;
@@ -126,7 +127,7 @@ public class VariableTest {
     }
 
     @Test
-    public void addition_forVariablesWithSamePowers_ReturnsVariableWithAddedModifiers() {
+    public void add_forVariablesWithSamePowers_returnsVariableWithAddedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int POWER = 2;
@@ -141,8 +142,8 @@ public class VariableTest {
         assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void addition_forVariablesWithDifferentPowers_ThrowsException() {
+    @Test
+    public void add_forVariablesWithDifferentPowers_throwsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -151,24 +152,24 @@ public class VariableTest {
         final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
 
-        FIRST_VARIABLE.add(SECOND_VARIABLE);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addition_forVariableWithIncorrectPower_ThrowsCorrectException() {
-        final double FIRST_MODIFIER = 2.0;
-        final double SECOND_MODIFIER = 1.0;
-        final int FIRST_POWER = 2;
-        final int SECOND_POWER = 1;
-
-        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
-        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
-
-        FIRST_VARIABLE.add(SECOND_VARIABLE);
+        assertThrows(IllegalArgumentException.class, () -> FIRST_VARIABLE.add(SECOND_VARIABLE));
     }
 
     @Test
-    public void subtraction_forVariablesWithSamePowers_ReturnsVariableWithSubtractedModifiers() {
+    public void add_forVariableWithIncorrectPower_throwsCorrectException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final int FIRST_POWER = 2;
+        final int SECOND_POWER = 1;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
+        assertThrows(IllegalArgumentException.class, () -> FIRST_VARIABLE.add(SECOND_VARIABLE));
+    }
+
+    @Test
+    public void sub_forVariablesWithSamePowers_returnsVariableWithSubtractedModifiers() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int POWER = 2;
@@ -183,8 +184,8 @@ public class VariableTest {
         assertEquals(ACTUAL_VARIABLE, EXPECTED_VARIABLE);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void subtraction_forVariablesWithDifferentPowers_ThrowsException() {
+    @Test
+    public void sub_forVariablesWithDifferentPowers_throwsException() {
         final double FIRST_MODIFIER = 2.0;
         final double SECOND_MODIFIER = 1.0;
         final int FIRST_POWER = 2;
@@ -193,24 +194,24 @@ public class VariableTest {
         final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
         final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
 
-        FIRST_VARIABLE.subtract(SECOND_VARIABLE);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void subtraction_forVariableWithIncorrectPower_ThrowsCorrectException() {
-        final double FIRST_MODIFIER = 2.0;
-        final double SECOND_MODIFIER = 1.0;
-        final int FIRST_POWER = 2;
-        final int SECOND_POWER = 1;
-
-        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
-        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
-
-        FIRST_VARIABLE.subtract(SECOND_VARIABLE);
+        assertThrows(IllegalArgumentException.class, () -> FIRST_VARIABLE.subtract(SECOND_VARIABLE));
     }
 
     @Test
-    public void square_forVariable_ReturnSquareOfVariable() {
+    public void sub_forVariableWithIncorrectPower_throwsCorrectException() {
+        final double FIRST_MODIFIER = 2.0;
+        final double SECOND_MODIFIER = 1.0;
+        final int FIRST_POWER = 2;
+        final int SECOND_POWER = 1;
+
+        final Variable FIRST_VARIABLE = new Variable(FIRST_MODIFIER, FIRST_POWER);
+        final Variable SECOND_VARIABLE = new Variable(SECOND_MODIFIER, SECOND_POWER);
+
+        assertThrows(IllegalArgumentException.class, () -> FIRST_VARIABLE.subtract(SECOND_VARIABLE));
+    }
+
+    @Test
+    public void square_forVariable_returnSquareOfVariable() {
         final double MODIFIER = 2.0;
         final int POWER = 2;
 

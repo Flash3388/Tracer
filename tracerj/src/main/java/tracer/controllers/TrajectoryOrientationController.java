@@ -1,30 +1,55 @@
 package tracer.controllers;
 
+import calculus.trajectories.Trajectory;
+import com.flash3388.flashlib.robot.motion.Direction;
 import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;
-import tracer.profiles.Profile;
-import tracer.trajectories.Trajectory;
+import tracer.profiles.base.Profile;
+
+import static util.MathUtil.shortestAngularDistance;
 
 public class TrajectoryOrientationController {
-    private static final double KP_MODIFIER = 1/80.0;
-
+    private final double kP;
     private final Trajectory trajectory;
     private final Profile trajectoryProfile;
-    private final double kP;
+    private final Direction direction;
+    private double lastPassedDistance;
+    private double lastExpectedAngle;
 
-    public TrajectoryOrientationController(Trajectory trajectory, Profile trajectoryProfile, double kP) {
+    public TrajectoryOrientationController(double kP, Trajectory trajectory, Profile trajectoryProfile, Direction direction) {
+        this.kP = kP;
         this.trajectory = trajectory;
         this.trajectoryProfile = trajectoryProfile;
-        this.kP = kP;
+        this.direction = direction;
+
+        lastPassedDistance = 0;
+        lastExpectedAngle = 0;
     }
 
-    public double calculate(Position position) {
-        double pOut = kP * getAngleError(position.timestamp(), position.getAngle()) * KP_MODIFIER;
-        return ExtendedMath.constrain(pOut, -1, 1);
+    public double calculate(Position position, boolean isRight) {
+        double passedDistance = ExtendedMath.constrain(trajectoryProfile.state(position.timestamp()).distance(), -trajectory.end(), trajectory.end());
+        double expected = expectedAngleAt(passedDistance);
+
+        return ((isRight ? -kP : kP) * shortestAngularDistance(position.getAngle(), expected));
     }
 
-    private double getAngleError(Time currentTime, double currentAngle) {
-        return Math.toDegrees(trajectory.angleRadAt(trajectoryProfile.distanceAt(currentTime))) - currentAngle;
+    public double expectedAngleAt(double passedDistance) {
+        double expected;
+
+        if(ExtendedMath.equals(passedDistance, lastPassedDistance, 0.01))
+            expected = lastExpectedAngle;
+        else {
+            expected = Math.toDegrees(trajectory.angleRadAt(passedDistance));
+            expected = direction.equals(Direction.FORWARD) ? -expected : 180 - expected;
+            lastPassedDistance = passedDistance;
+            lastExpectedAngle = expected;
+        }
+
+        return expected;
+    }
+
+    public Time duration() {
+        return trajectoryProfile.deltaState().timestamp();
     }
 }

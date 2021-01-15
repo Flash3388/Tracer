@@ -3,55 +3,65 @@ package tracer.profiles;
 import calculus.functions.polynomial.Linear;
 import calculus.functions.polynomial.PolynomialFunction;
 import com.flash3388.flashlib.time.Time;
-import tracer.motion.MotionParameters;
+import tracer.motion.MotionState;
+import tracer.profiles.base.BaseProfile;
+import tracer.profiles.base.BasicProfile;
+import tracer.profiles.base.Profile;
 import util.TimeConversion;
 
-public class ConvexProfile extends Profile {
-    private final double targetJerk;
-
-    private final PolynomialFunction acceleration;
-    private final PolynomialFunction velocity;
+public class ConvexProfile extends BasicProfile {
     private final PolynomialFunction distance;
+    private final PolynomialFunction velocity;
+    private final PolynomialFunction acceleration;
+    private final MotionState target;
 
-    public ConvexProfile(Profile prevProfile, MotionParameters target) {
-        this(prevProfile.absoluteLength(), prevProfile.finalParameters().velocity(), prevProfile.finalParameters().acceleration(), target, prevProfile.finalTimestamp());
+    public ConvexProfile(MotionState target) {
+        this(new ProfileState(), target);
     }
 
-    public ConvexProfile(double initialDistance, double initialVelocity, double initialAcceleration, MotionParameters target, Time startTime) {
-        super(initialDistance, MotionParameters.linearVelocity(initialVelocity, initialAcceleration), startTime, calcDuration(target));
+    public ConvexProfile(Profile prevProfile, MotionState target) {
+        this(prevProfile.finalState(), target);
+    }
 
-        double targetAcceleration = target.acceleration();
-        targetJerk = -target.jerk();
+    public ConvexProfile(ProfileState initialState, MotionState target) {
+        super(initialState);
+        this.target = target;
 
-        acceleration = new Linear(targetJerk, 0);
-        velocity = new PolynomialFunction(targetJerk/2, targetAcceleration, 0.0);
-        distance = new PolynomialFunction(targetJerk/6, targetAcceleration /2, initialVelocity, 0.0);
+        acceleration = new Linear(-target.jerk(), 0);
+        velocity = new PolynomialFunction(-target.jerk()/2, target.acceleration(), 0.0);
+        distance = new PolynomialFunction(-target.jerk()/6, target.acceleration()/2, initialState.velocity(), 0.0);
     }
 
     @Override
-    protected double relativeVelocityAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
-        return velocity.applyAsDouble(timeInSeconds);
+    public Time duration() {
+        return Time.seconds(target.acceleration()/target.jerk());
     }
 
     @Override
-    protected double relativeDistanceAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
+    public BaseProfile repositionProfile(ProfileState newInitialState) {
+        return new ConvexProfile(newInitialState, target);
+    }
+
+    @Override
+    protected double relativeDistanceAt(Time relativeTime) {
+        double timeInSeconds = TimeConversion.toSeconds(relativeTime);
         return distance.applyAsDouble(timeInSeconds);
     }
 
     @Override
-    protected double relativeAccelerationAt(Time t) {
-        double timeInSeconds = TimeConversion.toSeconds(t);
+    protected double relativeVelocityAt(Time relativeTime) {
+        double timeInSeconds = TimeConversion.toSeconds(relativeTime);
+        return velocity.applyAsDouble(timeInSeconds);
+    }
+
+    @Override
+    protected double relativeAccelerationAt(Time relativeTime) {
+        double timeInSeconds = TimeConversion.toSeconds(relativeTime);
         return acceleration.applyAsDouble(timeInSeconds);
     }
 
     @Override
     protected double relativeJerkAt(Time relativeTime) {
-        return targetJerk;
-    }
-
-    private static Time calcDuration(MotionParameters target) {
-        return Time.seconds(target.acceleration()/target.jerk());
+        return -target.jerk();
     }
 }

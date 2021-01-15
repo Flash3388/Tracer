@@ -1,27 +1,28 @@
 package tracer.controllers;
 
-import com.flash3388.flashlib.time.Time;
-import com.jmath.ExtendedMath;
-import tracer.profiles.Profile;
+import tracer.controllers.parameters.MotionControllerParameters;
+import tracer.motion.Position;
+import tracer.profiles.ProfileState;
+import tracer.profiles.base.Profile;
 
 public class ProfileMotionController {
+    private final MotionControllerParameters parameters;
     private final Profile profile;
-    private final double kV;
-    private final double kA;
-    private final double kl;
 
-    public ProfileMotionController(Profile profile, double kV, double kA, double kl) {
+    public ProfileMotionController(MotionControllerParameters parameters, Profile profile) {
+        this.parameters = parameters;
         this.profile = profile;
-        this.kV = kV;
-        this.kA = kA;
-        this.kl = kl;
     }
 
-    public double calculate(Time timestamp) {
-        double vOut = kV * profile.velocityAt(timestamp);
-        double aOut = kA * profile.accelerationAt(timestamp);
-        double out = vOut + aOut + kl;
+    public double calculate(Position position) {
+        ProfileState state = profile.state(position.timestamp());
+        double velocity = state.velocity();
+        double acceleration = state.acceleration();
 
-        return ExtendedMath.constrain(out, -1, 1);
+        double vOut = parameters.kV() * velocity;
+        double aOut = parameters.kA() * acceleration;
+        double sOut = parameters.kS() * Math.signum(velocity);
+
+        return vOut + aOut + sOut;
     }
 }

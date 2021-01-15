@@ -1,50 +1,25 @@
 package tracer.controllers;
 
-import com.flash3388.flashlib.robot.control.PidController;
-import com.flash3388.flashlib.time.Time;
-import com.jmath.ExtendedMath;
-import tracer.motion.MotionParameters;
 import tracer.motion.Position;
-import tracer.profiles.Profile;
-import tracer.profiles.ProfileFactory;
-import tracer.trajectories.Trajectory;
+import tracer.profiles.base.Profile;
 
-public class TrajectoryController implements Followable {
+import java.util.Collections;
+
+public class TrajectoryController extends CombinedTrajectoryController {
     private final Profile trajectoryProfile;
-
-    private final PidController pidController;
-    private final ProfileMotionController motionController;
     private final TrajectoryOrientationController orientationController;
 
-    public TrajectoryController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD) {
-        this(trajectory, max, kV, kA, kP, kI, kD, 0);
-    }
-
-    public TrajectoryController(Trajectory trajectory, MotionParameters max, double kV, double kA, double kP, double kI, double kD, double gP) {
-        trajectoryProfile = ProfileFactory.createTrajectoryProfile(0, 0, max, Time.milliseconds(0), trajectory);
-        pidController = new PidController(kP, kI, kD, 0);
-        motionController = new ProfileMotionController(trajectoryProfile, kV, kA, 0);
-        orientationController = new TrajectoryOrientationController(trajectory, trajectoryProfile, gP);
-    }
-
-    @Override
-    public void reset() {
-        pidController.reset();
-    }
-
-    @Override
-    public Time finalTimestamp() {
-        return trajectoryProfile.finalTimestamp();
+    public TrajectoryController(double maxVoltage, ProfilePidController pidController, ProfileMotionController motionController, TrajectoryOrientationController orientationController, Profile trajectoryProfile) {
+        super(maxVoltage, Collections.singletonList(pidController), Collections.singletonList(motionController), orientationController);
+        this.orientationController = orientationController;
+        this.trajectoryProfile = trajectoryProfile;
     }
 
     public double calculate(Position position) {
-        Time timestamp = position.timestamp();
-        double distance = position.distance();
+        return calculate(position, 0, false);
+    }
 
-        double pidOut = pidController.calculate(distance, trajectoryProfile.distanceAt(timestamp));
-        double motionOut = motionController.calculate(position.timestamp());
-        double orientationOut = orientationController.calculate(position);
-
-        return ExtendedMath.constrain(ExtendedMath.constrain(pidOut + motionOut, -1, 1) + orientationOut, -1, 1);
+    public double expectedAngleAt(Position position) {
+        return orientationController.expectedAngleAt(trajectoryProfile.state(position.timestamp()).distance());
     }
 }
