@@ -1,33 +1,24 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-}
-
 plugins {
     id 'maven-publish'
-    id 'java'
+    id 'java-library'
 }
+
+version = VERSION_NAME
+group = GROUP
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
-allprojects {
-        version = VERSION_NAME
-        group = GROUP
-}
-
 dependencies {
-    compile "com.flash3388.flashlib:flashlib.core.scheduling:3.0.0-alpha.3"
-    compile "com.flash3388.flashlib:flashlib.core.robot:3.0.0-alpha.3"
-    compile "com.flash3388.flashlib:flashlib.core:3.0.0-alpha.3"
-    compile "com.flash3388.util:jmath:1.0"
-    compile 'org.apache.commons:commons-math3:3.6.1'
-    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+    implementation "com.flash3388.flashlib:flashlib.core.scheduling:3.0.0-alpha.3"
+    implementation "com.flash3388.flashlib:flashlib.core.robot:3.0.0-alpha.3"
+    implementation "com.flash3388.flashlib:flashlib.core:3.0.0-alpha.3"
+    implementation "com.flash3388.util:jmath:1.0"
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
 }
 
 test {
