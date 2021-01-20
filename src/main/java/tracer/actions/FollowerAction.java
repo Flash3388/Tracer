@@ -1,12 +1,13 @@
 package tracer.actions;
 
-import com.flash3388.flashlib.robot.scheduling.actions.Action;
 import com.flash3388.flashlib.robot.systems.drive.Drive;
+import com.flash3388.flashlib.scheduling.actions.ActionBase;
+import com.flash3388.flashlib.scheduling.actions.ActionConfiguration;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 import tracer.following.Followable;
 
-abstract class FollowerAction extends Action {
+abstract class FollowerAction extends ActionBase {
     private final Drive drive;
     private final Followable followable;
     private final Clock clock;
@@ -17,22 +18,23 @@ abstract class FollowerAction extends Action {
         this.drive = drive;
         this.followable = followable;
         this.clock = clock;
-        setTimeout(followable.duration());
+
+        setConfiguration(new ActionConfiguration(getConfiguration().getRequirements(), followable.duration(), getConfiguration().getName(), getConfiguration().shouldRunWhenDisabled()));
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
         followable.reset();
         startTime = clock.currentTime();
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         setValues(relativeTime());
     }
 
     @Override
-    protected void end() {
+    public void end(boolean wasInterrupted) {
         drive.stop();
     }
 

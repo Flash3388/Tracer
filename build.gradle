@@ -22,7 +22,9 @@ allprojects {
 }
 
 dependencies {
-    compile "com.flash3388.flashlib:flashlib:2.2.0"
+    compile "com.flash3388.flashlib:flashlib.core.scheduling:3.0.0-alpha.3"
+    compile "com.flash3388.flashlib:flashlib.core.robot:3.0.0-alpha.3"
+    compile "com.flash3388.flashlib:flashlib.core:3.0.0-alpha.3"
     compile "com.flash3388.util:jmath:1.0"
     compile 'org.apache.commons:commons-math3:3.6.1'
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')

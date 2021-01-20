@@ -1,7 +1,7 @@
 package tracer.controllers.factories;
 
 import calculus.trajectories.Trajectory;
-import com.flash3388.flashlib.robot.motion.Direction;
+import com.flash3388.flashlib.control.Direction;
 import tracer.controllers.TrajectoryOrientationController;
 import tracer.profiles.base.Profile;
 
