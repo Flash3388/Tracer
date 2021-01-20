@@ -5,29 +5,31 @@ buildscript {
             url "https://plugins.gradle.org/m2/"
         }
     }
+}
 
-    dependencies {
-        classpath "me.champeau.gradle:jmh-gradle-plugin:0.5.0"
-    }
+plugins {
+    id 'maven-publish'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
 }
 
 allprojects {
-    version = VERSION_NAME
-    group = GROUP
-
-    repositories {
-        mavenCentral()
-    }
+        version = VERSION_NAME
+        group = GROUP
 }
 
-subprojects {
-    apply plugin: 'java'
+dependencies {
+    compile "com.flash3388.flashlib:flashlib:2.2.0"
+    compile "com.flash3388.util:jmath:1.0"
+    compile 'org.apache.commons:commons-math3:3.6.1'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+}
 
-    dependencies {
-        compile "com.flash3388.flashlib:flashlib:2.1.0"
-        compile "com.flash3388.util:jmath:1.0"
-        compile 'org.apache.commons:commons-math3:3.6.1'
-    }
+test {
+    useJUnitPlatform()
 }
 
 def isReleaseBuild() {
