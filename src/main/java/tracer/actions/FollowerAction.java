@@ -13,6 +13,7 @@ abstract class FollowerAction extends ActionBase {
         this.drive = drive;
         this.followable = followable;
 
+        requires(drive);
         withTimeout(followable.duration());
     }
 
