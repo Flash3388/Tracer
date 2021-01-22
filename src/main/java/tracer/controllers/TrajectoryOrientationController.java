@@ -1,7 +1,7 @@
 package tracer.controllers;
 
 import calculus.trajectories.Trajectory;
-import com.flash3388.flashlib.robot.motion.Direction;
+import com.flash3388.flashlib.control.Direction;
 import com.flash3388.flashlib.time.Time;
 import com.jmath.ExtendedMath;
 import tracer.motion.Position;

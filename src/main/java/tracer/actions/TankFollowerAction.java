@@ -1,6 +1,5 @@
 package tracer.actions;
 
-import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.TankTrajectoryController;
 import tracer.following.TankFollower;
@@ -10,8 +9,8 @@ public class TankFollowerAction extends FollowerAction {
     private final TankFollower tankFollower;
     private final TankTrajectoryController controller;
 
-    public TankFollowerAction(TankFollower tankFollower, TankTrajectoryController controller, Clock clock) {
-        super(tankFollower, controller, clock);
+    public TankFollowerAction(TankFollower tankFollower, TankTrajectoryController controller) {
+        super(tankFollower, controller);
         this.tankFollower = tankFollower;
         this.controller = controller;
     }
