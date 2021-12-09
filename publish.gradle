@@ -1,0 +1,95 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+def isReleaseBuild() {
+    return version.contains("SNAPSHOT") == false
+}
+
+def shouldSign() {
+    return project.hasProperty('SIGN_PUBLISH')
+}
+
+def getNexusUsername() {
+    return rootProject.hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : System.getenv('NEXUS_USERNAME')
+}
+
+def getNexusPassword() {
+    return rootProject.hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('NEXUS_PASSWORD')
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('sources')
+
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('javadoc')
+
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        mavenTracer(MavenPublication) {
+            artifactId = POM_ARTIFACT_ID
+
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = POM_NAME
+                description = "Motion Profiling Library"
+                url = POM_URL
+
+                licenses {
+                    license {
+                        name = POM_LICENSE_NAME
+                        url = POM_LICENSE_URL
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = POM_DEVELOPER_ID
+                        name = POM_DEVELOPER_NAME
+                    }
+                }
+
+                scm {
+                    connection = POM_SCM_CONNECTION
+                    developerConnection = POM_SCM_DEV_CONNECTION
+                    url = POM_URL
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            if (isReleaseBuild()) {
+                name = 'NexusStaging'
+                url = RELEASE_REPOSITORY_URL
+            } else {
+                name = 'NexusSnapshot'
+                url = SNAPSHOT_REPOSITORY_URL
+            }
+
+            credentials {
+                username getNexusUsername()
+                password getNexusPassword()
+            }
+        }
+    }
+}
+
+if (shouldSign() && isReleaseBuild()) {
+    signing {
+        sign publishing.publications.mavenTracer
+    }
+}
