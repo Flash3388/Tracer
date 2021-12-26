@@ -1,6 +1,5 @@
 package tracer.actions;
 
-import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 import com.jmath.vectors.Vector2;
 import tracer.controllers.TrajectoryController;
@@ -11,8 +10,8 @@ public class HolonomicFollowerAction extends FollowerAction{
     private final HolonomicFollower follower;
     private final TrajectoryController controller;
 
-    HolonomicFollowerAction(HolonomicFollower follower, TrajectoryController trajectoryController, Clock clock) {
-        super(follower, trajectoryController, clock);
+    HolonomicFollowerAction(HolonomicFollower follower, TrajectoryController trajectoryController) {
+        super(follower, trajectoryController);
         this.follower = follower;
         this.controller = trajectoryController;
     }

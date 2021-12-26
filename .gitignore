@@ -3,3 +3,8 @@
 /build/
 /.idea/
 /out/
+
+.classpath
+.project
+/.settings/
+bin/

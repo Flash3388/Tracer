@@ -1,7 +1,7 @@
 package tracer.controllers.factories;
 
 import calculus.trajectories.TankTrajectory;
-import com.flash3388.flashlib.robot.motion.Direction;
+import com.flash3388.flashlib.control.Direction;
 import com.flash3388.flashlib.time.Time;
 import tracer.controllers.TankTrajectoryController;
 import tracer.controllers.parameters.MotionControllerParameters;
