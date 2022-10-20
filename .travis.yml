@@ -1,2 +1,11 @@
 language: java
-jdk: oraclejdk11
+
+jdk:
+  - openjdk8
+
+install:
+  - "./gradlew clean"
+  - "./gradlew assemble"
+
+script:
+  - ./gradlew check
